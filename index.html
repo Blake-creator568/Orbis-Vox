@@ -1,281 +1,152 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Orbis Vox</title>
-    <style>
-        body {
-            font-family: "Times New Roman", serif;
-            background: #efe9d1; /* warm coffee-stained paper */
-            padding: 50px;
-            max-width: 950px;
-            margin: auto;
-            color: #1a1a1a;
-            border: 8px double #3b2f2f; /* old decorative border */
-            box-shadow: 0 0 50px rgba(0,0,0,0.2);
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        h1 {
-            font-size: 95px;
-            margin: 0;
-            letter-spacing: 8px;
-            text-shadow: 1px 1px #ccc;
-        }
-
-        .subhead {
-            font-size: 22px;
-            margin-top: -15px;
-            text-transform: uppercase;
-            font-weight: bold;
-            padding: 8px 0;
-            border-top: 3px double #000;
-            border-bottom: 3px double #000;
-            letter-spacing: 2px;
-        }
-
-        .date-line {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px 0 35px;
-            font-size: 20px;
-            font-weight: bold;
-            font-family: "Georgia", serif;
-        }
-
-        .article-box {
-            padding: 25px 0;
-            margin-bottom: 50px;
-            border-top: 4px solid #000;
-            border-bottom: 4px solid #000;
-        }
-
-        .article-title {
-            font-size: 30px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            font-family: "Georgia", serif;
-            text-transform: uppercase;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #333;
-        }
-
-        .columns {
-            display: flex;
-            gap: 30px;
-        }
-
-        .col {
-            width: 50%;
-            font-size: 18px;
-            line-height: 1.55;
-            text-align: justify;
-        }
-
-        img {
-            width: 100%;
-            margin-top: 10px;
-            border: 3px solid #000;
-            filter: sepia(35%); /* vintage effect */
-        }
-
-        .caption {
-            text-align: center;
-            font-style: italic;
-            margin-top: 5px;
-            font-size: 15px;
-            color: #4a3e3e;
-        }
-
-        .empty-article {
-            border: 3px dashed #7d6f6f;
-            background: #f7f2dd;
-            padding: 25px;
-            margin: 40px 0;
-            height: 220px;
-            font-style: italic;
-            text-align: center;
-            color: #6a5f5f;
-            font-size: 22px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        .contact-box {
-            padding: 25px;
-            background: #f7f2dd;
-            border: 4px solid #000;
-        }
-
-        .contact-box a {
-            color: #1a1a1a;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .contact-box a:hover {
-            text-decoration: underline;
-        }
-
-        .visitor-counter {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .visitor-counter img {
-            width: 150px; /* smaller, neat size */
-            height: auto;
-            image-rendering: pixelated; /* prevents blurriness */
-            border: 2px solid #000;
-            padding: 5px;
-            display: inline-block;
-            background: #f7f2dd; /* matches page style */
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Orbis Vox</title>
+  <style>
+    /* Simple, readable styling inspired by the site */
+    :root{
+      --bg:#efe9d1;
+      --text:#1a1a1a;
+      --accent:#6b4f2b;
+      --muted:#666;
+      --card:#fff;
+      --maxw:900px;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: "Georgia", "Times New Roman", serif;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:40px 20px;
+      display:flex;
+      justify-content:center;
+    }
+    .wrap{max-width:var(--maxw); width:100%;}
+    header{
+      text-align:center;
+      margin-bottom:18px;
+    }
+    h1{font-size:46px; letter-spacing:4px; margin:0; color:var(--accent);}
+    .tagline{letter-spacing:1px; margin-top:6px; color:var(--muted); font-size:14px;}
+    .year{
+      text-align:center;
+      color:var(--muted);
+      font-weight:bold;
+      margin:18px 0;
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9));
+      padding:24px;
+      border-radius:10px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+      margin-bottom:18px;
+    }
+    .article h2{margin:0 0 8px 0; font-size:22px;}
+    .lead{margin:0 0 12px 0; color:var(--muted);}
+    .article p{line-height:1.6; margin:8px 0;}
+    .bulleted{margin-left:18px;}
+    .photo{
+      margin-top:12px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .photo img{max-width:220px; border-radius:6px; box-shadow:0 6px 18px rgba(0,0,0,0.08);}
+    .photo small{display:block; color:var(--muted);}
+    .three-up{display:flex; gap:12px; margin:12px 0;}
+    .coming{
+      flex:1;
+      background:linear-gradient(180deg, rgba(235,235,235,0.6), rgba(245,245,245,0.6));
+      border-radius:6px;
+      padding:18px;
+      text-align:center;
+      color:var(--muted);
+    }
+    footer{margin-top:20px; text-align:center; color:var(--muted); font-size:14px;}
+    .contact{margin-top:14px; font-weight:bold; color:var(--text);}
+    a.counter{display:inline-block; margin-top:6px;}
+    @media (max-width:720px){
+      .three-up{flex-direction:column;}
+      .photo img{max-width:100%; height:auto;}
+    }
+  </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <header>
+      <h1>ORBIS VOX</h1>
+      <div class="tagline">THE VOICE OF THE WORLD</div>
+    </header>
 
-<header>
-    <h1>ORBIS VOX</h1>
-    <div class="subhead">THE VOICE OF THE WORLD</div>
-</header>
+    <div class="year">2025</div>
 
-<div class="date-line">
-    <div>2025</div>
-</div>
+    <article class="card article">
+      <h2>West Hallam’s Dog Choir Wakes Residents for No Logical Reason Whatsoever</h2>
+      <p class="lead">Residents across West Hallam were startled awake at an insane hour this morning as the village’s infamous “Dog Choir” began another full-volume performance.</p>
 
-<!-- MAIN ARTICLE -->
-<div class="article-box">
-    <div class="article-title">West Hallam’s Dog Choir Wakes Residents for No Logical Reason Whatsoever</div>
+      <p>The chaos always begins the same way: one dog, somewhere in the distance, lets out a single bark that somehow sounds like someone has stubbed their toe.</p>
 
-    <div class="columns">
-        <div class="col">
-            Residents across West Hallam were startled awake at an insane hour this morning as the village’s infamous 
-            “Dog Choir” began another full-volume performance.<br><br>
+      <p>Within seconds, every single dog in the village has a turn, creating a racket that can only be described as: “Someone listening to their phone on full blast.”</p>
 
-            The chaos always begins the same way: one dog, somewhere in the distance, lets out a single bark that 
-            somehow sounds like someone has stubbed their toe.<br><br>
+      <p>No one knows what throws them off. Some assumed triggers by families vary of:</p>
+      <ul class="bulleted">
+        <li>A gust of wind that suspiciously sounds like a whistle.</li>
+        <li>A leaf flying by with a look of disgust.</li>
+        <li>Or even the insane concept of being awake before 8AM.</li>
+      </ul>
 
-            Within seconds, every single dog in the village has a turn, creating a racket that can only be described as:<br>
-            “Someone listening to their phone on full blast.”<br><br>
+      <p>Some residents suggest the canines may be assembling their choir with military precision. I’m convinced they hold meetings through Skype when we are away.</p>
 
-            No one knows what throws them off. Some assumed triggers by families vary of:<br>
-            • A gust of wind that suspiciously sounds like a whistle.<br>
-            • A leaf flying by with a look of disgust.<br>
-            • Or even the insane concept of being awake before 8AM.<br><br>
+      <p>The barking usually reaches maximum volume at the exact moment you were finally about to sit down and relax after a long day at work.</p>
 
-            Some residents suggest the canines may be assembling their choir with military precision.
+      <p>This leaves locals feeling ready to sue the entire canine population.</p>
+
+      <p>Despite the daily chaos, many admit the barking has become part of West Hallam life. It’s consistent. It’s loud. And it absolutely doesn’t care that you have college in an hour. Well, at least someone in this village has some variation of entertainment. Can’t blame the dogs, at least they’re talkative.</p>
+
+      <div class="photo">
+        <img src="dog.jpg" alt="Dog Photo">
+        <div>
+          <small>PHOTO: BLAKE RICHARDSON</small>
         </div>
+      </div>
+    </article>
 
-        <div class="col">
-            I’m convinced they hold meetings through Skype when we are away.<br><br>
+    <article class="card article">
+      <h2>Breaking Barriers: Milestones in the Women's Rights Movement</h2>
+      <p class="lead">Let us consider rights. The battles women have fought, day in and day out for centuries, simply to survive. The changes from the 1700s to the 21st century are striking. Has society changed drastically? Are we aware of the full history? Is enough being done?</p>
 
-            The barking usually reaches maximum volume at the exact moment you were finally about to sit down and relax 
-            after a long day at work.<br><br>
+      <p><strong>1975.</strong> Nineteen. Seventy. Five. Women finally secured the right to equal pay. This enabled women to receive the same pay as men for equivalent work, lawfully. It was a crucial step toward equality in society and the workplace. Women were granted equal pay rights when the Equal Pay Act 1970 came into effect on <strong>29th December 1975</strong>.</p>
 
-            This leaves locals feeling ready to sue the entire canine population.<br><br>
+      <p>This legislation marked a major advance in ensuring that men and women received equal pay for equal work, representing a pivotal milestone in the fight for gender equality.</p>
 
-            Despite the daily chaos, many admit the barking has become part of West Hallam life.<br>
-            It’s consistent.<br>
-            It’s loud.<br>
-            And it absolutely doesn’t care that you have college in an hour.<br><br>
+      <p>In the late 19th to early 20th century, women gained the right to freedom. Personal freedom, such as universities. This meant women could legally choose their own path in life and ensure their own future. It was a weighty decision for women who wanted more for their lives, which was most, and this choice meant women could become lawyers, officers of the law or even prime ministers. For example, Margaret Thatcher became the first female Prime Minister of the UK in 1979.</p>
 
-            Well, at least someone in this village has some variation of entertainment. Can’t blame the dogs, 
-            at least they’re talkative.
+      <p>Thatcher was seen as a divisive figure, but she proved that women can do the same jobs as men, if not better.</p>
 
-            <img src="dog.jpg" alt="Dog Photo">
-            <div class="caption">PHOTO: BLAKE RICHARDSON</div>
-        </div>
+      <p>Women’s rights have changed over the years. From being their husband’s property to becoming lawyers and Prime Ministers. Gaining the right to vote, the right to own their own property, and equal pay. Each step has been a crucial progress for the world. These changes remind us how change is created one step at a time.</p>
+    </article>
+
+    <div class="three-up">
+      <div class="coming card">Coming soon</div>
+      <div class="coming card">Coming soon</div>
+      <div class="coming card">Coming soon</div>
     </div>
-</div>
 
-<!-- SECOND ARTICLE -->
-<div class="article-box">
-    <div class="article-title">Breaking Barriers: Milestones in the Women's Rights Movement</div>
+    <footer class="card">
+      <div><strong>Contact Me</strong></div>
+      <div>If you would like to reach me, feel free to call or text at:</div>
+      <div class="contact">07423093169</div>
 
-    <div class="columns">
-        <div class="col">
-            Let us consider rights. The battles women have fought, day in and day out for centuries, simply to survive. 
-            The changes from the 1700s to the 21st century are striking. Has society changed drastically? Are we aware 
-            of the full history? Is enough being done?<br><br>
-
-            1975. Nineteen. Seventy. Five. Women finally secured the right to equal pay. This enabled women to receive 
-            the same pay as men for equivalent work, lawfully. It was a crucial step toward equality in society and the 
-            workplace. Even today, it reminds us how long women had to wait for this basic human right. Women were 
-            granted equal pay rights when the Equal Pay Act 1970 came into effect on 29th December 1975. This 
-            legislation marked a major advance in ensuring that men and women received equal pay for equal work, 
-            representing a pivotal milestone in the fight for gender equality.
-        </div>
-
-        <div class="col">
-            In the late 19th to early 20th century, women gained the right to freedom. Personal freedom, such as universities. 
-            This meant women could legally choose their own path in life and ensure their own future. It was a weighty 
-            decision for women who wanted more for their lives, which was most, and this choice meant women could become 
-            lawyers, officers of the law or even prime ministers. For example, Margaret Thatcher became the first female 
-            Prime Minister of the UK in 1979. Thatcher was seen as a divisive figure, but she proved that women can do 
-            the same jobs as men, if not better.<br><br>
-
-            Women’s rights have changed over the years. From being their husband’s property to becoming lawyers and 
-            Prime Ministers. Gaining the right to vote, the right to own their own property, and equal pay. Each step has 
-            been a crucial progress for the world. These changes remind us how change is created one step at a time.
-        </div>
-    </div>
-</div>
-
-<!-- THIRD ARTICLE -->
-    <div class="article-box">
-    <div class="article-title">Why young people are so exhausted all the time?</div>
-<div class="empty-article">Teenagers. Dramatic or genuinely drained? What do you think? Forty-three percent of teenagers in the UK are exhausted mentally or physically. So, are they being dramatic? Let us find out.
-Seventy-five percent of students aged 11 – 18 have complained of feeling overwhelmed about the education system. This prevents students from achieving what they could be capable of within school hours. Many students arrive on time and do their work without showing any exhaustion. These students do not necessarily have the energy to do this; most will pretend so no one asks questions. A former pupil at Kirk Hallam Academy said, “I pretended to be okay because it was easier than answering their questions. I told a couple of teachers, but I never got the support I needed which resulted in my self-esteem dropping drastically.” It is evident that schools could be a partial reason for some teenager’s exhaustion.
-
-Another point to consider is home life. A variety of students have unstable living circumstances. As a teenager they find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends. One in seven teenagers have reported living in a neglectful home and the toll it has taken on their mental health. How could we change this? Parents/Carers, you need to be more respectful to your children. Most children grow up hating you if you treat them horribly as they are growing.
-
-Relationships. The one thing most teenagers yearn for. Are teenage relationships healthy or are they better off without? Romantic Relationships: Dating and romantic interests are a normal part of growing up, though not all teens date. These relationships often progress from crushes and group hangouts to more exclusive pairings. They allow teens to explore intimacy, sexuality, and the dynamics of being a couple. Teenage relationships have a profound and dualistic effect on mental health: healthy, supportive relationships function as a vital protective factor, while unhealthy, conflict-ridden ones significantly increase the risk of mental health issues such as anxiety, depression, and low self-esteem.
-
-In conclusion, most teenagers are overwhelmed by education and family issues. However, on the other hand, relationships can be a solution to this. The majority of students find a pinpoint light in having one familiar person being their comfort. Teenagers are not being dramatic; they are genuinely exhausted and need support instead of punishments. As a school you could understand them instead of punishing them without the full story. As parents/carers you should be kind and welcoming to them as it could make them open more and make you as a carer easier to talk to.
-
-</div>
-<div class="empty-article">Coming soon</div>
-<div class="empty-article">Coming soon</div>
-
-<!-- CONTACT ME -->
-<div class="article-box contact-box">
-    <div class="article-title">Contact Me</div>
-    <p>If you would like to reach me, feel free to call or text at:</p>
-    <p><a href="tel:07423093169">07423093169</a></p>
-</div>
-
-<!-- HITWEBCOUNTER -->
-<div class="visitor-counter">
-    <a href="https://www.hitwebcounter.com/" target="_blank">
-        <img src="https://hitwebcounter.com/counter/counter.php?page=21460228&style=0006&nbdigits=5&type=page&initCount=0" 
-        title="Visitor Counter" alt="Visitor Counter" />
-    </a>
-</div>
-
+      <!-- hitwebcounter placeholder (replicates original small counter link) -->
+      <div>
+        <a class="counter" href="http://www.hitwebcounter.com" target="_blank" rel="noopener noreferrer">www.hitwebcounter.com</a>
+      </div>
+    </footer>
+  </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
