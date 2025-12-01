@@ -4,126 +4,113 @@
     <meta charset="UTF-8">
     <title>Orbis Vox</title>
     <style>
-
-        /* --- AUTHENTIC OLD NEWSPAPER LOOK --- */
         body {
             font-family: "Times New Roman", serif;
-            background: #f4f1e6;
-            padding: 50px 70px;
-            max-width: 1100px;
+            background: #efe9d1; /* warm coffee-stained paper */
+            padding: 50px;
+            max-width: 950px;
             margin: auto;
-            color: #111;
-            border: 14px solid #000;
-            outline: 8px double #000;
-            background-image: 
-                repeating-linear-gradient(0deg, rgba(0,0,0,0.03) 0, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 3px),
-                url('https://i.imgur.com/6J2aCxn.png'); /* paper grain */
-            background-size: auto, 800px;
+            color: #1a1a1a;
+            border: 8px double #3b2f2f; /* old decorative border */
+            box-shadow: 0 0 50px rgba(0,0,0,0.2);
         }
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         h1 {
-            font-size: 110px;
+            font-size: 95px;
             margin: 0;
-            letter-spacing: 5px;
-            font-weight: 900;
+            letter-spacing: 8px;
+            text-shadow: 1px 1px #ccc;
         }
 
         .subhead {
-            font-size: 24px;
-            margin-top: -10px;
+            font-size: 22px;
+            margin-top: -15px;
             text-transform: uppercase;
             font-weight: bold;
-            border-top: 5px solid #000;
-            border-bottom: 5px solid #000;
-            letter-spacing: 3px;
+            padding: 8px 0;
+            border-top: 3px double #000;
+            border-bottom: 3px double #000;
+            letter-spacing: 2px;
         }
 
         .date-line {
             display: flex;
             justify-content: space-between;
-            margin: 15px 0 35px;
+            margin: 20px 0 35px;
             font-size: 20px;
             font-weight: bold;
-            font-family: Georgia, serif;
+            font-family: "Georgia", serif;
         }
 
-        /* ARTICLE BOXES */
         .article-box {
-            padding: 20px 0 10px;
+            padding: 25px 0;
             margin-bottom: 50px;
-            border-top: 6px double #000;
-            border-bottom: 6px double #000;
+            border-top: 4px solid #000;
+            border-bottom: 4px solid #000;
         }
 
         .article-title {
-            font-size: 34px;
+            font-size: 30px;
             text-align: center;
             margin-bottom: 20px;
-            font-weight: 900;
-            text-transform: uppercase;
+            font-weight: bold;
             letter-spacing: 1px;
-            font-family: Georgia, serif;
+            font-family: "Georgia", serif;
+            text-transform: uppercase;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #333;
         }
 
         .columns {
             display: flex;
-            gap: 40px;
+            gap: 30px;
         }
 
         .col {
             width: 50%;
             font-size: 18px;
-            line-height: 1.5;
+            line-height: 1.55;
             text-align: justify;
         }
 
-        /* VINTAGE DROP CAP */
-        .col p:first-child::first-letter {
-            font-size: 50px;
-            font-weight: bold;
-            float: left;
-            line-height: 0.8;
-            padding-right: 6px;
-        }
-
-        /* IMAGES */
         img {
             width: 100%;
-            margin-top: 12px;
+            margin-top: 10px;
             border: 3px solid #000;
-            filter: grayscale(100%) contrast(1.3);
+            filter: sepia(35%); /* vintage effect */
         }
 
         .caption {
             text-align: center;
             font-style: italic;
-            margin-top: 4px;
+            margin-top: 5px;
             font-size: 15px;
-            color: #222;
+            color: #4a3e3e;
         }
 
-        /* CONTACT BOX */
-        .contact-box {
-            margin-top: 40px;
-            font-family: Georgia, serif;
-            font-size: 20px;
+        .empty-article {
+            border: 3px dashed #7d6f6f;
+            background: #f7f2dd;
+            padding: 25px;
+            margin: 40px 0;
+            height: 220px;
+            font-style: italic;
             text-align: center;
-            border-top: 5px solid #000;
-            padding-top: 20px;
-        }
-
-        /* VISITOR COUNTER */
-        .visitor-counter img {
-            width: 40px;
-            display: block;
-            margin: 25px auto;
-        }
-
+            color: #6a5f5f;
+            font-size: 22px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        } 
+.visitor-counter img {
+    width: 60px;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+                                            }
     </style>
 </head>
 
@@ -139,15 +126,14 @@
     <div>2025</div>
 </div>
 
-
-<!-- ARTICLE 1 -->
+<!-- ARTICLE 1: DOG CHOIR -->
 <div class="article-box">
     <div class="article-title">West Hallam’s Dog Choir Wakes Residents for No Logical Reason Whatsoever</div>
 
     <div class="columns">
         <div class="col">
-            <p>Residents across West Hallam were startled awake at an insane hour this morning as the village’s infamous 
-            “Dog Choir” began another full-volume performance.</p>
+            Residents across West Hallam were startled awake at an insane hour this morning as the village’s infamous 
+            “Dog Choir” began another full-volume performance.<br><br>
 
             The chaos always begins the same way: one dog, somewhere in the distance, lets out a single bark that 
             somehow sounds like someone has stubbed their toe.<br><br>
@@ -155,7 +141,7 @@
             Within seconds, every single dog in the village has a turn, creating a racket that can only be described as:<br>
             “Someone listening to their phone on full blast.”<br><br>
 
-            No one knows what throws them off. Some assumed triggers by families vary:<br>
+            No one knows what throws them off. Some assumed triggers by families vary of:<br>
             • A gust of wind that suspiciously sounds like a whistle.<br>
             • A leaf flying by with a look of disgust.<br>
             • Or even the insane concept of being awake before 8AM.<br><br>
@@ -176,7 +162,8 @@
             It’s loud.<br>
             And it absolutely doesn’t care that you have college in an hour.<br><br>
 
-            Well, at least someone in this village has some variation of entertainment. Can’t blame the dogs—at least they’re talkative.
+            Well, at least someone in this village has some variation of entertainment. Can’t blame the dogs, 
+            at least they’re talkative.
 
             <img src="dog.jpg" alt="Dog Photo">
             <div class="caption">PHOTO: BLAKE RICHARDSON</div>
@@ -184,84 +171,59 @@
     </div>
 </div>
 
-
-<!-- ARTICLE 2 -->
+<!-- ARTICLE 2: WOMEN'S RIGHTS -->
 <div class="article-box">
     <div class="article-title">Breaking Barriers: Milestones in the Women's Rights Movement</div>
 
     <div class="columns">
         <div class="col">
-            <p>Let’s talk about rights. The battle women have fought day in and day out for centuries just to survive. 
-            The change from the 1700s to the 21st century. Has it changed drastically? Do you know all the history? 
-            Are we doing enough?</p>
+            Let’s talk about rights. The battle women have fought day in and day out for centuries just to survive. The change from the 1700s to the 21st century. Has it changed drastically? Do you know all the history? Are we doing enough?<br><br>
 
-            1975. Nineteen. Seventy. Five. Women finally obtained the right to equal pay. This meant women could legally 
-            earn the same as men for doing the same amount of work. It was a crucial step towards equality.  
-            Women got the right to equal pay when the Equal Pay Act 1970 came into force on 29th December 1975.  
-            This legislation marked a pivotal moment in the fight for gender equality.
+            1975. Nineteen. Seventy. Five. Women finally obtained the right to equal pay. This meant women could legally earn the same as men for doing the same amount of work. It was a crucial step towards equality in the world and workplace. Even today, it reminds us all how long women had to wait for this simple, human right. Women got the right to equal pay when the Equal Pay Act 1970 came into force on 29th December 1975. This legislation was a major step in ensuring that men and women receive equal pay for equal work, marking a pivotal moment in the fight for gender equality.
         </div>
 
         <div class="col">
-            In the late 19th to early 20th century, women gained the right to freedom — including access to universities.  
-            This meant women could legally choose their own path and future. From lawyers to prime ministers, women 
-            finally had the opportunity to reach the same careers as men.<br><br>
+            In the late 19th to early 20th century, women gained the right to freedom. Personal freedom such as universities. This meant women could legally choose her own path in life and ensure her own future. It was a weighty decision for women who wanted more for their lives, which was most, and this choice meant women could become lawyers, officers of the law or even prime ministers. For example, Margaret Thatcher became the first female Prime Minister of the UK in 1979. Thatcher was seen as a divisive figure, but she proved women can do the same jobs men can, if not better.<br><br>
 
-            For example, Margaret Thatcher became the first female Prime Minister of the UK in 1979.  
-            Thatcher proved women can do the same jobs men can — if not better.<br><br>
-
-            Women’s rights have changed dramatically: from being property to voting, to equal pay, to leadership roles.  
-            These changes remind us that progress happens one step at a time.
+            Women’s rights have changed over the years. From being their husband’s property to becoming lawyers and Prime Ministers. Gaining the right to vote, the right to owning their own property, and equal pay. Each step has been crucial progress to the world. These changes remind us how change is created one step at a time.
         </div>
     </div>
 </div>
 
-
-<!-- ARTICLE 3 -->
+<!-- ARTICLE 3: TEENAGERS EXHAUSTION -->
 <div class="article-box">
     <div class="article-title">Why young people are so exhausted all the time</div>
 
     <div class="columns">
         <div class="col">
-            <p>Teenagers. Dramatic or genuinely drained? What do you think? Forty-three percent of teenagers in the UK 
-            are exhausted mentally or physically. So, are they being dramatic? Let us find out.</p>
+            Teenagers. Dramatic or genuinely drained? What do you think? Forty-three percent of teenagers in the UK are exhausted mentally or physically. So, are they being dramatic? Let us find out.<br><br>
 
-            Seventy-five percent of students aged 11–18 have complained of feeling overwhelmed by the education system.  
-            Many arrive on time, do their work, and hide exhaustion because pretending is easier than explaining.  
-            One former pupil at Kirk Hallam Academy said:  
-            “I pretended to be okay because it was easier than answering their questions… my self-esteem dropped 
-            drastically.”<br><br>
+            Seventy-five percent of students aged 11 – 18 have complained of feeling overwhelmed about the education system. This prevents students from achieving what they could be capable of within school hours. Many students arrive on time and do their work without showing any exhaustion. These students do not necessarily have the energy to do this; most will pretend so no one asks questions. A former pupil at Kirk Hallam Academy said, “I pretended to be okay because it was easier than answering their questions. I told a couple of teachers, but I never got the support I needed which resulted in my self-esteem dropping drastically.” It is evident that schools could be a partial reason for some teenager’s exhaustion.<br><br>
 
             <img src="images.jpeg" alt="Teenagers looking tired">
             <div class="caption">PHOTO: TEENAGERS’ EXHAUSTION IN THE UK</div>
         </div>
 
         <div class="col">
-            Another point to consider is home life. Many teenagers have unstable living circumstances.  
-            One in seven teenagers report living in neglectful homes, deeply affecting mental health.<br><br>
+            Another point to consider is home life. A variety of students have unstable living circumstances. As a teenager they find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends. One in seven teenagers have reported living in a neglectful home and the toll it has taken on their mental health. How could we change this? Parents/Carers, you need to be more respectful to your children. Most children grow up hating you if you treat them horribly as they are growing.<br><br>
 
-            Then there are relationships. Romantic relationships can protect mental health — or damage it.  
-            Healthy ones offer support; unhealthy ones increase anxiety, depression, and low self-esteem.<br><br>
+            Relationships. The one thing most teenagers yearn for. Are teenage relationships healthy or are they better off without? Romantic Relationships: Dating and romantic interests are a normal part of growing up, though not all teens date. These relationships often progress from crushes and group hangouts to more exclusive pairings. They allow teens to explore intimacy, sexuality, and the dynamics of being a couple. Teenage relationships have a profound and dualistic effect on mental health: healthy, supportive relationships function as a vital protective factor, while unhealthy, conflict-ridden ones significantly increase the risk of mental health issues such as anxiety, depression, and low self-esteem.<br><br>
 
-            In conclusion: teenagers are overwhelmed by school, home life, and personal pressures.  
-            They aren’t being dramatic — they’re exhausted.  
-            Schools should understand before punishing.  
-            Parents should listen before judging.
+            In conclusion, most teenagers are overwhelmed by education and family issues. However, on the other hand, relationships can be a solution to this. The majority of students find a pinpoint light in having one familiar person being their comfort. Teenagers are not being dramatic; they are genuinely exhausted and need support instead of punishments. As a school you could understand them instead of punishing them without the full story. As parents/carers you should be kind and welcoming to them as it could make them open more and make you as a carer easier to talk to.
         </div>
     </div>
 </div>
-
-
-<!-- CONTACT -->
 <div class="contact-box">
     <h2>Contact</h2>
-    <p>ASPIRE B</p>
+    <p>If you want to reach the paper, call or text:</p>
+    <p><a href="tel:07423093169">07423093169</a></p>
 </div>
-
 <div class="visitor-counter">
-<a href="https://www.hitwebcounter.com/">
-<img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0">
+<a href="https://www.hitwebcounter.com/" target="_blank">
+<img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0" title="Free Tools" Alt="Free Tools" border="0" />
 </a>
 </div>
-
 </body>
-            </html>
+    </html>
+
+
