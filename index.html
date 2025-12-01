@@ -3,417 +3,607 @@
 <head>
 <meta charset="UTF-8">
 <title>Orbis Vox</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-    html { scroll-behavior: smooth; }
+/* ---------- Base + Layout ---------- */
+:root{
+  --bg:#fdfcf8;
+  --paper:#fff;
+  --ink:#1a1a1a;
+  --accent:#8B0000;
+  --accent-2:#B22222;
+  --muted:#7a7a7a;
+  --card-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
 
-    body {
-        font-family: "Times New Roman", serif;
-        background: #fdfcf8;
-        padding: 40px;
-        max-width: 900px;
-        margin: auto;
-        color: #1a1a1a;
-        border: 8px double #000;
-    }
+html{scroll-behavior:smooth}
+body{
+  font-family: "Times New Roman", serif;
+  background:var(--bg);
+  color:var(--ink);
+  padding:30px;
+  max-width:980px;
+  margin:auto;
+  border:8px double #000;
+  transition:background .25s, color .25s;
+}
 
-    header { text-align: center; margin-bottom: 10px; position: relative; }
-    header a.logo-link { position: absolute; top: 0; left: 0; }
-    header img.logo { width: 60px; height: 60px; }
+/* Dark mode */
+body.dark{
+  --bg:#0f0f11;
+  --paper:#0b0b0c;
+  --ink:#e9e9e9;
+  --muted:#bdbdbd;
+}
+.container{padding:0 10px}
 
-    h1 {
-        font-size: 90px;
-        margin: 0;
-        letter-spacing: 8px;
-        text-shadow: 1px 1px #ccc;
-        color: #000;
-    }
+/* Header */
+header{position:relative;text-align:center;margin-bottom:10px}
+header a.logo-link{position:absolute;top:6px;left:6px;display:inline-block; }
+.logo{width:60px;height:60px;display:block; border-radius:6px; transition:transform .3s}
+.logo:hover{transform:scale(1.05) rotate(-2deg)}
+.logo-pulse{animation:logoPulse 4s infinite}
+@keyframes logoPulse{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
 
-    .subhead {
-        font-size: 22px;
-        margin-top: -10px;
-        text-transform: uppercase;
-        font-weight: bold;
-        padding: 5px 0;
-        border-top: 2px double #000;
-        border-bottom: 2px double #000;
-        letter-spacing: 2px;
-        color: #000;
-    }
+h1{font-size:86px;margin:0;letter-spacing:8px;text-shadow:1px 1px #ccc;color:#000}
+body.dark h1{color:var(--ink)}
 
-    nav {
-        text-align: center;
-        margin: 20px 0;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #000;
-    }
+.subhead{
+  font-size:20px;margin-top:-8px;text-transform:uppercase;font-weight:bold;
+  padding:6px 0;border-top:2px double #000;border-bottom:2px double #000;letter-spacing:2px;color:#000;
+}
+body.dark .subhead{color:var(--ink)}
 
-    nav a {
-        text-decoration: none;
-        color: #000;
-        font-weight: bold;
-        margin: 0 20px;
-        font-size: 18px;
-        transition: color 0.3s;
-    }
+/* Nav */
+nav{ text-align:center;margin:22px 0;padding-bottom:8px;border-bottom:2px solid #000}
+nav a{ text-decoration:none;color:var(--ink);font-weight:bold;margin:0 14px;font-size:18px;transition:color .2s}
+nav a:hover{color:var(--accent);text-decoration:underline}
 
-    nav a:hover { color: #8B0000; text-decoration: underline; }
+/* Tools row */
+.tools{display:flex;gap:12px;align-items:center;justify-content:center;margin:18px 0}
+#searchInput{padding:8px 12px;font-size:16px;width:60%;border:2px solid #000;border-radius:6px}
+.controls{display:flex;gap:8px;align-items:center}
+.btn{padding:8px 12px;border:2px solid #000;background:#fff;cursor:pointer;font-weight:bold;border-radius:6px;transition:all .15s}
+.btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.dark-toggle{border-radius:999px;padding:8px 10px}
 
-    #searchInput {
-        padding:8px 12px;
-        font-size:16px;
-        width:60%;
-        border:2px solid #000;
-        border-radius:5px;
-    }
+/* Date line */
+.date-line{display:flex;justify-content:center;gap:50px;margin:18px 0 30px;font-size:18px;font-weight:bold;font-family:Georgia,serif;border-bottom:1px solid #000;padding-bottom:12px}
 
-    .date-line {
-        display: flex;
-        justify-content: center;
-        gap: 50px;
-        margin: 20px 0 35px;
-        font-size: 18px;
-        font-weight: bold;
-        font-family: "Georgia", serif;
-        border-bottom: 1px solid #000;
-        padding-bottom: 10px;
-    }
+/* Section */
+.section-title{font-size:34px;text-align:center;margin:34px 0 18px;text-transform:uppercase;border-bottom:2px double #000;padding-bottom:8px;color:var(--ink)}
+.article-box{margin-bottom:34px;border-top:2px solid #000;border-bottom:2px solid #000;padding:18px;background:var(--paper);box-shadow:var(--card-shadow);transition:transform .2s}
+.article-box:hover{transform:translateY(-3px)}
+.article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent)}
+.article-title small{display:block;font-size:12px;color:var(--muted);text-transform:none;margin-top:6px}
 
-    .section-title {
-        font-size: 36px;
-        text-align: center;
-        margin: 40px 0 25px;
-        text-transform: uppercase;
-        border-bottom: 2px double #000;
-        padding-bottom: 8px;
-        color: #000;
-    }
+/* Content columns */
+.columns{display:flex;gap:24px;flex-wrap:wrap}
+.col{width:48%;font-size:17px;line-height:1.6;text-align:justify}
 
-    .article-box {
-        margin-bottom: 35px;
-        border-top: 2px solid #000;
-        border-bottom: 2px solid #000;
-        padding: 20px 15px;
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
+/* Images */
+img{width:100%;margin-top:12px;border:2px solid #000;transition:transform .25s,border-color .25s}
+img:hover{transform:scale(1.03);border-color:var(--accent)}
 
-    .article-box:hover {
-        transform: scale(1.02);
-        box-shadow: 0px 0px 20px rgba(0,0,0,0.2);
-    }
+/* caption */
+.caption{text-align:center;font-style:italic;margin-top:6px;font-size:13px;color:var(--muted)}
 
-    .article-title {
-        font-size: 28px;
-        text-align: center;
-        margin-bottom: 15px;
-        font-weight: bold;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        color: #8B0000;
-        cursor: default;
-    }
+/* small blocks */
+.empty-article{border:2px dashed #bcbcbc;background:#f2f2f2;padding:20px;margin:20px 0;height:160px;font-style:italic;text-align:center;color:#7a7a7a;font-size:18px;box-shadow:inset 0 0 8px rgba(0,0,0,0.05)}
+.poll,.fact{background:#f9f9f0;padding:10px;margin:15px 0;border:1px solid #000;font-style:italic}
 
-    .article-content {
-        display: block;
-        margin-top: 15px;
-    }
+/* Buttons */
+.comment-button{display:inline-block;margin:18px auto;padding:12px 22px;font-size:16px;font-weight:bold;background:#fff;color:#000;border:2px solid #000;cursor:pointer;text-transform:uppercase;transition:all .18s;border-radius:6px}
+.comment-button:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
 
-    .columns { display: flex; gap: 25px; flex-wrap: wrap; }
-    .col { width: 48%; font-size: 17px; line-height: 1.6; text-align: justify; }
+/* Comments area */
+.comments{margin-top:16px;border-top:1px dashed #ccc;padding-top:12px}
+.comment-form{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
+.comment-form textarea{width:100%;min-height:70px;padding:8px;border:2px solid #000;border-radius:6px}
+.comment-form input[type="text"]{padding:8px;border:2px solid #000;border-radius:6px}
+.comment-list{margin-top:12px}
+.comment-item{border:1px solid #ddd;padding:8px;border-radius:6px;margin-bottom:8px;background: #fff}
 
-    img {
-        width: 100%;
-        margin-top: 10px;
-        border: 2px solid #000;
-        transition: transform 0.3s, border-color 0.3s;
-    }
+/* Footer + visitor counter */
+.visitor-counter{ text-align:center;margin:30px 0 }
+.contact-box{margin-top:40px;padding:28px;border-top:3px solid #000;text-align:center;font-size:18px}
+footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px}
 
-    img:hover { transform: scale(1.03); border-color: #8B0000; }
+/* Professional footer links */
+.footer-grid{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.footer-left,.footer-right{display:flex;gap:12px;align-items:center}
+.footer-right a{font-weight:bold;text-decoration:none;color:var(--ink)}
+.footer-right a:hover{color:var(--accent)}
 
-    .caption {
-        text-align: center;
-        font-style: italic;
-        margin-top: 5px;
-        font-size: 14px;
-        color: #555;
-    }
+/* Animations for content reveal */
+.fade-in{animation:fadeIn .5s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-    .comment-button {
-        display: block;
-        margin: 20px auto;
-        padding: 12px 25px;
-        font-size: 18px;
-        font-weight: bold;
-        background-color: #fff;
-        color: #000;
-        border: 2px solid #000;
-        cursor: pointer;
-        text-transform: uppercase;
-        transition: all 0.3s ease;
-    }
+/* Print styles (newspaper-friendly) */
+@media print{
+  nav,.tools,.comment-button,.comment-form,.visitor-counter, .footer-right {display:none}
+  body{border:none;padding:10px;background:#fff}
+  .article-box{box-shadow:none;border:none;padding:0}
+  .section-title{page-break-before:always}
+}
 
-    .comment-button:hover {
-        background-color: #8B0000;
-        color: #fff;
-        border-color: #8B0000;
-    }
-
-    .contact-box {
-        margin-top: 50px;
-        padding: 35px;
-        border-top: 3px solid #000;
-        text-align: center;
-        font-size: 18px;
-    }
-
-    footer {
-        margin-top: 50px;
-        text-align: center;
-        font-size: 16px;
-        border-top: 2px double #000;
-        padding: 15px;
-    }
-
-    .poll, .fact {
-        background: #f9f9f0;
-        padding: 10px;
-        margin: 15px 0;
-        border: 1px solid #000;
-        font-style: italic;
-    }
+/* Responsive tweaks */
+@media(max-width:800px){ .col{width:100%} #searchInput{width:100%} h1{font-size:56px} }
 </style>
 </head>
 <body>
 
+<div class="container">
+
 <header>
-    <a href="#about" class="logo-link">
-        <img src="Logo.png" alt="Orbis Vox Logo" class="logo">
-    </a>
-    <h1>ORBIS VOX</h1>
-    <div class="subhead">THE VOICE OF THE WORLD</div>
+  <a href="#about" class="logo-link" title="About Orbis Vox">
+    <img src="Logo.png" alt="Orbis Vox Logo" class="logo logo-pulse">
+  </a>
+  <h1>ORBIS VOX</h1>
+  <div class="subhead">THE VOICE OF THE WORLD</div>
 </header>
 
 <nav>
-    <a href="#news">News</a>
-    <a href="#fun">Fun</a>
-    <a href="#global">Global Issues</a>
-    <a href="#teenage">Teenage Life</a>
-    <a href="#about">About</a>
+  <a href="#news" class="nav-link">News</a>
+  <a href="#fun" class="nav-link">Fun</a>
+  <a href="#global" class="nav-link">Global Issues</a>
+  <a href="#teenage" class="nav-link">Teenage Life</a>
+  <a href="#about" class="nav-link">About</a>
 </nav>
 
-<div style="text-align:center; margin:20px 0;">
-    <input type="text" id="searchInput" placeholder="Search articles...">
+<div class="tools">
+  <input id="searchInput" placeholder="Search articles..." aria-label="Search articles">
+  <div class="controls">
+    <button class="btn dark-toggle" id="darkToggle" title="Toggle dark mode">Dark</button>
+    <button class="btn" id="showArchives">Archives</button>
+  </div>
 </div>
 
 <div class="date-line">
-    <div>Blake Richardson</div>
-    <div>2025</div>
+  <div>Blake Richardson</div>
+  <div>2025</div>
 </div>
+
+<!-- ARCHIVES (will be auto filled) -->
+<div id="archives" class="section-title" style="display:none">Archives</div>
+<div id="archives-list" style="display:none;margin-bottom:30px"></div>
 
 <!-- NEWS -->
-<div id="news" class="section-title">News</div>
-<div class="article-box">
+<section id="news" class="fade-in">
+  <div class="section-title">News</div>
+
+  <div class="article-box" data-id="blank-article">
     <div class="article-title">[Blank Article Here]</div>
     <div class="article-content">
-        <div class="empty-article">Content to be written...</div>
-        <div class="poll">Poll: What type of news do you want to read most?</div>
-        <button class="comment-button">Leave a Comment</button>
+      <div class="empty-article">Content to be written...</div>
+      <div class="poll">Poll: What type of news do you want to read most?</div>
+      <div>
+        <button class="comment-button" data-article-id="blank-article">Leave a Comment</button>
+      </div>
+      <div class="comments" data-comments-for="blank-article"></div>
     </div>
-</div>
+  </div>
+</section>
 
 <!-- FUN -->
-<div id="fun" class="section-title">Fun</div>
-<div class="article-box">
+<section id="fun" class="fade-in">
+  <div class="section-title">Fun</div>
+
+  <div class="article-box" data-id="dog-choir">
     <div class="article-title">West Hallam’s Dog Choir Wakes Residents</div>
     <div class="article-content">
-
-        <div class="columns">
-            <div class="col">
-                Residents across West Hallam were startled awake at an insane hour this morning as the village’s infamous 
-                “Dog Choir” began another full-volume performance.<br><br>
-
-                The chaos always begins the same way: one dog, somewhere in the distance, lets out a single bark that 
-                somehow sounds like someone has stubbed their toe.<br><br>
-
-                Within seconds, every single dog in the village has a turn, creating a racket that can only be described as:<br>
-                “Someone listening to their phone on full blast.”<br><br>
-
-                No one knows what throws them off. Some assumed triggers by families vary of:<br>
-                • A gust of wind that suspiciously sounds like a whistle.<br>
-                • A leaf flying by with a look of disgust.<br>
-                • Or even the insane concept of being awake before 8AM.<br><br>
-
-                Some residents suggest the canines may be assembling their choir with military precision.
-            </div>
-
-            <div class="col">
-                I’m convinced they hold meetings through Skype when we are away.<br><br>
-
-                The barking usually reaches maximum volume at the exact moment you were finally about to sit down and relax 
-                after a long day at work.<br><br>
-
-                This leaves locals feeling ready to sue the entire canine population.<br><br>
-
-                Despite the daily chaos, many admit the barking has become part of West Hallam life.<br>
-                It’s consistent.<br>
-                It’s loud.<br>
-                And it absolutely doesn’t care that you have college in an hour.<br><br>
-
-                Well, at least someone in this village has some variation of entertainment. Can’t blame the dogs, 
-                at least they’re talkative.<br><br>
-
-                <img src="dog.jpg" alt="Dog Photo">
-                <div class="caption">PHOTO: BLAKE RICHARDSON</div>
-            </div>
+      <div class="columns">
+        <div class="col">
+          Residents across West Hallam were startled awake at an insane hour this morning as the village’s infamous 
+          “Dog Choir” began another full-volume performance.<br><br>
+          The chaos always begins the same way: one dog, somewhere in the distance, lets out a single bark that 
+          somehow sounds like someone has stubbed their toe.<br><br>
+          Within seconds, every single dog in the village has a turn, creating a racket that can only be described as:<br>
+          “Someone listening to their phone on full blast.”<br><br>
+          No one knows what throws them off. Some assumed triggers by families vary of:<br>
+          • A gust of wind that suspiciously sounds like a whistle.<br>
+          • A leaf flying by with a look of disgust.<br>
+          • Or even the insane concept of being awake before 8AM.<br><br>
+          Some residents suggest the canines may be assembling their choir with military precision.
         </div>
 
-        <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
-        <button class="comment-button">Leave a Comment</button>
+        <div class="col">
+          I’m convinced they hold meetings through Skype when we are away.<br><br>
+          The barking usually reaches maximum volume at the exact moment you were finally about to sit down and relax 
+          after a long day at work.<br><br>
+          This leaves locals feeling ready to sue the entire canine population.<br><br>
+          Despite the daily chaos, many admit the barking has become part of West Hallam life.<br>
+          It’s consistent.<br>
+          It’s loud.<br>
+          And it absolutely doesn’t care that you have college in an hour.<br><br>
+          Well, at least someone in this village has some variation of entertainment. Can’t blame the dogs, 
+          at least they’re talkative.<br><br>
+          <img src="dog.jpg" alt="Dog Photo">
+          <div class="caption">PHOTO: BLAKE RICHARDSON</div>
+        </div>
+      </div>
+
+      <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
+      <div>
+        <button class="comment-button" data-article-id="dog-choir">Leave a Comment</button>
+      </div>
+      <div class="comments" data-comments-for="dog-choir"></div>
     </div>
-</div>
+  </div>
+</section>
 
 <!-- GLOBAL -->
-<div id="global" class="section-title">Global Issues</div>
-<div class="article-box">
+<section id="global" class="fade-in">
+  <div class="section-title">Global Issues</div>
+
+  <div class="article-box" data-id="womens-rights">
     <div class="article-title">Breaking Barriers: Milestones in the Women's Rights Movement</div>
     <div class="article-content">
+      <div class="columns">
+        <div class="col">
+          Let’s talk about rights. The battle women have fought day in and day out for centuries just to survive. 
+          The change from the 1700s to the 21st century. Has it changed drastically? Do you know all the history? 
+          Are we doing enough?<br><br>
 
-        <div class="columns">
-            <div class="col">
-                Let’s talk about rights. The battle women have fought day in and day out for centuries just to survive. 
-                The change from the 1700s to the 21st century. Has it changed drastically? Do you know all the history? 
-                Are we doing enough?<br><br>
-
-                1975. Nineteen. Seventy. Five. Women finally obtained the right to equal pay. This meant women could legally earn the same as men for doing the same amount of work. It was a crucial step towards equality in the world and workplace. Even today, it reminds us all how long women had to wait for this simple, human right. Women got the right to equal pay when the Equal Pay Act 1970 came into force on 29th December 1975. This legislation was a major step in ensuring that men and women receive equal pay for equal work, marking a pivotal moment in the fight for gender equality.
-            </div>
-
-            <div class="col">
-                In the late 19th to early 20th century, women gained the right to freedom. Personal freedom such as universities. 
-                This meant women could legally choose her own path in life and ensure her own future. It was a weighty decision 
-                for women who wanted more for their lives, which was most, and this choice meant women could become lawyers, 
-                officers of the law or even prime ministers.<br><br>
-
-                For example, Margaret Thatcher became the first female Prime Minister of the UK in 1979. 
-                Thatcher was seen as a divisive figure, but she proved women can do the same jobs men can, if not better.<br><br>
-
-                Women’s rights have changed over the years. From being their husband’s property to becoming lawyers and Prime Ministers. 
-                Gaining the right to vote, the right to owning their own property, and equal pay. Each step has been crucial 
-                progress to the world. These changes remind us how change is created one step at a time.
-            </div>
+          1975. Nineteen. Seventy. Five. Women finally obtained the right to equal pay. This meant women could legally earn the same as men for doing the same amount of work. It was a crucial step towards equality in the world and workplace. Even today, it reminds us all how long women had to wait for this simple, human right. Women got the right to equal pay when the Equal Pay Act 1970 came into force on 29th December 1975. This legislation was a major step in ensuring that men and women receive equal pay for equal work, marking a pivotal moment in the fight for gender equality.
         </div>
 
-        <button class="comment-button">Leave a Comment</button>
+        <div class="col">
+          In the late 19th to early 20th century, women gained the right to freedom. Personal freedom such as universities. 
+          This meant women could legally choose her own path in life and ensure her own future. It was a weighty decision 
+          for women who wanted more for their lives, which was most, and this choice meant women could become lawyers, 
+          officers of the law or even prime ministers.<br><br>
+
+          For example, Margaret Thatcher became the first female Prime Minister of the UK in 1979. 
+          Thatcher was seen as a divisive figure, but she proved women can do the same jobs men can, if not better.<br><br>
+
+          Women’s rights have changed over the years. From being their husband’s property to becoming lawyers and Prime Ministers. 
+          Gaining the right to vote, the right to owning their own property, and equal pay. Each step has been crucial 
+          progress to the world. These changes remind us how change is created one step at a time.
+        </div>
+      </div>
+
+      <div>
+        <button class="comment-button" data-article-id="womens-rights">Leave a Comment</button>
+      </div>
+      <div class="comments" data-comments-for="womens-rights"></div>
     </div>
-</div>
+  </div>
+</section>
 
 <!-- TEENAGE -->
-<div id="teenage" class="section-title">Teenage Life</div>
-<div class="article-box">
+<section id="teenage" class="fade-in">
+  <div class="section-title">Teenage Life</div>
+
+  <div class="article-box" data-id="teenage-exhaustion">
     <div class="article-title">Why young people are so exhausted all the time</div>
     <div class="article-content">
+      <div class="columns">
+        <div class="col">
+          Teenagers. Dramatic or genuinely drained? What do you think? Forty-three percent of teenagers in the UK 
+          are exhausted mentally or physically. So, are they being dramatic? Let us find out.<br><br>
 
-        <div class="columns">
-            <div class="col">
-                Teenagers. Dramatic or genuinely drained? What do you think? Forty-three percent of teenagers in the UK 
-                are exhausted mentally or physically. So, are they being dramatic? Let us find out.<br><br>
+          Seventy-five percent of students aged 11–18 have complained of feeling overwhelmed about the education system. 
+          This prevents students from achieving what they could be capable of within school hours. Many students arrive 
+          on time and do their work without showing any exhaustion. These students do not necessarily have the energy 
+          to do this; most will pretend so no one asks questions.<br><br>
 
-                Seventy-five percent of students aged 11–18 have complained of feeling overwhelmed about the education system. 
-                This prevents students from achieving what they could be capable of within school hours. Many students arrive 
-                on time and do their work without showing any exhaustion. These students do not necessarily have the energy 
-                to do this; most will pretend so no one asks questions.<br><br>
+          A former pupil at Kirk Hallam Academy said, “I pretended to be okay because it was easier than answering 
+          their questions. I told a couple of teachers, but I never got the support I needed which resulted in my 
+          self-esteem dropping drastically.”<br><br>
 
-                A former pupil at Kirk Hallam Academy said, “I pretended to be okay because it was easier than answering 
-                their questions. I told a couple of teachers, but I never got the support I needed which resulted in my 
-                self-esteem dropping drastically.”<br><br>
-
-                <img src="images.jpeg" alt="Teenagers looking tired">
-                <div class="caption">PHOTO: TEENAGERS’ EXHAUSTION IN THE UK</div>
-            </div>
-
-            <div class="col">
-                Another point to consider is home life. A variety of students have unstable living circumstances. 
-                As a teenager they find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends.<br><br>
-
-                One in seven teenagers have reported living in a neglectful home and the toll it has taken on their mental health. 
-                How could we change this? Parents/Carers, you need to be more respectful to your children. Most children grow up 
-                hating you if you treat them horribly as they are growing.<br><br>
-
-                Relationships. The one thing most teenagers yearn for. Are teenage relationships healthy or are they better off without? 
-                Teenage relationships have a profound and dualistic effect on mental health: healthy, supportive relationships function 
-                as a vital protective factor, while unhealthy ones increase the risk of anxiety, depression, and low self-esteem.<br><br>
-
-                In conclusion, most teenagers are overwhelmed by education and family issues. However, relationships can be a solution. 
-                The majority of students find comfort in having one familiar person. Teenagers are not being dramatic; they are genuinely 
-                exhausted and need understanding rather than punishment.
-            </div>
+          <img src="images.jpeg" alt="Teenagers looking tired">
+          <div class="caption">PHOTO: TEENAGERS’ EXHAUSTION IN THE UK</div>
         </div>
 
-        <button class="comment-button">Leave a Comment</button>
+        <div class="col">
+          Another point to consider is home life. A variety of students have unstable living circumstances. 
+          As a teenager they find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends.<br><br>
+
+          One in seven teenagers have reported living in a neglectful home and the toll it has taken on their mental health. 
+          How could we change this? Parents/Carers, you need to be more respectful to your children. Most children grow up 
+          hating you if you treat them horribly as they are growing.<br><br>
+
+          Relationships. The one thing most teenagers yearn for. Are teenage relationships healthy or are they better off without? 
+          Teenage relationships have a profound and dualistic effect on mental health: healthy, supportive relationships function 
+          as a vital protective factor, while unhealthy ones increase the risk of anxiety, depression, and low self-esteem.<br><br>
+
+          In conclusion, most teenagers are overwhelmed by education and family issues. However, relationships can be a solution. 
+          The majority of students find comfort in having one familiar person. Teenagers are not being dramatic; they are genuinely 
+          exhausted and need understanding rather than punishment.
+        </div>
+      </div>
+
+      <div>
+        <button class="comment-button" data-article-id="teenage-exhaustion">Leave a Comment</button>
+      </div>
+      <div class="comments" data-comments-for="teenage-exhaustion"></div>
     </div>
-</div>
+  </div>
+</section>
 
 <!-- ABOUT -->
-<div id="about" class="section-title">About Orbis Vox</div>
-<div class="article-box">
+<section id="about" class="fade-in">
+  <div class="section-title">About Orbis Vox</div>
+  <div class="article-box">
     <div class="article-content">
-        <p>
+      <p>
         Orbis Vox is an online newspaper created and run by Blake Richardson, 
         a sixteen-year-old student passionate about journalism.  
         The paper covers a range of topics from fun, local stories to serious global issues and teenage life.  
         Thank you for visiting and supporting independent journalism!
-        </p>
+      </p>
     </div>
-</div>
+  </div>
+</section>
 
 <!-- VISITOR COUNTER -->
-<div class="visitor-counter" style="text-align:center; margin:40px 0;">
-    <a href="https://www.hitwebcounter.com/" target="_blank">
-        <img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0">
-    </a>
+<div class="visitor-counter">
+  <a href="https://www.hitwebcounter.com/" target="_blank" rel="noopener">
+    <img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0" alt="Visitor Counter">
+  </a>
 </div>
 
 <!-- CONTACT -->
 <div class="contact-box">
-    <h2>Contact</h2>
-    <p>If you want to reach the paper, call or text:</p>
-    <p><a href="tel:07423093169">07423093169</a></p>
+  <h2>Contact</h2>
+  <p>If you want to reach the paper, call or text:</p>
+  <p><a href="tel:07423093169">07423093169</a></p>
 </div>
 
+<!-- FOOTER -->
 <footer>
-    &copy; 2025 Orbis Vox |
-    <a href="https://www.tiktok.com/@orbis.vox" target="_blank">TikTok</a> |
-    <a href="#contact">Contact</a>
+  <div class="footer-grid">
+    <div class="footer-left">
+      &copy; 2025 Orbis Vox
+    </div>
+    <div class="footer-right">
+      <a href="https://www.tiktok.com/@orbis.vox" target="_blank" rel="noopener">TikTok</a>
+      <a href="#about">About</a>
+      <a href="#news">Home</a>
+    </div>
+  </div>
 </footer>
 
+</div> <!-- .container -->
+
 <script>
- // LIVE SEARCH SYSTEM — fixed
- const searchInput = document.getElementById('searchInput');
- searchInput.addEventListener('input', function() {
-     const filter = this.value.toLowerCase();
-     const boxes = document.querySelectorAll('.article-box');
+/* ----------------- Utilities ------------------ */
+const $ = (sel, ctx = document) => ctx.querySelector(sel);
+const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
-     boxes.forEach(box => {
-         const text = box.textContent.toLowerCase();
-         box.style.display = text.includes(filter) ? "block" : "none";
-     });
- });
+/* ------------- Client-side "multi-page" routing ------------- */
+function showSectionFromHash() {
+  const hash = location.hash.replace('#','') || 'news';
+  // Scroll to section if exists
+  const target = document.getElementById(hash);
+  if (target) {
+    // hide archives if open
+    hideArchives();
+    // smooth scroll
+    setTimeout(()=> target.scrollIntoView({behavior:'smooth'}), 50);
+  } else {
+    // fallback
+    document.getElementById('news').scrollIntoView();
+  }
+}
+window.addEventListener('hashchange', showSectionFromHash);
+window.addEventListener('load', showSectionFromHash);
 
- // Comment button system
- document.body.addEventListener('click', function(e) {
-     if (e.target.classList.contains('comment-button')) {
-         let msg = prompt("Write your comment below:");
-         if (!msg) return;
+/* ------------- Archives auto-fill ------------- */
+function buildArchives(){
+  const boxes = $$('[data-id]');
+  const list = $('#archives-list');
+  list.innerHTML = '';
+  boxes.forEach(box=>{
+    const id = box.getAttribute('data-id') || '';
+    const title = (box.querySelector('.article-title')?.textContent || box.querySelector('.article-title')?.innerText || 'Article').trim();
+    const link = document.createElement('a');
+    link.href = `#${box.closest('section')?.id || 'news'}`;
+    link.style.display = 'block';
+    link.style.padding = '8px 12px';
+    link.style.borderBottom = '1px solid #eee';
+    link.className = 'archive-item';
+    link.textContent = `${title}`;
+    link.addEventListener('click', ()=> { // scroll to article within section
+      setTimeout(()=>{
+        box.scrollIntoView({behavior:'smooth', block:'center'});
+      }, 100);
+    });
+    list.appendChild(link);
+  });
+}
+document.getElementById('showArchives').addEventListener('click', ()=>{
+  const arch = $('#archives');
+  const list = $('#archives-list');
+  if(arch.style.display === 'none' || arch.style.display === ''){
+    arch.style.display = 'block';
+    list.style.display = 'block';
+    buildArchives();
+    arch.scrollIntoView({behavior:'smooth'});
+  } else {
+    arch.style.display = 'none';
+    list.style.display = 'none';
+  }
+});
+function hideArchives(){ $('#archives').style.display='none'; $('#archives-list').style.display='none'; }
 
-         const phone = "07423093169";
+/* ------------- Dark mode ------------- */
+const darkToggle = $('#darkToggle');
+function applyDark(isDark){
+  if(isDark) document.body.classList.add('dark');
+  else document.body.classList.remove('dark');
+  localStorage.setItem('orbis_dark', isDark? '1':'0');
+  darkToggle.textContent = isDark? 'Light' : 'Dark';
+}
+darkToggle.addEventListener('click', ()=>{
+  const isDark = document.body.classList.toggle('dark');
+  applyDark(isDark);
+});
+(function initDark(){
+  const saved = localStorage.getItem('orbis_dark');
+  if(saved === '1') applyDark(true);
+})();
 
-         if (/Mobi|Android/i.test(navigator.userAgent)) {
-             window.location.href = `sms:${phone}?body=${encodeURIComponent(msg)}`;
-         } else {
-             alert("Copy this message to send via SMS:\n\n" + msg);
-         }
-     }
- });
+/* ------------- Live search ------------- */
+const searchInput = $('#searchInput');
+searchInput.addEventListener('input', function(){
+  const q = this.value.toLowerCase();
+  const boxes = $$('.article-box');
+  boxes.forEach(box=>{
+    const text = box.innerText.toLowerCase();
+    box.style.display = text.includes(q) ? 'block' : 'none';
+  });
+});
+
+/* ------------- Comment system (localStorage) -------------
+  - Comments saved per article id in localStorage key 'orbis_comments'
+  - Structure: { articleId: [ {name, text, time}, ... ] }
+--------------------------------------------------------*/
+const COMMENTS_KEY = 'orbis_comments';
+
+function loadCommentsData(){
+  try{
+    return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}');
+  } catch(e){ return {}; }
+}
+function saveCommentsData(obj){
+  localStorage.setItem(COMMENTS_KEY, JSON.stringify(obj));
+}
+
+function renderCommentsFor(articleId){
+  const container = document.querySelector(`.comments[data-comments-for="${articleId}"]`);
+  if(!container) return;
+  const data = loadCommentsData();
+  const list = data[articleId] || [];
+  container.innerHTML = '';
+  // comment form
+  const form = document.createElement('div');
+  form.className = 'comment-form';
+  form.innerHTML = `
+    <textarea placeholder="Write your comment..." aria-label="Comment"></textarea>
+    <input type="text" placeholder="Your name (optional)">
+    <div style="min-width:120px">
+      <button class="btn submit-comment">Post</button>
+      <button class="btn" style="background:#fff" data-download>Download</button>
+    </div>
+  `;
+  container.appendChild(form);
+
+  // comment list
+  const listEl = document.createElement('div');
+  listEl.className = 'comment-list';
+  if(list.length === 0){
+    listEl.innerHTML = '<div style="color:var(--muted);font-style:italic">No comments yet.</div>';
+  } else {
+    list.forEach(c=>{
+      const el = document.createElement('div');
+      el.className = 'comment-item';
+      el.innerHTML = `<strong>${escapeHtml(c.name||'Anonymous')}</strong> <small style="color:${getComputedStyle(document.body).getPropertyValue('--muted')}">• ${new Date(c.time).toLocaleString()}</small>
+                      <div style="margin-top:6px">${escapeHtml(c.text)}</div>`;
+      listEl.appendChild(el);
+    });
+  }
+  container.appendChild(listEl);
+
+  // handlers
+  form.querySelector('.submit-comment').addEventListener('click', ()=>{
+    const txt = form.querySelector('textarea').value.trim();
+    const name = form.querySelector('input[type="text"]').value.trim();
+    if(!txt){ alert('Please write a comment.'); return; }
+    const data = loadCommentsData();
+    data[articleId] = data[articleId] || [];
+    data[articleId].push({name: name || 'Anonymous', text: txt, time: Date.now()});
+    saveCommentsData(data);
+    renderCommentsFor(articleId);
+  });
+
+  // download comments button
+  form.querySelector('button[data-download]').addEventListener('click', ()=>{
+    const data = loadCommentsData();
+    const articleComments = data[articleId] || [];
+    const blob = new Blob([JSON.stringify(articleComments, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `${articleId}-comments.json`;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  });
+}
+
+// escape helper
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]; });
+}
+
+// render all comment blocks on load
+document.addEventListener('DOMContentLoaded', ()=>{
+  $$('[data-id]').forEach(box=>{
+    const id = box.getAttribute('data-id');
+    renderCommentsFor(id);
+  });
+});
+
+/* ------------- Comment button (delegated) ------------- */
+document.body.addEventListener('click', function(e){
+  const target = e.target;
+  if(target.classList.contains('comment-button')){
+    const articleId = target.getAttribute('data-article-id') || target.closest('[data-id]')?.getAttribute('data-id');
+    if(!articleId) return;
+    // scroll to comments area and focus on textarea
+    const commentsArea = document.querySelector(`.comments[data-comments-for="${articleId}"]`);
+    if(commentsArea){
+      commentsArea.scrollIntoView({behavior:'smooth', block:'center'});
+      setTimeout(()=> {
+        const ta = commentsArea.querySelector('textarea');
+        if(ta) ta.focus();
+      },300);
+    }
+  }
+});
+
+/* ------------- Optional: Firebase comments (example) -------------
+  To enable shared, server-backed comments:
+  1) Create a Firebase project (https://firebase.google.com/)
+  2) Add a web app and copy its config
+  3) Uncomment the firebase block below and replace FIREBASE_CONFIG with your config
+  4) Use Firestore or Realtime DB to push/read comments
+---------------------------------------------------------------
+*/
+/*
+ // Example: include Firebase SDK in head (paste this into <head> above)
+ <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+
+ // Then these lines (uncomment and replace with your config)
+ const firebaseConfig = {
+   apiKey: "FIREBASE_API_KEY",
+   authDomain: "FIREBASE_AUTH_DOMAIN",
+   databaseURL: "FIREBASE_DATABASE_URL",
+   projectId: "FIREBASE_PROJECT_ID",
+   storageBucket: "FIREBASE_STORAGE_BUCKET",
+   messagingSenderId: "FIREBASE_MSG_SENDER_ID",
+   appId: "FIREBASE_APP_ID"
+ };
+ firebase.initializeApp(firebaseConfig);
+ const db = firebase.database();
+
+ // To post a comment:
+ db.ref('comments/' + articleId).push({ name, text, time: Date.now() });
+
+ // To read:
+ db.ref('comments/' + articleId).on('value', snap => { ... });
+*/
+
+/* ------------- Build archives on load ------------- */
+document.addEventListener('DOMContentLoaded', buildArchives);
+
+/* ------------- Small helpers for UX ------------- */
+// Scroll to top on first load
+// window.scrollTo({top:0,behavior:'smooth'});
+
 </script>
-
 </body>
 </html>
+
+
