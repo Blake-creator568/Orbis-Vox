@@ -33,7 +33,7 @@
         margin: 0;
         letter-spacing: 8px;
         text-shadow: 1px 1px #ccc;
-        color: #c00000; /* red heading */
+        color: #000; /* black header */
     }
 
     .subhead {
@@ -45,7 +45,7 @@
         border-top: 2px double #000;
         border-bottom: 2px double #000;
         letter-spacing: 2px;
-        color: #c00000;
+        color: #000; /* black subhead */
     }
 
     nav {
@@ -65,8 +65,16 @@
     }
 
     nav a:hover {
-        color: #c00000;
+        color: #8B0000; /* dark red hover */
         text-decoration: underline;
+    }
+
+    #searchInput {
+        padding:8px 12px; 
+        font-size:16px; 
+        width:60%; 
+        border:2px solid #000; 
+        border-radius:5px;
     }
 
     .date-line {
@@ -88,7 +96,7 @@
         text-transform: uppercase;
         border-bottom: 2px double #000;
         padding-bottom: 8px;
-        color: #c00000;
+        color: #000; /* black section titles */
     }
 
     .article-box {
@@ -101,7 +109,7 @@
 
     .article-box:hover {
         transform: scale(1.02);
-        box-shadow: 0px 0px 20px rgba(192,0,0,0.3);
+        box-shadow: 0px 0px 20px rgba(0,0,0,0.2);
     }
 
     .article-title {
@@ -113,12 +121,12 @@
         text-transform: uppercase;
         cursor: pointer;
         user-select: none;
-        color: #c00000;
+        color: #8B0000; /* dark red */
         transition: color 0.3s;
     }
 
     .article-title:hover {
-        color: #ff0000;
+        color: #B22222; /* brighter dark red on hover */
     }
 
     .article-content {
@@ -148,7 +156,7 @@
 
     img:hover {
         transform: scale(1.03);
-        border-color: #c00000;
+        border-color: #8B0000; /* dark red */
     }
 
     .caption {
@@ -187,9 +195,9 @@
     }
 
     .comment-button:hover {
-        background-color: #c00000;
+        background-color: #8B0000; /* dark red hover */
         color: #fff;
-        border-color: #c00000;
+        border-color: #8B0000;
     }
 
     .contact-box {
@@ -228,7 +236,7 @@
 <body>
 
 <header>
-    <img src="logo.png" alt="Orbis Vox Logo" class="logo">
+    <img src="Logo.png" alt="Orbis Vox Logo" class="logo">
     <h1>ORBIS VOX</h1>
     <div class="subhead">THE VOICE OF THE WORLD</div>
 </header>
@@ -240,6 +248,11 @@
     <a href="#teenage">Teenage Life</a>
     <a href="#about">About</a>
 </nav>
+
+<!-- Search Bar -->
+<div style="text-align:center; margin:20px 0;">
+    <input type="text" id="searchInput" placeholder="Search articles...">
+</div>
 
 <div class="date-line">
     <div>Blake Richardson</div>
@@ -352,7 +365,9 @@
 </div>
 
 <footer>
-    &copy; 2025 Orbis Vox | Follow us on social media | <a href="#contact">Contact</a>
+    &copy; 2025 Orbis Vox | Follow us on social media | 
+    <a href="https://www.tiktok.com/@orbis.vox" target="_blank">TikTok</a> | 
+    <a href="#contact">Contact</a>
 </footer>
 
 <script>
@@ -375,20 +390,20 @@
         }
     }
 
-    // Search Functionality
+    // Live search for title + content
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', function() {
         const filter = this.value.toLowerCase();
         const articles = document.querySelectorAll('.article-box');
         articles.forEach(article => {
-            const title = article.querySelector('.article-title');
-            if(title) {
-                const titleText = title.textContent.toLowerCase();
-                article.style.display = titleText.includes(filter) ? '' : 'none';
-            }
-        });
-    });
-</script>
+            const title = article.querySelector('.article-title')?.textContent.toLowerCase() || '';
+            const content = article.querySelector('.article-content')?.textContent.toLowerCase() || '';
+            const articleContent = article.querySelector('.article-content');
+            // show article if title or content includes search term
+            if(title.includes(filter) || content.includes(filter)) {
+                article.style.display = '';
+                if(articleContent) articleContent.style.display = 'block'; // auto expand matching articles
+            } else {
+                article.style.display = '
 
-</body>
-</html>
+
