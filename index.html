@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <title>Orbis Vox</title>
 <style>
+    html {
+        scroll-behavior: smooth;
+    }
+
     body {
         font-family: "Times New Roman", serif;
         background: #fdfcf8;
@@ -20,12 +24,15 @@
         position: relative;
     }
 
-    header img.logo {
-        width: 60px;
-        height: 60px;
+    header a.logo-link {
         position: absolute;
         top: 0;
         left: 0;
+    }
+
+    header img.logo {
+        width: 60px;
+        height: 60px;
     }
 
     h1 {
@@ -134,6 +141,11 @@
         margin-top: 15px;
     }
 
+    /* About section visible by default */
+    #about .article-content {
+        display: block;
+    }
+
     .columns {
         display: flex;
         gap: 25px;
@@ -236,9 +248,9 @@
 <body>
 
 <header>
-  <a href="#about">
-    <img src="Logo.png" alt="Orbis Vox Logo" class="logo">
-</a>
+    <a href="#about" class="logo-link">
+        <img src="Logo.png" alt="Orbis Vox Logo" class="logo">
+    </a>
     <h1>ORBIS VOX</h1>
     <div class="subhead">THE VOICE OF THE WORLD</div>
 </header>
@@ -381,24 +393,18 @@
         });
     });
 
-    // Send comment
-    function sendMessage(message = null) {
-        if (!message) {
-            message = prompt("Write your comment below:");
+    // Event delegation for comment buttons (works even if hidden)
+    document.body.addEventListener('click', function(e) {
+        if (e.target.classList.contains('comment-button')) {
+            let message = prompt("Write your comment below:");
+            if (!message) return;
+            const phone = "07423093169";
+            if (/Mobi|Android/i.test(navigator.userAgent)) {
+                window.location.href = `sms:${phone}?body=${encodeURIComponent(message)}`;
+            } else {
+                alert("Copy this message to send via SMS:\n\n" + message);
+            }
         }
-        if (!message) return;
-        const phone = "07423093169";
-        if (/Mobi|Android/i.test(navigator.userAgent)) {
-            window.location.href = `sms:${phone}?body=${encodeURIComponent(message)}`;
-        } else {
-            alert("Copy this message to send via SMS:\n\n" + message);
-        }
-    }
-
-    // Attach click event to all comment buttons
-    const commentButtons = document.querySelectorAll('.comment-button');
-    commentButtons.forEach(button => {
-        button.addEventListener('click', () => sendMessage());
     });
 
     // Live search
@@ -410,16 +416,9 @@
             const title = article.querySelector('.article-title')?.textContent.toLowerCase() || '';
             const content = article.querySelector('.article-content')?.textContent.toLowerCase() || '';
             const articleContent = article.querySelector('.article-content');
-            if(title.includes(filter) || content.includes(filter)) {
-                article.style.display = '';
-                if(articleContent) articleContent.style.display = 'block';
-            } else {
-                article.style.display = 'none';
-            }
-        });
-    });
-</script>
+            if(title.includes(filter) || content.includes
 
 </body>
 </
+
 
