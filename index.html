@@ -6,51 +6,43 @@
 <style>
     body {
         font-family: "Times New Roman", serif;
-        background: #ffffff;
-        padding: 50px;
-        max-width: 950px;
+        background: #fdfcf8; /* subtle paper color */
+        padding: 40px;
+        max-width: 900px;
         margin: auto;
         color: #1a1a1a;
-        border: 8px double #8a8a8a;
-        box-shadow: 0 0 40px rgba(0,0,0,0.15);
+        border: 8px double #000;
     }
 
     header {
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
 
     h1 {
-        font-size: 95px;
+        font-size: 90px;
         margin: 0;
         letter-spacing: 8px;
-        text-shadow: 1px 1px #ddd;
+        text-shadow: 1px 1px #ccc;
     }
 
     .subhead {
         font-size: 22px;
-        margin-top: -15px;
+        margin-top: -10px;
         text-transform: uppercase;
         font-weight: bold;
-        padding: 8px 0;
-        border-top: 3px double #000;
-        border-bottom: 3px double #000;
+        padding: 5px 0;
+        border-top: 2px double #000;
+        border-bottom: 2px double #000;
         letter-spacing: 2px;
     }
 
-    .date-line {
-        display: flex;
-        justify-content: space-between;
-        margin: 20px 0 35px;
-        font-size: 20px;
-        font-weight: bold;
-        font-family: "Georgia", serif;
-    }
-
-    /* Top navigation menu */
+    /* Top Navigation */
     nav {
         text-align: center;
-        margin-bottom: 50px;
+        margin: 20px 0;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #000;
     }
 
     nav a {
@@ -58,7 +50,7 @@
         color: #000;
         font-weight: bold;
         margin: 0 20px;
-        font-size: 20px;
+        font-size: 18px;
         transition: color 0.3s;
     }
 
@@ -67,83 +59,91 @@
         text-decoration: underline;
     }
 
-    .section-title {
-        font-size: 35px;
-        text-align: center;
-        margin: 50px 0 30px;
-        text-transform: uppercase;
-        border-bottom: 3px double #000;
+    .date-line {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0 35px;
+        font-size: 18px;
+        font-weight: bold;
+        font-family: "Georgia", serif;
+        border-bottom: 1px solid #000;
         padding-bottom: 10px;
     }
 
+    .section-title {
+        font-size: 32px;
+        text-align: center;
+        margin: 40px 0 25px;
+        text-transform: uppercase;
+        border-bottom: 2px double #000;
+        padding-bottom: 8px;
+    }
+
     .article-box {
+        margin-bottom: 25px;
+        border-top: 2px solid #000;
+        border-bottom: 2px solid #000;
         padding: 15px 0;
-        margin-bottom: 20px;
-        border-top: 4px solid #000;
-        border-bottom: 4px solid #000;
     }
 
     .article-title {
-        font-size: 28px;
+        font-size: 26px;
         text-align: center;
         margin-bottom: 10px;
         font-weight: bold;
         letter-spacing: 1px;
-        font-family: "Georgia", serif;
         text-transform: uppercase;
-        padding: 10px;
-        border-bottom: 2px solid #333;
         cursor: pointer;
         user-select: none;
     }
 
     .article-content {
         display: none;
-        margin-top: 15px;
+        margin-top: 10px;
     }
 
     .columns {
         display: flex;
-        gap: 30px;
+        gap: 25px;
     }
 
     .col {
         width: 50%;
-        font-size: 18px;
-        line-height: 1.55;
+        font-size: 17px;
+        line-height: 1.6;
         text-align: justify;
     }
 
     img {
         width: 100%;
         margin-top: 10px;
-        border: 3px solid #000;
+        border: 2px solid #000;
     }
 
     .caption {
         text-align: center;
         font-style: italic;
         margin-top: 5px;
-        font-size: 15px;
+        font-size: 14px;
         color: #555;
     }
 
     .empty-article {
-        border: 3px dashed #bcbcbc;
+        border: 2px dashed #bcbcbc;
         background: #f2f2f2;
-        padding: 25px;
-        margin: 40px 0;
-        height: 220px;
+        padding: 20px;
+        margin: 20px 0;
+        height: 200px;
         font-style: italic;
         text-align: center;
         color: #7a7a7a;
-        font-size: 22px;
-        box-shadow: inset 0 0 10px rgba(0,0,0,0.07);
+        font-size: 20px;
+        box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
     }
 
     .comment-button {
         display: block;
-        margin: 20px auto;
+        margin: 15px auto;
         padding: 12px 25px;
         font-size: 18px;
         font-weight: bold;
@@ -161,10 +161,11 @@
     }
 
     .contact-box {
-        margin-top: 40px;
-        padding: 20px;
-        border-top: 4px solid #000;
+        margin-top: 50px;
+        padding: 30px;
+        border-top: 3px solid #000;
         text-align: center;
+        font-size: 18px;
     }
 
     .visitor-counter img {
@@ -173,6 +174,15 @@
         display: block;
         margin: 20px auto;
     }
+
+    /* Drop-cap for first paragraph */
+    .article-content p:first-of-type::first-letter {
+        font-size: 3em;
+        float: left;
+        line-height: 1;
+        padding-right: 5px;
+    }
+
 </style>
 </head>
 <body>
@@ -182,12 +192,6 @@
     <div class="subhead">THE VOICE OF THE WORLD</div>
 </header>
 
-<div class="date-line">
-    <div>Occasional news reports.</div>
-    <div>Blake Richardson</div>
-    <div>2025</div>
-</div>
-
 <!-- Navigation -->
 <nav>
     <a href="#news">News</a>
@@ -195,6 +199,13 @@
     <a href="#global">Global Issues</a>
     <a href="#teenage">Teenage Life</a>
 </nav>
+
+<div class="date-line" style="justify-content: center;">
+    <div>Blake Richardson</div>
+    <div>2025</div>
+</div>
+
+</div>
 
 <!-- NEWS SECTION -->
 <div id="news" class="section-title">News</div>
@@ -252,11 +263,11 @@
         <div class="columns">
             <div class="col">
                 Let’s talk about rights. The battle women have fought day in and day out for centuries just to survive. The change from the 1700s to the 21st century. Has it changed drastically? Do you know all the history? Are we doing enough?<br><br>
-                1975. Nineteen. Seventy. Five. Women finally obtained the right to equal pay. This meant women could legally earn the same as men for doing the same amount of work. It was a crucial step towards equality in the world and workplace. Even today, it reminds us all how long women had to wait for this simple, human right. Women got the right to equal pay when the Equal Pay Act 1970 came into force on 29th December 1975. This legislation was a major step in ensuring that men and women receive equal pay for equal work, marking a pivotal moment in the fight for gender equality.
+                1975. Nineteen. Seventy. Five. Women finally obtained the right to equal pay. This meant women could legally earn the same as men for doing the same amount of work. It was a crucial step towards equality in the world and workplace. Even today, it reminds us all how long women had to wait for this simple, human right. Women got the right to equal pay when the Equal Pay Act 1970 came into force on 29th December 1975.
             </div>
             <div class="col">
-                In the late 19th to early 20th century, women gained the right to freedom. Personal freedom such as universities. This meant women could legally choose her own path in life and ensure her own future. It was a weighty decision for women who wanted more for their lives, which was most, and this choice meant women could become lawyers, officers of the law or even prime ministers. For example, Margaret Thatcher became the first female Prime Minister of the UK in 1979. Thatcher was seen as a divisive figure, but she proved women can do the same jobs men can, if not better.<br><br>
-                Women’s rights have changed over the years. From being their husband’s property to becoming lawyers and Prime Ministers. Gaining the right to vote, the right to owning their own property, and equal pay. Each step has been crucial progress to the world. These changes remind us how change is created one step at a time.
+                In the late 19th to early 20th century, women gained the right to freedom. Personal freedom such as universities. This meant women could legally choose her own path in life and ensure her own future. It was a weighty decision for women who wanted more for their lives, which was most, and this choice meant women could become lawyers, officers of the law or even prime ministers. For example, Margaret Thatcher became the first female Prime Minister of the UK in 1979.<br><br>
+                Women’s rights have changed over the years. From being their husband’s property to becoming lawyers and Prime Ministers. Gaining the right to vote, the right to owning their own property, and equal pay. Each step has been crucial progress to the world.
             </div>
         </div>
         <button class="comment-button" onclick="sendMessage()">Leave a Comment</button>
@@ -271,14 +282,12 @@
         <div class="columns">
             <div class="col">
                 Teenagers. Dramatic or genuinely drained? What do you think? Forty-three percent of teenagers in the UK are exhausted mentally or physically. So, are they being dramatic? Let us find out.<br><br>
-                Seventy-five percent of students aged 11 – 18 have complained of feeling overwhelmed about the education system. This prevents students from achieving what they could be capable of within school hours. Many students arrive on time and do their work without showing any exhaustion. These students do not necessarily have the energy to do this; most will pretend so no one asks questions. A former pupil at Kirk Hallam Academy said, “I pretended to be okay because it was easier than answering their questions. I told a couple of teachers, but I never got the support I needed which resulted in my self-esteem dropping drastically.” It is evident that schools could be a partial reason for some teenager’s exhaustion.<br><br>
+                Seventy-five percent of students aged 11 – 18 have complained of feeling overwhelmed about the education system. Many students arrive on time and do their work without showing any exhaustion.
                 <img src="images.jpeg" alt="Teenagers looking tired">
                 <div class="caption">PHOTO: TEENAGERS’ EXHAUSTION IN THE UK</div>
             </div>
             <div class="col">
-                Another point to consider is home life. A variety of students have unstable living circumstances. As a teenager they find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends. One in seven teenagers have reported living in a neglectful home and the toll it has taken on their mental health. How could we change this? Parents/Carers, you need to be more respectful to your children. Most children grow up hating you if you treat them horribly as they are growing.<br><br>
-                Relationships. The one thing most teenagers yearn for. Are teenage relationships healthy or are they better off without? Romantic Relationships: Dating and romantic interests are a normal part of growing up, though not all teens date. These relationships often progress from crushes and group hangouts to more exclusive pairings. They allow teens to explore intimacy, sexuality, and the dynamics of being a couple. Teenage relationships have a profound and dualistic effect on mental health: healthy, supportive relationships function as a vital protective factor, while unhealthy, conflict-ridden ones significantly increase the risk of mental health issues such as anxiety, depression, and low self-esteem.<br><br>
-                In conclusion, most teenagers are overwhelmed by education and family issues. However, on the other hand, relationships can be a solution to this. The majority of students find a pinpoint light in having one familiar person being their comfort. Teenagers are not being dramatic; they are genuinely exhausted and need support instead of punishments. As a school you could understand them instead of punishing them without the full story. As parents/carers you should be kind and welcoming to them as it could make them open more and make you as a carer easier to talk to.
+                Another point to consider is home life. A variety of students have unstable living circumstances. Teenagers do not want to be seen as vulnerable around friends. Relationships can help them cope, though unhealthy relationships increase stress.
             </div>
         </div>
         <button class="comment-button" onclick="sendMessage()">Leave a Comment</button>
@@ -293,7 +302,7 @@
 
 <div class="visitor-counter">
     <a href="https://www.hitwebcounter.com/" target="_blank">
-        <img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0" title="Free Tools" Alt="Free Tools" border="0" />
+        <img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0" title="Free Tools" alt="Free Tools" border="0" />
     </a>
 </div>
 
@@ -311,7 +320,6 @@
     function sendMessage() {
         const message = prompt("Write your comment below:");
         if (!message) return;
-        // Open SMS app on mobile
         const phone = "07423093169";
         if (/Mobi|Android/i.test(navigator.userAgent)) {
             window.location.href = `sms:${phone}?body=${encodeURIComponent(message)}`;
@@ -323,6 +331,8 @@
 
 </body>
 </html>
+
+
 
 
 
