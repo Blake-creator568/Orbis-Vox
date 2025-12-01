@@ -33,7 +33,7 @@
         margin: 0;
         letter-spacing: 8px;
         text-shadow: 1px 1px #ccc;
-        color: #000; /* black header */
+        color: #000;
     }
 
     .subhead {
@@ -45,7 +45,7 @@
         border-top: 2px double #000;
         border-bottom: 2px double #000;
         letter-spacing: 2px;
-        color: #000; /* black subhead */
+        color: #000;
     }
 
     nav {
@@ -65,7 +65,7 @@
     }
 
     nav a:hover {
-        color: #8B0000; /* dark red hover */
+        color: #8B0000;
         text-decoration: underline;
     }
 
@@ -96,7 +96,7 @@
         text-transform: uppercase;
         border-bottom: 2px double #000;
         padding-bottom: 8px;
-        color: #000; /* black section titles */
+        color: #000;
     }
 
     .article-box {
@@ -121,12 +121,12 @@
         text-transform: uppercase;
         cursor: pointer;
         user-select: none;
-        color: #8B0000; /* dark red */
+        color: #8B0000;
         transition: color 0.3s;
     }
 
     .article-title:hover {
-        color: #B22222; /* brighter dark red on hover */
+        color: #B22222;
     }
 
     .article-content {
@@ -156,7 +156,7 @@
 
     img:hover {
         transform: scale(1.03);
-        border-color: #8B0000; /* dark red */
+        border-color: #8B0000;
     }
 
     .caption {
@@ -195,7 +195,7 @@
     }
 
     .comment-button:hover {
-        background-color: #8B0000; /* dark red hover */
+        background-color: #8B0000;
         color: #fff;
         border-color: #8B0000;
     }
@@ -249,7 +249,6 @@
     <a href="#about">About</a>
 </nav>
 
-<!-- Search Bar -->
 <div style="text-align:center; margin:20px 0;">
     <input type="text" id="searchInput" placeholder="Search articles...">
 </div>
@@ -266,7 +265,7 @@
     <div class="article-content">
         <div class="empty-article">Content to be written...</div>
         <div class="poll">Poll: What type of news do you want to read most?</div>
-        <button class="comment-button" onclick="sendMessage()">Leave a Comment</button>
+        <button class="comment-button">Leave a Comment</button>
     </div>
 </div>
 
@@ -305,7 +304,7 @@
             </div>
         </div>
         <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
-        <button class="comment-button" onclick="sendMessage()">Leave a Comment</button>
+        <button class="comment-button">Leave a Comment</button>
     </div>
 </div>
 
@@ -324,7 +323,7 @@
                 Women’s rights have changed over the years. From being their husband’s property to becoming lawyers and Prime Ministers. Gaining the right to vote, the right to owning their own property, and equal pay. Each step has been crucial progress to the world. These changes remind us how change is created one step at a time.
             </div>
         </div>
-        <button class="comment-button" onclick="sendMessage()">Leave a Comment</button>
+        <button class="comment-button">Leave a Comment</button>
     </div>
 </div>
 
@@ -346,7 +345,7 @@
                 In conclusion, most teenagers are overwhelmed by education and family issues. However, on the other hand, relationships can be a solution to this. The majority of students find a pinpoint light in having one familiar person being their comfort. Teenagers are not being dramatic; they are genuinely exhausted and need support instead of punishments. As a school you could understand them instead of punishing them without the full story. As parents/carers you should be kind and welcoming to them as it could make them open more and make you as a carer easier to talk to.
             </div>
         </div>
-        <button class="comment-button" onclick="sendMessage()">Leave a Comment</button>
+        <button class="comment-button">Leave a Comment</button>
     </div>
 </div>
 
@@ -365,12 +364,13 @@
 </div>
 
 <footer>
-    &copy; 2025 Orbis Vox | Follow us on social media | 
+    &copy; 2025 Orbis Vox | 
     <a href="https://www.tiktok.com/@orbis.vox" target="_blank">TikTok</a> | 
     <a href="#contact">Contact</a>
 </footer>
 
 <script>
+    // Toggle article content
     const titles = document.querySelectorAll('.article-title');
     titles.forEach(title => {
         title.addEventListener('click', () => {
@@ -379,8 +379,11 @@
         });
     });
 
-    function sendMessage() {
-        const message = prompt("Write your comment below:");
+    // Send comment
+    function sendMessage(message = null) {
+        if (!message) {
+            message = prompt("Write your comment below:");
+        }
         if (!message) return;
         const phone = "07423093169";
         if (/Mobi|Android/i.test(navigator.userAgent)) {
@@ -390,7 +393,13 @@
         }
     }
 
-    // Live search for title + content
+    // Attach click event to all comment buttons
+    const commentButtons = document.querySelectorAll('.comment-button');
+    commentButtons.forEach(button => {
+        button.addEventListener('click', () => sendMessage());
+    });
+
+    // Live search
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', function() {
         const filter = this.value.toLowerCase();
@@ -399,11 +408,15 @@
             const title = article.querySelector('.article-title')?.textContent.toLowerCase() || '';
             const content = article.querySelector('.article-content')?.textContent.toLowerCase() || '';
             const articleContent = article.querySelector('.article-content');
-            // show article if title or content includes search term
             if(title.includes(filter) || content.includes(filter)) {
                 article.style.display = '';
-                if(articleContent) articleContent.style.display = 'block'; // auto expand matching articles
+                if(articleContent) articleContent.style.display = 'block';
             } else {
-                article.style.display = '
+                article.style.display = 'none';
+            }
+        });
+    });
+</script>
 
-
+</body>
+</
