@@ -40,7 +40,7 @@ body.dark{
 /* Header */
 header{position:relative;text-align:center;margin-bottom:10px}
 header a.logo-link{position:absolute;top:6px;left:6px;display:inline-block; }
-.logo{width:60px;height:60px;display:block; border-radius:6px; transition:transform .3s}
+.logo{width:85px;height:85px;display:block; border-radius:6px; transition:transform .3s}
 .logo:hover{transform:scale(1.05) rotate(-2deg)}
 .logo-pulse{animation:logoPulse 4s infinite}
 @keyframes logoPulse{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
@@ -106,6 +106,7 @@ img:hover{transform:scale(1.03);border-color:var(--accent)}
 
 /* Footer + visitor counter */
 .visitor-counter{ text-align:center;margin:30px 0 }
+.visitor-counter img{ width:90px; height:auto; border:0; }
 .contact-box{margin-top:40px;padding:28px;border-top:3px solid #000;text-align:center;font-size:18px}
 footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px}
 
@@ -338,14 +339,14 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 </section>
 
 <!-- VISITOR COUNTER -->
-<div class="visitor-counter">
+<div class="visitor-counter" style="text-align:center;margin-bottom:10px;">
   <a href="https://www.hitwebcounter.com/" target="_blank" rel="noopener">
     <img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0" alt="Visitor Counter">
   </a>
 </div>
 
 <!-- CONTACT -->
-<div class="contact-box">
+<div class="contact-box" id="contact">
   <h2>Contact</h2>
   <p>If you want to reach the paper, call or text:</p>
   <p><a href="tel:07423093169">07423093169</a></p>
@@ -363,6 +364,13 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
       <a href="#news">Home</a>
     </div>
   </div>
+
+  <!-- small counter inside footer as well -->
+  <div style="margin-top:12px;">
+    <a href="https://www.hitwebcounter.com/" target="_blank" rel="noopener">
+      <img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0" alt="Visitor Counter" style="width:90px;border:0">
+    </a>
+  </div>
 </footer>
 
 </div> <!-- .container -->
@@ -375,16 +383,13 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 /* ------------- Client-side "multi-page" routing ------------- */
 function showSectionFromHash() {
   const hash = location.hash.replace('#','') || 'news';
-  // Scroll to section if exists
   const target = document.getElementById(hash);
   if (target) {
-    // hide archives if open
     hideArchives();
-    // smooth scroll
     setTimeout(()=> target.scrollIntoView({behavior:'smooth'}), 50);
   } else {
-    // fallback
-    document.getElementById('news').scrollIntoView();
+    const news = document.getElementById('news');
+    if (news) news.scrollIntoView();
   }
 }
 window.addEventListener('hashchange', showSectionFromHash);
@@ -394,39 +399,42 @@ window.addEventListener('load', showSectionFromHash);
 function buildArchives(){
   const boxes = $$('[data-id]');
   const list = $('#archives-list');
+  if(!list) return;
   list.innerHTML = '';
   boxes.forEach(box=>{
-    const id = box.getAttribute('data-id') || '';
-    const title = (box.querySelector('.article-title')?.textContent || box.querySelector('.article-title')?.innerText || 'Article').trim();
+    const title = (box.querySelector('.article-title')?.textContent || 'Article').trim();
     const link = document.createElement('a');
-    link.href = `#${box.closest('section')?.id || 'news'}`;
+    link.href = '#'+(box.closest('section')?.id || 'news');
     link.style.display = 'block';
     link.style.padding = '8px 12px';
     link.style.borderBottom = '1px solid #eee';
     link.className = 'archive-item';
-    link.textContent = `${title}`;
-    link.addEventListener('click', ()=> { // scroll to article within section
-      setTimeout(()=>{
-        box.scrollIntoView({behavior:'smooth', block:'center'});
-      }, 100);
+    link.textContent = title;
+    link.addEventListener('click', (ev)=> {
+      ev.preventDefault();
+      setTimeout(()=> box.scrollIntoView({behavior:'smooth', block:'center'}), 100);
     });
     list.appendChild(link);
   });
 }
-document.getElementById('showArchives').addEventListener('click', ()=>{
-  const arch = $('#archives');
-  const list = $('#archives-list');
-  if(arch.style.display === 'none' || arch.style.display === ''){
-    arch.style.display = 'block';
-    list.style.display = 'block';
-    buildArchives();
-    arch.scrollIntoView({behavior:'smooth'});
-  } else {
-    arch.style.display = 'none';
-    list.style.display = 'none';
-  }
-});
-function hideArchives(){ $('#archives').style.display='none'; $('#archives-list').style.display='none'; }
+const showArchivesBtn = $('#showArchives');
+if(showArchivesBtn){
+  showArchivesBtn.addEventListener('click', ()=>{
+    const arch = $('#archives');
+    const list = $('#archives-list');
+    if(!arch || !list) return;
+    if(arch.style.display === 'none' || arch.style.display === ''){
+      arch.style.display = 'block';
+      list.style.display = 'block';
+      buildArchives();
+      arch.scrollIntoView({behavior:'smooth'});
+    } else {
+      arch.style.display = 'none';
+      list.style.display = 'none';
+    }
+  });
+}
+function hideArchives(){ const a = $('#archives'); const l = $('#archives-list'); if(a) a.style.display='none'; if(l) l.style.display='none'; }
 
 /* ------------- Dark mode ------------- */
 const darkToggle = $('#darkToggle');
@@ -434,27 +442,32 @@ function applyDark(isDark){
   if(isDark) document.body.classList.add('dark');
   else document.body.classList.remove('dark');
   localStorage.setItem('orbis_dark', isDark? '1':'0');
-  darkToggle.textContent = isDark? 'Light' : 'Dark';
+  if(darkToggle) darkToggle.textContent = isDark? 'Light' : 'Dark';
 }
-darkToggle.addEventListener('click', ()=>{
-  const isDark = document.body.classList.toggle('dark');
-  applyDark(isDark);
-});
-(function initDark(){
-  const saved = localStorage.getItem('orbis_dark');
-  if(saved === '1') applyDark(true);
-})();
+if(darkToggle){
+  darkToggle.addEventListener('click', ()=>{
+    const isDark = document.body.classList.toggle('dark');
+    applyDark(isDark);
+  });
+  (function initDark(){
+    const saved = localStorage.getItem('orbis_dark');
+    if(saved === '1') applyDark(true);
+    else applyDark(false);
+  })();
+}
 
 /* ------------- Live search ------------- */
 const searchInput = $('#searchInput');
-searchInput.addEventListener('input', function(){
-  const q = this.value.toLowerCase();
-  const boxes = $$('.article-box');
-  boxes.forEach(box=>{
-    const text = box.innerText.toLowerCase();
-    box.style.display = text.includes(q) ? 'block' : 'none';
+if(searchInput){
+  searchInput.addEventListener('input', function(){
+    const q = this.value.toLowerCase();
+    const boxes = $$('.article-box');
+    boxes.forEach(box=>{
+      const text = box.innerText.toLowerCase();
+      box.style.display = text.includes(q) ? 'block' : 'none';
+    });
   });
-});
+}
 
 /* ------------- Comment system (localStorage) -------------
   - Comments saved per article id in localStorage key 'orbis_comments'
@@ -463,9 +476,8 @@ searchInput.addEventListener('input', function(){
 const COMMENTS_KEY = 'orbis_comments';
 
 function loadCommentsData(){
-  try{
-    return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}');
-  } catch(e){ return {}; }
+  try{ return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}'); }
+  catch(e){ return {}; }
 }
 function saveCommentsData(obj){
   localStorage.setItem(COMMENTS_KEY, JSON.stringify(obj));
@@ -499,7 +511,7 @@ function renderCommentsFor(articleId){
     list.forEach(c=>{
       const el = document.createElement('div');
       el.className = 'comment-item';
-      el.innerHTML = `<strong>${escapeHtml(c.name||'Anonymous')}</strong> <small style="color:${getComputedStyle(document.body).getPropertyValue('--muted')}">• ${new Date(c.time).toLocaleString()}</small>
+      el.innerHTML = `<strong>${escapeHtml(c.name||'Anonymous')}</strong> <small style="color:var(--muted)"> • ${new Date(c.time).toLocaleString()}</small>
                       <div style="margin-top:6px">${escapeHtml(c.text)}</div>`;
       listEl.appendChild(el);
     });
@@ -542,6 +554,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const id = box.getAttribute('data-id');
     renderCommentsFor(id);
   });
+  buildArchives();
 });
 
 /* ------------- Comment button (delegated) ------------- */
@@ -550,7 +563,6 @@ document.body.addEventListener('click', function(e){
   if(target.classList.contains('comment-button')){
     const articleId = target.getAttribute('data-article-id') || target.closest('[data-id]')?.getAttribute('data-id');
     if(!articleId) return;
-    // scroll to comments area and focus on textarea
     const commentsArea = document.querySelector(`.comments[data-comments-for="${articleId}"]`);
     if(commentsArea){
       commentsArea.scrollIntoView({behavior:'smooth', block:'center'});
@@ -563,48 +575,57 @@ document.body.addEventListener('click', function(e){
 });
 
 /* ------------- Optional: Firebase comments (example) -------------
-  To enable shared, server-backed comments:
-  1) Create a Firebase project (https://firebase.google.com/)
-  2) Add a web app and copy its config
-  3) Uncomment the firebase block below and replace FIREBASE_CONFIG with your config
-  4) Use Firestore or Realtime DB to push/read comments
----------------------------------------------------------------
+  To enable shared, server-backed comments (visible to all visitors), do this:
+  1) Create a Firebase project and add a Web App (https://console.firebase.google.com/)
+  2) In the Firebase console get the config object for your app.
+  3) Uncomment the <script src="https://www.gstatic.com/firebasejs/..."> lines below in the <head> and paste your config here.
+  4) Replace the localStorage save/load parts with database pushes/reads (example given).
+  5) If you want, I can help generate the exact Firestore/Realtime DB code and security rules.
+
+  EXAMPLE (client-side, Realtime Database - this block is commented out intentionally):
 */
+
 /*
- // Example: include Firebase SDK in head (paste this into <head> above)
- <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
- <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+<!-- Paste these in the <head> above (uncomment) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
- // Then these lines (uncomment and replace with your config)
- const firebaseConfig = {
-   apiKey: "FIREBASE_API_KEY",
-   authDomain: "FIREBASE_AUTH_DOMAIN",
-   databaseURL: "FIREBASE_DATABASE_URL",
-   projectId: "FIREBASE_PROJECT_ID",
-   storageBucket: "FIREBASE_STORAGE_BUCKET",
-   messagingSenderId: "FIREBASE_MSG_SENDER_ID",
-   appId: "FIREBASE_APP_ID"
- };
- firebase.initializeApp(firebaseConfig);
- const db = firebase.database();
+<script>
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    databaseURL: "https://YOUR_PROJECT.firebaseio.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
 
- // To post a comment:
- db.ref('comments/' + articleId).push({ name, text, time: Date.now() });
+  // Example function to post a comment to firebase:
+  function postCommentToFirebase(articleId, name, text){
+    const ref = db.ref('comments/' + articleId);
+    ref.push({ name: name||'Anonymous', text, time: Date.now() });
+  }
 
- // To read:
- db.ref('comments/' + articleId).on('value', snap => { ... });
+  // Example to listen for comments and render them:
+  function startFirebaseListener(articleId){
+    const ref = db.ref('comments/' + articleId);
+    ref.on('value', snap=>{
+      const comments = snap.val() || {};
+      // Build UI from comments (replace renderCommentsFor logic or merge)
+    });
+  }
+</script>
 */
-
-/* ------------- Build archives on load ------------- */
-document.addEventListener('DOMContentLoaded', buildArchives);
 
 /* ------------- Small helpers for UX ------------- */
-// Scroll to top on first load
-// window.scrollTo({top:0,behavior:'smooth'});
-
+// nothing more needed here
 </script>
 </body>
 </html>
+
 
 
 
