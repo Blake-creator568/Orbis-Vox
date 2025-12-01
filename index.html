@@ -17,6 +17,15 @@
     header {
         text-align: center;
         margin-bottom: 10px;
+        position: relative;
+    }
+
+    header img.logo {
+        width: 60px;
+        height: 60px;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 
     h1 {
@@ -58,6 +67,35 @@
         text-decoration: underline;
     }
 
+    .search-bar {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .search-bar input {
+        padding: 8px;
+        font-size: 16px;
+        width: 60%;
+        border: 2px solid #000;
+    }
+
+    .categories {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .categories a {
+        margin: 0 15px;
+        font-weight: bold;
+        font-size: 18px;
+        text-decoration: none;
+        color: #000;
+    }
+
+    .categories a:hover {
+        text-decoration: underline;
+    }
+
     .date-line {
         display: flex;
         justify-content: center;
@@ -84,6 +122,11 @@
         border-top: 2px solid #000;
         border-bottom: 2px solid #000;
         padding: 15px 0;
+        transition: transform 0.3s;
+    }
+
+    .article-box:hover {
+        transform: scale(1.01);
     }
 
     .article-title {
@@ -105,6 +148,7 @@
     .columns {
         display: flex;
         gap: 25px;
+        flex-wrap: wrap;
     }
 
     .col {
@@ -118,6 +162,11 @@
         width: 100%;
         margin-top: 10px;
         border: 2px solid #000;
+        transition: transform 0.3s;
+    }
+
+    img:hover {
+        transform: scale(1.02);
     }
 
     .caption {
@@ -168,11 +217,12 @@
         font-size: 18px;
     }
 
-    .visitor-counter img {
-        width: 35px;
-        height: auto;
-        display: block;
-        margin: 20px auto;
+    footer {
+        margin-top: 50px;
+        text-align: center;
+        font-size: 16px;
+        border-top: 2px double #000;
+        padding: 15px;
     }
 
     .article-content p:first-of-type::first-letter {
@@ -181,11 +231,21 @@
         line-height: 1;
         padding-right: 5px;
     }
+
+    .poll, .fact {
+        background: #f9f9f0;
+        padding: 10px;
+        margin: 15px 0;
+        border: 1px solid #000;
+        font-style: italic;
+    }
+
 </style>
 </head>
 <body>
 
 <header>
+    <img src="logo.png" alt="Orbis Vox Logo" class="logo">
     <h1>ORBIS VOX</h1>
     <div class="subhead">THE VOICE OF THE WORLD</div>
 </header>
@@ -195,7 +255,20 @@
     <a href="#fun">Fun</a>
     <a href="#global">Global Issues</a>
     <a href="#teenage">Teenage Life</a>
+    <a href="#about">About</a>
 </nav>
+
+<div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search articles...">
+</div>
+
+<div class="categories">
+    <a href="#news">News</a>
+    <a href="#fun">Fun</a>
+    <a href="#global">Global Issues</a>
+    <a href="#teenage">Teenage Life</a>
+    <a href="#about">About</a>
+</div>
 
 <div class="date-line">
     <div>Blake Richardson</div>
@@ -208,6 +281,7 @@
     <div class="article-title">[Blank Article Here]</div>
     <div class="article-content">
         <div class="empty-article">Content to be written...</div>
+        <div class="poll">Poll: What type of news do you want to read most?</div>
         <button class="comment-button" onclick="sendMessage()">Leave a Comment</button>
     </div>
 </div>
@@ -215,7 +289,7 @@
 <!-- Fun Section -->
 <div id="fun" class="section-title">Fun</div>
 <div class="article-box">
-    <div class="article-title">West Hallam’s Dog Choir Wakes Residents for No Logical Reason Whatsoever</div>
+    <div class="article-title">West Hallam’s Dog Choir Wakes Residents</div>
     <div class="article-content">
         <div class="columns">
             <div class="col">
@@ -241,11 +315,12 @@
                 It’s loud.<br>
                 And it absolutely doesn’t care that you have college in an hour.<br><br>
                 Well, at least someone in this village has some variation of entertainment. Can’t blame the dogs, 
-                at least they’re talkative.
+                at least they’re talkative.<br><br>
                 <img src="dog.jpg" alt="Dog Photo">
                 <div class="caption">PHOTO: BLAKE RICHARDSON</div>
             </div>
         </div>
+        <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
         <button class="comment-button" onclick="sendMessage()">Leave a Comment</button>
     </div>
 </div>
@@ -291,17 +366,23 @@
     </div>
 </div>
 
+<!-- About Section -->
+<div id="about" class="section-title">About Orbis Vox</div>
+<div class="article-box">
+    <div class="article-content">
+        <p>Orbis Vox is an online newspaper created and run by Blake Richardson, a sixteen-year-old student passionate about journalism. The paper covers a range of topics from fun, local stories to serious global issues and teenage life. The goal is to provide readers with honest, informative, and entertaining articles, while giving young journalists a platform to express themselves. Thank you for visiting and supporting independent journalism!</p>
+    </div>
+</div>
+
 <div class="contact-box">
     <h2>Contact</h2>
     <p>If you want to reach the paper, call or text:</p>
     <p><a href="tel:07423093169">07423093169</a></p>
 </div>
 
-<div class="visitor-counter">
-    <a href="https://www.hitwebcounter.com/" target="_blank">
-        <img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0" title="Free Tools" alt="Free Tools" border="0" />
-    </a>
-</div>
+<footer>
+    &copy; 2025 Orbis Vox | Follow us on social media | <a href="#contact">Contact</a>
+</footer>
 
 <script>
     const titles = document.querySelectorAll('.article-title');
@@ -322,18 +403,21 @@
             alert("Copy this message to send via SMS:\n\n" + message);
         }
     }
+
+    // Search Functionality
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function() {
+        const filter = this.value.toLowerCase();
+        const articles = document.querySelectorAll('.article-box');
+        articles.forEach(article => {
+            const title = article.querySelector('.article-title');
+            if(title) {
+                const titleText = title.textContent.toLowerCase();
+                article.style.display = titleText.includes(filter) ? '' : 'none';
+            }
+        });
+    });
 </script>
 
 </body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
+    </html>
