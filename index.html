@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8" />
 <title>Orbis Vox</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
-/* ---------- Base + Layout ---------- */
 :root{
   --bg:#fdfcf8;
   --paper:#fff;
   --ink:#1a1a1a;
   --accent:#8B0000;
-  --accent-2:#B22222;
+  --accent-2:#B22222; /* headline color & BBC quote color */
   --muted:#7a7a7a;
   --card-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
+/* Layout */
 html{scroll-behavior:smooth}
 body{
   font-family: "Times New Roman", serif;
@@ -28,59 +28,42 @@ body{
   transition:background .25s, color .25s;
 }
 
-/* Dark mode */
-body.dark{
-  --bg:#0f0f11;
-  --paper:#0b0b0c;
-  --ink:#e9e9e9;
-  --muted:#bdbdbd;
-}
 .container{padding:0 10px}
 
 /* Header */
 header{position:relative;text-align:center;margin-bottom:10px}
-header a.logo-link{position:absolute;top:6px;left:6px;display:inline-block; }
-.logo{width:40px;height:40px;display:block; border-radius:6px; transition:transform .3s}
-.logo:hover{transform:scale(1.05) rotate(-2deg)}
-.logo-pulse{animation:logoPulse 4s infinite}
-@keyframes logoPulse{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
-
+header a.logo-link{position:absolute;top:6px;left:6px;display:inline-block;}
+#logo{width:40px;height:40px;display:block;border-radius:6px;transition:transform .3s;position:fixed;top:10px;left:10px;z-index:1000}
+#logo:hover{transform:scale(1.05) rotate(-2deg)}
 h1{font-size:86px;margin:0;letter-spacing:8px;text-shadow:1px 1px #ccc;color:#000}
-body.dark h1{color:var(--ink)}
-
 .subhead{
   font-size:20px;margin-top:-8px;text-transform:uppercase;font-weight:bold;
   padding:6px 0;border-top:2px double #000;border-bottom:2px double #000;letter-spacing:2px;color:var(--accent-2);
 }
-body.dark .subhead{color:var(--ink)}
-
 .header-description{
   font-size: 1.1em;
   margin-top: 12px;
   color: #444;
-  text-decoration: none;
   opacity:0;
   transform:translateY(20px);
   animation:slideInDesc 1s forwards 0.5s;
 }
-@keyframes slideInDesc{
-  to {opacity:1; transform:translateY(0);}
-}
+@keyframes slideInDesc{ to {opacity:1; transform:translateY(0);} }
 
 /* Nav */
 nav {
-    position: sticky;
-    top: 0;
-    background: var(--accent);
-    z-index: 999;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:10px 20px;
-    flex-wrap:wrap;
-    border-radius:6px;
+  position: sticky;
+  top: 0;
+  background: #000; /* black nav buttons as requested */
+  z-index: 999;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 20px;
+  flex-wrap:wrap;
+  border-radius:6px;
 }
-nav a{ 
+nav a{
   text-decoration:none;
   color:#fff;
   font-weight:bold;
@@ -95,21 +78,12 @@ nav #searchInput{
   border-radius:6px;
   border:none;
   width:220px;
+  margin-left:8px;
 }
 
-/* Hamburger menu for mobile */
-.hamburger {
-  display:none;
-  flex-direction:column;
-  cursor:pointer;
-}
-.hamburger div {
-  width:25px;
-  height:3px;
-  background-color:#fff;
-  margin:4px 0;
-  transition: all 0.3s ease;
-}
+/* Mobile hamburger */
+.hamburger { display:none; flex-direction:column; cursor:pointer; }
+.hamburger div { width:25px; height:3px; background-color:#fff; margin:4px 0; transition: all 0.3s ease; }
 @media(max-width:800px){
   nav > div{ display:none; flex-direction:column; width:100%; }
   nav.active > div{ display:flex; }
@@ -119,34 +93,30 @@ nav #searchInput{
 /* Date line */
 .date-line{display:flex;justify-content:center;gap:50px;margin:18px 0 30px;font-size:18px;font-weight:bold;font-family:Georgia,serif;border-bottom:1px solid #000;padding-bottom:12px}
 
-/* Section */
-.section-title{font-size:34px;text-align:center;margin:34px 0 18px;text-transform:uppercase;border-bottom:2px double #000;padding-bottom:8px;color:var(--accent-2)}
+/* Sections & articles */
+.section-title{font-size:34px;text-align:center;margin:34px 0 18px;text-transform:uppercase;border-bottom:2px double #000;padding-bottom:8px;color:#000}
 .article-box{margin-bottom:34px;border-top:2px solid #000;border-bottom:2px solid #000;padding:18px;background:var(--paper);box-shadow:var(--card-shadow);transition:transform .2s}
 .article-box:hover{transform:translateY(-3px)}
 .article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2); transition: color .3s;}
-.article-title:hover{color:var(--accent);}
 .article-title small{display:block;font-size:12px;color:var(--muted);text-transform:none;margin-top:6px}
 
-/* Content columns */
+/* Columns */
 .columns{display:flex;gap:24px;flex-wrap:wrap}
 .col{width:48%;font-size:17px;line-height:1.6;text-align:justify}
 
-/* Images */
+/* News source (BBC text) */
+.news-source{color:var(--accent-2);font-style:italic}
+
+/* Images + caption */
 img{width:100%;margin-top:12px;border:2px solid #000;transition:transform .25s,border-color .25s}
 img:hover{transform:scale(1.03);border-color:var(--accent)}
-
-/* caption */
 .caption{text-align:center;font-style:italic;margin-top:6px;font-size:13px;color:var(--muted)}
 
 /* small blocks */
-.empty-article{border:2px dashed #bcbcbc;background:#f2f2f2;padding:20px;margin:20px 0;height:160px;font-style:italic;text-align:center;color:#7a7a7a;font-size:18px;box-shadow:inset 0 0 8px rgba(0,0,0,0.05)}
+.empty-article{border:2px dashed #bcbcbc;background:#f2f2f2;padding:20px;margin:20px 0;height:160px;font-style:italic;text-align:center;color:#7a7a7a;font-size:18px}
 .poll,.fact{background:#f9f9f0;padding:10px;margin:15px 0;border:1px solid #000;font-style:italic}
 
-/* Buttons */
-.comment-button{display:inline-block;margin:18px auto;padding:12px 22px;font-size:16px;font-weight:bold;background:#fff;color:#000;border:2px solid #000;cursor:pointer;text-transform:uppercase;transition:all .18s;border-radius:6px}
-.comment-button:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
-
-/* Comments area */
+/* Comments */
 .comments{margin-top:16px;border-top:1px dashed #ccc;padding-top:12px}
 .comment-form{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
 .comment-form textarea{width:100%;min-height:70px;padding:8px;border:2px solid #000;border-radius:6px}
@@ -154,53 +124,23 @@ img:hover{transform:scale(1.03);border-color:var(--accent)}
 .comment-list{margin-top:12px}
 .comment-item{border:1px solid #ddd;padding:8px;border-radius:6px;margin-bottom:8px;background: #fff}
 
-/* Footer + visitor counter */
+/* Buttons */
+.comment-button{display:inline-block;margin:8px 0;padding:10px 16px;font-size:14px;font-weight:bold;background:#fff;color:#000;border:2px solid #000;cursor:pointer;text-transform:uppercase;border-radius:6px}
+.comment-button:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* Visitor counter + contact */
 .visitor-counter{ text-align:center;margin:30px 0 }
-.visitor-counter img{ width:90px; height:auto; border:0; }
-.contact-box{margin-top:40px;padding:28px;border-top:3px solid #000;text-align:center;font-size:18px}
-footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px;color:var(--accent-2);font-weight:bold}
-
-/* Professional footer links */
-.footer-grid{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
-.footer-left,.footer-right{display:flex;gap:12px;align-items:center}
-.footer-right a{font-weight:bold;text-decoration:none;color:var(--accent-2)}
-.footer-right a:hover{color:#FFD2D2}
-
-/* Animations for content reveal */
-.fade-in{animation:fadeIn .5s ease both}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.contact-box{margin-top:20px;padding:18px;border-top:3px solid #000;text-align:center;font-size:16px}
 
 /* Modal */
-.modal {
-  display:none;
-  position:fixed;
-  z-index:10000;
-  left:0;
-  top:0;
-  width:100%;
-  height:100%;
-  overflow:auto;
-  background-color:rgba(0,0,0,0.6);
-}
-.modal-content {
-  background-color:#fff;
-  margin:10% auto;
-  padding:20px;
-  border:2px solid #000;
-  width:90%;
-  max-width:400px;
-  text-align:center;
-  border-radius:6px;
-}
-.close-modal {
-  float:right;
-  font-size:24px;
-  font-weight:bold;
-  cursor:pointer;
-}
-.close-modal:hover{color:var(--accent);}
-  
-/* Print styles */
+.modal { display:none; position:fixed; z-index:10000; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.6); }
+.modal-content { background-color:#fff; margin:10% auto; padding:20px; border:2px solid #000; width:90%; max-width:420px; text-align:center; border-radius:6px; }
+.close-modal { float:right; font-size:24px; font-weight:bold; cursor:pointer; }
+
+/* Footer */
+footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px;color:var(--accent-2);font-weight:bold}
+
+/* Print */
 @media print{
   nav,.comment-button,.comment-form,.visitor-counter, .footer-right {display:none}
   body{border:none;padding:10px;background:#fff}
@@ -208,265 +148,376 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   .section-title{page-break-before:always}
 }
 
-/* Responsive tweaks */
+/* Responsive */
 @media(max-width:800px){ .col{width:100%} #searchInput{width:100%} h1{font-size:56px} }
-#logo{width:40px;height:auto;position:fixed;top:10px;left:10px;z-index:1000}
-@media (max-width: 600px){ #logo{width:30px;top:5px;left:5px} }
 </style>
+
+<!-- Firebase (comments) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
 <div class="container">
 
-<header>
-  <a href="#about" class="logo-link" title="About Orbis Vox">
-    <img src="Red logo.png" alt="Logo" id="logo">
-  </a>
-  <h1>ORBIS VOX</h1>
-  <div class="subhead">THE VOICE OF THE WORLD</div>
-  <div class="header-description">
-    A small independent digital newspaper covering humour, global issues, women’s rights, and teenage life — written and created by Blake.
+  <header>
+    <a href="#about" class="logo-link" title="About Orbis Vox">
+      <img src="Red logo.png" alt="Logo" id="logo">
+    </a>
+    <h1>ORBIS VOX</h1>
+    <div class="subhead">THE VOICE OF THE WORLD</div>
+    <div class="header-description">
+      A small independent digital newspaper covering humour, global issues, women’s rights, and teenage life — written and created by Blake.
+    </div>
+  </header>
+
+  <nav>
+    <div>
+      <a href="#news" id="homeLink">Home</a>
+      <a href="#news">News</a>
+      <a href="#fun" id="funLink">Fun</a>
+      <a href="#global">Global Issues</a>
+      <a href="#about">About</a>
+      <a href="#" id="contactBtn">Contact</a>
+    </div>
+
+    <div class="hamburger" id="hamburger">
+      <div></div><div></div><div></div>
+    </div>
+
+    <input id="searchInput" placeholder="Search articles..." aria-label="Search articles">
+  </nav>
+
+  <div class="date-line">
+    <div>Blake Richardson</div>
+    <div>2025</div>
   </div>
-</header>
 
-<nav>
-  <div>
-    <a href="#news" id="homeLink">Home</a>
-    <a href="#news">News</a>
-    <a href="#fun">Fun</a>
-    <a href="#global">Global Issues</a>
-    <a href="#teenage">Teenage Life</a>
-    <a href="#" id="contactBtn">Contact</a>
-  </div>
-  <div class="hamburger" id="hamburger">
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-  <input id="searchInput" placeholder="Search articles..." aria-label="Search articles">
-</nav>
+  <!-- ================= Articles ================= -->
 
-<div class="date-line">
-  <div>Blake Richardson</div>
-  <div>2025</div>
-</div>
+  <!-- NEWS -->
+  <section id="news" class="fade-in">
+    <div class="section-title">News</div>
 
-<!-- ================= Articles ================= -->
+    <!-- REPLACED: Trans girls / Girlguiding article (two-column) -->
+    <div class="article-box" data-id="trans-girls-ban">
+      <div class="article-title">Discrimination shown as trans girls are banned from Girl Guide groups</div>
+      <div class="article-content">
+        <div class="columns">
+          <div class="col">
+            From 2nd December 2025, trans girls are banned from joining Girl Guide groups within the UK. Why was this decision made, and do you agree with it?<br><br>
 
-<section id="news" class="fade-in">
-  <div class="section-title">News</div>
-  
-  <!-- New trans girls article -->
-  <div class="article-box" data-id="trans-girls-ban">
-    <div class="article-title">Discrimination shown as trans girls are banned from Girl Guide groups</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          From 2nd December 2025, trans girls are banned from joining Girl Guide groups within the UK. Why was this decision made, and do you agree with it?<br><br>
-          This new decision means that girls who were assigned male at birth will no longer be able join Girl Guide groups. The trustees within the organisation that oversees these groups says, <span style="color:#B22222;">“Trans girls and young women and others not recorded female at birth, will no longer be able to join Girlguiding as new young members.” They also said that there would be no changes for young women who are already members but more information on this topic will be shared next week. – BBC News.</span>
+            This new decision means that girls who were assigned male at birth will no longer be able join Girl Guide groups. The trustees within the organisation that oversees these groups says, <span class="news-source">“Trans girls and young women and others not recorded female at birth, will no longer be able to join Girlguiding as new young members.” They also said that there would be no changes for young women who are already members but more information on this topic will be shared next week. – BBC News.</span>
+          </div>
+          <div class="col">
+            Many people from the public think it is unfair and discriminative against trans women. <span class="news-source">TransActual said: “There is no problem being solved here, only harm done.”</span> My opinion, this ban seems unfair because every girl should have the right to join. This decision excludes girls who only want to belong by being who they are. – <span class="news-source">BBC News</span>.<br><br>
+
+            What do you think – should all girls be allowed to join, or do you agree with the rules that are set in place?
+          </div>
         </div>
-        <div class="col">
-          Many people from the public think it is unfair and discriminative against trans women. <span style="color:#B22222;">TransActual said: “There is no problem being solved here, only harm done.”</span> My opinion, this ban seems unfair because every girl should have the right to join. This decision excludes girls who only want to belong by being who they are. – BBC News.<br><br>
-          What do you think – should all girls be allowed to join, or do you agree with the rules that are set in place?
-        </div>
+
+        <div class="comments" data-id="trans-girls-ban"></div>
       </div>
-      <div class="comments" data-comments-for="trans-girls-ban"></div>
+    </div>
+
+    <!-- other news article (kept if you want) - example: you can remove or edit -->
+    <div class="article-box" data-id="other-news-1">
+      <div class="article-title">Students Organize Nationwide Climate Action</div>
+      <div class="article-content">
+        <div class="columns">
+          <div class="col">
+            Thousands of students across the country have organized a coordinated school strike to demand more action on climate change. The movement, led by youth activists, is gaining momentum, with protests held outside government buildings and in city centers. Students expressed frustration over slow policy changes and urge lawmakers to take immediate measures to combat environmental issues.
+          </div>
+          <div class="col">
+            "We need to be heard, and we are taking our future into our own hands," said one student leader. Teachers and parents have shown mixed reactions, ranging from support to concern over missed lessons. The strike highlights the growing influence of young voices in shaping national policy and awareness on critical issues affecting future generations.
+          </div>
+        </div>
+        <div class="comments" data-id="other-news-1"></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- FUN -->
+  <section id="fun" class="fade-in">
+    <div class="section-title">Fun</div>
+
+    <div class="article-box" data-id="dog-choir">
+      <div class="article-title">West Hallam’s Dog Choir Wakes Residents</div>
+      <div class="article-content">
+        <div class="columns">
+          <div class="col">
+            Residents across West Hallam were startled awake at an insane hour this morning as the village’s infamous 
+            “Dog Choir” began another full-volume performance.<br><br>
+            The chaos always begins the same way: one dog, somewhere in the distance, lets out a single bark that 
+            somehow sounds like someone has stubbed their toe.<br><br>
+            Within seconds, every single dog in the village has a turn, creating a racket that can only be described as:
+            “Someone listening to their phone on full blast.”<br><br>
+            No one knows what throws them off. Some assumed triggers by families vary of:<br>
+            • A gust of wind that suspiciously sounds like a whistle.<br>
+            • A leaf flying by with a look of disgust.<br>
+            • Or even the insane concept of being awake before 8AM.<br><br>
+            Some residents suggest the canines may be assembling their choir with military precision.
+          </div>
+          <div class="col">
+            I’m convinced they hold meetings through Skype when we are away.<br><br>
+            The barking usually reaches maximum volume at the exact moment you were finally about to sit down and relax 
+            after a long day at work.<br><br>
+            This leaves locals feeling ready to sue the entire canine population.<br><br>
+            Despite the daily chaos, many admit the barking has become part of West Hallam life.<br>
+            It’s consistent.<br>
+            It’s loud.<br>
+            And it absolutely doesn’t care that you have college in an hour.<br><br>
+            Well, at least someone in this village has some variation of entertainment. Can’t blame the dogs, 
+            at least they’re talkative.<br><br>
+            <img src="dog.jpg" alt="Dog Photo">
+            <div class="caption">PHOTO: BLAKE RICHARDSON</div>
+          </div>
+        </div>
+
+        <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
+        <div class="comments" data-id="dog-choir"></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- GLOBAL -->
+  <section id="global" class="fade-in">
+    <div class="section-title">Global Issues</div>
+
+    <div class="article-box" data-id="womens-rights">
+      <div class="article-title">Breaking Barriers: Milestones in the Women's Rights Movement</div>
+      <div class="article-content">
+        <div class="columns">
+          <div class="col">
+            Let’s talk about rights. The battle women have fought day in and day out for centuries just to survive. 
+            The change from the 1700s to the 21st century. Has it changed drastically? Do you know all the history? 
+            Are we doing enough?<br><br>
+
+            1975. Nineteen. Seventy. Five. Women finally obtained the right to equal pay. This meant women could legally earn the same as men for doing the same amount of work. It was a crucial step towards equality in the world and workplace. Even today, it reminds us all how long women had to wait for this simple, human right. Women got the right to equal pay when the Equal Pay Act 1970 came into force on 29th December 1975. This legislation was a major step in ensuring that men and women receive equal pay for equal work, marking a pivotal moment in the fight for gender equality.
+          </div>
+          <div class="col">
+            In the late 19th to early 20th century, women gained the right to freedom. Personal freedom such as universities. 
+            This meant women could legally choose her own path in life and ensure her own future. It was a weighty decision 
+            for women who wanted more for their lives, which was most, and this choice meant women could become lawyers, 
+            officers of the law or even prime ministers.<br><br>
+
+            For example, Margaret Thatcher became the first female Prime Minister of the UK in 1979. 
+            Thatcher was seen as a divisive figure, but she proved women can do the same jobs men can, if not better.<br><br>
+
+            Women’s rights have changed over the years. From being their husband’s property to becoming lawyers and Prime Ministers. 
+            Gaining the right to vote, the right to owning their own property, and equal pay. Each step has been crucial 
+            progress to the world. These changes remind us how change is created one step at a time.
+          </div>
+        </div>
+        <div class="comments" data-id="womens-rights"></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- TEENAGE -->
+  <section id="teenage" class="fade-in">
+    <div class="section-title">Teenage Life</div>
+
+    <div class="article-box" data-id="teenage-exhaustion">
+      <div class="article-title">Why young people are so exhausted all the time</div>
+      <div class="article-content">
+        <div class="columns">
+          <div class="col">
+            Teenagers. Dramatic or genuinely drained? What do you think? Forty-three percent of teenagers in the UK 
+            are exhausted mentally or physically. So, are they being dramatic? Let us find out.<br><br>
+
+            Seventy-five percent of students aged 11–18 have complained of feeling overwhelmed about the education system. 
+            This prevents students from achieving what they could be capable of within school hours. Many students arrive 
+            on time and do their work without showing any exhaustion. These students do not necessarily have the energy 
+            to do this; most will pretend so no one asks questions.<br><br>
+
+            A former pupil at Kirk Hallam Academy said, “I pretended to be okay because it was easier than answering 
+            their questions. I told a couple of teachers, but I never got the support I needed which resulted in my 
+            self-esteem dropping drastically.”<br><br>
+
+            <img src="images.jpeg" alt="Teenagers looking tired">
+            <div class="caption">PHOTO: TEENAGERS’ EXHAUSTION IN THE UK</div>
+          </div>
+          <div class="col">
+            Another point to consider is home life. A variety of students have unstable living circumstances. 
+            As a teenager they find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends.<br><br>
+
+            One in seven teenagers have reported living in a neglectful home and the toll it has taken on their mental health. 
+            How could we change this? Parents/Carers, you need to be more respectful to your children. Most children grow up 
+            hating you if you treat them horribly as they are growing.<br><br>
+
+            Relationships. The one thing most teenagers yearn for. Are teenage relationships healthy or are they better off without? 
+            Teenage relationships have a profound and dualistic effect on mental health: healthy, supportive relationships function 
+            as a vital protective factor, while unhealthy ones increase the risk of anxiety, depression, and low self-esteem.<br><br>
+
+            In conclusion, most teenagers are overwhelmed by education and family issues. However, relationships can be a solution. 
+            The majority of students find comfort in having one familiar person. Teenagers are not being dramatic, they are stressed 
+            because of all the pressure from the world around them.
+          </div>
+        </div>
+        <div class="comments" data-id="teenage-exhaustion"></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="fade-in">
+    <div class="section-title">About</div>
+    <div class="article-box" data-id="about">
+      <div class="article-content">
+        Orbis Vox is an online newspaper created and run by Blake Richardson, a sixteen-year-old passionate about journalism, creativity, and sharing stories that matter. This publication is Blake’s personal platform to explore a wide range of topics—from light-hearted fun articles about pets and everyday life to serious discussions on global issues and the challenges teenagers face today.<br><br>
+
+        The goal of Orbis Vox is to give readers a thoughtful, engaging, and honest perspective, written with care and dedication. Blake believes that journalism is not just about reporting events but connecting with readers and sparking curiosity, critical thinking, and empathy. Through Orbis Vox, Blake practices the skills of research, writing, and storytelling, aiming to create content that is both informative and enjoyable.<br><br>
+
+        The journey of Orbis Vox started from a simple idea: to have a voice in the world and to provide a space where readers of all ages can learn, laugh, and reflect. Blake hopes that this newspaper will continue growing, inspiring others to take an interest in journalism and the stories that shape our lives, while keeping it personal, unique, and true to its founder’s vision.
+      </div>
+    </div>
+  </section>
+
+  <!-- VISITOR COUNTER -->
+  <div class="visitor-counter">
+    <!-- SeeYouFarm hits badge (increments on visits) -->
+    <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fblake-creator568.github.io%2FOrbis-Vox%2F&count_bg=%238B0000&title_bg=%23FFFFFF&icon=&icon_color=%23FFFFFF&title=Visitors&edge_flat=false" alt="Visitors">
+  </div>
+
+  <!-- CONTACT MODAL -->
+  <div id="contactModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+      <span class="close-modal" id="closeContact">&times;</span>
+      <h2 id="contactTitle">Contact Blake</h2>
+      <p>Phone: <a href="tel:07423093169">07423093169</a></p>
+      <p>Email: <a href="mailto:chloerichardson5318@gmail.com">chloerichardson5318@gmail.com</a></p>
     </div>
   </div>
-  
-  <!-- Old news article -->
-  <div class="article-box" data-id="school-strike">
-    <div class="article-title">Students Organize Nationwide School Strike</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          Thousands of students across the country have organized a coordinated school strike to demand more action on climate change. 
-          The movement, led by youth activists, is gaining momentum, with protests held outside government buildings and in city centers. 
-          Students expressed frustration over slow policy changes and urge lawmakers to take immediate measures to combat environmental issues.
-        </div>
-        <div class="col">
-          "We need to be heard, and we are taking our future into our own hands," said one student leader. 
-          Teachers and parents have shown mixed reactions, ranging from support to concern over missed lessons. 
-          The strike highlights the growing influence of young voices in shaping national policy and awareness on critical issues affecting future generations.
-        </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-left">© 2025 Orbis Vox</div>
+      <div class="footer-right">
+        <a href="#news">News</a> |
+        <a href="#fun">Fun</a> |
+        <a href="#global">Global Issues</a> |
+        <a href="#teenage">Teenage Life</a>
       </div>
-      <div class="comments" data-comments-for="school-strike"></div>
     </div>
-  </div>
-</section>
-
-<section id="fun" class="fade-in">
-  <div class="section-title">Fun</div>
-  
-  <!-- Dog Choir -->
-  <div class="article-box" data-id="dog-choir">
-    <div class="article-title">West Hallam’s Dog Choir Wakes Residents</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          Residents across West Hallam were startled awake at an insane hour this morning as the village’s infamous 
-          “Dog Choir” began another full-volume performance.<br><br>
-          The chaos always begins the same way: one dog, somewhere in the distance, lets out a single bark that 
-          somehow sounds like someone has stubbed their toe.<br><br>
-          Within seconds, every single dog in the village has a turn, creating a racket that can only be described as:
-          “Someone listening to their phone on full blast.”<br><br>
-          No one knows what throws them off. Some assumed triggers by families vary of:<br>
-          • A gust of wind that suspiciously sounds like a whistle.<br>
-          • A leaf flying by with a look of disgust.<br>
-          • Or even the insane concept of being awake before 8AM.<br><br>
-          Some residents suggest the canines may be assembling their choir with military precision.
-        </div>
-        <div class="col">
-          I’m convinced they hold meetings through Skype when we are away.<br><br>
-          The barking usually reaches maximum volume at the exact moment you were finally about to sit down and relax 
-          after a long day at work.<br><br>
-          This leaves locals feeling ready to sue the entire canine population.<br><br>
-          Despite the daily chaos, many admit the barking has become part of West Hallam life.<br>
-          It’s consistent.<br>
-          It’s loud.<br>
-          And it absolutely doesn’t care that you have college in an hour.<br><br>
-          Well, at least someone in this village has some variation of entertainment. Can’t blame the dogs, 
-          at least they’re talkative.<br><br>
-          <img src="dog.jpg" alt="Dog Photo">
-          <div class="caption">PHOTO: BLAKE RICHARDSON</div>
-        </div>
-      </div>
-
-      <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
-      <div class="comments" data-comments-for="dog-choir"></div>
-    </div>
-  </div>
-</section>
-
-<section id="global" class="fade-in">
-  <div class="section-title">Global Issues</div>
-  <div class="article-box" data-id="womens-rights">
-    <div class="article-title">Breaking Barriers: Milestones in the Women's Rights Movement</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          Let’s talk about rights. The battle women have fought day in and day out for centuries just to survive. 
-          The change from the 1700s to the 21st century. Has it changed drastically? Do you know all the history? 
-          Are we doing enough?<br><br>
-
-          1975. Nineteen. Seventy. Five. Women finally obtained the right to equal pay. This meant women could legally earn the same as men for doing the same amount of work. It was a crucial step towards equality in the world and workplace. Even today, it reminds us all how long women had to wait for this simple, human right. Women got the right to equal pay when the Equal Pay Act 1970 came into force on 29th December 1975. This legislation was a major step in ensuring that men and women receive equal pay for equal work, marking a pivotal moment in the fight for gender equality.
-        </div>
-        <div class="col">
-          In the late 19th to early 20th century, women gained the right to freedom. Personal freedom such as universities. 
-          This meant women could legally choose her own path in life and ensure her own future. It was a weighty decision 
-          for women who wanted more for their lives, which was most, and this choice meant women could become lawyers, 
-          officers of the law or even prime ministers.<br><br>
-
-          For example, Margaret Thatcher became the first female Prime Minister of the UK in 1979. 
-          Thatcher was seen as a divisive figure, but she proved women can do the same jobs men can, if not better.<br><br>
-
-          Women’s rights have been a long road, and there’s still work to do. But it’s inspiring to see progress 
-          and to know that every effort, no matter how small, adds to the larger movement.
-        </div>
-      </div>
-      <div class="comments" data-comments-for="womens-rights"></div>
-    </div>
-  </div>
-</section>
-
-<section id="teenage" class="fade-in">
-  <div class="section-title">Teenage Life</div>
-  <div class="article-box" data-id="teenage-exhaustion">
-    <div class="article-title">Teenage Exhaustion</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          Being a teenager in 2025 is exhausting. Between school, social media, homework, and trying to figure out who you are, it can feel impossible to catch a break.<br><br>
-          My days start early and end late. There’s constant pressure to succeed academically, socially, and personally. I often feel like I’m running a race with no finish line.
-        </div>
-        <div class="col">
-          Sleep becomes a luxury, and self-care feels like a distant dream. Yet, despite the fatigue, there’s also a sense of excitement and potential. Each day is a challenge, but also an opportunity to grow, learn, and shape the person I’m becoming.<br><br>
-          Finding balance is hard, but even small victories—finishing an assignment, making someone laugh, or taking a moment for yourself—can feel monumental in the teenage world.
-        </div>
-      </div>
-      <div class="comments" data-comments-for="teenage-exhaustion"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= About ================= -->
-<section id="about">
-  <div class="section-title">About</div>
-  <div class="article-box">
-    Orbis Vox is an online newspaper created and run by Blake Richardson, a sixteen-year-old passionate about journalism, creativity, and sharing stories that matter. This publication is Blake’s personal platform to explore a wide range of topics—from light-hearted fun articles about pets and everyday life to serious discussions on global issues and the challenges teenagers face today.<br><br>
-
-    The goal of Orbis Vox is to give readers a thoughtful, engaging, and honest perspective, written with care and dedication. Blake believes that journalism is not just about reporting events but connecting with readers and sparking curiosity, critical thinking, and empathy. Through Orbis Vox, Blake practices the skills of research, writing, and storytelling, aiming to create content that is both informative and enjoyable.<br><br>
-
-    The journey of Orbis Vox started from a simple idea: to have a voice in the world and to provide a space where readers of all ages can learn, laugh, and reflect. Blake hopes that this newspaper will continue growing, inspiring others to take an interest in journalism and the stories that shape our lives, while keeping it personal, unique, and true to its founder’s vision.
-  </div>
-</section>
-
-<!-- ================= Visitor Counter ================= -->
-<div class="visitor-counter">
-  <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fblake-creator568.github.io%2FOrbis-Vox%2F&count_bg=%238B0000&title_bg=%23FFFFFF&icon=&icon_color=%23FFFFFF&title=Visitors&edge_flat=false"/>
-</div>
-
-<!-- ================= Contact Modal ================= -->
-<div id="contactModal" class="modal">
-  <div class="modal-content">
-    <span class="close-modal" id="closeContact">&times;</span>
-    <h2>Contact Blake</h2>
-    <p>Phone: 07423093169</p>
-    <p>Email: <a href="mailto:chloerichardson5318@gmail.com">chloerichardson5318@gmail.com</a></p>
-  </div>
-</div>
-
-<footer>
-  &copy; 2025 Orbis Vox. Created by Blake Richardson.
-</footer>
+  </footer>
 
 </div> <!-- container -->
 
+<!-- ================= SCRIPTS ================= -->
 <script>
-/* ============== Hamburger menu ============== */
-const hamburger = document.getElementById("hamburger");
-hamburger.addEventListener("click",()=>{document.querySelector("nav").classList.toggle("active")});
+/* NAV / HAMBURGER */
+document.getElementById('hamburger').addEventListener('click', ()=> {
+  document.querySelector('nav').classList.toggle('active');
+});
 
-/* ============== Search ============== */
-const searchInput = document.getElementById("searchInput");
-searchInput.addEventListener("input", function(){
-  const val = this.value.toLowerCase();
-  document.querySelectorAll(".article-box").forEach(box=>{
+/* SMOOTH SCROLL for nav links */
+document.querySelectorAll('nav a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', function(e){
+    const href = this.getAttribute('href');
+    if(href === '#') { e.preventDefault(); return; }
+    const target = document.querySelector(href);
+    if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+
+/* FUN link quick scroll */
+document.getElementById('funLink').addEventListener('click', function(e){
+  e.preventDefault();
+  document.getElementById('fun').scrollIntoView({behavior:'smooth'});
+});
+
+/* CONTACT modal */
+const contactBtn = document.getElementById('contactBtn');
+const contactModal = document.getElementById('contactModal');
+const closeContact = document.getElementById('closeContact');
+contactBtn.addEventListener('click', (e)=>{ e.preventDefault(); contactModal.style.display = 'block'; contactModal.setAttribute('aria-hidden','false'); });
+closeContact.addEventListener('click', ()=>{ contactModal.style.display = 'none'; contactModal.setAttribute('aria-hidden','true'); });
+window.addEventListener('click', (e)=>{ if(e.target === contactModal){ contactModal.style.display='none'; contactModal.setAttribute('aria-hidden','true'); } });
+
+/* SEARCH (filters articles live) */
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', function(){
+  const q = this.value.trim().toLowerCase();
+  document.querySelectorAll('.article-box').forEach(box=>{
     const text = box.innerText.toLowerCase();
-    box.style.display = text.includes(val) ? "block":"none";
+    box.style.display = text.includes(q) ? 'block' : 'none';
   });
 });
 
-/* ============== Contact Modal ============== */
-const contactBtn = document.getElementById("contactBtn");
-const contactModal = document.getElementById("contactModal");
-const closeModal = document.getElementById("closeContact");
-contactBtn.onclick = ()=>{contactModal.style.display="block";}
-closeModal.onclick = ()=>{contactModal.style.display="none";}
-window.onclick = (e)=>{if(e.target==contactModal){contactModal.style.display="none"}}
+/* ================= FIREBASE COMMENTS ================= */
+/* Firebase config (your project) */
+const firebaseConfig = {
+  apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
+  authDomain: "orbis-vox.firebaseapp.com",
+  databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app/",
+  projectId: "orbis-vox",
+  storageBucket: "orbis-vox.appspot.com",
+  messagingSenderId: "43657144944",
+  appId: "1:43657144944:web:c7564b655819a30a1fe2b5"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-/* ============== Comments ============== */
-document.querySelectorAll(".comments").forEach(c=>{
-  const id = c.dataset.commentsFor;
-  const form = document.createElement("div");
-  form.classList.add("comment-form");
-  form.innerHTML = `<textarea placeholder="Write a comment..."></textarea>
-                    <input type="text" placeholder="Name">
-                    <button class="comment-button">Post</button>`;
-  c.appendChild(form);
-  const list = document.createElement("div"); list.classList.add("comment-list"); c.appendChild(list);
-  form.querySelector("button").addEventListener("click", ()=>{
-    const txt = form.querySelector("textarea").value;
-    const name = form.querySelector("input").value || "Anonymous";
-    if(txt.trim()=="") return;
-    const item = document.createElement("div"); item.classList.add("comment-item");
-    item.innerHTML=`<strong>${name}</strong><p>${txt}</p>`;
-    list.appendChild(item);
-    form.querySelector("textarea").value="";
-    form.querySelector("input").value="";
+/* Add comment forms and wire to Firebase */
+document.querySelectorAll('.article-box').forEach(box=>{
+  const articleId = box.dataset.id || box.getAttribute('data-id') || ('article-' + Math.random().toString(36).slice(2,9));
+  // ensure data-id exists
+  box.setAttribute('data-id', articleId);
+
+  const commentDiv = box.querySelector('.comments');
+  if(!commentDiv) return;
+
+  // build form + list
+  commentDiv.innerHTML = `
+    <form class="comment-form" aria-label="Comment form">
+      <input type="text" name="author" placeholder="Your name" required>
+      <textarea name="text" placeholder="Your comment" required></textarea>
+      <button type="submit" class="comment-button">Submit</button>
+    </form>
+    <div class="comment-list" aria-live="polite"></div>
+  `;
+
+  const form = commentDiv.querySelector('form');
+  const list = commentDiv.querySelector('.comment-list');
+
+  // submit -> push to firebase
+  form.addEventListener('submit', e=>{
+    e.preventDefault();
+    const author = form.author.value.trim() || 'Anonymous';
+    const text = form.text.value.trim();
+    if(!text) return;
+    db.ref('comments/' + articleId).push({author,text,timestamp:Date.now()});
+    form.reset();
+  });
+
+  // listen for updates and render
+  db.ref('comments/' + articleId).on('value', snapshot=>{
+    const val = snapshot.val();
+    let html = '';
+    if(val){
+      // sort by timestamp
+      const items = Object.values(val).sort((a,b)=> (a.timestamp||0) - (b.timestamp||0));
+      html = items.map(c=>`<div class="comment-item"><strong>${escapeHtml(c.author)}</strong>: ${escapeHtml(c.text)}</div>`).join('');
+    }
+    list.innerHTML = html;
   });
 });
+
+/* simple html escape to avoid injection in comments rendering */
+function escapeHtml(s){
+  if(!s) return '';
+  return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
+}
+
+/* End of scripts */
 </script>
 
 </body>
 </html>
+
+
