@@ -114,7 +114,7 @@ nav #searchInput{
   transition: all 0.3s ease;
 }
 @media(max-width:800px){
-  nav > div{ display:none; flex-direction:column; width:100%;}
+  nav > div{ display:none; flex-direction:column; width:100%; margin-top:10px; }
   nav.active > div{ display:flex; }
   .hamburger{ display:flex; }
 }
@@ -126,12 +126,9 @@ nav #searchInput{
 .section-title{font-size:34px;text-align:center;margin:34px 0 18px;text-transform:uppercase;border-bottom:2px double #000;padding-bottom:8px;color:var(--ink)}
 .article-box{margin-bottom:34px;border-top:2px solid #000;border-bottom:2px solid #000;padding:18px;background:var(--paper);box-shadow:var(--card-shadow);transition:transform .2s}
 .article-box:hover{transform:translateY(-3px)}
-.article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2); cursor:pointer; transition: color .3s;}
+.article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2); transition: color .3s;}
 .article-title:hover{color:var(--accent);}
 .article-title small{display:block;font-size:12px;color:var(--muted);text-transform:none;margin-top:6px}
-
-/* Collapsible content */
-.article-content{display:block; transition:max-height 0.3s ease; overflow:hidden}
 
 /* Content columns */
 .columns{display:flex;gap:24px;flex-wrap:wrap}
@@ -149,8 +146,8 @@ img:hover{transform:scale(1.03);border-color:var(--accent)}
 .poll,.fact{background:#f9f9f0;padding:10px;margin:15px 0;border:1px solid #000;font-style:italic}
 
 /* Buttons */
-.comment-button,.like-button{display:inline-block;margin:12px auto;padding:10px 18px;font-size:16px;font-weight:bold;background:#fff;color:#000;border:2px solid #000;cursor:pointer;text-transform:uppercase;transition:all .18s;border-radius:6px}
-.comment-button:hover,.like-button:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.comment-button{display:inline-block;margin:18px auto;padding:12px 22px;font-size:16px;font-weight:bold;background:#fff;color:#000;border:2px solid #000;cursor:pointer;text-transform:uppercase;transition:all .18s;border-radius:6px}
+.comment-button:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
 
 /* Comments area */
 .comments{margin-top:16px;border-top:1px dashed #ccc;padding-top:12px}
@@ -164,12 +161,12 @@ img:hover{transform:scale(1.03);border-color:var(--accent)}
 .visitor-counter{ text-align:center;margin:30px 0 }
 .visitor-counter img{ width:90px; height:auto; border:0; }
 .contact-box{margin-top:40px;padding:28px;border-top:3px solid #000;text-align:center;font-size:18px}
-footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px}
+footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px;background:var(--accent);color:#fff; border-radius:6px}
 
 /* Professional footer links */
 .footer-grid{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
-.footer-left,.footer-right{display:flex;gap:12px;align-items:center}
-.footer-right a{font-weight:bold;text-decoration:none;color:#fff}
+.footer-left,.footer-right{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.footer-right a{font-weight:bold;text-decoration:none;color:#B22222} /* dark red links */
 .footer-right a:hover{color:#FFD2D2}
 
 /* Animations for content reveal */
@@ -186,7 +183,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 
 /* Responsive tweaks */
 @media(max-width:800px){ .col{width:100%} #searchInput{width:100%} h1{font-size:56px} }
-
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -209,7 +205,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 
 <nav>
   <div>
-    <a href="#">Home</a>
+    <a href="#top">Home</a>
     <a href="#news">News</a>
     <a href="#fun">Fun</a>
     <a href="#global">Global Issues</a>
@@ -393,11 +389,11 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   <div class="footer-grid">
     <div class="footer-left">© 2025 Orbis Vox</div>
     <div class="footer-right">
-      <a href="#">Home</a> |
+      <a href="#top">Home</a> | 
       <a href="#news">News</a> | 
       <a href="#fun">Fun</a> | 
       <a href="#global">Global Issues</a> | 
-      <a href="#teenage">Teenage Life</a> |
+      <a href="#teenage">Teenage Life</a> | 
       <a href="#about">About</a>
     </div>
   </div>
@@ -418,16 +414,6 @@ searchInput.addEventListener('input', e=>{
   document.querySelectorAll('.article-box').forEach(box=>{
     const text = box.innerText.toLowerCase();
     box.style.display = text.includes(query)?'block':'none';
-  });
-});
-
-// ----- Collapsible Articles -----
-document.querySelectorAll('.article-title').forEach(title=>{
-  title.addEventListener('click', ()=>{
-    const content = title.nextElementSibling;
-    if(content.style.display==='block' || content.style.display===''){
-      content.style.display='none';
-    } else content.style.display='block';
   });
 });
 
@@ -482,6 +468,6 @@ document.querySelectorAll('.article-box').forEach(box=>{
 <img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0" title="Free Tools" alt="Free Tools" border="0" />
 </a>
 </div>
-
 </body>
 </html>
+
