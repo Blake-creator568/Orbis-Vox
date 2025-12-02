@@ -132,7 +132,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 @media(max-width:800px){ .col{width:100%} #searchInput{width:100%} h1{font-size:56px} }
 </style>
 
-<!-- Firebase SDKs (must load in this order) -->
+<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
@@ -177,7 +177,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 <!-- NEWS -->
 <section id="news" class="fade-in">
   <div class="section-title">News</div>
-
   <div class="article-box" data-id="blank-article">
     <div class="article-title">[Blank Article Here]</div>
     <div class="article-content">
@@ -194,7 +193,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 <!-- FUN -->
 <section id="fun" class="fade-in">
   <div class="section-title">Fun</div>
-
   <div class="article-box" data-id="dog-choir">
     <div class="article-title">West Hallam’s Dog Choir Wakes Residents</div>
     <div class="article-content">
@@ -212,7 +210,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           • Or even the insane concept of being awake before 8AM.<br><br>
           Some residents suggest the canines may be assembling their choir with military precision.
         </div>
-
         <div class="col">
           I’m convinced they hold meetings through Skype when we are away.<br><br>
           The barking usually reaches maximum volume at the exact moment you were finally about to sit down and relax 
@@ -228,7 +225,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           <div class="caption">PHOTO: BLAKE RICHARDSON</div>
         </div>
       </div>
-
       <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
       <div>
         <button class="comment-button" data-article-id="dog-choir">Leave a Comment</button>
@@ -241,7 +237,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 <!-- GLOBAL -->
 <section id="global" class="fade-in">
   <div class="section-title">Global Issues</div>
-
   <div class="article-box" data-id="womens-rights">
     <div class="article-title">Breaking Barriers: Milestones in the Women's Rights Movement</div>
     <div class="article-content">
@@ -253,7 +248,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 
           1975. Nineteen. Seventy. Five. Women finally obtained the right to equal pay. This meant women could legally earn the same as men for doing the same amount of work. It was a crucial step towards equality in the world and workplace. Even today, it reminds us all how long women had to wait for this simple, human right. Women got the right to equal pay when the Equal Pay Act 1970 came into force on 29th December 1975. This legislation was a major step in ensuring that men and women receive equal pay for equal work, marking a pivotal moment in the fight for gender equality.
         </div>
-
         <div class="col">
           In the late 19th to early 20th century, women gained the right to freedom. Personal freedom such as universities. 
           This meant women could legally choose her own path in life and ensure her own future. It was a weighty decision 
@@ -268,7 +262,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           progress to the world. These changes remind us how change is created one step at a time.
         </div>
       </div>
-
       <div>
         <button class="comment-button" data-article-id="womens-rights">Leave a Comment</button>
       </div>
@@ -280,7 +273,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 <!-- TEENAGE -->
 <section id="teenage" class="fade-in">
   <div class="section-title">Teenage Life</div>
-
   <div class="article-box" data-id="teenage-exhaustion">
     <div class="article-title">Why young people are so exhausted all the time</div>
     <div class="article-content">
@@ -301,7 +293,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           <img src="images.jpeg" alt="Teenagers looking tired">
           <div class="caption">PHOTO: TEENAGERS’ EXHAUSTION IN THE UK</div>
         </div>
-
         <div class="col">
           Another point to consider is home life. A variety of students have unstable living circumstances. 
           As a teenager they find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends.<br><br>
@@ -315,11 +306,10 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           as a vital protective factor, while unhealthy ones increase the risk of anxiety, depression, and low self-esteem.<br><br>
 
           In conclusion, most teenagers are overwhelmed by education and family issues. However, relationships can be a solution. 
-          The majority of students find comfort in having one familiar person. Teenagers are not being dramatic; they are genuinely 
-          exhausted and need understanding rather than punishment.
+          The majority of students find comfort in friends and a supportive family. Yet, many still need professional support 
+          to manage mental exhaustion.
         </div>
       </div>
-
       <div>
         <button class="comment-button" data-article-id="teenage-exhaustion">Leave a Comment</button>
       </div>
@@ -331,335 +321,128 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 <!-- ABOUT -->
 <section id="about" class="fade-in">
   <div class="section-title">About Orbis Vox</div>
-  <div class="article-box">
-    <div class="article-content">
-      <p>
-        Orbis Vox is an online newspaper created and run by Blake Richardson, 
-        a sixteen-year-old student passionate about journalism.  
-        The paper covers a range of topics from fun, local stories to serious global issues and teenage life.  
-        Thank you for visiting and supporting independent journalism!
-      </p>
-    </div>
-  </div>
+  <p style="text-align:center;font-size:17px;line-height:1.7">
+    Orbis Vox is an occasionally updated online newspaper created and run by a single-handed sixteen-year-old girl named Blake.
+    It covers a variety of topics from global issues to fun content, teenage life, and more. The goal is to inform, entertain, 
+    and encourage conversation across all generations.
+  </p>
 </section>
 
-<!-- VISITOR COUNTER -->
-<div class="visitor-counter" style="text-align:center;margin-bottom:10px;">
-  <a href="https://www.hitwebcounter.com/" target="_blank" rel="noopener">
-    <img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0" alt="Visitor Counter">
-  </a>
-</div>
-
 <!-- CONTACT -->
-<div class="contact-box" id="contact">
-  <h2>Contact</h2>
-  <p>If you want to reach the paper, call or text:</p>
-  <p><a href="tel:07423093169">07423093169</a></p>
+<div class="contact-box fade-in">
+  <div><strong>Contact:</strong> Blake Richardson — Email: orbisvox@example.com</div>
 </div>
 
-<!-- FOOTER -->
+<!-- Visitor counter -->
+<div class="visitor-counter fade-in">
+  <img src="https://www.freecounterstat.com/count.php?c=4s27g3h2f8" alt="Visitor Counter">
+</div>
+
 <footer>
   <div class="footer-grid">
-    <div class="footer-left">
-      &copy; 2025 Orbis Vox
-    </div>
+    <div class="footer-left">© 2025 Orbis Vox</div>
     <div class="footer-right">
-      <a href="https://www.tiktok.com/@orbis.vox" target="_blank" rel="noopener">TikTok</a>
       <a href="#about">About</a>
-      <a href="#news">Home</a>
+      <a href="#news">News</a>
+      <a href="#fun">Fun</a>
+      <a href="#global">Global</a>
+      <a href="#teenage">Teenage</a>
     </div>
-  </div>
-
-  <!-- small counter inside footer as well -->
-  <div style="margin-top:12px;">
-    <a href="https://www.hitwebcounter.com/" target="_blank" rel="noopener">
-      <img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0" alt="Visitor Counter" style="width:90px;border:0">
-    </a>
   </div>
 </footer>
 
-</div> <!-- .container -->
+</div>
 
 <script>
-// Small helpers
-const $ = (sel, ctx=document) => ctx.querySelector(sel);
-const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
+// ------------- Dark Mode -------------
+const darkToggle = document.getElementById('darkToggle');
+darkToggle.onclick = ()=>{document.body.classList.toggle('dark')}
 
-// ROUTING / HASH
-function showSectionFromHash(){
-  const hash = location.hash.replace('#','') || 'news';
-  const target = document.getElementById(hash);
-  if(target){ hideArchives(); setTimeout(()=> target.scrollIntoView({behavior:'smooth'}), 50); }
-  else { const n = document.getElementById('news'); if(n) n.scrollIntoView(); }
-}
-window.addEventListener('hashchange', showSectionFromHash);
-window.addEventListener('load', showSectionFromHash);
-
-// ARCHIVES
-function buildArchives(){
-  const boxes = $$('[data-id]');
-  const list = $('#archives-list');
-  if(!list) return;
-  list.innerHTML = '';
-  boxes.forEach(box=>{
-    const title = (box.querySelector('.article-title')?.textContent || 'Article').trim();
-    const link = document.createElement('a');
-    link.href = '#'+(box.closest('section')?.id || 'news');
-    link.style.display = 'block';
-    link.style.padding = '8px 12px';
-    link.style.borderBottom = '1px solid #eee';
-    link.className = 'archive-item';
-    link.textContent = title;
-    link.addEventListener('click', ev => { ev.preventDefault(); setTimeout(()=> box.scrollIntoView({behavior:'smooth', block:'center'}),100); });
-    list.appendChild(link);
-  });
-}
-const showArchivesBtn = $('#showArchives');
-if(showArchivesBtn){
-  showArchivesBtn.addEventListener('click', ()=>{
-    const arch = $('#archives');
-    const list = $('#archives-list');
-    if(!arch || !list) return;
-    if(arch.style.display === 'none' || arch.style.display === ''){
-      arch.style.display = 'block'; list.style.display = 'block'; buildArchives(); arch.scrollIntoView({behavior:'smooth'});
-    } else { arch.style.display = 'none'; list.style.display = 'none'; }
-  });
-}
-function hideArchives(){ const a = $('#archives'); const l = $('#archives-list'); if(a) a.style.display='none'; if(l) l.style.display='none'; }
-
-// DARK MODE
-const darkToggle = $('#darkToggle');
-function applyDark(isDark){
-  if(isDark) document.body.classList.add('dark'); else document.body.classList.remove('dark');
-  localStorage.setItem('orbis_dark', isDark? '1':'0');
-  if(darkToggle) darkToggle.textContent = isDark? 'Light' : 'Dark';
-}
-if(darkToggle){
-  darkToggle.addEventListener('click', ()=>{
-    const isDark = document.body.classList.toggle('dark');
-    applyDark(isDark);
-  });
-  (function initDark(){
-    const saved = localStorage.getItem('orbis_dark');
-    if(saved === '1') applyDark(true);
-    else applyDark(false);
-  })();
+// ------------- Archives Toggle -------------
+const archivesBtn = document.getElementById('showArchives');
+const archivesDiv = document.getElementById('archives');
+const archivesList = document.getElementById('archives-list');
+archivesBtn.onclick=()=>{
+  if(archivesList.style.display==='none'){
+    archivesList.style.display='block';
+    archivesDiv.style.display='block';
+    archivesList.innerHTML=`<ul>
+      <li>Dog Choir Article — Fun — 02 Dec 2025</li>
+      <li>Women’s Rights Article — Global — 02 Dec 2025</li>
+      <li>Teenage Exhaustion Article — Teenage Life — 02 Dec 2025</li>
+    </ul>`;
+  }else{
+    archivesList.style.display='none';
+    archivesDiv.style.display='none';
+  }
 }
 
-// SEARCH
-const searchInput = $('#searchInput');
-if(searchInput){
-  searchInput.addEventListener('input', function(){
-    const q = this.value.toLowerCase();
-    $$('.article-box').forEach(box=>{
-      const text = box.innerText.toLowerCase();
-      box.style.display = text.includes(q) ? 'block' : 'none';
-    });
-  });
-}
+// ------------- Search -------------
+const searchInput=document.getElementById('searchInput');
+searchInput.addEventListener('input',function(){
+  const val=this.value.toLowerCase();
+  document.querySelectorAll('.article-box').forEach(article=>{
+    const title = article.querySelector('.article-title').innerText.toLowerCase();
+    const content = article.querySelector('.article-content').innerText.toLowerCase();
+    if(title.includes(val)||content.includes(val)){article.style.display='block'}else{article.style.display='none'}
+  })
+})
 
-/* ------------------- COMMENTS (Firebase realtime DB OR localStorage fallback) ------------------- */
-
-// FIREBASE CONFIG: REPLACE the object below with your Firebase project's config.
-// Example (do NOT keep the placeholder values; replace them):
-// const firebaseConfig = {
-//   apiKey: "AIza...",
-//   authDomain: "your-project.firebaseapp.com",
-//   databaseURL: "https://your-project.firebaseio.com",
-//   projectId: "your-project-id",
-//   storageBucket: "your-project.appspot.com",
-//   messagingSenderId: "1234567890",
-//   appId: "1:1234567890:web:abcdef"
-// };
+// ------------- Firebase Init -------------
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  databaseURL: "YOUR_DATABASE_URL",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
+  authDomain: "orbis-vox.firebaseapp.com",
+  databaseURL: "https://orbis-vox-default-rtdb.firebaseio.com",
+  projectId: "orbis-vox",
+  storageBucket: "orbis-vox.appspot.com",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:abcdefg"
 };
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-// Helper that checks whether the firebaseConfig has been replaced with real keys
-function isFirebaseConfigured(cfg){
-  return cfg && cfg.apiKey && cfg.apiKey !== 'YOUR_API_KEY' && cfg.databaseURL && cfg.databaseURL !== 'YOUR_DATABASE_URL';
-}
-
-// LocalStorage comment helpers (fallback)
-const COMMENTS_KEY = 'orbis_comments';
-function loadCommentsData(){ try{ return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}'); }catch(e){return {}} }
-function saveCommentsData(obj){ localStorage.setItem(COMMENTS_KEY, JSON.stringify(obj)); }
-
-// Render comments using either Firebase or localStorage depending on config
-function renderCommentsFor(articleId){
-  const container = document.querySelector(`.comments[data-comments-for="${articleId}"]`);
-  if(!container) return;
-  container.innerHTML = '';
-  // comment form
-  const form = document.createElement('div');
-  form.className = 'comment-form';
-  form.innerHTML = `
-    <textarea placeholder="Write your comment..." aria-label="Comment"></textarea>
-    <input type="text" placeholder="Your name (optional)">
-    <div style="min-width:120px">
-      <button class="btn submit-comment">Post</button>
-      <button class="btn" style="background:#fff" data-download>Download</button>
-    </div>
-  `;
-  container.appendChild(form);
-
-  // list area
-  const listEl = document.createElement('div');
-  listEl.className = 'comment-list';
-  container.appendChild(listEl);
-
-  // Functions to populate list from either source
-  function populateFromLocal(){
-    const data = loadCommentsData();
-    const list = data[articleId] || [];
-    listEl.innerHTML = '';
-    if(list.length === 0){ listEl.innerHTML = '<div style="color:var(--muted);font-style:italic">No comments yet.</div>'; return; }
-    list.forEach(c => {
-      const el = document.createElement('div');
-      el.className = 'comment-item';
-      el.innerHTML = `<strong>${escapeHtml(c.name||'Anonymous')}</strong> <small style="color:var(--muted)"> • ${new Date(c.time).toLocaleString()}</small><div style="margin-top:6px">${escapeHtml(c.text)}</div>`;
-      listEl.appendChild(el);
-    });
-  }
-
-  function populateFromFirebaseSnapshot(snapshot){
-    const val = snapshot.val() || {};
-    const items = Object.keys(val).map(k => val[k]).sort((a,b)=> a.time - b.time);
-    listEl.innerHTML = '';
-    if(items.length === 0){ listEl.innerHTML = '<div style="color:var(--muted);font-style:italic">No comments yet.</div>'; return; }
-    items.forEach(c => {
-      const el = document.createElement('div');
-      el.className = 'comment-item';
-      el.innerHTML = `<strong>${escapeHtml(c.name||'Anonymous')}</strong> <small style="color:var(--muted)"> • ${new Date(c.time).toLocaleString()}</small><div style="margin-top:6px">${escapeHtml(c.text)}</div>`;
-      listEl.appendChild(el);
-    });
-  }
-
-  // submit handler (works for both storage types)
-  form.querySelector('.submit-comment').addEventListener('click', ()=>{
-    const txt = form.querySelector('textarea').value.trim();
-    const name = form.querySelector('input[type="text"]').value.trim();
-    if(!txt){ alert('Please write a comment.'); return; }
-
-    if(window.firebaseEnabled){
-      // push to firebase
-      const dbRef = firebase.database().ref('comments/' + articleId);
-      dbRef.push({ name: name || 'Anonymous', text: txt, time: Date.now() });
-      form.querySelector('textarea').value = '';
-      form.querySelector('input[type="text"]').value = '';
-    } else {
-      // localStorage fallback
-      const data = loadCommentsData();
-      data[articleId] = data[articleId] || [];
-      data[articleId].push({ name: name || 'Anonymous', text: txt, time: Date.now() });
-      saveCommentsData(data);
-      populateFromLocal();
-      form.querySelector('textarea').value = '';
-      form.querySelector('input[type="text"]').value = '';
+// ------------- Comments System -------------
+document.querySelectorAll('.comment-button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const articleId=btn.getAttribute('data-article-id');
+    let formHtml = `
+      <form class="comment-form" data-id="${articleId}">
+        <input type="text" placeholder="Name" required><br>
+        <textarea placeholder="Comment" required></textarea><br>
+        <button type="submit" class="btn">Post Comment</button>
+      </form>
+    `;
+    const container=btn.nextElementSibling;
+    if(!container.innerHTML) container.innerHTML=formHtml;
+    const form=container.querySelector('form');
+    form.onsubmit = (e)=>{
+      e.preventDefault();
+      const name=form.querySelector('input').value;
+      const text=form.querySelector('textarea').value;
+      db.ref('comments/'+articleId).push({name,text,time:Date.now()});
+      form.reset();
+      loadComments(articleId,container);
     }
+    loadComments(articleId,container);
   });
-
-  // download handler
-  form.querySelector('button[data-download]').addEventListener('click', ()=>{
-    if(window.firebaseEnabled){
-      // download firebase data snapshot once
-      firebase.database().ref('comments/' + articleId).once('value').then(snap=>{
-        const obj = snap.val() || {};
-        const blob = new Blob([JSON.stringify(obj, null, 2)], {type:'application/json'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = `${articleId}-comments.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-      });
-    } else {
-      const data = loadCommentsData();
-      const articleComments = data[articleId] || [];
-      const blob = new Blob([JSON.stringify(articleComments, null, 2)], {type:'application/json'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = `${articleId}-comments.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-    }
-  });
-
-  // initial populate
-  if(window.firebaseEnabled){
-    // listen for realtime updates
-    const dbRef = firebase.database().ref('comments/' + articleId);
-    dbRef.on('value', populateFromFirebaseSnapshot);
-  } else {
-    populateFromLocal();
-  }
-}
-
-// escape helper
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]; }); }
-
-// render initial comment blocks and archives on DOM ready
-document.addEventListener('DOMContentLoaded', ()=>{
-  $$('[data-id]').forEach(box=>{
-    const id = box.getAttribute('data-id');
-    renderCommentsFor(id);
-  });
-  buildArchives();
 });
 
-/* ------------- Comment button (delegated) ------------- */
-document.body.addEventListener('click', function(e){
-  const t = e.target;
-  if(t.classList.contains('comment-button')){
-    const articleId = t.getAttribute('data-article-id') || t.closest('[data-id]')?.getAttribute('data-id');
-    if(!articleId) return;
-    const commentsArea = document.querySelector(`.comments[data-comments-for="${articleId}"]`);
-    if(commentsArea){
-      commentsArea.scrollIntoView({behavior:'smooth', block:'center'});
-      setTimeout(()=> { const ta = commentsArea.querySelector('textarea'); if(ta) ta.focus(); },300);
-    }
-  }
-});
-
-/* -------------------- Initialize Firebase (if configured) -------------------- */
-window.firebaseEnabled = false;
-
-(function tryInitFirebase(){
-  try{
-    if(isFirebaseConfigured(firebaseConfig) && typeof firebase !== 'undefined'){
-      // initialize firebase
-      if(!firebase.apps || firebase.apps.length === 0){
-        firebase.initializeApp(firebaseConfig);
-      }
-      // simple test to ensure database is reachable
-      const testRef = firebase.database().ref('.info/connected');
-      window.firebaseEnabled = true;
-      // Now that firebase is enabled, re-render comment blocks to attach realtime listeners
-      $$('[data-id]').forEach(box=>{
-        const id = box.getAttribute('data-id');
-        // remove any existing static content and re-render
-        renderCommentsFor(id);
-      });
-      console.log('Firebase enabled for comments.');
-    } else {
-      console.log('Firebase not configured — using localStorage fallback for comments.');
-      window.firebaseEnabled = false;
-    }
-  } catch(err){
-    console.warn('Firebase init error — falling back to localStorage. Error:', err);
-    window.firebaseEnabled = false;
-  }
-})();
-
-/* -------------------- Small UX helpers -------------------- */
-// no further code here
-
+function loadComments(articleId,container){
+  const commentList = container.querySelector('.comment-list') || document.createElement('div');
+  commentList.classList.add('comment-list');
+  commentList.innerHTML='';
+  db.ref('comments/'+articleId).once('value',snapshot=>{
+    snapshot.forEach(snap=>{
+      const c=snap.val();
+      const item = document.createElement('div');
+      item.className='comment-item';
+      item.innerHTML=`<strong>${c.name}</strong><br>${c.text}`;
+      commentList.appendChild(item);
+    })
+  });
+  if(!container.contains(commentList)) container.appendChild(commentList);
+}
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
