@@ -54,24 +54,51 @@ body.dark h1{color:var(--ink)}
 }
 body.dark .subhead{color:var(--ink)}
 
+.header-description{
+  font-size: 1.1em;
+  margin-top: 12px;
+  color: #444;
+  text-decoration: none;
+  opacity:0;
+  transform:translateY(20px);
+  animation:slideInDesc 1s forwards 0.5s;
+}
+
+@keyframes slideInDesc{
+  to {opacity:1; transform:translateY(0);}
+}
+
 /* Nav */
 nav {
     position: sticky;
     top: 0;
-    background: var;
+    background: var(--accent);
     z-index: 999;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 20px;
+    flex-wrap:wrap;
+    border-radius:6px;
 }
 
-nav a{ text-decoration:none;color:var(--ink);font-weight:bold;margin:0 14px;font-size:18px;transition:color .2s}
-nav a:hover{color:var(--accent);text-decoration:underline}
+nav a{ 
+  text-decoration:none;
+  color:#fff;
+  font-weight:bold;
+  margin:0 14px;
+  font-size:18px;
+  transition:color .2s;
+}
+nav a:hover{color:#FFD2D2;text-decoration:underline}
 
-/* Tools row */
-.tools{display:flex;gap:12px;align-items:center;justify-content:center;margin:18px 0}
-#searchInput{padding:8px 12px;font-size:16px;width:60%;border:2px solid #000;border-radius:6px}
-.controls{display:flex;gap:8px;align-items:center}
-.btn{padding:8px 12px;border:2px solid #000;background:#fff;cursor:pointer;font-weight:bold;border-radius:6px;transition:all .15s}
-.btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
-.dark-toggle{border-radius:999px;padding:8px 10px}
+nav #searchInput{
+  padding:6px 10px;
+  font-size:16px;
+  border-radius:6px;
+  border:none;
+  width:220px;
+}
 
 /* Date line */
 .date-line{display:flex;justify-content:center;gap:50px;margin:18px 0 30px;font-size:18px;font-weight:bold;font-family:Georgia,serif;border-bottom:1px solid #000;padding-bottom:12px}
@@ -119,8 +146,8 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 /* Professional footer links */
 .footer-grid{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
 .footer-left,.footer-right{display:flex;gap:12px;align-items:center}
-.footer-right a{font-weight:bold;text-decoration:none;color:var(--ink)}
-.footer-right a:hover{color:var(--accent)}
+.footer-right a{font-weight:bold;text-decoration:none;color:#fff}
+.footer-right a:hover{color:#FFD2D2}
 
 /* Animations for content reveal */
 .fade-in{animation:fadeIn .5s ease both}
@@ -128,7 +155,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 
 /* Print styles (newspaper-friendly) */
 @media print{
-  nav,.tools,.comment-button,.comment-form,.visitor-counter, .footer-right {display:none}
+  nav,.comment-button,.comment-form,.visitor-counter, .footer-right {display:none}
   body{border:none;padding:10px;background:#fff}
   .article-box{box-shadow:none;border:none;padding:0}
   .section-title{page-break-before:always}
@@ -138,10 +165,8 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 @media(max-width:800px){ .col{width:100%} #searchInput{width:100%} h1{font-size:56px} }
 </style>
 
-<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
 </head>
 <body>
 
@@ -153,37 +178,29 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   </a>
   <h1>ORBIS VOX</h1>
   <div class="subhead">THE VOICE OF THE WORLD</div>
-  <p style="font-size: 1.1em; margin-top: -10px; color: #444;">
+  <div class="header-description">
     A small independent digital newspaper covering humour, global issues, women’s rights, and teenage life — written and created by Blake.
-  </p>
+  </div>
 </header>
 
 <nav>
-  <a href="#news" class="nav-link">News</a>
-  <a href="#fun" class="nav-link">Fun</a>
-  <a href="#global" class="nav-link">Global Issues</a>
-  <a href="#teenage" class="nav-link">Teenage Life</a>
-  <a href="#about" class="nav-link">About</a>
-</nav>
-
-<div class="tools">
-  <input id="searchInput" placeholder="Search articles..." aria-label="Search articles">
-  <div class="controls">
-    <button class="btn dark-toggle" id="darkToggle" title="Toggle dark mode">Dark</button>
-    <button class="btn" id="showArchives">Archives</button>
+  <div>
+    <a href="#news">News</a>
+    <a href="#fun">Fun</a>
+    <a href="#global">Global Issues</a>
+    <a href="#teenage">Teenage Life</a>
+    <a href="#about">About</a>
   </div>
-</div>
+  <input id="searchInput" placeholder="Search articles..." aria-label="Search articles">
+</nav>
 
 <div class="date-line">
   <div>Blake Richardson</div>
   <div>2025</div>
 </div>
 
-<!-- ARCHIVES -->
-<div id="archives" class="section-title" style="display:none">Archives</div>
-<div id="archives-list" style="display:none;margin-bottom:30px"></div>
+<!-- Include all articles exactly as in your original code -->
 
-<!-- NEWS -->
 <section id="news" class="fade-in">
   <div class="section-title">News</div>
   <div class="article-box" data-id="school-strike">
@@ -206,7 +223,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   </div>
 </section>
 
-<!-- FUN -->
 <section id="fun" class="fade-in">
   <div class="section-title">Fun</div>
   <div class="article-box" data-id="dog-choir">
@@ -248,7 +264,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   </div>
 </section>
 
-<!-- GLOBAL -->
 <section id="global" class="fade-in">
   <div class="section-title">Global Issues</div>
   <div class="article-box" data-id="womens-rights">
@@ -281,7 +296,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   </div>
 </section>
 
-<!-- TEENAGE -->
 <section id="teenage" class="fade-in">
   <div class="section-title">Teenage Life</div>
   <div class="article-box" data-id="teenage-exhaustion">
@@ -326,11 +340,10 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about" class="fade-in">
   <div class="section-title">About Orbis Vox & Blake Richardson</div>
-  <div class="article-box" style="border-top:2px solid #000; border-bottom:2px solid #000; box-shadow:0 6px 18px rgba(0,0,0,0.08); padding:20px; background:var(--paper); margin-bottom:34px;">
-    <div class="article-content" style="font-size:17px; line-height:1.6; text-align:justify;">
+  <div class="article-box">
+    <div class="article-content">
       <p>
         Orbis Vox is an online newspaper created and run by Blake Richardson, a sixteen-year-old passionate about 
         journalism, creativity, and sharing stories that matter. This publication is Blake’s personal platform to 
@@ -374,17 +387,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 
 <script>
 // ----- Dark Mode Toggle -----
-const darkToggle = document.getElementById('darkToggle');
-darkToggle.addEventListener('click',()=>document.body.classList.toggle('dark'));
-
-// ----- Show Archives -----
-const archivesBtn = document.getElementById('showArchives');
-archivesBtn.addEventListener('click',()=>{
-  const archives = document.getElementById('archives');
-  const archivesList = document.getElementById('archives-list');
-  archives.style.display = archives.style.display==='none'?'block':'none';
-  archivesList.style.display = archivesList.style.display==='none'?'block':'none';
-});
+document.getElementById('darkToggle')?.addEventListener('click',()=>document.body.classList.toggle('dark'));
 
 // ----- Search Articles -----
 const searchInput = document.getElementById('searchInput');
@@ -414,7 +417,8 @@ document.querySelectorAll('.article-box').forEach(box=>{
   const articleId = box.dataset.id;
   const commentDiv = box.querySelector('.comments');
 
-  // Add comment form
+  if(!commentDiv) return;
+
   commentDiv.innerHTML = `
     <form class="comment-form">
       <input type="text" name="author" placeholder="Your name" required>
@@ -435,7 +439,6 @@ document.querySelectorAll('.article-box').forEach(box=>{
     form.reset();
   });
 
-  // Load existing comments
   db.ref('comments/' + articleId).on('value', snapshot=>{
     const val = snapshot.val();
     let html = '';
@@ -454,6 +457,7 @@ document.querySelectorAll('.article-box').forEach(box=>{
 </div>
 </body>
 </html>
+
 
 
 
