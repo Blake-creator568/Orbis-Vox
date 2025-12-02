@@ -55,7 +55,13 @@ body.dark h1{color:var(--ink)}
 body.dark .subhead{color:var(--ink)}
 
 /* Nav */
-nav{ text-align:center;margin:22px 0;padding-bottom:8px;border-bottom:2px solid #000}
+nav {
+    position: sticky;
+    top: 0;
+    background: white; /* or whatever colour you want */
+    z-index: 999;
+}
+
 nav a{ text-decoration:none;color:var(--ink);font-weight:bold;margin:0 14px;font-size:18px;transition:color .2s}
 nav a:hover{color:var(--accent);text-decoration:underline}
 
@@ -147,6 +153,10 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   </a>
   <h1>ORBIS VOX</h1>
   <div class="subhead">THE VOICE OF THE WORLD</div>
+  <p style="font-size: 1.1em; margin-top: -10px; color: #444;">
+    A small independent digital newspaper covering humour, global issues, women’s rights, and teenage life — written and created by Blake.
+</p>
+
 </header>
 
 <nav>
@@ -428,8 +438,15 @@ document.querySelectorAll('.article-box').forEach(box=>{
 });
 </script>
 
+  <div class="visitor-counter">
+<a href="https://www.hitwebcounter.com/" target="_blank">
+<img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0" title="Free Tools" Alt="Free Tools" border="0" />
+</a>
+</div>
 </body>
-</html>
+    </html>
+
+
 
 
 
