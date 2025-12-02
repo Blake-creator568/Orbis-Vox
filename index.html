@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Orbis Vox</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 /* ---------- Base + Layout ---------- */
 :root{
@@ -50,7 +50,7 @@ body.dark h1{color:var(--ink)}
 
 .subhead{
   font-size:20px;margin-top:-8px;text-transform:uppercase;font-weight:bold;
-  padding:6px 0;border-top:2px double #000;border-bottom:2px double #000;letter-spacing:2px;color:#000;
+  padding:6px 0;border-top:2px double #000;border-bottom:2px double #000;letter-spacing:2px;color:var(--accent-2);
 }
 body.dark .subhead{color:var(--ink)}
 
@@ -63,7 +63,6 @@ body.dark .subhead{color:var(--ink)}
   transform:translateY(20px);
   animation:slideInDesc 1s forwards 0.5s;
 }
-
 @keyframes slideInDesc{
   to {opacity:1; transform:translateY(0);}
 }
@@ -81,7 +80,6 @@ nav {
     flex-wrap:wrap;
     border-radius:6px;
 }
-
 nav a{ 
   text-decoration:none;
   color:#fff;
@@ -91,7 +89,6 @@ nav a{
   transition:color .2s;
 }
 nav a:hover{color:#FFD2D2;text-decoration:underline}
-
 nav #searchInput{
   padding:6px 10px;
   font-size:16px;
@@ -114,7 +111,7 @@ nav #searchInput{
   transition: all 0.3s ease;
 }
 @media(max-width:800px){
-  nav > div{ display:none; flex-direction:column; width:100%; margin-top:10px; }
+  nav > div{ display:none; flex-direction:column; width:100%;}
   nav.active > div{ display:flex; }
   .hamburger{ display:flex; }
 }
@@ -123,7 +120,7 @@ nav #searchInput{
 .date-line{display:flex;justify-content:center;gap:50px;margin:18px 0 30px;font-size:18px;font-weight:bold;font-family:Georgia,serif;border-bottom:1px solid #000;padding-bottom:12px}
 
 /* Section */
-.section-title{font-size:34px;text-align:center;margin:34px 0 18px;text-transform:uppercase;border-bottom:2px double #000;padding-bottom:8px;color:var(--ink)}
+.section-title{font-size:34px;text-align:center;margin:34px 0 18px;text-transform:uppercase;border-bottom:2px double #000;padding-bottom:8px;color:var(--accent-2)}
 .article-box{margin-bottom:34px;border-top:2px solid #000;border-bottom:2px solid #000;padding:18px;background:var(--paper);box-shadow:var(--card-shadow);transition:transform .2s}
 .article-box:hover{transform:translateY(-3px)}
 .article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2); transition: color .3s;}
@@ -161,12 +158,12 @@ img:hover{transform:scale(1.03);border-color:var(--accent)}
 .visitor-counter{ text-align:center;margin:30px 0 }
 .visitor-counter img{ width:90px; height:auto; border:0; }
 .contact-box{margin-top:40px;padding:28px;border-top:3px solid #000;text-align:center;font-size:18px}
-footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px;background:var(--accent);color:#fff; border-radius:6px}
+footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px;color:var(--accent-2);font-weight:bold}
 
 /* Professional footer links */
 .footer-grid{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
-.footer-left,.footer-right{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.footer-right a{font-weight:bold;text-decoration:none;color:#B22222} /* dark red links */
+.footer-left,.footer-right{display:flex;gap:12px;align-items:center}
+.footer-right a{font-weight:bold;text-decoration:none;color:var(--accent-2)}
 .footer-right a:hover{color:#FFD2D2}
 
 /* Animations for content reveal */
@@ -205,7 +202,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 
 <nav>
   <div>
-    <a href="#top">Home</a>
+    <a href="#top" id="homeLink">Home</a>
     <a href="#news">News</a>
     <a href="#fun">Fun</a>
     <a href="#global">Global Issues</a>
@@ -226,7 +223,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 </div>
 
 <!-- ================= Articles ================= -->
-
+<!-- All your articles exactly as written -->
 <section id="news" class="fade-in">
   <div class="section-title">News</div>
   <div class="article-box" data-id="school-strike">
@@ -290,6 +287,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   </div>
 </section>
 
+<!-- Global Issues -->
 <section id="global" class="fade-in">
   <div class="section-title">Global Issues</div>
   <div class="article-box" data-id="womens-rights">
@@ -322,6 +320,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   </div>
 </section>
 
+<!-- Teenage -->
 <section id="teenage" class="fade-in">
   <div class="section-title">Teenage Life</div>
   <div class="article-box" data-id="teenage-exhaustion">
@@ -366,7 +365,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   </div>
 </section>
 
-<!-- ================= About Section ================= -->
+<!-- About -->
 <section id="about" class="fade-in">
   <div class="section-title">About Orbis Vox</div>
   <div class="article-box" data-id="about">
@@ -389,12 +388,10 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   <div class="footer-grid">
     <div class="footer-left">© 2025 Orbis Vox</div>
     <div class="footer-right">
-      <a href="#top">Home</a> | 
       <a href="#news">News</a> | 
       <a href="#fun">Fun</a> | 
       <a href="#global">Global Issues</a> | 
-      <a href="#teenage">Teenage Life</a> | 
-      <a href="#about">About</a>
+      <a href="#teenage">Teenage Life</a>
     </div>
   </div>
 </footer>
@@ -402,12 +399,12 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 </div> <!-- container -->
 
 <script>
-// ----- Hamburger Menu Toggle -----
+// Hamburger Menu Toggle
 const hamburger = document.getElementById('hamburger');
 const nav = document.querySelector('nav');
 hamburger?.addEventListener('click', ()=> nav.classList.toggle('active'));
 
-// ----- Search Articles -----
+// Search Articles
 const searchInput = document.getElementById('searchInput');
 searchInput.addEventListener('input', e=>{
   const query = e.target.value.toLowerCase();
@@ -417,7 +414,13 @@ searchInput.addEventListener('input', e=>{
   });
 });
 
-// ----- Firebase Init -----
+// Home button
+document.getElementById('homeLink').addEventListener('click', e=>{
+  e.preventDefault();
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+// Firebase Init
 const firebaseConfig = {
   apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
   authDomain: "orbis-vox.firebaseapp.com",
@@ -430,7 +433,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ----- Load comments for all articles -----
+// Load comments
 document.querySelectorAll('.article-box').forEach(box=>{
   const articleId = box.dataset.id;
   const commentDiv = box.querySelector('.comments');
@@ -470,4 +473,3 @@ document.querySelectorAll('.article-box').forEach(box=>{
 </div>
 </body>
 </html>
-
