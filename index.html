@@ -111,7 +111,7 @@ nav #searchInput{
   transition: all 0.3s ease;
 }
 @media(max-width:800px){
-  nav > div{ display:none; flex-direction:column; width:100%; }
+  nav > div{ display:none; flex-direction:column; width:100%;}
   nav.active > div{ display:flex; }
   .hamburger{ display:flex; }
 }
@@ -241,37 +241,38 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 </div>
 
 <!-- ================= Articles ================= -->
-<!-- News Section -->
 <section id="news" class="fade-in">
   <div class="section-title">News</div>
 
-  <!-- NEW ARTICLE: Trans Girls / Girl Guides -->
+  <!-- New Trans Girls / Girl Guides Article -->
   <div class="article-box" data-id="trans-girls-ban">
     <div class="article-title">Discrimination shown as trans girls are banned from Girl Guide groups</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
-          From 2nd December 2025, trans girls will be banned from joining Girl Guide groups in the UK. Why was this decision made, and do you agree with it?
+          From 2nd December 2025, trans girls are banned from joining Girl Guide groups within the UK. Why was this decision made, and do you agree with it?<br><br>
+
+          This new decision means that girls who were assigned male at birth will no longer be able join Girl Guide groups. 
+          The trustees within the organisation that oversees these groups says, 
+          <span style="color:#8B0000;">“Trans girls and young women and others not recorded female at birth, will no longer be able to join Girlguiding as new young members.” – BBC News</span> 
+          They also said that there would be no changes for young women who are already members but more information on this topic will be shared next week. 
+          <span style="color:#8B0000;">– BBC News</span>
         </div>
         <div class="col">
-          This new rule means that girls who were assigned male at birth can no longer join Girl Guide groups. The trustees of the organisation said: 
-          <span style="color:#8B0000;">“Trans girls and young women and others not recorded female at birth, will no longer be able to join Girlguiding as new young members.” They also said that there would be no changes for young women who are already members but more information on this topic will be shared next week. – BBC News</span>
-          <br><br>
-          Many members of the public believe this decision is unfair and discriminatory. 
-          <span style="color:#8B0000;">TransActual said: “There is no problem being solved here, only harm done.”</span>
-          <br><br>
-          In my opinion, this ban seems unfair because every girl should have the right to join. It excludes girls who simply want to belong and be themselves. – BBC News
+          Many people from the public think it is unfair and discriminative against trans women. 
+          <span style="color:#8B0000;">TransActual said: “There is no problem being solved here, only harm done.”</span> 
+          My opinion, this ban seems unfair because every girl should have the right to join. 
+          This decision excludes girls who only want to belong by being who they are. 
+          <span style="color:#8B0000;">– BBC News</span><br><br>
+
+          What do you think – should all girls be allowed to join, or do you agree with the rules that are set in place?
         </div>
       </div>
       <div class="comments" data-comments-for="trans-girls-ban"></div>
     </div>
   </div>
 
-</section>
-
-<!-- Fun Section -->
-<section id="fun" class="fade-in">
-  <div class="section-title">Fun</div>
+  <!-- Existing Fun Article -->
   <div class="article-box" data-id="dog-choir">
     <div class="article-title">West Hallam’s Dog Choir Wakes Residents</div>
     <div class="article-content">
@@ -309,6 +310,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
       <div class="comments" data-comments-for="dog-choir"></div>
     </div>
   </div>
+
 </section>
 
 <!-- Global Issues -->
@@ -497,6 +499,8 @@ document.querySelectorAll('.article-box').forEach(box=>{
 </div>
 </body>
 </html>
+
+
 
 
 
