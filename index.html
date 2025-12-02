@@ -125,7 +125,6 @@ nav #searchInput{
 .article-box:hover{transform:translateY(-3px)}
 .article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2); transition: color .3s;}
 .article-title:hover{color:var(--accent);}
-
 .article-title small{display:block;font-size:12px;color:var(--muted);text-transform:none;margin-top:6px}
 
 /* Content columns */
@@ -199,6 +198,9 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
     left: 5px;
   }
 }
+
+/* Red text for BBC News quotes */
+.bbc-red{color:var(--accent-2);}
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -210,7 +212,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 
 <header>
   <a href="#about" class="logo-link" title="About Orbis Vox">
-<img src="Red logo.png" alt="Logo" id="logo">
+    <img src="Red logo.png" alt="Logo" id="logo">
   </a>
   <h1>ORBIS VOX</h1>
   <div class="subhead">THE VOICE OF THE WORLD</div>
@@ -242,39 +244,30 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 </div>
 
 <!-- ================= Articles ================= -->
-<!-- News Section -->
 <section id="news" class="fade-in">
   <div class="section-title">News</div>
-
-  <div class="article-box" data-id="trans-girls-ban">
-    <div class="article-title">Discrimination shown as trans girls are banned from Girl Guide groups.</div>
+  <div class="article-box" data-id="trans-girls">
+    <div class="article-title">Discrimination shown as trans girls are banned from Girl Guide groups</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
           From 2nd December 2025, trans girls are banned from joining Girl Guide groups within the UK. Why was this decision made, and do you agree with it?<br><br>
 
-          This new decision means that girls who were assigned male at birth will no longer be able join Girl Guide groups. The trustees within the organisation that oversees these groups says, 
-          <span style="color:#8B0000;">“Trans girls and young women and others not recorded female at birth, will no longer be able to join Girlguiding as new young members.” They also said that there would be no changes for young women who are already members but more information on this topic will be shared next week. – BBC News.</span>
+          This new decision means that girls who were assigned male at birth will no longer be able join Girl Guide groups. The trustees within the organisation that oversees these groups says, <span class="bbc-red">“Trans girls and young women and others not recorded female at birth, will no longer be able to join Girlguiding as new young members.” They also said that there would be no changes for young women who are already members but more information on this topic will be shared next week.</span>
         </div>
         <div class="col">
-          Many people from the public think it is unfair and discriminative against trans women. 
-          <span style="color:#8B0000;">TransActual said: “There is no problem being solved here, only harm done.”</span> 
-          My opinion, this ban seems unfair because every girl should have the right to join. This decision excludes girls who only want to belong by being who they are. 
-          <span style="color:#8B0000;">– BBC News</span><br><br>
+          Many people from the public think it is unfair and discriminative against trans women. <span class="bbc-red">TransActual said: “There is no problem being solved here, only harm done.”</span> My opinion, this ban seems unfair because every girl should have the right to join. This decision excludes girls who only want to belong by being who they are. <span class="bbc-red">– BBC News</span><br><br>
 
           What do you think – should all girls be allowed to join, or do you agree with the rules that are set in place?
         </div>
       </div>
-      <div class="comments" data-comments-for="trans-girls-ban"></div>
+      <div class="comments" data-comments-for="trans-girls"></div>
     </div>
   </div>
-
 </section>
 
-<!-- Fun Section -->
 <section id="fun" class="fade-in">
   <div class="section-title">Fun</div>
-
   <div class="article-box" data-id="dog-choir">
     <div class="article-title">West Hallam’s Dog Choir Wakes Residents</div>
     <div class="article-content">
@@ -314,7 +307,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   </div>
 </section>
 
-<!-- Global Issues -->
 <section id="global" class="fade-in">
   <div class="section-title">Global Issues</div>
   <div class="article-box" data-id="womens-rights">
@@ -347,35 +339,30 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   </div>
 </section>
 
-<!-- Teenage -->
+<!-- Teenage section (kept) -->
 <section id="teenage" class="fade-in">
   <div class="section-title">Teenage Life</div>
-  <div class="article-box" data-id="teenage-exhaustion">
-    <div class="article-title">Why young people are so exhausted all the time</div>
+  <div class="article-box" data-id="mental-health">
+    <div class="article-title">Mental Health Challenges for Teens</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
-          Many teenagers are exhausted. School, homework, friends, family, social media and everything in between takes a toll. 
-          Teenagers are balancing more than ever before. It can feel impossible to keep up with everything. The pressure is relentless and it can affect both mental and physical health.
+          Being a teenager in 2025 comes with unique pressures. From social media to academic expectations, teens are constantly navigating a complex landscape. Many report feelings of anxiety, stress, and isolation. Mental health services are working to provide support, but there is still a long way to go.
         </div>
         <div class="col">
-          I often wonder if exhaustion is considered part of growing up. There is a lot to do and expectations are high. 
-          Sleep is often sacrificed, meals skipped, mental health neglected. We have to take care of ourselves but it is challenging. 
-          Awareness and support are key to helping teenagers thrive.
+          Teens also find strength in peer groups and communities online. Learning to balance these pressures with self-care and healthy habits is essential. Parents, teachers, and society have a role to play in providing safe spaces and understanding to help teenagers navigate these critical years.
         </div>
       </div>
-      <div class="comments" data-comments-for="teenage-exhaustion"></div>
+      <div class="comments" data-comments-for="mental-health"></div>
     </div>
   </div>
 </section>
 
-<!-- About -->
+<!-- About section -->
 <section id="about" class="fade-in">
   <div class="section-title">About Orbis Vox</div>
   <p>
-    Orbis Vox is a small, independent digital newspaper written entirely by Blake Richardson. 
-    Covering global issues, humour, women's rights, and teenage life, it aims to provide insight and commentary 
-    on topics that matter to young people and the world around them.
+    Orbis Vox is a small independent digital newspaper covering humour, global issues, women’s rights, and teenage life — written and created by Blake.
   </p>
 </section>
 
@@ -399,8 +386,6 @@ document.getElementById("hamburger").addEventListener("click", function(){
   document.querySelector("nav").classList.toggle("active");
 });
 
-// Smooth scrolling is handled by CSS scroll-behavior
-
 // Initialize Firebase
 const firebaseConfig = {
   databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app/"
@@ -408,7 +393,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// Load comments
+// Load comments dynamically
 document.querySelectorAll(".comments").forEach(box=>{
   const articleId = box.dataset.commentsFor;
   db.ref("comments/"+articleId).on("value", snapshot=>{
@@ -427,7 +412,3 @@ document.querySelectorAll(".comments").forEach(box=>{
 </div>
 </body>
 </html>
-
-
-
-
