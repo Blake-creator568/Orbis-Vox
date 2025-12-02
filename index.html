@@ -36,9 +36,10 @@ body.dark{
 
 .container{padding:0 10px}
 
+/* Header */
 header{position:relative;text-align:center;margin-bottom:10px}
-header a.logo-link{position:absolute;top:6px;left:6px;display:inline-block; }
-.logo{width:40px;height:40px;display:block; border-radius:6px; transition:transform .3s}
+header a.logo-link{position:absolute;top:6px;left:6px;display:inline-block;}
+.logo{width:40px;height:40px;display:block;border-radius:6px;transition:transform .3s}
 .logo:hover{transform:scale(1.05) rotate(-2deg)}
 .logo-pulse{animation:logoPulse 4s infinite}
 @keyframes logoPulse{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
@@ -65,6 +66,7 @@ body.dark .subhead{color:var(--ink)}
   to {opacity:1; transform:translateY(0);}
 }
 
+/* Nav */
 nav {
     position: sticky;
     top: 0;
@@ -94,6 +96,7 @@ nav #searchInput{
   width:220px;
 }
 
+/* Hamburger menu for mobile */
 .hamburger {
   display:none;
   flex-direction:column;
@@ -112,6 +115,7 @@ nav #searchInput{
   .hamburger{ display:flex; }
 }
 
+/* Date line */
 .date-line{display:flex;justify-content:center;gap:50px;margin:18px 0 30px;font-size:18px;font-weight:bold;font-family:Georgia,serif;border-bottom:1px solid #000;padding-bottom:12px}
 
 /* Section */
@@ -135,9 +139,11 @@ img:hover{transform:scale(1.03);border-color:var(--accent)}
 .empty-article{border:2px dashed #bcbcbc;background:#f2f2f2;padding:20px;margin:20px 0;height:160px;font-style:italic;text-align:center;color:#7a7a7a;font-size:18px;box-shadow:inset 0 0 8px rgba(0,0,0,0.05)}
 .poll,.fact{background:#f9f9f0;padding:10px;margin:15px 0;border:1px solid #000;font-style:italic}
 
+/* Buttons */
 .comment-button{display:inline-block;margin:18px auto;padding:12px 22px;font-size:16px;font-weight:bold;background:#fff;color:#000;border:2px solid #000;cursor:pointer;text-transform:uppercase;transition:all .18s;border-radius:6px}
 .comment-button:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
 
+/* Comments area */
 .comments{margin-top:16px;border-top:1px dashed #ccc;padding-top:12px}
 .comment-form{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
 .comment-form textarea{width:100%;min-height:70px;padding:8px;border:2px solid #000;border-radius:6px}
@@ -145,9 +151,9 @@ img:hover{transform:scale(1.03);border-color:var(--accent)}
 .comment-list{margin-top:12px}
 .comment-item{border:1px solid #ddd;padding:8px;border-radius:6px;margin-bottom:8px;background: #fff}
 
+/* Footer + visitor counter */
 .visitor-counter{ text-align:center;margin:30px 0 }
 .visitor-counter img{ width:90px; height:auto; border:0; }
-
 .contact-box{margin-top:40px;padding:28px;border-top:3px solid #000;text-align:center;font-size:18px}
 footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px;color:var(--accent-2);font-weight:bold}
 .footer-grid{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
@@ -155,25 +161,22 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 .footer-right a{font-weight:bold;text-decoration:none;color:var(--accent-2)}
 .footer-right a:hover{color:#FFD2D2}
 
+/* Animations for content reveal */
 .fade-in{animation:fadeIn .5s ease both}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
+/* Print styles */
+@media print{
+  nav,.comment-button,.comment-form,.visitor-counter, .footer-right {display:none}
+  body{border:none;padding:10px;background:#fff}
+  .article-box{box-shadow:none;border:none;padding:0}
+  .section-title{page-break-before:always}
+}
+
+/* Responsive tweaks */
 @media(max-width:800px){ .col{width:100%} #searchInput{width:100%} h1{font-size:56px} }
-
-#logo {
-  width: 40px;
-  height: auto;
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 1000;
-}
-
-@media (max-width: 600px) {
-  #logo { width: 30px; top: 5px; left: 5px; }
-}
-
-.bbc-red{color:var(--accent-2);}
+#logo {width:40px;height:auto;position:fixed;top:10px;left:10px;z-index:1000;}
+@media (max-width: 600px) { #logo {width:30px; top:5px; left:5px;} }
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -204,9 +207,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
     <a href="#about">About</a>
   </div>
   <div class="hamburger" id="hamburger">
-    <div></div>
-    <div></div>
-    <div></div>
+    <div></div><div></div><div></div>
   </div>
   <input id="searchInput" placeholder="Search articles..." aria-label="Search articles">
 </nav>
@@ -216,27 +217,25 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   <div>2025</div>
 </div>
 
-<!-- Articles section -->
+<!-- ================= Articles ================= -->
 <section id="news" class="fade-in">
   <div class="section-title">News</div>
-  <div class="article-box" data-id="trans-girls">
+
+  <div class="article-box" data-id="trans-girl-ban">
     <div class="article-title">Discrimination shown as trans girls are banned from Girl Guide groups</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
           From 2nd December 2025, trans girls are banned from joining Girl Guide groups within the UK. Why was this decision made, and do you agree with it?<br><br>
-
-          This new decision means that girls who were assigned male at birth will no longer be able join Girl Guide groups. The trustees within the organisation that oversees these groups says, <span class="bbc-red">“Trans girls and young women and others not recorded female at birth, will no longer be able to join Girlguiding as new young members.” They also said that there would be no changes for young women who are already members but more information on this topic will be shared next week.</span>
-        </div>
-        <div class="col">
-          Many people from the public think it is unfair and discriminative against trans women. <span class="bbc-red">TransActual said: “There is no problem being solved here, only harm done.”</span> My opinion, this ban seems unfair because every girl should have the right to join. This decision excludes girls who only want to belong by being who they are. <span class="bbc-red">– BBC News</span><br><br>
-
+          This new decision means that girls who were assigned male at birth will no longer be able join Girl Guide groups. The trustees within the organisation that oversees these groups says, <span style="color:var(--accent-2);">“Trans girls and young women and others not recorded female at birth, will no longer be able to join Girlguiding as new young members.” They also said that there would be no changes for young women who are already members but more information on this topic will be shared next week. – BBC News.</span><br><br>
+          Many people from the public think it is unfair and discriminative against trans women. <span style="color:var(--accent-2);">TransActual said: “There is no problem being solved here, only harm done.”</span> My opinion, this ban seems unfair because every girl should have the right to join. This decision excludes girls who only want to belong by being who they are. – <span style="color:var(--accent-2);">BBC News</span>.<br><br>
           What do you think – should all girls be allowed to join, or do you agree with the rules that are set in place?
         </div>
       </div>
-      <div class="comments" data-comments-for="trans-girls"></div>
+      <div class="comments" data-comments-for="trans-girl-ban"></div>
     </div>
   </div>
+
 </section>
 
 <section id="fun" class="fade-in">
@@ -271,66 +270,129 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           at least they’re talkative.<br><br>
           <img src="dog.jpg" alt="Dog Photo">
           <div class="caption">PHOTO: BLAKE RICHARDSON</div>
-        </div>
       </div>
-
+      </div>
       <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
       <div class="comments" data-comments-for="dog-choir"></div>
     </div>
   </div>
 </section>
 
-<!-- Global Issues and Teenage Life sections go here (same as previous) -->
+<!-- Global Issues -->
+<section id="global" class="fade-in">
+  <div class="section-title">Global Issues</div>
+  <div class="article-box" data-id="womens-rights">
+    <div class="article-title">Breaking Barriers: Milestones in the Women's Rights Movement</div>
+    <div class="article-content">
+      <div class="columns">
+        <div class="col">
+          Let’s talk about rights. The battle women have fought day in and day out for centuries just to survive. 
+          The change from the 1700s to the 21st century. Has it changed drastically? Do you know all the history? 
+          Are we doing enough?<br><br>
 
-<section id="about" class="fade-in">
-  <div class="section-title">About Orbis Vox</div>
-  <p>
-Orbis Vox is an online newspaper created and run by Blake Richardson, a sixteen-year-old passionate about journalism, creativity, and sharing stories that matter. This publication is Blake’s personal platform to explore a wide range of topics—from light-hearted fun articles about pets and everyday life to serious discussions on global issues and the challenges teenagers face today.<br><br>
+          1975. Nineteen. Seventy. Five. Women finally obtained the right to equal pay. This meant women could legally earn the same as men for doing the same amount of work. It was a crucial step towards equality in the world and workplace. Even today, it reminds us all how long women had to wait for this simple, human right. Women got the right to equal pay when the Equal Pay Act 1970 came into force on 29th December 1975. This legislation was a major step in ensuring that men and women receive equal pay for equal work, marking a pivotal moment in the fight for gender equality.
+        </div>
+        <div class="col">
+          In the late 19th to early 20th century, women gained the right to freedom. Personal freedom such as universities. 
+          This meant women could legally choose her own path in life and ensure her own future. It was a weighty decision 
+          for women who wanted more for their lives, which was most, and this choice meant women could become lawyers, 
+          officers of the law or even prime ministers.<br><br>
 
-The goal of Orbis Vox is to give readers a thoughtful, engaging, and honest perspective, written with care and dedication. Blake believes that journalism is not just about reporting events but connecting with readers and sparking curiosity, critical thinking, and empathy. Through Orbis Vox, Blake practices the skills of research, writing, and storytelling, aiming to create content that is both informative and enjoyable.<br><br>
+          For example, Margaret Thatcher became the first female Prime Minister of the UK in 1979. 
+          Thatcher was seen as a divisive figure, but she proved women can do the same jobs men can, if not better.<br><br>
 
-The journey of Orbis Vox started from a simple idea: to have a voice in the world and to provide a space where readers of all ages can learn, laugh, and reflect. Blake hopes that this newspaper will continue growing, inspiring others to take an interest in journalism and the stories that shape our lives, while keeping it personal, unique, and true to its founder’s vision.
-  </p>
+          Women’s rights have changed over the years. From being their husband’s property to becoming lawyers and Prime Ministers. 
+          Gaining the right to vote, the right to owning their own property, and equal pay. Each step has been crucial 
+          progress to the world. These changes remind us how change is created one step at a time.
+        </div>
+      </div>
+      <div class="comments" data-comments-for="womens-rights"></div>
+    </div>
+  </div>
 </section>
 
+<!-- Teenage -->
+<section id="teenage" class="fade-in">
+  <div class="section-title">Teenage Life</div>
+  <div class="article-box" data-id="teenage-exhaustion">
+    <div class="article-title">Why young people are so exhausted all the time</div>
+    <div class="article-content">
+      <div class="columns">
+        <div class="col">
+          Teenagers. Dramatic or genuinely drained? What do you think? Forty-three percent of teenagers in the UK 
+          are exhausted mentally or physically. So, are they being dramatic? Let us find out.<br><br>
+
+          Seventy-five percent of students aged 11–18 have complained of feeling overwhelmed about the education system. 
+          This prevents students from achieving what they could be capable of within school hours. Many students arrive 
+          on time and do their work without showing any exhaustion. These students do not necessarily have the energy 
+          to do anything else after school, which is a clear indicator of the drain of teenage life.<br><br>
+
+          Parents are aware of the pressure too. Some parents allow children to sleep, yet most teens sleep late 
+          due to devices. Social media has been found to significantly impact students sleep patterns and mental health.
+        </div>
+        <div class="col">
+          Exhaustion also comes from part-time jobs, extracurriculars, sports and volunteer work. Students are 
+          pressured to excel in many areas and maintain grades, social lives, and physical fitness. With all this 
+          pressure, it’s no wonder teenagers are exhausted.<br><br>
+
+          Mental health professionals stress the importance of rest and relaxation. Teens need time for themselves, 
+          hobbies, and friends outside of the school environment to maintain balance. The exhaustion is real, but 
+          understanding it can help provide support and coping mechanisms.
+        </div>
+      </div>
+      <div class="comments" data-comments-for="teenage-exhaustion"></div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="fade-in">
+  <div class="section-title">About</div>
+  <div class="article-box">
+    <div class="article-content">
+      <p>Orbis Vox is an online newspaper created and run by Blake Richardson, a sixteen-year-old passionate about journalism, creativity, and sharing stories that matter. This publication is Blake’s personal platform to explore a wide range of topics—from light-hearted fun articles about pets and everyday life to serious discussions on global issues and the challenges teenagers face today.</p>
+      <p>The goal of Orbis Vox is to give readers a thoughtful, engaging, and honest perspective, written with care and dedication. Blake believes that journalism is not just about reporting events but connecting with readers and sparking curiosity, critical thinking, and empathy. Through Orbis Vox, Blake practices the skills of research, writing, and storytelling, aiming to create content that is both informative and enjoyable.</p>
+      <p>The journey of Orbis Vox started from a simple idea: to have a voice in the world and to provide a space where readers of all ages can learn, laugh, and reflect. Blake hopes that this newspaper will continue growing, inspiring others to take an interest in journalism and the stories that shape our lives, while keeping it personal, unique, and true to its founder’s vision.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Visitor Counter -->
 <div class="visitor-counter">
-  <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fblake-creator568.github.io%2FOrbis-Vox&countBg=%23777&titleBg=%23555&icon=&iconColor=%23E7E7E7&title=visitors&edgeCount=1"/>
+  <img src="https://hitwebcounter.com/counter/counter.php?page=1234567&style=0006&nbdigits=5&type=page&initCount=0" title="Visitor Counter" alt="Visitor Counter">
 </div>
 
+<!-- Footer -->
 <footer>
   <div class="footer-grid">
-    <div class="footer-left">© 2025 Blake Richardson</div>
+    <div class="footer-left">
+      Orbis Vox © 2025
+    </div>
     <div class="footer-right">
-      <a href="#top">Home</a> | 
-      <a href="#about">About</a>
+      <a href="#about">About</a> | <a href="#news">News</a> | <a href="#fun">Fun</a>
     </div>
   </div>
 </footer>
 
+</div>
+
 <script>
-document.getElementById("hamburger").addEventListener("click", function(){
-  document.querySelector("nav").classList.toggle("active");
+// Hamburger toggle
+const hamburger = document.getElementById('hamburger');
+const nav = document.querySelector('nav');
+hamburger.addEventListener('click', () => {
+  nav.classList.toggle('active');
 });
 
-// Firebase init
-const firebaseConfig = { databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app/" };
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-document.querySelectorAll(".comments").forEach(box=>{
-  const articleId = box.dataset.commentsFor;
-  db.ref("comments/"+articleId).on("value", snapshot=>{
-    const comments = snapshot.val();
-    let html="";
-    if(comments){
-      Object.values(comments).forEach(c=>{
-        html+=`<div class="comment-item"><strong>${c.name}</strong>: ${c.text}</div>`;
-      });
-    }
-    box.innerHTML = html + box.innerHTML;
+// Simple search filter
+document.getElementById('searchInput').addEventListener('input', function(){
+  const filter = this.value.toLowerCase();
+  document.querySelectorAll('.article-box').forEach(box=>{
+    const text = box.innerText.toLowerCase();
+    box.style.display = text.includes(filter) ? '' : 'none';
   });
 });
 </script>
 
-</div>
 </body>
 </html>
