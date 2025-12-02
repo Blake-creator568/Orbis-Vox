@@ -114,8 +114,8 @@ nav #searchInput{
   transition: all 0.3s ease;
 }
 @media(max-width:800px){
-  nav > div.menu-links{ display:none; flex-direction:column; width:100%;}
-  nav.active > div.menu-links{ display:flex; }
+  nav > div{ display:none; flex-direction:column; width:100%;}
+  nav.active > div{ display:flex; }
   .hamburger{ display:flex; }
 }
 
@@ -126,9 +126,12 @@ nav #searchInput{
 .section-title{font-size:34px;text-align:center;margin:34px 0 18px;text-transform:uppercase;border-bottom:2px double #000;padding-bottom:8px;color:var(--ink)}
 .article-box{margin-bottom:34px;border-top:2px solid #000;border-bottom:2px solid #000;padding:18px;background:var(--paper);box-shadow:var(--card-shadow);transition:transform .2s}
 .article-box:hover{transform:translateY(-3px)}
-.article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2); transition: color .3s;}
+.article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2); cursor:pointer; transition: color .3s;}
 .article-title:hover{color:var(--accent);}
 .article-title small{display:block;font-size:12px;color:var(--muted);text-transform:none;margin-top:6px}
+
+/* Collapsible content */
+.article-content{display:block; transition:max-height 0.3s ease; overflow:hidden}
 
 /* Content columns */
 .columns{display:flex;gap:24px;flex-wrap:wrap}
@@ -146,8 +149,8 @@ img:hover{transform:scale(1.03);border-color:var(--accent)}
 .poll,.fact{background:#f9f9f0;padding:10px;margin:15px 0;border:1px solid #000;font-style:italic}
 
 /* Buttons */
-.comment-button{display:inline-block;margin:18px auto;padding:12px 22px;font-size:16px;font-weight:bold;background:#fff;color:#000;border:2px solid #000;cursor:pointer;text-transform:uppercase;transition:all .18s;border-radius:6px}
-.comment-button:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.comment-button,.like-button{display:inline-block;margin:12px auto;padding:10px 18px;font-size:16px;font-weight:bold;background:#fff;color:#000;border:2px solid #000;cursor:pointer;text-transform:uppercase;transition:all .18s;border-radius:6px}
+.comment-button:hover,.like-button:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
 
 /* Comments area */
 .comments{margin-top:16px;border-top:1px dashed #ccc;padding-top:12px}
@@ -183,12 +186,13 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 
 /* Responsive tweaks */
 @media(max-width:800px){ .col{width:100%} #searchInput{width:100%} h1{font-size:56px} }
+
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
-<body id="top">
+<body>
 
 <div class="container">
 
@@ -204,8 +208,8 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 </header>
 
 <nav>
-  <div class="menu-links">
-    <a href="#top">Home</a>
+  <div>
+    <a href="#">Home</a>
     <a href="#news">News</a>
     <a href="#fun">Fun</a>
     <a href="#global">Global Issues</a>
@@ -226,6 +230,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 </div>
 
 <!-- ================= Articles ================= -->
+
 <section id="news" class="fade-in">
   <div class="section-title">News</div>
   <div class="article-box" data-id="school-strike">
@@ -299,15 +304,18 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           Let’s talk about rights. The battle women have fought day in and day out for centuries just to survive. 
           The change from the 1700s to the 21st century. Has it changed drastically? Do you know all the history? 
           Are we doing enough?<br><br>
-          1975. Nineteen. Seventy. Five. Women finally obtained the right to equal pay. This meant women could legally earn the same as men for doing the same amount of work. It was a crucial step towards equality in the world and workplace. Even today, it reminds us all how long women had to wait for this simple, human right.
+
+          1975. Nineteen. Seventy. Five. Women finally obtained the right to equal pay. This meant women could legally earn the same as men for doing the same amount of work. It was a crucial step towards equality in the world and workplace. Even today, it reminds us all how long women had to wait for this simple, human right. Women got the right to equal pay when the Equal Pay Act 1970 came into force on 29th December 1975. This legislation was a major step in ensuring that men and women receive equal pay for equal work, marking a pivotal moment in the fight for gender equality.
         </div>
         <div class="col">
           In the late 19th to early 20th century, women gained the right to freedom. Personal freedom such as universities. 
           This meant women could legally choose her own path in life and ensure her own future. It was a weighty decision 
           for women who wanted more for their lives, which was most, and this choice meant women could become lawyers, 
           officers of the law or even prime ministers.<br><br>
+
           For example, Margaret Thatcher became the first female Prime Minister of the UK in 1979. 
           Thatcher was seen as a divisive figure, but she proved women can do the same jobs men can, if not better.<br><br>
+
           Women’s rights have changed over the years. From being their husband’s property to becoming lawyers and Prime Ministers. 
           Gaining the right to vote, the right to owning their own property, and equal pay. Each step has been crucial 
           progress to the world. These changes remind us how change is created one step at a time.
@@ -325,17 +333,36 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
     <div class="article-content">
       <div class="columns">
         <div class="col">
-          Teenagers. Dramatic or genuinely drained? Forty-three percent of teenagers in the UK are exhausted mentally or physically. So, are they being dramatic? Let us find out.<br><br>
-          Seventy-five percent of students aged 11–18 have complained of feeling overwhelmed about the education system. Many students arrive on time and do their work without showing any exhaustion. These students do not necessarily have the energy to do this; most will pretend so no one asks questions.<br><br>
-          A former pupil at Kirk Hallam Academy said, “I pretended to be okay because it was easier than answering their questions. I told a couple of teachers, but I never got the support I needed which resulted in my self-esteem dropping drastically.”<br><br>
+          Teenagers. Dramatic or genuinely drained? What do you think? Forty-three percent of teenagers in the UK 
+          are exhausted mentally or physically. So, are they being dramatic? Let us find out.<br><br>
+
+          Seventy-five percent of students aged 11–18 have complained of feeling overwhelmed about the education system. 
+          This prevents students from achieving what they could be capable of within school hours. Many students arrive 
+          on time and do their work without showing any exhaustion. These students do not necessarily have the energy 
+          to do this; most will pretend so no one asks questions.<br><br>
+
+          A former pupil at Kirk Hallam Academy said, “I pretended to be okay because it was easier than answering 
+          their questions. I told a couple of teachers, but I never got the support I needed which resulted in my 
+          self-esteem dropping drastically.”<br><br>
+
           <img src="images.jpeg" alt="Teenagers looking tired">
           <div class="caption">PHOTO: TEENAGERS’ EXHAUSTION IN THE UK</div>
         </div>
         <div class="col">
-          Another point to consider is home life. A variety of students have unstable living circumstances. Teenagers find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends.<br><br>
-          One in seven teenagers have reported living in a neglectful home and the toll it has taken on their mental health. How could we change this? Parents/Carers, you need to be more respectful to your children.<br><br>
-          Relationships. The one thing most teenagers yearn for. Are teenage relationships healthy or are they better off without? Teenage relationships have a profound effect on mental health: healthy relationships function as a protective factor, while unhealthy ones increase anxiety and depression.<br><br>
-          In conclusion, most teenagers are overwhelmed by education and family issues. Relationships can help. Teenagers are stressed because of all the pressure from the world around them.
+          Another point to consider is home life. A variety of students have unstable living circumstances. 
+          As a teenager they find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends.<br><br>
+
+          One in seven teenagers have reported living in a neglectful home and the toll it has taken on their mental health. 
+          How could we change this? Parents/Carers, you need to be more respectful to your children. Most children grow up 
+          hating you if you treat them horribly as they are growing.<br><br>
+
+          Relationships. The one thing most teenagers yearn for. Are teenage relationships healthy or are they better off without? 
+          Teenage relationships have a profound and dualistic effect on mental health: healthy, supportive relationships function 
+          as a vital protective factor, while unhealthy ones increase the risk of anxiety, depression, and low self-esteem.<br><br>
+
+          In conclusion, most teenagers are overwhelmed by education and family issues. However, relationships can be a solution. 
+          The majority of students find comfort in having one familiar person. Teenagers are not being dramatic, they are stressed 
+          because of all the pressure from the world around them.
         </div>
       </div>
       <div class="comments" data-comments-for="teenage-exhaustion"></div>
@@ -366,11 +393,11 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   <div class="footer-grid">
     <div class="footer-left">© 2025 Orbis Vox</div>
     <div class="footer-right">
-      <a href="#top">Home</a> | 
+      <a href="#">Home</a> |
       <a href="#news">News</a> | 
       <a href="#fun">Fun</a> | 
       <a href="#global">Global Issues</a> | 
-      <a href="#teenage">Teenage Life</a> | 
+      <a href="#teenage">Teenage Life</a> |
       <a href="#about">About</a>
     </div>
   </div>
@@ -391,6 +418,16 @@ searchInput.addEventListener('input', e=>{
   document.querySelectorAll('.article-box').forEach(box=>{
     const text = box.innerText.toLowerCase();
     box.style.display = text.includes(query)?'block':'none';
+  });
+});
+
+// ----- Collapsible Articles -----
+document.querySelectorAll('.article-title').forEach(title=>{
+  title.addEventListener('click', ()=>{
+    const content = title.nextElementSibling;
+    if(content.style.display==='block' || content.style.display===''){
+      content.style.display='none';
+    } else content.style.display='block';
   });
 });
 
@@ -445,15 +482,6 @@ document.querySelectorAll('.article-box').forEach(box=>{
 <img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0" title="Free Tools" alt="Free Tools" border="0" />
 </a>
 </div>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
