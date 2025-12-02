@@ -10,7 +10,7 @@
   --paper:#fff;
   --ink:#1a1a1a;
   --accent:#8B0000;
-  --accent-2:#B22222; /* headline color & BBC quote color */
+  --accent-2:#B22222;
   --muted:#7a7a7a;
   --card-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
@@ -54,7 +54,7 @@ h1{font-size:86px;margin:0;letter-spacing:8px;text-shadow:1px 1px #ccc;color:#00
 nav {
   position: sticky;
   top: 0;
-  background: var(--accent); /* now navbar is red */
+  background: var(--accent);
   z-index: 999;
   display:flex;
   align-items:center;
@@ -110,7 +110,7 @@ nav #searchInput{
 /* Images + caption */
 img{width:100%;margin-top:12px;border:2px solid #000;transition:transform .25s,border-color .25s}
 img:hover{transform:scale(1.03);border-color:var(--accent)}
-.caption{text-align:center;font-style:italic;margin-top:6px;font-size:13px;color:#7a7a7a}
+.caption{text-align:center;font-style:italic;margin-top:6px;font-size:13px;color:var(--muted)}
 
 /* small blocks */
 .empty-article{border:2px dashed #bcbcbc;background:#f2f2f2;padding:20px;margin:20px 0;height:160px;font-style:italic;text-align:center;color:#7a7a7a;font-size:18px}
@@ -130,7 +130,7 @@ img:hover{transform:scale(1.03);border-color:var(--accent)}
 
 /* Visitor counter + contact */
 .visitor-counter{ text-align:center;margin:30px 0 }
-.contact-box{margin-top:20px;padding:18px;border-top:3px solid #000;text-align:center;font-size:16px}
+.visitor-counter img{width:70px;height:auto;}
 
 /* Modal */
 .modal { display:none; position:fixed; z-index:10000; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.6); }
@@ -177,6 +177,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
       <a href="#news">News</a>
       <a href="#fun" id="funLink">Fun</a>
       <a href="#global">Global Issues</a>
+      <a href="#teenage">Teenage</a>
       <a href="#about">About</a>
       <a href="#" id="contactBtn">Contact</a>
     </div>
@@ -199,7 +200,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   <section id="news" class="fade-in">
     <div class="section-title">News</div>
 
-    <!-- REPLACED: Trans girls / Girlguiding article (two-column) -->
     <div class="article-box" data-id="trans-girls-ban">
       <div class="article-title">Discrimination shown as trans girls are banned from Girl Guide groups</div>
       <div class="article-content">
@@ -327,13 +327,13 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           </div>
           <div class="col">
             Another point to consider is home life. A variety of students have unstable living circumstances. 
-            As a result, they may not have the proper resources to rest or sleep.<br><br>
+            As a teenager they find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends.<br><br>
 
-            Many teenagers feel society has put unfair pressure on them to succeed in school, sports, social life, 
-            and their online life. This often leads to exhaustion, anxiety, and even depression.<br><br>
+            One in seven teenagers have reported living in a home where adults are struggling with addiction, mental 
+            illness, or other issues. This drastically affects how they approach school and social life.<br><br>
 
-            Mental health support is crucial to help teenagers cope and thrive. Society must learn to 
-            acknowledge young people’s struggles and provide necessary support.
+            What can be done? Schools need to educate staff to be aware of these signs and provide support. Students 
+            need to know there’s help available. Teenagers might be dramatic at times but many are just exhausted.
           </div>
         </div>
         <div class="comments" data-id="teenage-exhaustion"></div>
@@ -347,43 +347,37 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
     <!-- hitwebcounter Code START -->
     <a href="https://www.hitwebcounter.com/" target="_blank">
       <img src="https://hitwebcounter.com/counter/counter.php?page=21461049&style=0030&nbdigits=5&type=page&initCount=1000" 
-           title="Free Tools" alt="Free Tools" border="0" />
+           title="Free Tools" alt="Free Tools" border="0" style="width:70px; height:auto;" />
     </a>
     <!-- hitwebcounter Code END -->
   </div>
 
-  <!-- Contact -->
-  <div class="contact-box" id="contact">
-    Contact Orbis Vox: <a href="mailto:contact@orbisvox.com">contact@orbisvox.com</a>
-  </div>
+  <footer>
+    &copy; 2025 Orbis Vox — Independent Digital Newspaper by Blake Richardson
+  </footer>
 
 </div>
 
-<footer>
-  &copy; 2025 Orbis Vox. All rights reserved.
-</footer>
-
 <script>
   // Hamburger toggle
-  const hamburger = document.getElementById("hamburger");
-  const nav = document.querySelector("nav");
-  hamburger.addEventListener("click", () => {nav.classList.toggle("active")});
+  const hamburger = document.getElementById('hamburger');
+  const nav = document.querySelector('nav');
+  hamburger.addEventListener('click',()=>{nav.classList.toggle('active')});
 
-  // Simple search
-  const searchInput = document.getElementById("searchInput");
-  searchInput.addEventListener("input", () => {
-    const query = searchInput.value.toLowerCase();
-    document.querySelectorAll(".article-box").forEach(article => {
-      article.style.display = article.textContent.toLowerCase().includes(query) ? "" : "none";
-    });
+  // Contact modal
+  const contactBtn = document.getElementById('contactBtn');
+  contactBtn.addEventListener('click',()=>{
+    alert('Contact Blake at: example@email.com');
   });
 
-  // Modal contact
-  const contactBtn = document.getElementById("contactBtn");
-  const contactModal = document.getElementById("contactModal");
-  if(contactBtn && contactModal){
-    contactBtn.onclick = ()=>{contactModal.style.display="block"}
-  }
+  // Simple search
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', function(){
+    const query = this.value.toLowerCase();
+    document.querySelectorAll('.article-box').forEach(box=>{
+      box.style.display = box.innerText.toLowerCase().includes(query)?'block':'none';
+    });
+  });
 </script>
 
 </body>
