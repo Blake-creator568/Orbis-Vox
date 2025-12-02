@@ -54,7 +54,7 @@ h1{font-size:86px;margin:0;letter-spacing:8px;text-shadow:1px 1px #ccc;color:#00
 nav {
   position: sticky;
   top: 0;
-  background: #000; /* black nav buttons as requested */
+  background: var(--accent); /* now navbar is red */
   z-index: 999;
   display:flex;
   align-items:center;
@@ -110,7 +110,7 @@ nav #searchInput{
 /* Images + caption */
 img{width:100%;margin-top:12px;border:2px solid #000;transition:transform .25s,border-color .25s}
 img:hover{transform:scale(1.03);border-color:var(--accent)}
-.caption{text-align:center;font-style:italic;margin-top:6px;font-size:13px;color:var(--muted)}
+.caption{text-align:center;font-style:italic;margin-top:6px;font-size:13px;color:#7a7a7a}
 
 /* small blocks */
 .empty-article{border:2px dashed #bcbcbc;background:#f2f2f2;padding:20px;margin:20px 0;height:160px;font-style:italic;text-align:center;color:#7a7a7a;font-size:18px}
@@ -217,22 +217,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         </div>
 
         <div class="comments" data-id="trans-girls-ban"></div>
-      </div>
-    </div>
-
-    <!-- other news article (kept if you want) - example: you can remove or edit -->
-    <div class="article-box" data-id="other-news-1">
-      <div class="article-title">Students Organize Nationwide Climate Action</div>
-      <div class="article-content">
-        <div class="columns">
-          <div class="col">
-            Thousands of students across the country have organized a coordinated school strike to demand more action on climate change. The movement, led by youth activists, is gaining momentum, with protests held outside government buildings and in city centers. Students expressed frustration over slow policy changes and urge lawmakers to take immediate measures to combat environmental issues.
-          </div>
-          <div class="col">
-            "We need to be heard, and we are taking our future into our own hands," said one student leader. Teachers and parents have shown mixed reactions, ranging from support to concern over missed lessons. The strike highlights the growing influence of young voices in shaping national policy and awareness on critical issues affecting future generations.
-          </div>
-        </div>
-        <div class="comments" data-id="other-news-1"></div>
       </div>
     </div>
 
@@ -343,19 +327,13 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           </div>
           <div class="col">
             Another point to consider is home life. A variety of students have unstable living circumstances. 
-            As a teenager they find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends.<br><br>
+            As a result, they may not have the proper resources to rest or sleep.<br><br>
 
-            One in seven teenagers have reported living in a neglectful home and the toll it has taken on their mental health. 
-            How could we change this? Parents/Carers, you need to be more respectful to your children. Most children grow up 
-            hating you if you treat them horribly as they are growing.<br><br>
+            Many teenagers feel society has put unfair pressure on them to succeed in school, sports, social life, 
+            and their online life. This often leads to exhaustion, anxiety, and even depression.<br><br>
 
-            Relationships. The one thing most teenagers yearn for. Are teenage relationships healthy or are they better off without? 
-            Teenage relationships have a profound and dualistic effect on mental health: healthy, supportive relationships function 
-            as a vital protective factor, while unhealthy ones increase the risk of anxiety, depression, and low self-esteem.<br><br>
-
-            In conclusion, most teenagers are overwhelmed by education and family issues. However, relationships can be a solution. 
-            The majority of students find comfort in having one familiar person. Teenagers are not being dramatic, they are stressed 
-            because of all the pressure from the world around them.
+            Mental health support is crucial to help teenagers cope and thrive. Society must learn to 
+            acknowledge young people’s struggles and provide necessary support.
           </div>
         </div>
         <div class="comments" data-id="teenage-exhaustion"></div>
@@ -364,160 +342,49 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 
   </section>
 
-  <!-- ABOUT -->
-  <section id="about" class="fade-in">
-    <div class="section-title">About</div>
-    <div class="article-box" data-id="about">
-      <div class="article-content">
-        Orbis Vox is an online newspaper created and run by Blake Richardson, a sixteen-year-old passionate about journalism, creativity, and sharing stories that matter. This publication is Blake’s personal platform to explore a wide range of topics—from light-hearted fun articles about pets and everyday life to serious discussions on global issues and the challenges teenagers face today.<br><br>
-
-        The goal of Orbis Vox is to give readers a thoughtful, engaging, and honest perspective, written with care and dedication. Blake believes that journalism is not just about reporting events but connecting with readers and sparking curiosity, critical thinking, and empathy. Through Orbis Vox, Blake practices the skills of research, writing, and storytelling, aiming to create content that is both informative and enjoyable.<br><br>
-
-        The journey of Orbis Vox started from a simple idea: to have a voice in the world and to provide a space where readers of all ages can learn, laugh, and reflect. Blake hopes that this newspaper will continue growing, inspiring others to take an interest in journalism and the stories that shape our lives, while keeping it personal, unique, and true to its founder’s vision.
-      </div>
-    </div>
-  </section>
-
-  <!-- VISITOR COUNTER -->
+  <!-- Visitor Counter -->
   <div class="visitor-counter">
-    <!-- SeeYouFarm hits badge (increments on visits) -->
-    <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fblake-creator568.github.io%2FOrbis-Vox%2F&count_bg=%238B0000&title_bg=%23FFFFFF&icon=&icon_color=%23FFFFFF&title=Visitors&edge_flat=false" alt="Visitors">
+    <!-- hitwebcounter Code START -->
+    <a href="https://www.hitwebcounter.com/" target="_blank">
+      <img src="https://hitwebcounter.com/counter/counter.php?page=21461049&style=0030&nbdigits=5&type=page&initCount=1000" 
+           title="Free Tools" alt="Free Tools" border="0" />
+    </a>
+    <!-- hitwebcounter Code END -->
   </div>
 
-  <!-- CONTACT MODAL -->
-  <div id="contactModal" class="modal" aria-hidden="true">
-    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
-      <span class="close-modal" id="closeContact">&times;</span>
-      <h2 id="contactTitle">Contact Blake</h2>
-      <p>Phone: <a href="tel:07423093169">07423093169</a></p>
-      <p>Email: <a href="mailto:chloerichardson5318@gmail.com">chloerichardson5318@gmail.com</a></p>
-    </div>
+  <!-- Contact -->
+  <div class="contact-box" id="contact">
+    Contact Orbis Vox: <a href="mailto:contact@orbisvox.com">contact@orbisvox.com</a>
   </div>
 
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-left">© 2025 Orbis Vox</div>
-      <div class="footer-right">
-        <a href="#news">News</a> |
-        <a href="#fun">Fun</a> |
-        <a href="#global">Global Issues</a> |
-        <a href="#teenage">Teenage Life</a>
-      </div>
-    </div>
-  </footer>
+</div>
 
-</div> <!-- container -->
+<footer>
+  &copy; 2025 Orbis Vox. All rights reserved.
+</footer>
 
-<!-- ================= SCRIPTS ================= -->
 <script>
-/* NAV / HAMBURGER */
-document.getElementById('hamburger').addEventListener('click', ()=> {
-  document.querySelector('nav').classList.toggle('active');
-});
+  // Hamburger toggle
+  const hamburger = document.getElementById("hamburger");
+  const nav = document.querySelector("nav");
+  hamburger.addEventListener("click", () => {nav.classList.toggle("active")});
 
-/* SMOOTH SCROLL for nav links */
-document.querySelectorAll('nav a[href^="#"]').forEach(a=>{
-  a.addEventListener('click', function(e){
-    const href = this.getAttribute('href');
-    if(href === '#') { e.preventDefault(); return; }
-    const target = document.querySelector(href);
-    if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
-  });
-});
-
-/* FUN link quick scroll */
-document.getElementById('funLink').addEventListener('click', function(e){
-  e.preventDefault();
-  document.getElementById('fun').scrollIntoView({behavior:'smooth'});
-});
-
-/* CONTACT modal */
-const contactBtn = document.getElementById('contactBtn');
-const contactModal = document.getElementById('contactModal');
-const closeContact = document.getElementById('closeContact');
-contactBtn.addEventListener('click', (e)=>{ e.preventDefault(); contactModal.style.display = 'block'; contactModal.setAttribute('aria-hidden','false'); });
-closeContact.addEventListener('click', ()=>{ contactModal.style.display = 'none'; contactModal.setAttribute('aria-hidden','true'); });
-window.addEventListener('click', (e)=>{ if(e.target === contactModal){ contactModal.style.display='none'; contactModal.setAttribute('aria-hidden','true'); } });
-
-/* SEARCH (filters articles live) */
-const searchInput = document.getElementById('searchInput');
-searchInput.addEventListener('input', function(){
-  const q = this.value.trim().toLowerCase();
-  document.querySelectorAll('.article-box').forEach(box=>{
-    const text = box.innerText.toLowerCase();
-    box.style.display = text.includes(q) ? 'block' : 'none';
-  });
-});
-
-/* ================= FIREBASE COMMENTS ================= */
-/* Firebase config (your project) */
-const firebaseConfig = {
-  apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
-  authDomain: "orbis-vox.firebaseapp.com",
-  databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app/",
-  projectId: "orbis-vox",
-  storageBucket: "orbis-vox.appspot.com",
-  messagingSenderId: "43657144944",
-  appId: "1:43657144944:web:c7564b655819a30a1fe2b5"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-/* Add comment forms and wire to Firebase */
-document.querySelectorAll('.article-box').forEach(box=>{
-  const articleId = box.dataset.id || box.getAttribute('data-id') || ('article-' + Math.random().toString(36).slice(2,9));
-  // ensure data-id exists
-  box.setAttribute('data-id', articleId);
-
-  const commentDiv = box.querySelector('.comments');
-  if(!commentDiv) return;
-
-  // build form + list
-  commentDiv.innerHTML = `
-    <form class="comment-form" aria-label="Comment form">
-      <input type="text" name="author" placeholder="Your name" required>
-      <textarea name="text" placeholder="Your comment" required></textarea>
-      <button type="submit" class="comment-button">Submit</button>
-    </form>
-    <div class="comment-list" aria-live="polite"></div>
-  `;
-
-  const form = commentDiv.querySelector('form');
-  const list = commentDiv.querySelector('.comment-list');
-
-  // submit -> push to firebase
-  form.addEventListener('submit', e=>{
-    e.preventDefault();
-    const author = form.author.value.trim() || 'Anonymous';
-    const text = form.text.value.trim();
-    if(!text) return;
-    db.ref('comments/' + articleId).push({author,text,timestamp:Date.now()});
-    form.reset();
+  // Simple search
+  const searchInput = document.getElementById("searchInput");
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.toLowerCase();
+    document.querySelectorAll(".article-box").forEach(article => {
+      article.style.display = article.textContent.toLowerCase().includes(query) ? "" : "none";
+    });
   });
 
-  // listen for updates and render
-  db.ref('comments/' + articleId).on('value', snapshot=>{
-    const val = snapshot.val();
-    let html = '';
-    if(val){
-      // sort by timestamp
-      const items = Object.values(val).sort((a,b)=> (a.timestamp||0) - (b.timestamp||0));
-      html = items.map(c=>`<div class="comment-item"><strong>${escapeHtml(c.author)}</strong>: ${escapeHtml(c.text)}</div>`).join('');
-    }
-    list.innerHTML = html;
-  });
-});
-
-/* simple html escape to avoid injection in comments rendering */
-function escapeHtml(s){
-  if(!s) return '';
-  return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
-}
-
-/* End of scripts */
+  // Modal contact
+  const contactBtn = document.getElementById("contactBtn");
+  const contactModal = document.getElementById("contactModal");
+  if(contactBtn && contactModal){
+    contactBtn.onclick = ()=>{contactModal.style.display="block"}
+  }
 </script>
 
 </body>
 </html>
-
-
