@@ -40,7 +40,7 @@ body.dark{
 /* Header */
 header{position:relative;text-align:center;margin-bottom:10px}
 header a.logo-link{position:absolute;top:6px;left:6px;display:inline-block; }
-.logo{width:85px;height:85px;display:block; border-radius:6px; transition:transform .3s}
+.logo{width:65px;height:65px;display:block; border-radius:6px; transition:transform .3s}
 .logo:hover{transform:scale(1.05) rotate(-2deg)}
 .logo-pulse{animation:logoPulse 4s infinite}
 @keyframes logoPulse{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
@@ -182,9 +182,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
     <div class="article-content">
       <div class="empty-article">Content to be written...</div>
       <div class="poll">Poll: What type of news do you want to read most?</div>
-      <div>
-        <button class="comment-button" data-article-id="blank-article">Leave a Comment</button>
-      </div>
       <div class="comments" data-comments-for="blank-article"></div>
     </div>
   </div>
@@ -202,7 +199,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           “Dog Choir” began another full-volume performance.<br><br>
           The chaos always begins the same way: one dog, somewhere in the distance, lets out a single bark that 
           somehow sounds like someone has stubbed their toe.<br><br>
-          Within seconds, every single dog in the village has a turn, creating a racket that can only be described as:<br>
+          Within seconds, every single dog in the village has a turn, creating a racket that can only be described as:
           “Someone listening to their phone on full blast.”<br><br>
           No one knows what throws them off. Some assumed triggers by families vary of:<br>
           • A gust of wind that suspiciously sounds like a whistle.<br>
@@ -225,10 +222,8 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           <div class="caption">PHOTO: BLAKE RICHARDSON</div>
         </div>
       </div>
+
       <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
-      <div>
-        <button class="comment-button" data-article-id="dog-choir">Leave a Comment</button>
-      </div>
       <div class="comments" data-comments-for="dog-choir"></div>
     </div>
   </div>
@@ -261,9 +256,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           Gaining the right to vote, the right to owning their own property, and equal pay. Each step has been crucial 
           progress to the world. These changes remind us how change is created one step at a time.
         </div>
-      </div>
-      <div>
-        <button class="comment-button" data-article-id="womens-rights">Leave a Comment</button>
       </div>
       <div class="comments" data-comments-for="womens-rights"></div>
     </div>
@@ -306,143 +298,110 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           as a vital protective factor, while unhealthy ones increase the risk of anxiety, depression, and low self-esteem.<br><br>
 
           In conclusion, most teenagers are overwhelmed by education and family issues. However, relationships can be a solution. 
-          The majority of students find comfort in friends and a supportive family. Yet, many still need professional support 
-          to manage mental exhaustion.
+          The majority of students find comfort in having one familiar person. Teenagers are not being dramatic, they are stressed 
+          because of all the pressure from the world around them.
         </div>
-      </div>
-      <div>
-        <button class="comment-button" data-article-id="teenage-exhaustion">Leave a Comment</button>
       </div>
       <div class="comments" data-comments-for="teenage-exhaustion"></div>
     </div>
   </div>
 </section>
 
-<!-- ABOUT -->
-<section id="about" class="fade-in">
-  <div class="section-title">About Orbis Vox</div>
-  <p style="text-align:center;font-size:17px;line-height:1.7">
-    Orbis Vox is an occasionally updated online newspaper created and run by a single-handed sixteen-year-old girl named Blake.
-    It covers a variety of topics from global issues to fun content, teenage life, and more. The goal is to inform, entertain, 
-    and encourage conversation across all generations.
-  </p>
-</section>
-
-<!-- CONTACT -->
-<div class="contact-box fade-in">
-  <div><strong>Contact:</strong> Blake Richardson — Email: orbisvox@example.com</div>
-</div>
-
-<!-- Visitor counter -->
-<div class="visitor-counter fade-in">
-  <img src="https://www.freecounterstat.com/count.php?c=4s27g3h2f8" alt="Visitor Counter">
+<div class="contact-box">
+  Contact Blake Richardson: <br>
+  Email: orbisvox@example.com
 </div>
 
 <footer>
   <div class="footer-grid">
     <div class="footer-left">© 2025 Orbis Vox</div>
     <div class="footer-right">
-      <a href="#about">About</a>
-      <a href="#news">News</a>
-      <a href="#fun">Fun</a>
-      <a href="#global">Global</a>
-      <a href="#teenage">Teenage</a>
+      <a href="#news">News</a> | 
+      <a href="#fun">Fun</a> | 
+      <a href="#global">Global Issues</a> | 
+      <a href="#teenage">Teenage Life</a>
     </div>
   </div>
 </footer>
 
-</div>
+</div> <!-- container -->
 
 <script>
-// ------------- Dark Mode -------------
+// ----- Dark Mode Toggle -----
 const darkToggle = document.getElementById('darkToggle');
-darkToggle.onclick = ()=>{document.body.classList.toggle('dark')}
+darkToggle.addEventListener('click',()=>document.body.classList.toggle('dark'));
 
-// ------------- Archives Toggle -------------
+// ----- Show Archives -----
 const archivesBtn = document.getElementById('showArchives');
-const archivesDiv = document.getElementById('archives');
-const archivesList = document.getElementById('archives-list');
-archivesBtn.onclick=()=>{
-  if(archivesList.style.display==='none'){
-    archivesList.style.display='block';
-    archivesDiv.style.display='block';
-    archivesList.innerHTML=`<ul>
-      <li>Dog Choir Article — Fun — 02 Dec 2025</li>
-      <li>Women’s Rights Article — Global — 02 Dec 2025</li>
-      <li>Teenage Exhaustion Article — Teenage Life — 02 Dec 2025</li>
-    </ul>`;
-  }else{
-    archivesList.style.display='none';
-    archivesDiv.style.display='none';
-  }
-}
+archivesBtn.addEventListener('click',()=>{
+  const archives = document.getElementById('archives');
+  const archivesList = document.getElementById('archives-list');
+  archives.style.display = archives.style.display==='none'?'block':'none';
+  archivesList.style.display = archivesList.style.display==='none'?'block':'none';
+});
 
-// ------------- Search -------------
-const searchInput=document.getElementById('searchInput');
-searchInput.addEventListener('input',function(){
-  const val=this.value.toLowerCase();
-  document.querySelectorAll('.article-box').forEach(article=>{
-    const title = article.querySelector('.article-title').innerText.toLowerCase();
-    const content = article.querySelector('.article-content').innerText.toLowerCase();
-    if(title.includes(val)||content.includes(val)){article.style.display='block'}else{article.style.display='none'}
-  })
-})
+// ----- Search Articles -----
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', e=>{
+  const query = e.target.value.toLowerCase();
+  document.querySelectorAll('.article-box').forEach(box=>{
+    const text = box.innerText.toLowerCase();
+    box.style.display = text.includes(query)?'block':'none';
+  });
+});
 
-// ------------- Firebase Init -------------
+// ----- Firebase Init -----
 const firebaseConfig = {
   apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
   authDomain: "orbis-vox.firebaseapp.com",
-  databaseURL: "https://orbis-vox-default-rtdb.firebaseio.com",
+  databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app/",
   projectId: "orbis-vox",
   storageBucket: "orbis-vox.appspot.com",
-  messagingSenderId: "1234567890",
-  appId: "1:1234567890:web:abcdefg"
+  messagingSenderId: "43657144944",
+  appId: "1:43657144944:web:c7564b655819a30a1fe2b5"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ------------- Comments System -------------
-document.querySelectorAll('.comment-button').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const articleId=btn.getAttribute('data-article-id');
-    let formHtml = `
-      <form class="comment-form" data-id="${articleId}">
-        <input type="text" placeholder="Name" required><br>
-        <textarea placeholder="Comment" required></textarea><br>
-        <button type="submit" class="btn">Post Comment</button>
-      </form>
-    `;
-    const container=btn.nextElementSibling;
-    if(!container.innerHTML) container.innerHTML=formHtml;
-    const form=container.querySelector('form');
-    form.onsubmit = (e)=>{
-      e.preventDefault();
-      const name=form.querySelector('input').value;
-      const text=form.querySelector('textarea').value;
-      db.ref('comments/'+articleId).push({name,text,time:Date.now()});
-      form.reset();
-      loadComments(articleId,container);
+// ----- Load comments for all articles -----
+document.querySelectorAll('.article-box').forEach(box=>{
+  const articleId = box.dataset.id;
+  const commentDiv = box.querySelector('.comments');
+
+  // Add comment form
+  commentDiv.innerHTML = `
+    <form class="comment-form">
+      <input type="text" name="author" placeholder="Your name" required>
+      <textarea name="text" placeholder="Your comment" required></textarea>
+      <button type="submit" class="btn">Submit</button>
+    </form>
+    <div class="comment-list"></div>
+  `;
+
+  const form = commentDiv.querySelector('form');
+  const list = commentDiv.querySelector('.comment-list');
+
+  form.addEventListener('submit', e=>{
+    e.preventDefault();
+    const author = form.author.value;
+    const text = form.text.value;
+    db.ref('comments/' + articleId).push({author,text,timestamp:Date.now()});
+    form.reset();
+  });
+
+  // Load existing comments
+  db.ref('comments/' + articleId).on('value', snapshot=>{
+    const val = snapshot.val();
+    let html = '';
+    if(val){
+      html = Object.values(val).map(c=>`<div class="comment-item"><strong>${c.author}</strong>: ${c.text}</div>`).join('');
     }
-    loadComments(articleId,container);
+    list.innerHTML = html;
   });
 });
-
-function loadComments(articleId,container){
-  const commentList = container.querySelector('.comment-list') || document.createElement('div');
-  commentList.classList.add('comment-list');
-  commentList.innerHTML='';
-  db.ref('comments/'+articleId).once('value',snapshot=>{
-    snapshot.forEach(snap=>{
-      const c=snap.val();
-      const item = document.createElement('div');
-      item.className='comment-item';
-      item.innerHTML=`<strong>${c.name}</strong><br>${c.text}`;
-      commentList.appendChild(item);
-    })
-  });
-  if(!container.contains(commentList)) container.appendChild(commentList);
-}
 </script>
 
 </body>
 </html>
+
+
