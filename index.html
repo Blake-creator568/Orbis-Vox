@@ -180,6 +180,24 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 
 /* Responsive tweaks */
 @media(max-width:800px){ .col{width:100%} #searchInput{width:100%} h1{font-size:56px} }
+  /* Small top-left logo */
+#logo {
+  width: 40px;       /* small size */
+  height: auto;      /* keep aspect ratio */
+  position: fixed;   /* stays in top-left corner even on scroll */
+  top: 10px;         /* distance from top */
+  left: 10px;        /* distance from left */
+  z-index: 1000;     /* above everything */
+}
+
+/* Responsive for mobile */
+@media (max-width: 600px) {
+  #logo {
+    width: 30px;     /* smaller on mobile */
+    top: 5px;
+    left: 5px;
+  }
+}
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -473,5 +491,6 @@ document.querySelectorAll('.article-box').forEach(box=>{
 </div>
 </body>
 </html>
+
 
 
