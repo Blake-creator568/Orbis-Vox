@@ -131,6 +131,11 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 /* Responsive tweaks */
 @media(max-width:800px){ .col{width:100%} #searchInput{width:100%} h1{font-size:56px} }
 </style>
+
+<!-- Firebase SDKs (must load in this order) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 </head>
 <body>
 
@@ -165,7 +170,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   <div>2025</div>
 </div>
 
-<!-- ARCHIVES (will be auto filled) -->
+<!-- ARCHIVES -->
 <div id="archives" class="section-title" style="display:none">Archives</div>
 <div id="archives-list" style="display:none;margin-bottom:30px"></div>
 
@@ -376,26 +381,21 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 </div> <!-- .container -->
 
 <script>
-/* ----------------- Utilities ------------------ */
-const $ = (sel, ctx = document) => ctx.querySelector(sel);
-const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+// Small helpers
+const $ = (sel, ctx=document) => ctx.querySelector(sel);
+const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
 
-/* ------------- Client-side "multi-page" routing ------------- */
-function showSectionFromHash() {
+// ROUTING / HASH
+function showSectionFromHash(){
   const hash = location.hash.replace('#','') || 'news';
   const target = document.getElementById(hash);
-  if (target) {
-    hideArchives();
-    setTimeout(()=> target.scrollIntoView({behavior:'smooth'}), 50);
-  } else {
-    const news = document.getElementById('news');
-    if (news) news.scrollIntoView();
-  }
+  if(target){ hideArchives(); setTimeout(()=> target.scrollIntoView({behavior:'smooth'}), 50); }
+  else { const n = document.getElementById('news'); if(n) n.scrollIntoView(); }
 }
 window.addEventListener('hashchange', showSectionFromHash);
 window.addEventListener('load', showSectionFromHash);
 
-/* ------------- Archives auto-fill ------------- */
+// ARCHIVES
 function buildArchives(){
   const boxes = $$('[data-id]');
   const list = $('#archives-list');
@@ -410,10 +410,7 @@ function buildArchives(){
     link.style.borderBottom = '1px solid #eee';
     link.className = 'archive-item';
     link.textContent = title;
-    link.addEventListener('click', (ev)=> {
-      ev.preventDefault();
-      setTimeout(()=> box.scrollIntoView({behavior:'smooth', block:'center'}), 100);
-    });
+    link.addEventListener('click', ev => { ev.preventDefault(); setTimeout(()=> box.scrollIntoView({behavior:'smooth', block:'center'}),100); });
     list.appendChild(link);
   });
 }
@@ -424,23 +421,16 @@ if(showArchivesBtn){
     const list = $('#archives-list');
     if(!arch || !list) return;
     if(arch.style.display === 'none' || arch.style.display === ''){
-      arch.style.display = 'block';
-      list.style.display = 'block';
-      buildArchives();
-      arch.scrollIntoView({behavior:'smooth'});
-    } else {
-      arch.style.display = 'none';
-      list.style.display = 'none';
-    }
+      arch.style.display = 'block'; list.style.display = 'block'; buildArchives(); arch.scrollIntoView({behavior:'smooth'});
+    } else { arch.style.display = 'none'; list.style.display = 'none'; }
   });
 }
 function hideArchives(){ const a = $('#archives'); const l = $('#archives-list'); if(a) a.style.display='none'; if(l) l.style.display='none'; }
 
-/* ------------- Dark mode ------------- */
+// DARK MODE
 const darkToggle = $('#darkToggle');
 function applyDark(isDark){
-  if(isDark) document.body.classList.add('dark');
-  else document.body.classList.remove('dark');
+  if(isDark) document.body.classList.add('dark'); else document.body.classList.remove('dark');
   localStorage.setItem('orbis_dark', isDark? '1':'0');
   if(darkToggle) darkToggle.textContent = isDark? 'Light' : 'Dark';
 }
@@ -456,38 +446,55 @@ if(darkToggle){
   })();
 }
 
-/* ------------- Live search ------------- */
+// SEARCH
 const searchInput = $('#searchInput');
 if(searchInput){
   searchInput.addEventListener('input', function(){
     const q = this.value.toLowerCase();
-    const boxes = $$('.article-box');
-    boxes.forEach(box=>{
+    $$('.article-box').forEach(box=>{
       const text = box.innerText.toLowerCase();
       box.style.display = text.includes(q) ? 'block' : 'none';
     });
   });
 }
 
-/* ------------- Comment system (localStorage) -------------
-  - Comments saved per article id in localStorage key 'orbis_comments'
-  - Structure: { articleId: [ {name, text, time}, ... ] }
---------------------------------------------------------*/
+/* ------------------- COMMENTS (Firebase realtime DB OR localStorage fallback) ------------------- */
+
+// FIREBASE CONFIG: REPLACE the object below with your Firebase project's config.
+// Example (do NOT keep the placeholder values; replace them):
+// const firebaseConfig = {
+//   apiKey: "AIza...",
+//   authDomain: "your-project.firebaseapp.com",
+//   databaseURL: "https://your-project.firebaseio.com",
+//   projectId: "your-project-id",
+//   storageBucket: "your-project.appspot.com",
+//   messagingSenderId: "1234567890",
+//   appId: "1:1234567890:web:abcdef"
+// };
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  databaseURL: "YOUR_DATABASE_URL",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+// Helper that checks whether the firebaseConfig has been replaced with real keys
+function isFirebaseConfigured(cfg){
+  return cfg && cfg.apiKey && cfg.apiKey !== 'YOUR_API_KEY' && cfg.databaseURL && cfg.databaseURL !== 'YOUR_DATABASE_URL';
+}
+
+// LocalStorage comment helpers (fallback)
 const COMMENTS_KEY = 'orbis_comments';
+function loadCommentsData(){ try{ return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}'); }catch(e){return {}} }
+function saveCommentsData(obj){ localStorage.setItem(COMMENTS_KEY, JSON.stringify(obj)); }
 
-function loadCommentsData(){
-  try{ return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}'); }
-  catch(e){ return {}; }
-}
-function saveCommentsData(obj){
-  localStorage.setItem(COMMENTS_KEY, JSON.stringify(obj));
-}
-
+// Render comments using either Firebase or localStorage depending on config
 function renderCommentsFor(articleId){
   const container = document.querySelector(`.comments[data-comments-for="${articleId}"]`);
   if(!container) return;
-  const data = loadCommentsData();
-  const list = data[articleId] || [];
   container.innerHTML = '';
   // comment form
   const form = document.createElement('div');
@@ -502,53 +509,95 @@ function renderCommentsFor(articleId){
   `;
   container.appendChild(form);
 
-  // comment list
+  // list area
   const listEl = document.createElement('div');
   listEl.className = 'comment-list';
-  if(list.length === 0){
-    listEl.innerHTML = '<div style="color:var(--muted);font-style:italic">No comments yet.</div>';
-  } else {
-    list.forEach(c=>{
+  container.appendChild(listEl);
+
+  // Functions to populate list from either source
+  function populateFromLocal(){
+    const data = loadCommentsData();
+    const list = data[articleId] || [];
+    listEl.innerHTML = '';
+    if(list.length === 0){ listEl.innerHTML = '<div style="color:var(--muted);font-style:italic">No comments yet.</div>'; return; }
+    list.forEach(c => {
       const el = document.createElement('div');
       el.className = 'comment-item';
-      el.innerHTML = `<strong>${escapeHtml(c.name||'Anonymous')}</strong> <small style="color:var(--muted)"> • ${new Date(c.time).toLocaleString()}</small>
-                      <div style="margin-top:6px">${escapeHtml(c.text)}</div>`;
+      el.innerHTML = `<strong>${escapeHtml(c.name||'Anonymous')}</strong> <small style="color:var(--muted)"> • ${new Date(c.time).toLocaleString()}</small><div style="margin-top:6px">${escapeHtml(c.text)}</div>`;
       listEl.appendChild(el);
     });
   }
-  container.appendChild(listEl);
 
-  // handlers
+  function populateFromFirebaseSnapshot(snapshot){
+    const val = snapshot.val() || {};
+    const items = Object.keys(val).map(k => val[k]).sort((a,b)=> a.time - b.time);
+    listEl.innerHTML = '';
+    if(items.length === 0){ listEl.innerHTML = '<div style="color:var(--muted);font-style:italic">No comments yet.</div>'; return; }
+    items.forEach(c => {
+      const el = document.createElement('div');
+      el.className = 'comment-item';
+      el.innerHTML = `<strong>${escapeHtml(c.name||'Anonymous')}</strong> <small style="color:var(--muted)"> • ${new Date(c.time).toLocaleString()}</small><div style="margin-top:6px">${escapeHtml(c.text)}</div>`;
+      listEl.appendChild(el);
+    });
+  }
+
+  // submit handler (works for both storage types)
   form.querySelector('.submit-comment').addEventListener('click', ()=>{
     const txt = form.querySelector('textarea').value.trim();
     const name = form.querySelector('input[type="text"]').value.trim();
     if(!txt){ alert('Please write a comment.'); return; }
-    const data = loadCommentsData();
-    data[articleId] = data[articleId] || [];
-    data[articleId].push({name: name || 'Anonymous', text: txt, time: Date.now()});
-    saveCommentsData(data);
-    renderCommentsFor(articleId);
+
+    if(window.firebaseEnabled){
+      // push to firebase
+      const dbRef = firebase.database().ref('comments/' + articleId);
+      dbRef.push({ name: name || 'Anonymous', text: txt, time: Date.now() });
+      form.querySelector('textarea').value = '';
+      form.querySelector('input[type="text"]').value = '';
+    } else {
+      // localStorage fallback
+      const data = loadCommentsData();
+      data[articleId] = data[articleId] || [];
+      data[articleId].push({ name: name || 'Anonymous', text: txt, time: Date.now() });
+      saveCommentsData(data);
+      populateFromLocal();
+      form.querySelector('textarea').value = '';
+      form.querySelector('input[type="text"]').value = '';
+    }
   });
 
-  // download comments button
+  // download handler
   form.querySelector('button[data-download]').addEventListener('click', ()=>{
-    const data = loadCommentsData();
-    const articleComments = data[articleId] || [];
-    const blob = new Blob([JSON.stringify(articleComments, null, 2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = `${articleId}-comments.json`;
-    document.body.appendChild(a); a.click(); a.remove();
-    URL.revokeObjectURL(url);
+    if(window.firebaseEnabled){
+      // download firebase data snapshot once
+      firebase.database().ref('comments/' + articleId).once('value').then(snap=>{
+        const obj = snap.val() || {};
+        const blob = new Blob([JSON.stringify(obj, null, 2)], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = `${articleId}-comments.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      });
+    } else {
+      const data = loadCommentsData();
+      const articleComments = data[articleId] || [];
+      const blob = new Blob([JSON.stringify(articleComments, null, 2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = `${articleId}-comments.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
   });
+
+  // initial populate
+  if(window.firebaseEnabled){
+    // listen for realtime updates
+    const dbRef = firebase.database().ref('comments/' + articleId);
+    dbRef.on('value', populateFromFirebaseSnapshot);
+  } else {
+    populateFromLocal();
+  }
 }
 
 // escape helper
-function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]; });
-}
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]; }); }
 
-// render all comment blocks on load
+// render initial comment blocks and archives on DOM ready
 document.addEventListener('DOMContentLoaded', ()=>{
   $$('[data-id]').forEach(box=>{
     const id = box.getAttribute('data-id');
@@ -559,72 +608,56 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 /* ------------- Comment button (delegated) ------------- */
 document.body.addEventListener('click', function(e){
-  const target = e.target;
-  if(target.classList.contains('comment-button')){
-    const articleId = target.getAttribute('data-article-id') || target.closest('[data-id]')?.getAttribute('data-id');
+  const t = e.target;
+  if(t.classList.contains('comment-button')){
+    const articleId = t.getAttribute('data-article-id') || t.closest('[data-id]')?.getAttribute('data-id');
     if(!articleId) return;
     const commentsArea = document.querySelector(`.comments[data-comments-for="${articleId}"]`);
     if(commentsArea){
       commentsArea.scrollIntoView({behavior:'smooth', block:'center'});
-      setTimeout(()=> {
-        const ta = commentsArea.querySelector('textarea');
-        if(ta) ta.focus();
-      },300);
+      setTimeout(()=> { const ta = commentsArea.querySelector('textarea'); if(ta) ta.focus(); },300);
     }
   }
 });
 
-/* ------------- Optional: Firebase comments (example) -------------
-  To enable shared, server-backed comments (visible to all visitors), do this:
-  1) Create a Firebase project and add a Web App (https://console.firebase.google.com/)
-  2) In the Firebase console get the config object for your app.
-  3) Uncomment the <script src="https://www.gstatic.com/firebasejs/..."> lines below in the <head> and paste your config here.
-  4) Replace the localStorage save/load parts with database pushes/reads (example given).
-  5) If you want, I can help generate the exact Firestore/Realtime DB code and security rules.
+/* -------------------- Initialize Firebase (if configured) -------------------- */
+window.firebaseEnabled = false;
 
-  EXAMPLE (client-side, Realtime Database - this block is commented out intentionally):
-*/
-
-/*
-<!-- Paste these in the <head> above (uncomment) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
-<script>
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    databaseURL: "https://YOUR_PROJECT.firebaseio.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-
-  // Example function to post a comment to firebase:
-  function postCommentToFirebase(articleId, name, text){
-    const ref = db.ref('comments/' + articleId);
-    ref.push({ name: name||'Anonymous', text, time: Date.now() });
+(function tryInitFirebase(){
+  try{
+    if(isFirebaseConfigured(firebaseConfig) && typeof firebase !== 'undefined'){
+      // initialize firebase
+      if(!firebase.apps || firebase.apps.length === 0){
+        firebase.initializeApp(firebaseConfig);
+      }
+      // simple test to ensure database is reachable
+      const testRef = firebase.database().ref('.info/connected');
+      window.firebaseEnabled = true;
+      // Now that firebase is enabled, re-render comment blocks to attach realtime listeners
+      $$('[data-id]').forEach(box=>{
+        const id = box.getAttribute('data-id');
+        // remove any existing static content and re-render
+        renderCommentsFor(id);
+      });
+      console.log('Firebase enabled for comments.');
+    } else {
+      console.log('Firebase not configured — using localStorage fallback for comments.');
+      window.firebaseEnabled = false;
+    }
+  } catch(err){
+    console.warn('Firebase init error — falling back to localStorage. Error:', err);
+    window.firebaseEnabled = false;
   }
+})();
 
-  // Example to listen for comments and render them:
-  function startFirebaseListener(articleId){
-    const ref = db.ref('comments/' + articleId);
-    ref.on('value', snap=>{
-      const comments = snap.val() || {};
-      // Build UI from comments (replace renderCommentsFor logic or merge)
-    });
-  }
-</script>
-*/
+/* -------------------- Small UX helpers -------------------- */
+// no further code here
 
-/* ------------- Small helpers for UX ------------- */
-// nothing more needed here
 </script>
+
 </body>
 </html>
+
 
 
 
