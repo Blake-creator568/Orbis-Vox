@@ -102,6 +102,38 @@ img:hover{transform:scale(1.03);border-color:var(--accent);}
 footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px;color:var(--accent-2);font-weight:bold;}
 @media print{nav,.comment-button,.comment-form,.visitor-counter,.footer-right{display:none} body{border:none;padding:10px;background:#fff} .article-box{box-shadow:none;border:none;padding:0} .section-title{page-break-before:always}}
 @media(max-width:800px){.col{width:100%} #searchInput{width:100%} h1{font-size:56px}}
+
+  /* ---------- MOBILE SEARCH + NO NAV BAR ---------- */
+.mobile-search {
+  display: none; /* hidden on desktop */
+  width: 100%;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.mobile-search input {
+  width: 92%;
+  padding: 12px;
+  font-size: 18px;
+  border: 2px solid #000;
+  border-radius: 8px;
+}
+
+/* MOBILE: hide nav + desktop search, show mobile search */
+@media(max-width:800px) {
+  nav {
+    display: none !important;
+  }
+
+  #searchInput {
+    display: none;
+  }
+
+  .mobile-search {
+    display: block;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -118,6 +150,10 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
     A small independent digital newspaper covering humour, global issues, women’s rights, and teenage life — written and created by Blake.
   </div>
 </header>
+
+  <div class="mobile-search">
+  <input type="text" id="mobileSearchInput" placeholder="Search articles...">
+</div>
 
 <nav>
   <div>
@@ -373,4 +409,5 @@ window.addEventListener("click",(e)=>{
 
 </body>
 </html>
+
 
