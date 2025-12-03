@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
+<meta charset="UTF-8">
 <title>Orbis Vox</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 :root{
   --bg:#fdfcf8;
@@ -13,6 +13,7 @@
   --accent-2:#B22222;
   --muted:#7a7a7a;
   --card-shadow:0 6px 18px rgba(0,0,0,0.08);
+  --transition-speed:.3s;
 }
 
 html{scroll-behavior:smooth;}
@@ -24,17 +25,28 @@ body{
   max-width:980px;
   margin:auto;
   border:8px double #000;
-  transition:background .25s, color .25s;
+  transition:background var(--transition-speed), color var(--transition-speed);
 }
 .container{padding:0 10px;}
 
-header{position:relative;text-align:center;margin-bottom:10px;}
-header a.logo-link{position:absolute;top:6px;left:6px;display:inline-block;}
-#logo{width:40px;height:40px;display:block;border-radius:6px;transition:transform .3s;position:fixed;top:10px;left:10px;z-index:1000;}
+header{
+  position:relative;text-align:center;margin-bottom:10px;
+}
+header a.logo-link{
+  position:absolute;top:6px;left:6px;display:inline-block;
+}
+#logo{
+  width:40px;height:40px;display:block;border-radius:6px;
+  transition:transform var(--transition-speed);
+  position:fixed;top:10px;left:10px;z-index:1000;
+}
 #logo:hover{transform:scale(1.05) rotate(-2deg);}
 h1{font-size:86px;margin:0;letter-spacing:8px;text-shadow:1px 1px #ccc;color:#000;}
 .subhead{font-size:20px;margin-top:-8px;text-transform:uppercase;font-weight:bold;padding:6px 0;border-top:2px double #000;border-bottom:2px double #000;letter-spacing:2px;color:var(--accent-2);}
-.header-description{font-size:1.1em;margin-top:12px;color:#444;opacity:0;transform:translateY(20px);animation:slideInDesc 1s forwards 0.5s;}
+.header-description{
+  font-size:1.1em;margin-top:12px;color:#444;opacity:0;transform:translateY(20px);
+  animation:slideInDesc 1s forwards 0.5s;
+}
 @keyframes slideInDesc{to{opacity:1;transform:translateY(0);}}
 
 nav{
@@ -55,7 +67,7 @@ nav a{
   font-weight:bold;
   margin:0 14px;
   font-size:18px;
-  transition:color .2s;
+  transition:color var(--transition-speed);
 }
 nav a:hover{color:#FFD2D2;text-decoration:underline;}
 nav #searchInput{
@@ -74,10 +86,17 @@ nav #searchInput{
   .hamburger{display:flex;}
 }
 .date-line{display:flex;justify-content:center;gap:50px;margin:18px 0 30px;font-size:18px;font-weight:bold;font-family:Georgia,serif;border-bottom:1px solid #000;padding-bottom:12px;}
-.section-title{font-size:34px;text-align:center;margin:34px 0 18px;text-transform:uppercase;border-bottom:2px double #000;padding-bottom:8px;color:#000;}
-.article-box{margin-bottom:34px;border-top:2px solid #000;border-bottom:2px solid #000;padding:18px;background:var(--paper);box-shadow:var(--card-shadow);transition:transform .2s;}
+.section-title{font-size:34px;text-align:center;margin:34px 0 18px;text-transform:uppercase;border-bottom:2px double #000;padding-bottom:8px;color:#000;opacity:0;transform:translateY(20px);animation:fadeInSection 1s forwards;}
+@keyframes fadeInSection{to{opacity:1;transform:translateY(0);}}
+.article-box{
+  margin-bottom:34px;border-top:2px solid #000;border-bottom:2px solid #000;
+  padding:18px;background:var(--paper);box-shadow:var(--card-shadow);
+  transition:transform var(--transition-speed),opacity var(--transition-speed);
+  opacity:0;transform:translateY(20px);
+}
+.article-box.visible{opacity:1;transform:translateY(0);}
 .article-box:hover{transform:translateY(-3px);}
-.article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2); transition: color .3s;}
+.article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2); transition: color var(--transition-speed);}
 .article-title small{display:block;font-size:12px;color:var(--muted);text-transform:none;margin-top:6px;}
 .columns{display:flex;gap:24px;flex-wrap:wrap;}
 .col{width:48%;font-size:17px;line-height:1.6;text-align:justify;}
@@ -89,11 +108,12 @@ img:hover{transform:scale(1.03);border-color:var(--accent);}
 .poll,.fact{background:#f9f9f0;padding:10px;margin:15px 0;border:1px solid #000;font-style:italic;}
 .comments{margin-top:16px;border-top:1px dashed #ccc;padding-top:12px;}
 .comment-form{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start;}
-.comment-form textarea{width:100%;min-height:70px;padding:8px;border:2px solid #000;border-radius:6px;}
-.comment-form input[type="text"]{padding:8px;border:2px solid #000;border-radius:6px;}
+.comment-form textarea{width:100%;min-height:70px;padding:8px;border:2px solid #000;border-radius:6px;transition:all .2s;}
+.comment-form input[type="text"]{padding:8px;border:2px solid #000;border-radius:6px;transition:all .2s;}
 .comment-list{margin-top:12px;}
-.comment-item{border:1px solid #ddd;padding:8px;border-radius:6px;margin-bottom:8px;background:#fff;}
-.comment-button{display:inline-block;margin:8px 0;padding:10px 16px;font-size:14px;font-weight:bold;background:#fff;color:#000;border:2px solid #000;cursor:pointer;text-transform:uppercase;border-radius:6px;}
+.comment-item{border:1px solid #ddd;padding:8px;border-radius:6px;margin-bottom:8px;background:#fff;opacity:0;transform:translateY(10px);transition:opacity .4s, transform .4s;}
+.comment-item.visible{opacity:1;transform:translateY(0);}
+.comment-button{display:inline-block;margin:8px 0;padding:10px 16px;font-size:14px;font-weight:bold;background:#fff;color:#000;border:2px solid #000;cursor:pointer;text-transform:uppercase;border-radius:6px;transition:all var(--transition-speed);}
 .comment-button:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
 .visitor-counter{text-align:center;margin:30px 0;}
 .contact-box{display:none;position:fixed;z-index:10000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.6);}
@@ -102,63 +122,16 @@ img:hover{transform:scale(1.03);border-color:var(--accent);}
 footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px;color:var(--accent-2);font-weight:bold;}
 @media print{nav,.comment-button,.comment-form,.visitor-counter,.footer-right{display:none} body{border:none;padding:10px;background:#fff} .article-box{box-shadow:none;border:none;padding:0} .section-title{page-break-before:always}}
 @media(max-width:800px){.col{width:100%} #searchInput{width:100%} h1{font-size:56px}}
-
-  /* ---------- MOBILE SEARCH + NO NAV BAR ---------- */
-.mobile-search {
-  display: none; /* hidden on desktop */
-  width: 100%;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-.mobile-search input {
-  width: 92%;
-  padding: 12px;
-  font-size: 18px;
-  border: 2px solid #000;
-  border-radius: 8px;
-}
-
-/* MOBILE: hide nav + desktop search, show mobile search */
+.mobile-search {display: none; width: 100%; margin-bottom: 15px; text-align: center;}
+.mobile-search input {width: 92%; padding: 12px; font-size: 18px; border: 2px solid #000; border-radius: 8px;}
 @media(max-width:800px) {
-  nav {
-    display: none !important;
-  }
-
-  #searchInput {
-    display: none;
-  }
-
-  .mobile-search {
-    display: block;
-  }
+  nav {display: none !important;}
+  #searchInput {display: none;}
+  .mobile-search {display: block;}
 }
-
-  // Mobile search functionality
-const mobileSearchInput = document.getElementById("mobileSearchInput");
-
-if (mobileSearchInput) {
-  mobileSearchInput.addEventListener("input", function() {
-    const query = this.value.toLowerCase();
-    const articles = document.querySelectorAll(".article-box");
-
-    articles.forEach(article => {
-      const title = article.querySelector(".article-title").innerText.toLowerCase();
-      const content = article.querySelector(".article-content").innerText.toLowerCase();
-      if (title.includes(query) || content.includes(query)) {
-        article.style.display = "";
-      } else {
-        article.style.display = "none";
-      }
-    });
-  });
-}
-
-
 </style>
 </head>
 <body>
-
 <div class="container">
 
 <header>
@@ -172,25 +145,22 @@ if (mobileSearchInput) {
   </div>
 </header>
 
-  <div class="mobile-search">
+<div class="mobile-search">
   <input type="text" id="mobileSearchInput" placeholder="Search articles...">
 </div>
 
 <nav>
   <div>
-    <a href="#news" id="homeLink">Home</a>
     <a href="#news">News</a>
-    <a href="#fun" id="funLink">Fun</a>
+    <a href="#fun">Fun</a>
     <a href="#global">Global Issues</a>
     <a href="#teenage">Teenage Life</a>
     <a href="#about">About</a>
     <a href="#" id="contactBtn">Contact</a>
   </div>
-
   <div class="hamburger" id="hamburger">
     <div></div><div></div><div></div>
   </div>
-
   <input id="searchInput" placeholder="Search articles..." aria-label="Search articles">
 </nav>
 
@@ -199,12 +169,10 @@ if (mobileSearchInput) {
   <div>2025</div>
 </div>
 
-<!-- ================= Articles ================= -->
+<!-- ================= ARTICLES ================= -->
 
-<!-- NEWS -->
 <section id="news" class="fade-in">
   <div class="section-title">News</div>
-
   <div class="article-box" data-id="trans-girls-ban">
     <div class="article-title">Discrimination shown as trans girls are banned from Girl Guide groups</div>
     <div class="article-content">
@@ -221,24 +189,19 @@ if (mobileSearchInput) {
       <div class="comments" data-id="trans-girls-ban"></div>
     </div>
   </div>
-
 </section>
 
-<!-- FUN -->
+<!-- Fun Section -->
 <section id="fun" class="fade-in">
   <div class="section-title">Fun</div>
-
   <div class="article-box" data-id="dog-choir">
     <div class="article-title">West Hallam’s Dog Choir Wakes Residents</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
-          Residents across West Hallam were startled awake at an insane hour this morning as the village’s infamous 
-          “Dog Choir” began another full-volume performance.<br><br>
-          The chaos always begins the same way: one dog, somewhere in the distance, lets out a single bark that 
-          somehow sounds like someone has stubbed their toe.<br><br>
-          Within seconds, every single dog in the village has a turn, creating a racket that can only be described as:
-          “Someone listening to their phone on full blast.”<br><br>
+          Residents across West Hallam were startled awake at an insane hour this morning as the village’s infamous “Dog Choir” began another full-volume performance.<br><br>
+          The chaos always begins the same way: one dog, somewhere in the distance, lets out a single bark that somehow sounds like someone has stubbed their toe.<br><br>
+          Within seconds, every single dog in the village has a turn, creating a racket that can only be described as: “Someone listening to their phone on full blast.”<br><br>
           No one knows what throws them off. Some assumed triggers by families vary of:<br>
           • A gust of wind that suspiciously sounds like a whistle.<br>
           • A leaf flying by with a look of disgust.<br>
@@ -247,122 +210,68 @@ if (mobileSearchInput) {
         </div>
         <div class="col">
           I’m convinced they hold meetings through Skype when we are away.<br><br>
-          The barking usually reaches maximum volume at the exact moment you were finally about to sit down and relax 
-          after a long day at work.<br><br>
-          This leaves locals feeling ready to sue the entire canine population.<br><br>
+          The barking usually reaches maximum volume at the exact moment you were finally about to sit down and relax after a long day at work.<br><br>
           Despite the daily chaos, many admit the barking has become part of West Hallam life.<br>
           It’s consistent.<br>
           It’s loud.<br>
           And it absolutely doesn’t care that you have college in an hour.<br><br>
-          Well, at least someone in this village has some variation of entertainment. Can’t blame the dogs, 
-          at least they’re talkative.<br><br>
           <img src="dog.jpg" alt="Dog Photo">
           <div class="caption">PHOTO: BLAKE RICHARDSON</div>
         </div>
       </div>
-
       <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
       <div class="comments" data-id="dog-choir"></div>
     </div>
   </div>
-
 </section>
 
-<!-- GLOBAL -->
+<!-- Global Section -->
 <section id="global" class="fade-in">
   <div class="section-title">Global Issues</div>
-
   <div class="article-box" data-id="womens-rights">
-    <div class="article-title">Breaking Barriers: Milestones in the Women's Rights Movement</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          Let’s talk about rights. The battle women have fought day in and day out for centuries just to survive. 
-          The change from the 1700s to the 21st century. Has it changed drastically? Do you know all the history? 
-          Are we doing enough?<br><br>
-          1975. Nineteen. Seventy. Five. Women finally obtained the right to equal pay. This meant women could legally earn the same as men for doing the same amount of work. It was a crucial step towards equality in the world and workplace. Even today, it reminds us all how long women had to wait for this simple, human right. Women got the right to equal pay when the Equal Pay Act 1970 came into force on 29th December 1975. This legislation was a major step in ensuring that men and women receive equal pay for equal work, marking a pivotal moment in the fight for gender equality.
-        </div>
-        <div class="col">
-          In the late 19th to early 20th century, women gained the right to freedom. Personal freedom such as universities. 
-          This meant women could legally choose her own path in life and ensure her own future. It was a weighty decision 
-          for women who wanted more for their lives, which was most, and this choice meant women could become lawyers, 
-          officers of the law or even prime ministers.<br><br>
-          For example, Margaret Thatcher became the first female Prime Minister of the UK in 1979. 
-          Thatcher was seen as a divisive figure, but she proved women can do the same jobs men can, if not better.<br><br>
-          Women’s rights have changed over the years. From being their husband’s property to becoming lawyers and Prime Ministers. 
-          Gaining the right to vote, the right to owning their own property, and equal pay. Each step has been crucial 
-          progress to the world. These changes remind us how change is created one step at a time.
-        </div>
+    <div class="columns">
+      <div class="col">
+        Let’s talk about rights. The battle women have fought day in and day out for centuries just to survive. 1975. Women finally obtained the right to equal pay under the Equal Pay Act 1970, enforced in December 1975. This was a major step for gender equality. <span class="news-source">BBC</span>
       </div>
-      <div class="comments" data-id="womens-rights"></div>
+      <div class="col">
+        Women also gained freedom to study and pursue careers. Margaret Thatcher became first female PM in 1979. Women’s rights have progressed from property restrictions to leadership roles, equal pay, and voting rights.
+      </div>
     </div>
+    <div class="comments" data-id="womens-rights"></div>
   </div>
-
 </section>
 
-<!-- TEENAGE -->
+<!-- Teenage Section -->
 <section id="teenage" class="fade-in">
   <div class="section-title">Teenage Life</div>
-
   <div class="article-box" data-id="teenage-exhaustion">
-    <div class="article-title">Why young people are so exhausted all the time</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          Teenagers. Dramatic or genuinely drained? What do you think? Forty-three percent of teenagers in the UK 
-          are exhausted mentally or physically. So, are they being dramatic? Let us find out.<br><br>
-          Seventy-five percent of students aged 11–18 have complained of feeling overwhelmed about the education system. 
-          This prevents students from achieving what they could be capable of within school hours. Many students arrive 
-          on time and do their work without showing any exhaustion. These students do not necessarily have the energy 
-          to do this; most will pretend so no one asks questions.<br><br>
-          A former pupil at Kirk Hallam Academy said, “I pretended to be okay because it was easier than answering 
-          their questions. I told a couple of teachers, but I never got the support I needed which resulted in my 
-          self-esteem dropping drastically.”<br><br>
-          <img src="images.jpeg" alt="Teenagers looking tired">
-          <div class="caption">PHOTO: TEENAGERS’ EXHAUSTION IN THE UK</div>
-        </div>
-        <div class="col">
-          Another point to consider is home life. A variety of students have unstable living circumstances. 
-          As a teenager they find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends.<br><br>
-          One in seven teenagers have reported living in a neglectful home and the toll it has taken on their mental health. 
-          How could we change this? Parents/Carers, you need to be more respectful to your children. Most children grow up 
-          hating you if you treat them horribly as they are growing.<br><br>
-          Relationships. The one thing most teenagers yearn for. Are teenage relationships healthy or are they better off without? 
-          Teenage relationships have a profound and dualistic effect on mental health: healthy, supportive relationships function 
-          as a vital protective factor, while unhealthy ones increase the risk of anxiety, depression, and low self-esteem.<br><br>
-          In conclusion, most teenagers are overwhelmed by education and family issues. However, relationships can be a solution. 
-          The majority of students find comfort in having one familiar person. Teenagers are not being dramatic, they are stressed 
-          because of all the pressure from the world around them.
-        </div>
+    <div class="columns">
+      <div class="col">
+        Teenagers are exhausted physically and mentally. 75% of UK students feel overwhelmed by schoolwork, pretending to cope. Home life and neglect add stress. Many hide their struggles from friends. 
       </div>
-      <div class="comments" data-id="teenage-exhaustion"></div>
+      <div class="col">
+        Relationships play a key role. Healthy ones protect mental health; unhealthy ones increase anxiety. Teenagers are not dramatic — they are stressed from school and life pressures.
+      </div>
     </div>
+    <div class="comments" data-id="teenage-exhaustion"></div>
   </div>
-
 </section>
 
-<!-- ABOUT -->
+<!-- About Section -->
 <section id="about" class="fade-in">
   <div class="section-title">About</div>
   <div class="article-box">
     <div class="columns">
       <div class="col">
-        Orbis Vox is a small, independent digital newspaper created and written by me, Blake Richardson. 
-        I started it to cover humour, teenage life, women’s rights, and global issues in a way that’s 
-        accessible and engaging for readers of all ages.<br><br>
-        My goal is to provide a platform for thoughtful discussion, creative storytelling, and to highlight 
-        important topics that aren’t always covered by larger publications.
+        Orbis Vox is a small independent digital newspaper created by Blake Richardson. It covers humour, teenage life, women’s rights, and global issues.
       </div>
       <div class="col">
-        This site is a work in progress, and every article, image, and idea you see here reflects my personal 
-        effort and passion. I hope to continue growing Orbis Vox, adding more voices, stories, and perspectives 
-        in the future. Thank you for visiting and reading – your support means a lot!
+        The site reflects Blake’s personal effort and passion. It’s a platform for thoughtful discussion and creative storytelling. Thank you for reading and supporting Orbis Vox!
       </div>
     </div>
   </div>
 </section>
 
-<!-- VISITOR COUNTER -->
 <div class="visitor-counter">
   <a href="https://www.hitwebcounter.com/" target="_blank">
     <img src="https://hitwebcounter.com/counter/counter.php?page=21461049&style=0030&nbdigits=5&type=page&initCount=1000" 
@@ -370,7 +279,6 @@ if (mobileSearchInput) {
   </a>
 </div>
 
-<!-- CONTACT MODAL -->
 <div class="contact-box" id="contactModal">
   <div class="modal-content">
     <span class="close-modal" id="closeModal">&times;</span>
@@ -387,6 +295,7 @@ if (mobileSearchInput) {
 </div>
 
 <script>
+// Hamburger toggle
 const hamburger = document.getElementById("hamburger");
 const nav = document.querySelector("nav");
 hamburger.addEventListener("click",()=>{nav.classList.toggle("active");});
@@ -395,41 +304,13 @@ hamburger.addEventListener("click",()=>{nav.classList.toggle("active");});
 const contactBtn = document.getElementById("contactBtn");
 const contactModal = document.getElementById("contactModal");
 const closeModal = document.getElementById("closeModal");
+contactBtn.addEventListener("click",(e)=>{e.preventDefault(); contactModal.style.display="block";});
+close
 
-  // Live search for articles
-const searchInput = document.getElementById("searchInput");
-searchInput.addEventListener("input", function() {
-  const query = this.value.toLowerCase();
-  const articles = document.querySelectorAll(".article-box");
-
-  articles.forEach(article => {
-    const title = article.querySelector(".article-title").innerText.toLowerCase();
-    const content = article.querySelector(".article-content").innerText.toLowerCase();
-    if(title.includes(query) || content.includes(query)) {
-      article.style.display = "";
-    } else {
-      article.style.display = "none";
-    }
-  });
-});
-
-
-contactBtn.addEventListener("click",(e)=>{
-  e.preventDefault();
-  contactModal.style.display="block";
-});
-
-closeModal.addEventListener("click",()=>{
-  contactModal.style.display="none";
-});
-
-window.addEventListener("click",(e)=>{
-  if(e.target==contactModal){contactModal.style.display="none";}
-});
-</script>
 
 </body>
 </html>
+
 
 
 
