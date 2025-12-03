@@ -339,6 +339,24 @@ const contactBtn = document.getElementById("contactBtn");
 const contactModal = document.getElementById("contactModal");
 const closeModal = document.getElementById("closeModal");
 
+  // Live search for articles
+const searchInput = document.getElementById("searchInput");
+searchInput.addEventListener("input", function() {
+  const query = this.value.toLowerCase();
+  const articles = document.querySelectorAll(".article-box");
+
+  articles.forEach(article => {
+    const title = article.querySelector(".article-title").innerText.toLowerCase();
+    const content = article.querySelector(".article-content").innerText.toLowerCase();
+    if(title.includes(query) || content.includes(query)) {
+      article.style.display = "";
+    } else {
+      article.style.display = "none";
+    }
+  });
+});
+
+
 contactBtn.addEventListener("click",(e)=>{
   e.preventDefault();
   contactModal.style.display="block";
@@ -355,3 +373,4 @@ window.addEventListener("click",(e)=>{
 
 </body>
 </html>
+
