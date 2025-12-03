@@ -134,6 +134,27 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   }
 }
 
+  // Mobile search functionality
+const mobileSearchInput = document.getElementById("mobileSearchInput");
+
+if (mobileSearchInput) {
+  mobileSearchInput.addEventListener("input", function() {
+    const query = this.value.toLowerCase();
+    const articles = document.querySelectorAll(".article-box");
+
+    articles.forEach(article => {
+      const title = article.querySelector(".article-title").innerText.toLowerCase();
+      const content = article.querySelector(".article-content").innerText.toLowerCase();
+      if (title.includes(query) || content.includes(query)) {
+        article.style.display = "";
+      } else {
+        article.style.display = "none";
+      }
+    });
+  });
+}
+
+
 </style>
 </head>
 <body>
@@ -409,5 +430,6 @@ window.addEventListener("click",(e)=>{
 
 </body>
 </html>
+
 
 
