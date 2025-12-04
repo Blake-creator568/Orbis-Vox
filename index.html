@@ -129,6 +129,21 @@ img:hover{transform:scale(1.03);border-color:var(--accent);}
 footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px;color:var(--accent-2);font-weight:bold;}
 
 @media print{nav,.comment-button,.comment-form,.visitor-counter{display:none} body{border:none;padding:10px;background:#fff} .article-box{box-shadow:none;border:none;padding:0} .section-title{page-break-before:always}}
+
+/* ================= MOBILE COLLAPSIBLE ================= */
+@media(max-width:750px){
+  .article-content {
+    display: none;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .article-box.open .article-content {
+    display: block;
+  }
+  .article-title {
+    cursor: pointer;
+  }
+}
 </style>
 
 <!-- Firebase -->
@@ -517,10 +532,7 @@ searchInput.addEventListener("input", function() {
 });
 
 // Contact modal open/close
-contactBtn.addEventListener("click",(e)=>{
-  e.preventDefault();
-  contactModal.style.display="block";
-});
+contactBtn.addEventListener("click",(e)=>{e.preventDefault();contactModal.style.display="block";});
 closeModal.addEventListener("click",()=>{contactModal.style.display="none";});
 window.addEventListener("click",(e)=>{if(e.target==contactModal){contactModal.style.display="none";}});
 
@@ -564,9 +576,27 @@ document.querySelectorAll(".comments").forEach(container => {
     }
   });
 });
+
+// ================= MOBILE COLLAPSIBLE =================
+function setupMobileCollapsible() {
+  if(window.innerWidth <= 750){
+    document.querySelectorAll(".article-box").forEach(box => {
+      const title = box.querySelector(".article-title");
+      const content = box.querySelector(".article-content");
+      if(!title.dataset.collapsible){
+        title.dataset.collapsible = "true";
+        title.addEventListener("click", () => {
+          box.classList.toggle("open");
+        });
+      }
+    });
+  } else {
+    document.querySelectorAll(".article-box").forEach(box => box.classList.remove("open"));
+  }
+}
+window.addEventListener("DOMContentLoaded", setupMobileCollapsible);
+window.addEventListener("resize", setupMobileCollapsible);
 </script>
 
-</div>
 </body>
 </html>
-
