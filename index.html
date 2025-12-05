@@ -91,7 +91,7 @@ nav #searchInput{
 img{width:100%;margin-top:12px;border:2px solid #000;transition:transform .25s,border-color .25s;}
 img:hover{transform:scale(1.03);border-color:var(--accent);}
 .caption{text-align:center;font-style:italic;margin-top:6px;font-size:13px;color:#7a7a7a;}
-.empty-article{border:2px dashed #bcbcbc;background:#f2f2f2;padding:20px;margin:20px 0;height:160px;font-style:italic;text-align:center;color:#7a7a7a;font-size:18px;}
+.empty-article{border:2px dashed #bcbcbc;background:#f2f2f2;padding:20px;margin:20px 0;height:160px;font-style:italic;text-align:center;color:#7a7a7a;font-size:18px;display:flex;align-items:center;justify-content:center;}
 .poll,.fact{background:#f9f9f0;padding:10px;margin:15px 0;border:1px solid #000;font-style:italic;}
 
 /* MOBILE FIX — THIS IS WHAT STOPS THE SQUASHING */
@@ -189,48 +189,36 @@ img:hover{transform:scale(1.03);border-color:var(--accent);}
   pointer-events: auto;
 }
 
-  // ================= COLLAPSIBLE ARTICLES (click headline to toggle) =================
-function makeArticlesCollapsible() {
-  document.querySelectorAll(".article-box").forEach(box => {
-    const title = box.querySelector(".article-title");
-    if (!title) return;
-
-    // Make title keyboard-focusable and act like a button
-    title.setAttribute("role", "button");
-    title.setAttribute("tabindex", "0");
-    title.setAttribute("aria-expanded", "false");
-
-    // Ensure all start collapsed
-    box.classList.remove("open");
-
-    const toggle = (e) => {
-      // Allow clicks and keyboard toggles
-      const isOpen = box.classList.toggle("open");
-      title.setAttribute("aria-expanded", String(isOpen));
-    };
-
-    // Click to toggle
-    title.addEventListener("click", (e) => {
-      e.preventDefault();
-      toggle();
-    });
-
-    // Keyboard support: Enter or Space toggles
-    title.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
-        e.preventDefault();
-        toggle();
-      }
-    });
-  });
+/* CONTACT POPUP */
+#popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  z-index: 1500;
 }
 
-// Run once DOM is ready
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", makeArticlesCollapsible);
-} else {
-  makeArticlesCollapsible();
+#contactPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 3px solid #000;
+  border-radius: 10px;
+  padding: 20px;
+  width: 340px;
+  max-width: 90%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  display: none;
+  z-index: 2000;
 }
+
+#contactPopup h2{margin-top:0;text-align:center;color:var(--accent-2);}
+.closePopup{display:block;text-align:center;margin-top:12px;cursor:pointer;font-weight:bold;color:var(--accent);} 
 
 </style>
 
@@ -257,46 +245,45 @@ if (document.readyState === "loading") {
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
 
-  // Comment system
-  window.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".comments").forEach(container => {
+  // Expose db to window for other scripts
+  window.__orbis_db = db;
+
+  // Comment system setup for elements that exist on DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.comments').forEach(container => {
       const articleId = container.dataset.id;
-      const form = document.createElement("form");
-      form.className = "comment-form";
+      const form = document.createElement('form');
+      form.className = 'comment-form';
       form.innerHTML = `
         <textarea placeholder="Your comment"></textarea>
         <input type="text" placeholder="Your name">
         <button type="submit" class="comment-button">Post Comment</button>
       `;
-      const list = document.createElement("div");
-      list.className = "comment-list";
+      const list = document.createElement('div');
+      list.className = 'comment-list';
       container.appendChild(form);
       container.appendChild(list);
 
-      const commentsCollection = collection(db, "comments", articleId, "messages");
+      const commentsCollection = collection(db, 'comments_' + articleId);
+      const q = query(commentsCollection, orderBy('timestamp', 'asc'));
 
-      // Real-time updates
-      onSnapshot(query(commentsCollection, orderBy("timestamp")), snapshot => {
-        list.innerHTML = "";
+      onSnapshot(q, snapshot => {
+        list.innerHTML = '';
         snapshot.forEach(doc => {
           const data = doc.data();
-          const commentItem = document.createElement("div");
-          commentItem.className = "comment-item";
+          const commentItem = document.createElement('div');
+          commentItem.className = 'comment-item';
           commentItem.innerHTML = `<strong>${data.name || "Anonymous"}:</strong> ${data.text}`;
           list.appendChild(commentItem);
         });
       });
 
-      form.addEventListener("submit", async e => {
+      form.addEventListener('submit', async e => {
         e.preventDefault();
-        const commentText = form.querySelector("textarea").value.trim();
-        const commenter = form.querySelector("input").value.trim();
-        if(commentText){
-          await addDoc(commentsCollection, {
-            text: commentText,
-            name: commenter,
-            timestamp: new Date()
-          });
+        const text = form.querySelector('textarea').value.trim();
+        const name = form.querySelector('input').value.trim() || 'Anonymous';
+        if(text){
+          await addDoc(commentsCollection, { text, name, timestamp: new Date() });
           form.reset();
         }
       });
@@ -380,6 +367,10 @@ if (document.readyState === "loading") {
     </div>
   </div>
 
+  <!-- two empty article boxes for this section -->
+  <div class="empty-article">Empty slot — Write your next News story here</div>
+  <div class="empty-article">Empty slot — Write your next News story here</div>
+
 </section>
 
 <!-- FUN -->
@@ -441,6 +432,10 @@ if (document.readyState === "loading") {
     </div>
   </div>
 
+  <!-- two empty article boxes for this section -->
+  <div class="empty-article">Empty slot — Fun idea goes here</div>
+  <div class="empty-article">Empty slot — Fun idea goes here</div>
+
 </section>
 
 <!-- GLOBAL -->
@@ -490,6 +485,10 @@ if (document.readyState === "loading") {
     </div>
   </div>
 
+  <!-- two empty article boxes for this section -->
+  <div class="empty-article">Empty slot — Global issue idea</div>
+  <div class="empty-article">Empty slot — Global issue idea</div>
+
 </section>
 
 <!-- TEENAGE -->
@@ -531,6 +530,10 @@ if (document.readyState === "loading") {
     </div>
   </div>
 
+  <!-- two empty article boxes for this section -->
+  <div class="empty-article">Empty slot — Teenage life article</div>
+  <div class="empty-article">Empty slot — Teenage life article</div>
+
 </section>
 
 <!-- ABOUT -->
@@ -552,6 +555,10 @@ if (document.readyState === "loading") {
       </div>
     </div>
   </div>
+
+  <!-- two empty article boxes for this section -->
+  <div class="empty-article">Empty slot — About / Profile note</div>
+  <div class="empty-article">Empty slot — About / Profile note</div>
 </section>
 
 <!-- VISITOR COUNTER -->
@@ -562,14 +569,13 @@ if (document.readyState === "loading") {
   </a>
 </div>
 
-<!-- CONTACT MODAL -->
-<div class="contact-box" id="contactModal">
-  <div class="modal-content">
-    <span class="close-modal" id="closeModal">&times;</span>
-    <h2>Contact Blake</h2>
-    <p>Phone: <a href="tel:07423093169">07423093169</a></p>
-    <p>Email: <a href="mailto:chloerichardson5318@gmail.com">chloerichardson5318@gmail.com</a></p>
-  </div>
+<!-- CONTACT POPUP -->
+<div id="popupOverlay"></div>
+<div id="contactPopup" aria-hidden="true">
+  <h2>Contact Orbis Vox</h2>
+  <p><strong>Phone:</strong> <a href="tel:07423093169">07423093169</a></p>
+  <p><strong>Email:</strong> <a href="mailto:chloerichardson5318@gmail.com">chloerichardson5318@gmail.com</a></p>
+  <div class="closePopup" role="button" tabindex="0">Close</div>
 </div>
 
 <footer>
@@ -602,111 +608,169 @@ const hamburger = document.getElementById("hamburger");
 const nav = document.querySelector("nav");
 hamburger.addEventListener("click",()=>{nav.classList.toggle("active");});
 
-// Contact modal
-const contactBtn = document.getElementById("contactBtn");
-const contactModal = document.getElementById("contactModal");
-const closeModal = document.getElementById("closeModal");
-
 // Search
 const searchInput = document.getElementById("searchInput");
 searchInput.addEventListener("input", function() {
-  const query = this.value.toLowerCase();
+  const q = this.value.toLowerCase();
   const articles = document.querySelectorAll(".article-box");
   articles.forEach(article => {
     const title = article.querySelector(".article-title").innerText.toLowerCase();
     const content = article.querySelector(".article-content").innerText.toLowerCase();
-    article.style.display = title.includes(query) || content.includes(query) ? "" : "none";
+    article.style.display = title.includes(q) || content.includes(q) ? "" : "none";
   });
 });
 
-// Contact modal open/close
-contactBtn.addEventListener("click",(e)=>{e.preventDefault();contactModal.style.display="block";});
-closeModal.addEventListener("click",()=>{contactModal.style.display="none";});
-window.addEventListener("click",(e)=>{if(e.target==contactModal){contactModal.style.display="none";}});
+// Contact modal open/close (legacy modal kept hidden — we now use popup)
+const contactBtn = document.getElementById("contactBtn");
 
 // =============== COMMENTS SYSTEM ===============
-document.querySelectorAll(".comments").forEach(container => {
-  const articleId = container.dataset.id;
-  const form = document.createElement("form");
-  form.className = "comment-form";
-  form.innerHTML = `
-    <textarea placeholder="Your comment"></textarea>
-    <input type="text" placeholder="Your name">
-    <button type="submit" class="comment-button">Post Comment</button>
-  `;
-  const list = document.createElement("div");
-  list.className = "comment-list";
+// This duplicates the head Firebase realtime listener to ensure comments appear for each .comments container
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.comments').forEach(container => {
+    const articleId = container.dataset.id;
+    const form = document.createElement('form');
+    form.className = 'comment-form';
+    form.innerHTML = `
+      <textarea placeholder="Your comment"></textarea>
+      <input type="text" placeholder="Your name">
+      <button type="submit" class="comment-button">Post Comment</button>
+    `;
+    const list = document.createElement('div');
+    list.className = 'comment-list';
+    container.appendChild(form);
+    container.appendChild(list);
 
-  container.appendChild(form);
-  container.appendChild(list);
+    const commentsRef = collection(db, "comments_" + articleId);
+    const q = query(commentsRef, orderBy("timestamp", "asc"));
 
-  const commentsRef = collection(db, "comments_" + articleId);
-  const q = query(commentsRef, orderBy("timestamp", "asc"));
+    onSnapshot(q, snapshot => {
+      list.innerHTML = "";
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const commentItem = document.createElement('div');
+        commentItem.className = 'comment-item';
+        commentItem.innerHTML = `<strong>${data.name || "Anonymous"}:</strong> ${data.text}`;
+        list.appendChild(commentItem);
+      });
+    });
 
-  onSnapshot(q, snapshot => {
-    list.innerHTML = "";
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      const commentItem = document.createElement("div");
-      commentItem.className = "comment-item";
-      commentItem.innerHTML = `<strong>${data.name || "Anonymous"}:</strong> ${data.text}`;
-      list.appendChild(commentItem);
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const text = form.querySelector('textarea').value.trim();
+      const name = form.querySelector('input').value.trim() || 'Anonymous';
+      if(text){
+        await addDoc(commentsRef, { text, name, timestamp: new Date() });
+        form.reset();
+      }
     });
   });
-
-  form.addEventListener("submit", async e => {
-    e.preventDefault();
-    const text = form.querySelector("textarea").value.trim();
-    const name = form.querySelector("input").value.trim() || "Anonymous";
-    if(text){
-      await addDoc(commentsRef, { text, name, timestamp: new Date() });
-      form.reset();
-    }
-  });
 });
 
+</script>
 
-  // ================= COLLAPSIBLE COMMENTS =================
-document.querySelectorAll(".comments").forEach(section => {
-  const btn = document.createElement("button");
-  btn.className = "comment-toggle";
-  btn.textContent = "Show Comments";
+<!-- Collapsible + popup scripts -->
+<script>
+// ================= COLLAPSIBLE ARTICLES (click headline to toggle) =================
+function makeArticlesCollapsible() {
+  document.querySelectorAll('.article-box').forEach(box => {
+    const title = box.querySelector('.article-title');
+    const content = box.querySelector('.article-content');
+    if (!title || !content) return;
 
-  section.insertBefore(btn, section.firstChild);
-  section.classList.add("collapsed");
+    // Make title accessible + keyboard friendly
+    title.setAttribute('role', 'button');
+    title.setAttribute('tabindex', '0');
+    title.setAttribute('aria-expanded', 'false');
 
-  btn.addEventListener("click", () => {
-    section.classList.toggle("collapsed");
-    btn.textContent = section.classList.contains("collapsed")
-      ? "Show Comments"
-      : "Hide Comments";
+    // Start collapsed
+    box.classList.remove('open');
+
+    const toggle = () => {
+      const isOpen = box.classList.toggle('open');
+      title.setAttribute('aria-expanded', String(isOpen));
+    };
+
+    // Click to toggle
+    title.addEventListener('click', e => {
+      e.preventDefault();
+      toggle();
+    });
+
+    // Keyboard toggle
+    title.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        toggle();
+      }
+    });
   });
-});
+}
 
+document.addEventListener('DOMContentLoaded', () => {
+  makeArticlesCollapsible();
+  setupMobileCollapsible();
+});
 
 // ================= MOBILE COLLAPSIBLE =================
 function setupMobileCollapsible() {
   if(window.innerWidth <= 750){
-    document.querySelectorAll(".article-box").forEach(box => {
-      const title = box.querySelector(".article-title");
-      const content = box.querySelector(".article-content");
+    document.querySelectorAll('.article-box').forEach(box => {
+      const title = box.querySelector('.article-title');
       if(!title.dataset.collapsible){
-        title.dataset.collapsible = "true";
-        title.addEventListener("click", () => {
-          box.classList.toggle("open");
+        title.dataset.collapsible = 'true';
+        title.addEventListener('click', () => {
+          box.classList.toggle('open');
         });
       }
     });
   } else {
-    document.querySelectorAll(".article-box").forEach(box => box.classList.remove("open"));
+    document.querySelectorAll('.article-box').forEach(box => box.classList.remove('open'));
   }
 }
-window.addEventListener("DOMContentLoaded", setupMobileCollapsible);
-window.addEventListener("resize", setupMobileCollapsible);
+window.addEventListener('resize', setupMobileCollapsible);
+
+// ================= COLLAPSIBLE COMMENTS =================
+document.querySelectorAll('.comments').forEach(section => {
+  const btn = document.createElement('button');
+  btn.className = 'comment-toggle';
+  btn.textContent = 'Show Comments';
+
+  section.insertBefore(btn, section.firstChild);
+  section.classList.add('collapsed');
+
+  btn.addEventListener('click', () => {
+    section.classList.toggle('collapsed');
+    btn.textContent = section.classList.contains('collapsed')
+      ? 'Show Comments'
+      : 'Hide Comments';
+  });
+});
+
+// ================= CONTACT POPUP =================
+const popup = document.getElementById('contactPopup');
+const overlay = document.getElementById('popupOverlay');
+const contactLink = document.getElementById('contactBtn');
+const closeBtn = document.querySelector('.closePopup');
+
+function openPopup(){
+  popup.style.display = 'block';
+  overlay.style.display = 'block';
+  popup.setAttribute('aria-hidden','false');
+}
+function closePopup(){
+  popup.style.display = 'none';
+  overlay.style.display = 'none';
+  popup.setAttribute('aria-hidden','true');
+}
+
+contactLink.addEventListener('click', e => { e.preventDefault(); openPopup(); });
+closeBtn.addEventListener('click', closePopup);
+overlay.addEventListener('click', closePopup);
+
+// keyboard escape to close
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closePopup(); });
+
 </script>
 
 </body>
 </html>
-
-
-
