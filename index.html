@@ -144,70 +144,93 @@ img:hover{transform:scale(1.03);border-color:var(--accent);}
   display: none;
 }
 
-  /* COLLAPSIBLE ARTICLES */
-article {
-  cursor: pointer;
+
+/* ================= COLLAPSIBLE ARTICLES (desktop + mobile) ================= */
+/* article content hidden by default */
+.article-content {
+  max-height: 0;
   overflow: hidden;
-  transition: max-height 0.35s ease-out;
-  border: 2px solid #000;
-  border-radius: 12px;
-  padding: 12px;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.25s ease;
 }
 
-/* Initially collapsed */
-article.collapsed {
-  max-height: 90px; /* just enough to show the header */
+/* when the box has .open we show the content */
+.article-box.open .article-content {
+  max-height: 2000px; /* large enough to show full content */
+  opacity: 1;
 }
 
-/* Prevent content from clicking through */
-article * {
-  pointer-events: none;
+/* clickable title */
+.article-title {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-right: 28px; /* space for icon */
 }
 
-/* But allow header to accept clicks */
-article header {
+/* chevron indicator (collapsed / expanded) */
+.article-title::after {
+  content: "▾";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.2s ease;
+}
+
+/* rotate chevron when open */
+.article-box.open .article-title::after {
+  content: "▴";
+  transform: translateY(-50%) rotate(0deg);
+}
+
+/* let links and buttons inside content be clickable (no pointer blocking) */
+.article-content * {
   pointer-events: auto;
 }
 
-/* Optional highlight on hover */
-article header:hover {
-  background: var(--accent-light);
-}
-  
-/* MODAL */
-.contact-box{display:none;position:fixed;z-index:10000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.6);}
-.modal-content{background-color:#fff;margin:10% auto;padding:20px;border:2px solid #000;width:90%;max-width:420px;text-align:center;border-radius:6px;position:relative;}
-.close-modal{position:absolute;top:10px;right:14px;font-size:24px;font-weight:bold;cursor:pointer;}
+  // ================= COLLAPSIBLE ARTICLES (click headline to toggle) =================
+function makeArticlesCollapsible() {
+  document.querySelectorAll(".article-box").forEach(box => {
+    const title = box.querySelector(".article-title");
+    if (!title) return;
 
-footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px;color:var(--accent-2);font-weight:bold;}
+    // Make title keyboard-focusable and act like a button
+    title.setAttribute("role", "button");
+    title.setAttribute("tabindex", "0");
+    title.setAttribute("aria-expanded", "false");
 
-@media print{nav,.comment-button,.comment-form,.visitor-counter{display:none} body{border:none;padding:10px;background:#fff} .article-box{box-shadow:none;border:none;padding:0} .section-title{page-break-before:always}}
+    // Ensure all start collapsed
+    box.classList.remove("open");
 
-/* ================= MOBILE COLLAPSIBLE ================= */
-@media(max-width:750px){
-  .article-content {
-    display: none;
-    overflow: hidden;
-    transition: max-height 0.35s ease;
-  }
-  .article-box.open .article-content {
-    display: block;
-  }
-  .article-title {
-    cursor: pointer;
-  }
-}
-// ================= COLLAPSIBLE ARTICLES =================
-document.querySelectorAll("article").forEach(article => {
-  // Start collapsed
-  article.classList.add("collapsed");
+    const toggle = (e) => {
+      // Allow clicks and keyboard toggles
+      const isOpen = box.classList.toggle("open");
+      title.setAttribute("aria-expanded", String(isOpen));
+    };
 
-  // Clicking the header toggles open/close
-  article.querySelector("header").addEventListener("click", (e) => {
-    e.stopPropagation(); // prevent weird bubbling
-    article.classList.toggle("collapsed");
+    // Click to toggle
+    title.addEventListener("click", (e) => {
+      e.preventDefault();
+      toggle();
+    });
+
+    // Keyboard support: Enter or Space toggles
+    title.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+        e.preventDefault();
+        toggle();
+      }
+    });
   });
-});
+}
+
+// Run once DOM is ready
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", makeArticlesCollapsible);
+} else {
+  makeArticlesCollapsible();
+}
 
 </style>
 
@@ -684,5 +707,6 @@ window.addEventListener("resize", setupMobileCollapsible);
 
 </body>
 </html>
+
 
 
