@@ -143,6 +143,36 @@ img:hover{transform:scale(1.03);border-color:var(--accent);}
 .comments.collapsed .comment-form {
   display: none;
 }
+
+  /* COLLAPSIBLE ARTICLES */
+article {
+  cursor: pointer;
+  overflow: hidden;
+  transition: max-height 0.35s ease-out;
+  border: 2px solid #000;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+/* Initially collapsed */
+article.collapsed {
+  max-height: 90px; /* just enough to show the header */
+}
+
+/* Prevent content from clicking through */
+article * {
+  pointer-events: none;
+}
+
+/* But allow header to accept clicks */
+article header {
+  pointer-events: auto;
+}
+
+/* Optional highlight on hover */
+article header:hover {
+  background: var(--accent-light);
+}
   
 /* MODAL */
 .contact-box{display:none;position:fixed;z-index:10000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.6);}
@@ -167,6 +197,18 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
     cursor: pointer;
   }
 }
+// ================= COLLAPSIBLE ARTICLES =================
+document.querySelectorAll("article").forEach(article => {
+  // Start collapsed
+  article.classList.add("collapsed");
+
+  // Clicking the header toggles open/close
+  article.querySelector("header").addEventListener("click", (e) => {
+    e.stopPropagation(); // prevent weird bubbling
+    article.classList.toggle("collapsed");
+  });
+});
+
 </style>
 
 <!-- Firebase -->
@@ -642,4 +684,5 @@ window.addEventListener("resize", setupMobileCollapsible);
 
 </body>
 </html>
+
 
