@@ -805,9 +805,58 @@ document.querySelectorAll('.article-box').forEach(box => {
 });
 </script>
 
-  
+  <!-- Add this near the end of your <body> but before </body> -->
+<style>
+  /* Mobile */
+  @media (max-width: 768px) {
+    nav ul { display: none; }      /* hide nav menu */
+    .search-bar { display: block; } /* show search */
+    .contact-btn, .contact-popup { display: none; } /* hide desktop contact */
+    .mobile-contact {
+      display: block;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #f1f1f1;
+      padding: 10px;
+      text-align: center;
+      z-index: 999;
+    }
+  }
+
+  /* Desktop */
+  @media (min-width: 769px) {
+    .mobile-contact { display: none; }
+    .contact-btn { display: inline-block; }
+  }
+</style>
+
+<!-- Mobile permanent contact -->
+<div class="mobile-contact">
+  <a href="mailto:example@domain.com">Contact Us</a>
+</div>
+
+<!-- Desktop popup -->
+<div class="contact-popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:20px; box-shadow:0 0 10px #000;">
+  <p>Contact Form Here</p>
+  <button onclick="this.parentElement.style.display='none'">Close</button>
+</div>
+
+<script>
+  // Desktop popup trigger
+  const contactBtn = document.querySelector('.contact-btn');
+  const contactPopup = document.querySelector('.contact-popup');
+  if(contactBtn && contactPopup){
+    contactBtn.addEventListener('click', () => {
+      contactPopup.style.display = 'block';
+    });
+  }
+</script>
+
 </body>
 </html>
+
 
 
 
