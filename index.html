@@ -73,7 +73,7 @@ nav #searchInput{
 /* MOBILE NAV */
 @media(max-width:800px){
   nav > div{display:none;}
-  .hamburger{display:none;}
+  .hamburger{display:flex;}
   #searchInput{width:100%;}
   h1{font-size:56px}
 }
@@ -83,8 +83,12 @@ nav #searchInput{
 .section-title{font-size:34px;text-align:center;margin:34px 0 18px;text-transform:uppercase;border-bottom:2px double #000;padding-bottom:8px;color:#000;}
 .article-box{margin-bottom:34px;border-top:2px solid #000;border-bottom:2px solid #000;padding:18px;background:var(--paper);box-shadow:var(--card-shadow);transition:transform .2s;}
 .article-box:hover{transform:translateY(-3px);}
-.article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2);}
+.article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2);cursor:pointer;position:relative;padding-right:28px;}
 .article-title small{display:block;font-size:12px;color:var(--muted);text-transform:none;margin-top:6px;}
+.article-title::after{content:"▾";position:absolute;right:8px;top:50%;transform:translateY(-50%);transition:transform .2s ease;}
+.article-box.open .article-title::after{content:"▴";}
+.article-content{max-height:0;overflow:hidden;opacity:0;transition:max-height .35s ease,opacity .25s ease;}
+.article-box.open .article-content{max-height:2000px;opacity:1;}
 .columns{display:flex;gap:24px;flex-wrap:wrap;}
 .col{width:48%;font-size:17px;line-height:1.6;text-align:justify;}
 .news-source{color:var(--accent-2);font-style:italic;}
@@ -94,21 +98,11 @@ img:hover{transform:scale(1.03);border-color:var(--accent);}
 .empty-article{border:2px dashed #bcbcbc;background:#f2f2f2;padding:20px;margin:20px 0;height:160px;font-style:italic;text-align:center;color:#7a7a7a;font-size:18px;display:flex;align-items:center;justify-content:center;}
 .poll,.fact{background:#f9f9f0;padding:10px;margin:15px 0;border:1px solid #000;font-style:italic;}
 
-/* MOBILE FIX — THIS IS WHAT STOPS THE SQUASHING */
+/* MOBILE FIX */
 @media(max-width:750px){
-  .columns{
-    flex-direction:column;
-    gap:16px;
-  }
-  .col{
-    width:100%;
-    text-align:left;
-    padding:0 4px;
-  }
-  img{
-    margin-left:auto;
-    margin-right:auto;
-  }
+  .columns{flex-direction:column;gap:16px;}
+  .col{width:100%;text-align:left;padding:0 4px;}
+  img{margin-left:auto;margin-right:auto;}
 }
 
 /* COMMENTS */
@@ -120,181 +114,96 @@ img:hover{transform:scale(1.03);border-color:var(--accent);}
 .comment-item{border:1px solid #ddd;padding:8px;border-radius:6px;margin-bottom:8px;background:#fff;}
 .comment-button{display:inline-block;margin:8px 0;padding:10px 16px;font-size:14px;font-weight:bold;background:#fff;color:#000;border:2px solid #000;cursor:pointer;text-transform:uppercase;border-radius:6px;}
 .comment-button:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
-
-/* COLLAPSIBLE COMMENTS */
-.comment-toggle {
-  cursor: pointer;
-  margin-top: 12px;
-  padding: 8px 14px;
-  border: 2px solid #000;
-  background: #fff;
-  font-weight: bold;
-  text-transform: uppercase;
-  border-radius: 6px;
-  display: inline-block;
-}
-
-.comment-toggle:hover {
-  background: var(--accent);
-  color: #fff;
-}
-
-.comments.collapsed .comment-list,
-.comments.collapsed .comment-form {
-  display: none;
-}
-
-
-/* ================= COLLAPSIBLE ARTICLES (desktop + mobile) ================= */
-/* article content hidden by default */
-.article-content {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.35s ease, opacity 0.25s ease;
-}
-
-/* when the box has .open we show the content */
-.article-box.open .article-content {
-  max-height: 2000px; /* large enough to show full content */
-  opacity: 1;
-}
-
-/* clickable title */
-.article-title {
-  cursor: pointer;
-  user-select: none;
-  position: relative;
-  padding-right: 28px; /* space for icon */
-}
-
-/* chevron indicator (collapsed / expanded) */
-.article-title::after {
-  content: "▾";
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  transition: transform 0.2s ease;
-}
-
-/* rotate chevron when open */
-.article-box.open .article-title::after {
-  content: "▴";
-  transform: translateY(-50%) rotate(0deg);
-}
-
-/* let links and buttons inside content be clickable (no pointer blocking) */
-.article-content * {
-  pointer-events: auto;
-}
-
-/* CONTACT POPUP */
-#popupOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: none;
-  z-index: 1500;
-}
-
-#contactPopup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fff;
-  border: 3px solid #000;
-  border-radius: 10px;
-  padding: 20px;
-  width: 340px;
-  max-width: 90%;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  display: none;
-  z-index: 2000;
-}
-
-#contactPopup h2{margin-top:0;text-align:center;color:var(--accent-2);}
-.closePopup{display:block;text-align:center;margin-top:12px;cursor:pointer;font-weight:bold;color:var(--accent);} 
-
+.comment-toggle{cursor:pointer;margin-top:12px;padding:8px 14px;border:2px solid #000;background:#fff;font-weight:bold;text-transform:uppercase;border-radius:6px;display:inline-block;}
+.comment-toggle:hover{background:var(--accent);color:#fff;}
+.comments.collapsed .comment-list,.comments.collapsed .comment-form{display:none;}
 </style>
 
 <!-- Firebase -->
 <script type="module">
-  // Import Firebase modules
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-analytics.js";
-  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-app.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
-    authDomain: "orbis-vox.firebaseapp.com",
-    databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "orbis-vox",
-    storageBucket: "orbis-vox.firebasestorage.app",
-    messagingSenderId: "43657144944",
-    appId: "1:43657144944:web:c7564b655819a30a1fe2b5",
-    measurementId: "G-68DVTPHY2H"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
+  authDomain: "orbis-vox.firebaseapp.com",
+  databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "orbis-vox",
+  storageBucket: "orbis-vox.firebasestorage.app",
+  messagingSenderId: "43657144944",
+  appId: "1:43657144944:web:c7564b655819a30a1fe2b5",
+  measurementId: "G-68DVTPHY2H"
+};
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+window.__orbis_db = db;
 
-  // Expose db to window for other scripts
-  window.__orbis_db = db;
+document.addEventListener('DOMContentLoaded', () => {
+  // Comments
+  document.querySelectorAll('.comments').forEach(container => {
+    const articleId = container.dataset.id;
+    const form = document.createElement('form');
+    form.className = 'comment-form';
+    form.innerHTML = `<textarea placeholder="Your comment"></textarea><input type="text" placeholder="Your name"><button type="submit" class="comment-button">Post Comment</button>`;
+    const list = document.createElement('div');
+    list.className = 'comment-list';
+    container.appendChild(form);
+    container.appendChild(list);
 
-  // Comment system setup for elements that exist on DOMContentLoaded
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.comments').forEach(container => {
-      const articleId = container.dataset.id;
-      const form = document.createElement('form');
-      form.className = 'comment-form';
-      form.innerHTML = `
-        <textarea placeholder="Your comment"></textarea>
-        <input type="text" placeholder="Your name">
-        <button type="submit" class="comment-button">Post Comment</button>
-      `;
-      const list = document.createElement('div');
-      list.className = 'comment-list';
-      container.appendChild(form);
-      container.appendChild(list);
-
-      const commentsCollection = collection(db, 'comments_' + articleId);
-      const q = query(commentsCollection, orderBy('timestamp', 'asc'));
-
-      onSnapshot(q, snapshot => {
-        list.innerHTML = '';
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          const commentItem = document.createElement('div');
-          commentItem.className = 'comment-item';
-          commentItem.innerHTML = `<strong>${data.name || "Anonymous"}:</strong> ${data.text}`;
-          list.appendChild(commentItem);
-        });
-      });
-
-      form.addEventListener('submit', async e => {
-        e.preventDefault();
-        const text = form.querySelector('textarea').value.trim();
-        const name = form.querySelector('input').value.trim() || 'Anonymous';
-        if(text){
-          await addDoc(commentsCollection, { text, name, timestamp: new Date() });
-          form.reset();
-        }
+    const commentsRef = collection(db, 'comments_' + articleId);
+    const q = query(commentsRef, orderBy('timestamp','asc'));
+    onSnapshot(q, snapshot => {
+      list.innerHTML = '';
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const item = document.createElement('div');
+        item.className = 'comment-item';
+        item.innerHTML = `<strong>${data.name || "Anonymous"}:</strong> ${data.text}`;
+        list.appendChild(item);
       });
     });
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const text = form.querySelector('textarea').value.trim();
+      const name = form.querySelector('input').value.trim() || 'Anonymous';
+      if(text){ await addDoc(commentsRef,{text,name,timestamp:new Date()}); form.reset(); }
+    });
   });
+
+  // Collapsible articles
+  document.querySelectorAll('.article-box').forEach(box=>{
+    const title = box.querySelector('.article-title');
+    const content = box.querySelector('.article-content');
+    if(!title || !content) return;
+    title.setAttribute('role','button');
+    title.setAttribute('tabindex','0');
+    title.setAttribute('aria-expanded','false');
+    box.classList.remove('open');
+    const toggle=()=>{
+      const isOpen=box.classList.toggle('open');
+      title.setAttribute('aria-expanded',String(isOpen));
+    };
+    title.addEventListener('click',toggle);
+    title.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '||e.key==='Spacebar'){e.preventDefault();toggle();}});
+  });
+
+  // Collapsible comments
+  document.querySelectorAll('.comments').forEach(section=>{
+    const btn=document.createElement('button');
+    btn.className='comment-toggle';
+    btn.textContent='Show Comments';
+    section.insertBefore(btn,section.firstChild);
+    section.classList.add('collapsed');
+    btn.addEventListener('click',()=>{section.classList.toggle('collapsed');btn.textContent=section.classList.contains('collapsed')?'Show Comments':'Hide Comments';});
+  });
+});
 </script>
 </head>
-
 <body>
 <div class="container">
-
+  
 <header>
   <a href="#about" class="logo-link" title="About Orbis Vox">
     <img src="Red logo.png" alt="Logo" id="logo">
@@ -883,8 +792,23 @@ document.addEventListener('keydown', e => { if(e.key === 'Escape') closePopup();
 
 </script>
 
+<script>
+document.querySelectorAll('.article-box').forEach(box => {
+  const title = box.querySelector('.article-title');
+  const content = box.querySelector('.article-content');
+
+  if (title && content) {
+    title.addEventListener('click', () => {
+      box.classList.toggle('open');
+    });
+  }
+});
+</script>
+
+  
 </body>
 </html>
+
 
 
 
