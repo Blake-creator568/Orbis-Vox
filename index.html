@@ -37,6 +37,17 @@
     .header-description{font-size:1.1em;margin-top:12px;color:#444;opacity:0;transform:translateY(20px);animation:slideInDesc 1s forwards 0.5s;}
     @keyframes slideInDesc{to{opacity:1;transform:translateY(0);}}
 
+    /* SEARCH BAR */
+    #searchBarContainer{margin:20px 0;text-align:center;}
+    #searchBar{
+      width:90%;
+      max-width:480px;
+      padding:10px;
+      font-size:16px;
+      border:2px solid #000;
+      border-radius:6px;
+    }
+
     /* NAV */
     nav{
       position:sticky;
@@ -80,7 +91,7 @@
     .empty-article{border:2px dashed #bcbcbc;background:#f2f2f2;padding:20px;margin:20px 0;height:160px;font-style:italic;text-align:center;color:#7a7a7a;font-size:18px;display:flex;align-items:center;justify-content:center;}
     .poll,.fact{background:#f9f9f0;padding:10px;margin:15px 0;border:1px solid #000;font-style:italic;}
 
-    /* MOBILE FIX: keep nav always visible; contact bar at bottom */
+    /* MOBILE FIX */
     @media(max-width:800px){
       h1{font-size:56px}
     }
@@ -88,6 +99,7 @@
       .columns{flex-direction:column;gap:16px;}
       .col{width:100%;text-align:left;padding:0 4px;}
       img{margin-left:auto;margin-right:auto;}
+      nav{display:none;} /* no nav on mobile */
     }
 
     /* Contact Popup & Overlay */
@@ -112,100 +124,51 @@
       width: 400px;
       z-index: 10001;
     }
-    #contactPopup h2 {
-      margin-top: 0;
-      color: var(--accent-2);
-    }
-    #contactPopup form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    #contactPopup input[type="text"],
-    #contactPopup input[type="email"],
-    #contactPopup textarea {
-      width: 100%;
-      padding: 8px;
-      border: 2px solid #000;
-      border-radius: 6px;
-      font-family: inherit;
-      font-size: 16px;
-    }
-    #contactPopup button {
-      padding: 10px 16px;
-      font-size: 16px;
-      font-weight: bold;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    #contactPopup .closePopup {
-      position: absolute;
-      top: 8px;
-      right: 12px;
-      background: none;
-      border: none;
-      font-size: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      color: var(--ink);
-    }
+    #contactPopup h2 { margin-top:0;color: var(--accent-2);}
+    #contactPopup p{margin:6px 0;}
+    #contactPopup a{color:var(--accent-2);text-decoration:underline;}
+    #contactPopup form {display:flex;flex-direction:column;gap:12px;}
+    #contactPopup input[type="text"], #contactPopup input[type="email"], #contactPopup textarea {width:100%;padding:8px;border:2px solid #000;border-radius:6px;font-family:inherit;font-size:16px;}
+    #contactPopup button{padding:10px 16px;font-size:16px;font-weight:bold;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;}
+    #contactPopup .closePopup{position:absolute;top:8px;right:12px;background:none;border:none;font-size:20px;font-weight:bold;cursor:pointer;color:var(--ink);}
 
     /* Mobile permanent contact bar */
-    .mobile-contact {
-      display: none;
-    }
+    .mobile-contact{display:none;}
     @media (max-width: 800px) {
-      .mobile-contact {
-        display: block;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background: var(--accent);
-        padding: 10px;
-        text-align: center;
-        z-index: 999;
-      }
-      .mobile-contact a {
-        color: #fff;
-        font-weight: bold;
-        text-decoration: none;
-        font-size: 18px;
-      }
+      .mobile-contact{display:block;position:fixed;bottom:0;left:0;width:100%;background:var(--accent);padding:10px;text-align:center;z-index:999;}
+      .mobile-contact a{color:#fff;font-weight:bold;text-decoration:none;font-size:18px;margin:0 8px;}
     }
+
   </style>
 </head>
 <body>
-  <div class="container">
-    
-    <header>
-      <a href="#about" class="logo-link" title="About Orbis Vox">
-        <img src="Red logo.png" alt="Logo" id="logo">
-      </a>
-      <h1>ORBIS VOX</h1>
-      <div class="subhead">THE VOICE OF THE WORLD</div>
-      <div class="header-description">
-        A small independent digital newspaper covering humour, global issues, women’s rights, and teenage life — written and created by Blake.
-      </div>
-    </header>
+<div class="container">
 
-    <nav>
-      <a href="#news" id="homeLink">Home</a>
-      <a href="#news">News</a>
-      <a href="#fun" id="funLink">Fun</a>
-      <a href="#global">Global Issues</a>
-      <a href="#teenage">Teenage Life</a>
-      <a href="#about">About</a>
-      <a href="#" id="contactBtn">Contact</a>
-    </nav>
+  <header>
+    <a href="#about" class="logo-link" title="About Orbis Vox"><img src="Red logo.png" alt="Logo" id="logo"></a>
+    <h1>ORBIS VOX</h1>
+    <div class="subhead">THE VOICE OF THE WORLD</div>
+    <div class="header-description">A small independent digital newspaper covering humour, global issues, women’s rights, and teenage life — written and created by Blake.</div>
+  </header>
 
-    <div class="date-line">
-      <div>Blake Richardson</div>
-      <div>2025</div>
-    </div>
+  <!-- SEARCH BAR -->
+  <div id="searchBarContainer">
+    <input type="text" id="searchBar" placeholder="Search articles...">
+  </div>
+
+  <nav>
+    <a href="#news">News</a>
+    <a href="#fun">Fun</a>
+    <a href="#global">Global Issues</a>
+    <a href="#teenage">Teenage Life</a>
+    <a href="#about">About</a>
+    <a href="#" id="contactBtn">Contact</a>
+  </nav>
+
+  <div class="date-line">
+    <div>Blake Richardson</div>
+    <div>2025</div>
+  </div>
 
     <!-- ================= Articles ================= -->
 
@@ -534,146 +497,82 @@
       </a>
     </div>
 
-    <!-- CONTACT POPUP -->
-    <div id="popupOverlay"></div>
-    <div id="contactPopup" aria-hidden="true">
-      <button class="closePopup" aria-label="Close contact form">×</button>
-      <h2>Contact Orbis Vox</h2>
-      <form id="contactForm">
-        <input type="text" name="name" placeholder="Your name" required />
-        <input type="email" name="email" placeholder="Your email" required />
-        <textarea name="message" placeholder="Your message" rows="5" required></textarea>
-        <button type="submit">Send Message</button>
-      </form>
-    </div>
-
-    <!-- Mobile permanent contact bar -->
-    <div class="mobile-contact">
-      <a href="#" id="mobileContactLink">Contact Us</a>
-    </div>
-
-    <footer>
-      &copy; 2025 Orbis Vox
-    </footer>
-
+  <!-- CONTACT POPUP -->
+  <div id="popupOverlay"></div>
+  <div id="contactPopup" aria-hidden="true">
+    <button class="closePopup" aria-label="Close contact form">×</button>
+    <h2>Contact Orbis Vox</h2>
+    <p>You can reach me directly at:</p>
+    <p><strong>Phone:</strong> 07423093169</p>
+    <p><strong>Email:</strong> <a href="mailto:chloerichardson5318@gmail.com">chloerichardson5318@gmail.com</a></p>
+    <form id="contactForm">
+      <input type="text" name="name" placeholder="Your name" required />
+      <input type="email" name="email" placeholder="Your email" required />
+      <textarea name="message" placeholder="Your message" rows="5" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
   </div>
 
-  <script type="module">
-    // FIREBASE (if you still want comment system) — preserve as before
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-firestore.js";
+  <!-- Mobile contact bar -->
+  <div class="mobile-contact">
+    <a href="tel:07423093169">Call: 07423093169</a> | 
+    <a href="mailto:chloerichardson5318@gmail.com">Email Me</a>
+  </div>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
-      authDomain: "orbis-vox.firebaseapp.com",
-      databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "orbis-vox",
-      storageBucket: "orbis-vox.firebasestorage.app",
-      messagingSenderId: "43657144944",
-      appId: "1:43657144944:web:c7564b655819a30a1fe2b5",
-      measurementId: "G-68DVTPHY2H"
+  <footer>&copy; 2025 Orbis Vox</footer>
+</div>
+
+<script>
+  // COLLAPSIBLE ARTICLES
+  document.querySelectorAll('.article-box').forEach(box=>{
+    const title = box.querySelector('.article-title');
+    const content = box.querySelector('.article-content');
+    if(!title || !content) return;
+    title.setAttribute('role','button');
+    title.setAttribute('tabindex','0');
+    title.setAttribute('aria-expanded','false');
+    box.classList.remove('open');
+    const toggle=()=>{
+      const isOpen=box.classList.toggle('open');
+      title.setAttribute('aria-expanded',String(isOpen));
     };
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    window.__orbis_db = db;
-
-    document.addEventListener('DOMContentLoaded', () => {
-      // Comments initialization (same logic as before)
-      document.querySelectorAll('.comments').forEach(container => {
-        const articleId = container.dataset.id;
-        const form = document.createElement('form');
-        form.className = 'comment-form';
-        form.innerHTML = `<textarea placeholder="Your comment"></textarea><input type="text" placeholder="Your name"><button type="submit" class="comment-button">Post Comment</button>`;
-        const list = document.createElement('div');
-        list.className = 'comment-list';
-        container.appendChild(form);
-        container.appendChild(list);
-
-        const commentsRef = collection(db, 'comments_' + articleId);
-        const q = query(commentsRef, orderBy('timestamp','asc'));
-        onSnapshot(q, snapshot => {
-          list.innerHTML = '';
-          snapshot.forEach(doc => {
-            const data = doc.data();
-            const item = document.createElement('div');
-            item.className = 'comment-item';
-            item.innerHTML = `<strong>${data.name || "Anonymous"}:</strong> ${data.text}`;
-            list.appendChild(item);
-          });
-        });
-
-        form.addEventListener('submit', async e => {
-          e.preventDefault();
-          const text = form.querySelector('textarea').value.trim();
-          const name = form.querySelector('input').value.trim() || 'Anonymous';
-          if(text){
-            await addDoc(commentsRef,{text,name,timestamp:new Date()});
-            form.reset();
-          }
-        });
-      });
-
-      // Collapsible articles
-      document.querySelectorAll('.article-box').forEach(box=>{
-        const title = box.querySelector('.article-title');
-        const content = box.querySelector('.article-content');
-        if(!title || !content) return;
-        title.setAttribute('role','button');
-        title.setAttribute('tabindex','0');
-        title.setAttribute('aria-expanded','false');
-        box.classList.remove('open');
-        const toggle=()=>{
-          const isOpen=box.classList.toggle('open');
-          title.setAttribute('aria-expanded',String(isOpen));
-        };
-        title.addEventListener('click',toggle);
-        title.addEventListener('keydown',e=>{
-          if(e.key==='Enter' || e.key===' ' || e.key==='Spacebar'){
-            e.preventDefault();
-            toggle();
-          }
-        });
-      });
+    title.addEventListener('click',toggle);
+    title.addEventListener('keydown',e=>{
+      if(e.key==='Enter' || e.key===' ' || e.key==='Spacebar'){e.preventDefault();toggle();}
     });
-  </script>
+  });
 
-  <script>
-    // Contact popup functionality
-    const contactBtn = document.getElementById('contactBtn');
-    const mobileContactLink = document.getElementById('mobileContactLink');
-    const overlay = document.getElementById('popupOverlay');
-    const popup = document.getElementById('contactPopup');
-    const closeBtn = popup.querySelector('.closePopup');
-
-    function openPopup(e) {
-      e.preventDefault();
-      overlay.style.display = 'block';
-      popup.style.display = 'block';
-      popup.setAttribute('aria-hidden', 'false');
-    }
-    function closePopup() {
-      overlay.style.display = 'none';
-      popup.style.display = 'none';
-      popup.setAttribute('aria-hidden', 'true');
-    }
-
-    contactBtn.addEventListener('click', openPopup);
-    mobileContactLink.addEventListener('click', openPopup);
-    closeBtn.addEventListener('click', closePopup);
-    overlay.addEventListener('click', closePopup);
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
-
-    // (Optional) handle form submission
-    document.getElementById('contactForm').addEventListener('submit', e => {
-      e.preventDefault();
-      // Here you would handle sending/storing the message.
-      // For now: just close and optionally alert user.
-      alert('Thank you for your message!');
-      closePopup();
-      e.target.reset();
+  // SEARCH BAR
+  const searchInput = document.getElementById('searchBar');
+  searchInput.addEventListener('input',()=>{
+    const term = searchInput.value.toLowerCase();
+    document.querySelectorAll('.article-box').forEach(box=>{
+      const title = box.querySelector('.article-title')?.textContent.toLowerCase() || '';
+      const content = box.querySelector('.article-content')?.textContent.toLowerCase() || '';
+      if(title.includes(term) || content.includes(term)){
+        box.style.display='block';
+      } else {
+        box.style.display='none';
+      }
     });
-  </script>
+  });
 
+  // CONTACT POPUP
+  const contactBtn = document.getElementById('contactBtn');
+  const mobileContactLink = document.querySelector('.mobile-contact a');
+  const overlay = document.getElementById('popupOverlay');
+  const popup = document.getElementById('contactPopup');
+  const closeBtn = popup.querySelector('.closePopup');
+  function openPopup(e){e.preventDefault();overlay.style.display='block';popup.style.display='block';popup.setAttribute('aria-hidden','false');}
+  function closePopup(){overlay.style.display='none';popup.style.display='none';popup.setAttribute('aria-hidden','true');}
+  contactBtn.addEventListener('click',openPopup);
+  mobileContactLink.addEventListener('click',openPopup);
+  closeBtn.addEventListener('click',closePopup);
+  overlay.addEventListener('click',closePopup);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closePopup();});
+  document.getElementById('contactForm').addEventListener('submit', e => { e.preventDefault(); alert('Thank you for your message!'); closePopup(); e.target.reset(); });
+
+</script>
 </body>
 </html>
+
