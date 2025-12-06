@@ -698,14 +698,20 @@ document.addEventListener("DOMContentLoaded", function() {
   const sections = document.querySelectorAll('.comments');
 
   sections.forEach(section => {
-    // Hide the whole section by default
-    section.style.display = 'none';
+    // Only add button if section exists
+    if (!section) return;
 
     // Create the toggle button
     const button = document.createElement('button');
     button.textContent = 'Show Comments';
     button.style.marginBottom = '10px';
-    button.onclick = function() {
+    button.style.display = 'block'; // ensure it shows
+
+    // Hide the section by default
+    section.style.display = 'none';
+
+    // Toggle on click
+    button.addEventListener('click', function() {
       if (section.style.display === 'none') {
         section.style.display = 'block';
         button.textContent = 'Hide Comments';
@@ -713,18 +719,20 @@ document.addEventListener("DOMContentLoaded", function() {
         section.style.display = 'none';
         button.textContent = 'Show Comments';
       }
-    };
+    });
 
-    // Insert the button before the comment section
+    // Insert button before the comment section
     section.parentNode.insertBefore(button, section);
   });
 });
 </script>
 
 
+
 </div>
 </body>
 </html>
+
 
 
 
