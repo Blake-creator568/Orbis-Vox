@@ -699,12 +699,16 @@ document.addEventListener("DOMContentLoaded", function() {
   const sections = document.querySelectorAll('.comments');
 
   sections.forEach(section => {
-    // Wrap each <p> in a div with button
     const paragraphs = Array.from(section.querySelectorAll('p'));
     paragraphs.forEach(p => {
       const wrapper = document.createElement('div');
       wrapper.className = 'comment';
 
+      // Move the paragraph into the wrapper
+      p.style.display = 'none'; // hide by default
+      wrapper.appendChild(p);
+
+      // Create the toggle button
       const button = document.createElement('button');
       button.textContent = 'Show Comment';
       button.onclick = function() {
@@ -717,10 +721,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       };
 
-      p.style.display = 'none'; // hide by default
-      wrapper.appendChild(button);
-      wrapper.appendChild(p.cloneNode(true)); // keep original text
-      p.replaceWith(wrapper); // replace old <p> with new structure
+      wrapper.insertBefore(button, p); // put button before paragraph
+      section.appendChild(wrapper);
     });
   });
 });
@@ -730,6 +732,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 </body>
 </html>
+
 
 
 
