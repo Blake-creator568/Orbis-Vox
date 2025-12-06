@@ -695,35 +695,28 @@ document.querySelectorAll(".comments").forEach(container => {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  // Find all comment sections
   const sections = document.querySelectorAll('.comments');
 
   sections.forEach(section => {
-    const paragraphs = Array.from(section.querySelectorAll('p'));
-    paragraphs.forEach(p => {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'comment';
+    // Hide the whole section by default
+    section.style.display = 'none';
 
-      // Move the paragraph into the wrapper
-      p.style.display = 'none'; // hide by default
-      wrapper.appendChild(p);
+    // Create the toggle button
+    const button = document.createElement('button');
+    button.textContent = 'Show Comments';
+    button.style.marginBottom = '10px';
+    button.onclick = function() {
+      if (section.style.display === 'none') {
+        section.style.display = 'block';
+        button.textContent = 'Hide Comments';
+      } else {
+        section.style.display = 'none';
+        button.textContent = 'Show Comments';
+      }
+    };
 
-      // Create the toggle button
-      const button = document.createElement('button');
-      button.textContent = 'Show Comment';
-      button.onclick = function() {
-        if (p.style.display === 'none') {
-          p.style.display = 'block';
-          button.textContent = 'Hide Comment';
-        } else {
-          p.style.display = 'none';
-          button.textContent = 'Show Comment';
-        }
-      };
-
-      wrapper.insertBefore(button, p); // put button before paragraph
-      section.appendChild(wrapper);
-    });
+    // Insert the button before the comment section
+    section.parentNode.insertBefore(button, section);
   });
 });
 </script>
@@ -732,6 +725,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 </body>
 </html>
+
 
 
 
