@@ -1,177 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Orbis Vox</title>
 <style>
 :root {
-  --bg:#fdfcf8;
-  --paper:#fff;
-  --ink:#1a1a1a;
-  --accent:#8B0000;
-  --accent-2:#B22222;
-  --font-sans: 'Arial', sans-serif;
+    --bg:#fdfcf8;
+    --paper:#fff;
+    --ink:#1a1a1a;
+    --accent:#B22222;
+    --accent-dark:#8B0000;
 }
-
 body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--font-sans);
-  margin:0;
-  padding:0;
+    margin:0;
+    font-family: 'Arial Black', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
 }
-
 header {
-  background: var(--paper);
-  padding: 10px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  border-bottom: 1px solid #ccc;
+    background: var(--accent);
+    color:#fff;
+    padding:1rem;
+    text-align:center;
+    font-size:2rem;
+    letter-spacing:2px;
 }
-
-header nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-header nav .nav-links {
-  display: flex;
-  gap: 15px;
-}
-
-header nav .nav-links a {
-  text-decoration: none;
-  color: var(--ink);
-  font-weight: bold;
-}
-
-header nav .search-bar input {
-  padding:5px 10px;
-  font-size:16px;
-  border:1px solid #ccc;
-  border-radius:5px;
-  width: 100%;
-}
-
 .section-title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin:20px 0;
-  text-align:center;
-  color: var(--accent);
+    font-size:1.8rem;
+    font-weight:bold;
+    color: var(--accent-dark);
+    margin:2rem 0 1rem 0;
+    border-bottom:2px solid var(--accent);
+    padding-bottom:0.5rem;
 }
-
 .article-box {
-  background: var(--paper);
-  margin: 20px;
-  padding:20px;
-  border-radius:10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  cursor: pointer;
+    background: var(--paper);
+    margin:1rem 0;
+    padding:1rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-left:5px solid var(--accent);
+    cursor:pointer;
 }
-
-.article-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--accent-2);
-}
-
-.article-content {
-  margin-top: 15px;
-  display:none;
-}
-
-.columns {
-  display:flex;
-  gap:20px;
-}
-
-.col {
-  flex:1;
-}
-
-img {
-  max-width:100%;
-  height:auto;
-  display:block;
-  margin-top:10px;
-}
-
-.caption {
-  font-size:0.8rem;
-  text-align:center;
-  margin-bottom:10px;
-  color:#555;
-}
-
-.comments {
-  margin-top:10px;
-  padding:10px;
-  border-top:1px dashed #ccc;
-  display:none;
-}
-
-.fact {
-  font-style:italic;
-  margin-top:10px;
-  background: #f7f0f0;
-  padding:5px 10px;
-  border-radius:5px;
-}
-
-/* Collapsible behavior */
-.article-box.active .article-content {
-  display:block;
-}
-
-.article-box.active .comments {
-  display:block;
-}
-
-/* Responsive */
-@media(max-width:768px){
-  .columns {
-    flex-direction:column;
-  }
-  header nav .nav-links {
+.article-box.collapsed .article-content {
     display:none;
-  }
 }
-
-/* Footer */
+.article-title {
+    font-size:1.3rem;
+    font-weight:bold;
+    margin-bottom:0.5rem;
+    color: var(--accent-dark);
+}
+.columns {
+    display:flex;
+    gap:2rem;
+}
+.col {
+    flex:1;
+}
+img {
+    max-width:100%;
+    margin-top:1rem;
+}
+.caption {
+    font-size:0.8rem;
+    color:#555;
+    margin-bottom:1rem;
+}
+.fact {
+    font-weight:bold;
+    margin-top:1rem;
+}
+.comments {
+    margin-top:1rem;
+    font-style:italic;
+    color:#444;
+}
+.search-bar {
+    width:100%;
+    padding:0.5rem;
+    font-size:1rem;
+    margin:1rem 0;
+    border:2px solid var(--accent);
+}
+.fade-in {
+    opacity:0;
+    animation: fadeIn 1s forwards;
+}
+@keyframes fadeIn {
+    to {opacity:1;}
+}
+@media (max-width:768px){
+    .columns {
+        flex-direction:column;
+    }
+}
 footer {
-  background: var(--paper);
-  padding:20px;
-  text-align:center;
-  border-top:1px solid #ccc;
-  font-size:1rem;
-}
-
-footer a {
-  color: var(--accent-2);
-  text-decoration:none;
+    background: var(--accent-dark);
+    color:#fff;
+    padding:1rem;
+    text-align:center;
+    font-weight:bold;
 }
 </style>
 </head>
 <body>
 
-<header>
-  <nav>
-    <div class="nav-links">
-      <a href="#news">News</a>
-      <a href="#fun">Fun</a>
-      <a href="#global">Global Issues</a>
-      <a href="#teenage">Teenage Life</a>
-      <a href="#about">About</a>
-    </div>
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Search articles...">
-    </div>
-  </nav>
-</header>
+<header>ORBIS VOX</header>
+
+<input type="text" class="search-bar" placeholder="Search articles...">
 
 <!-- ================= Articles ================= -->
 
@@ -267,6 +204,7 @@ footer a {
           <div class="caption">PHOTO: BLAKE RICHARDSON</div>
         </div>
       </div>
+
       <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
       <div class="comments" data-id="dog-choir"></div>
     </div>
@@ -304,27 +242,68 @@ footer a {
   </div>
 
 </section>
-
 <!-- GLOBAL -->
 <section id="global" class="fade-in">
   <div class="section-title">Global Issues</div>
 
-  <!-- Global articles follow same structure as above... -->
-  <!-- Include: teenage-gremlin-days, global-speed, womens-rights, creepy-monuments -->
-  <div class="article-box" data-id="teenage-gremlin-days">
-    <div class="article-title">Things That Ruin Your Day Every Day</div>
+  <div class="article-box" data-id="global-speed">
+    <div class="article-title">The World Feels Like It’s Spinning Faster Than We Can Stand</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
-          Ever get one of those days where you wake up ready to tackle the day, but life has other plans. As if waking up early couldn’t get any worse – now life decides this is the perfect day to become a fucking gremlin? Yeah? Me too. Let’s learn together just how much of a gremlin life can be.<br><br>
-          Let’s start with phones. If that’s what you can call them now. I think the more appropriate term would be a ‘hand-held bomb.’ Fits, right? The one thing that never shuts up or is abnormally silent. You never know if it’s going to ‘blow up’ or stay neutral. The constant alerts drive us mad. I mean, seriously? Shut up. I haven’t got the patience to keep checking what fucking upgrade I can afford, Vodaphone.
+          Sometimes it feels like the world is moving way faster than anyone can actually keep up with. You open the news and it’s disaster after disaster — conflict here, climate chaos there, politicians arguing like toddlers while everything burns quietly in the background. And somehow we’re supposed to just… get on with our day? Go to class? Pretend everything is fine?<br><br>
+          Global issues don’t feel “global” anymore. They feel personal. Close. Like they’re breathing down the back of your neck. When the cost of living spikes on the other side of the world, you feel it in the price of your school lunch. When a country thousands of miles away is flooding, you see it on your timeline before you even brush your teeth. When leaders mess up, it’s our generation that pays for it later — not theirs.
         </div>
         <div class="col">
-          People. Not just any people, no. The ones who are obnoxiously loud in public spaces. The ones who blast music as they walk with their trousers halfway down their legs. You aren’t a roadman, mate. The ones who shout on phone calls right next to you. I mean, are we being for real? No one needs bleeding eardrums while getting coffee. Dude, turn it down. Yeah, because what I really needed today was a rock concert in the middle of fucking Greggs.<br><br>
-          These little things hit like a brick on an already shit day, and yet somehow, we survive to ruin tomorrow all over again.
+          What’s worse is how normal it’s becoming. We doomscroll until the shock wears off. We watch tragedies like they’re episodes in a series we didn’t ask to binge. The world keeps throwing punches, and everyone’s acting like we should’ve trained for this.<br><br>
+          So yes, global issues are more intense, closer, and way harder to ignore. And if you’re a teenager trying to navigate school, friendships, and the looming pressure of life decisions, it’s exhausting.
         </div>
       </div>
-      <div class="comments" data-id="teenage-gremlin-days"></div>
+      <div class="comments" data-id="global-speed"></div>
+    </div>
+  </div>
+
+  <div class="article-box" data-id="womens-rights">
+    <div class="article-title">Breaking Barriers: Milestones in the Women's Rights Movement</div>
+    <div class="article-content">
+      <div class="columns">
+        <div class="col">
+          Let’s talk about rights. The battle women have fought day in and day out for centuries just to survive. 
+          The change from the 1700s to the 21st century. Has it changed drastically? Do you know all the history? 
+          Are we doing enough?<br><br>
+          1975. Nineteen. Seventy. Five. Women finally obtained the right to equal pay. This meant women could legally earn the same as men for doing the same amount of work. It was a crucial step towards equality in the world and workplace. Even today, it reminds us all how long women had to wait for this simple, human right. Women got the right to equal pay when the Equal Pay Act 1970 came into force on 29th December 1975. This legislation was a major step in ensuring that men and women receive equal pay for equal work, marking a pivotal moment in the fight for gender equality.
+        </div>
+        <div class="col">
+          In the late 19th to early 20th century, women gained the right to freedom. Personal freedom such as universities. 
+          This meant women could legally choose her own path in life and ensure her own future. It was a weighty decision 
+          for women who wanted more for their lives, which was most, and this choice meant women could become lawyers, 
+          officers of the law or even prime ministers.<br><br>
+          For example, Margaret Thatcher became the first female Prime Minister of the UK in 1979. 
+          Thatcher was seen as a divisive figure, but she proved women can do the same jobs men can, if not better.<br><br>
+          Women’s rights have changed over the years. From being their husband’s property to becoming lawyers and Prime Ministers. 
+          Gaining the right to vote, the right to owning their own property, and equal pay. Each step has been crucial 
+          progress to the world. These changes remind us how change is created one step at a time.
+        </div>
+      </div>
+      <div class="comments" data-id="womens-rights"></div>
+    </div>
+  </div>
+
+  <div class="article-box" data-id="creepy-monuments">
+    <div class="article-title">Monuments That Are Kinda Creepy When You Think About Them</div>
+    <div class="article-content">
+      <div class="columns">
+        <div class="col">
+          Monuments are supposed to be inspiring, right? Big, impressive statues and all that but then you actually look at the detail for more than a glance… and all of a sudden, they are kind of terrifying. Hold on, let me explain.<br><br>
+          Theres something about a statue just… staring at you forever. Like, who made this and why the hell does it feel like it can see into your soul? It’s like getting a glimpse of the devil. Why the fuck are these a thing? Ah, perfect, a statue who clearly knows my deepest, darkest secrets.
+        </div>
+        <div class="col">
+          Abstract statues. Cool concept… maybe but also what the hell am I looking at? The ambiguity is actually a little disturbing. I mean, faces made of shapes that don’t make a face. I don’t even know what I’m looking at. Fantastic, capitalism has now outsourced judgement to inanimate marble – eco-friendly, yet brutally disturbing and disoriented.<br><br>
+          Old statues with scary faces, memorials with unsettling histories… sometimes history is just really good at giving you the chills. It’s as if artistic ambition met a budget for frightful expressions and decided nothing says, “honour the dead” like eyes that follow you with silent judgement. You can almost hear the sculptors’ inner message “let them whisper, let them wonder, and above all, let them never smile here.”<br><br>
+          So yes, monuments are supposed to be impressive, but really... half of them are low-key freaky if you stop to actually think about them. Next time you pass one, look a little closer. Or don’t. Your call.
+        </div>
+      </div>
+      <div class="comments" data-id="creepy-monuments"></div>
     </div>
   </div>
 
@@ -368,7 +347,6 @@ footer a {
       <div class="comments" data-id="teenage-exhaustion"></div>
     </div>
   </div>
-
   <div class="article-box" data-id="teenage-adulthood-feet">
     <div class="article-title">Adulthood’s Footsteps Are Loud</div>
     <div class="article-content">
@@ -431,7 +409,6 @@ footer a {
   </div>
 
 </section>
-
 <!-- ABOUT -->
 <section id="about" class="fade-in">
   <div class="section-title">About</div>
@@ -452,35 +429,3 @@ footer a {
     </div>
   </div>
 </section>
-
-<!-- FOOTER -->
-<footer>
-  Contact: <a href="tel:07423093169">07423093169</a> | <a href="mailto:chloerichardson5318@gmail.com">chloerichardson5318@gmail.com</a>
-</footer>
-
-<script>
-// Collapsible articles
-document.querySelectorAll('.article-box').forEach(box => {
-  box.querySelector('.article-title').addEventListener('click', () => {
-    box.classList.toggle('active');
-  });
-});
-
-// Search functionality
-const searchInput = document.getElementById('searchInput');
-searchInput.addEventListener('input', () => {
-  const query = searchInput.value.toLowerCase();
-  document.querySelectorAll('.article-box').forEach(box => {
-    const text = box.querySelector('.article-title').innerText.toLowerCase() + box.querySelector('.article-content').innerText.toLowerCase();
-    if(text.includes(query)) {
-      box.style.display = '';
-    } else {
-      box.style.display = 'none';
-    }
-  });
-});
-</script>
-
-</body>
-</html>
-
