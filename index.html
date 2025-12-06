@@ -694,7 +694,47 @@ document.querySelectorAll(".comments").forEach(container => {
 });
 </script>
 
+  <div class="comments" data-id="teenage-be-yourself">
+  <p>This is the first comment. It will be hidden by default.</p>
+  <p>Here’s another comment. Click to show or hide it.</p>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Find all comment sections
+  const sections = document.querySelectorAll('.comments');
+
+  sections.forEach(section => {
+    // Wrap each <p> in a div with button
+    const paragraphs = Array.from(section.querySelectorAll('p'));
+    paragraphs.forEach(p => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'comment';
+
+      const button = document.createElement('button');
+      button.textContent = 'Show Comment';
+      button.onclick = function() {
+        if (p.style.display === 'none') {
+          p.style.display = 'block';
+          button.textContent = 'Hide Comment';
+        } else {
+          p.style.display = 'none';
+          button.textContent = 'Show Comment';
+        }
+      };
+
+      p.style.display = 'none'; // hide by default
+      wrapper.appendChild(button);
+      wrapper.appendChild(p.cloneNode(true)); // keep original text
+      p.replaceWith(wrapper); // replace old <p> with new structure
+    });
+  });
+});
+</script>
+
+
 </div>
 </body>
 </html>
+
 
