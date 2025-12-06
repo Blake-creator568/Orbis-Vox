@@ -567,36 +567,47 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
     </div>
   </div>
 
-  <div class="article-box" data-id="teenage-adulthood-feet" id="article-teenage-adulthood-feet">
-    <div class="article-title" role="button" tabindex="0">Adulthood’s Footsteps Are Loud</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          They say adulthood is coming, but no one says how loud its footsteps sound when you’re a teenager.<br><br>
-          As a kid you usually envy being a teenager, you can’t wait to grow up. The difference is that when you’re a teenager, you wish to be a kid again. Most teenagers deal with a variety of issues that are common, but some deal with the rarer issues of being forced into adulthood at sixteen. What's the effect? Let’s have a look.
-        </div>
-        <div class="col">
-          It’s peculiar living in the in-between. Old enough to know what stress feels like, young enough to know that people still look at you like you’re overreacting. There’s this constant pressure to prepare – for what? Taxes? Food? A home? A whole world that still feels years away but is somehow already on our doorstep, knocking vigorously.
-        </div>
+ <div class="article-box" data-id="teenage-adulthood-feet" id="article-teenage-adulthood-feet">
+  <div class="article-title" role="button" tabindex="0">Adulthood’s Footsteps Are Loud</div>
+
+  <div class="article-content">
+    <div class="columns">
+      <div class="col">
+        They say adulthood is coming, but no one says how loud its footsteps sound when you’re a teenager.<br><br>
+        As a kid you usually envy being a teenager, you can’t wait to grow up. The difference is that when you’re a teenager, you wish to be a kid again. Most teenagers deal with a variety of issues that are common, but some deal with the rarer issues of being forced into adulthood at sixteen. What’s the effect? Let’s have a look.<br><br>
+        It’s peculiar living in the in-between. Old enough to know what stress feels like, young enough to know that people still look at you like you’re overreacting. There’s this constant pressure to prepare – for what? Taxes? Food? A home? A whole world that still feels years away but is somehow already on our doorstep, knocking vigorously.
       </div>
 
-      <div class="article-controls">
-        <button class="btn secondary toggle-comments" data-article="teenage-adulthood-feet">Show comments</button>
-      </div>
-
-      <div class="comments-wrapper" data-article="teenage-adulthood-feet" style="display:none;">
-        <div class="comment-list" aria-live="polite"></div>
-        <form class="comment-form" onsubmit="return false;">
-          <input class="small-input comment-name" placeholder="Name (optional)">
-          <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-          <div class="comment-row">
-            <button class="btn post-comment" data-article="teenage-adulthood-feet">Post comment</button>
-            <button class="btn secondary clear-comments" data-article="teenage-adulthood-feet">Clear comments</button>
-          </div>
-        </form>
+      <div class="col">
+        Adults keep telling us, “Enjoy being young while you can” – usually right after reminding us about grades, careers, deadlines, responsibility and something vague called “the real world.” Very relaxing. Thanks.<br><br>
+        It’s like living on the edge of a cliff. Knowing one day you’ll fall but don’t know if there will be a safety net. I mean. Who can prepare for everything adults learn over the course of 20-25 years at sixteen? Everyone says it isn’t that big of a deal. Yeah. Says the one chilling at home with their no need for a plan snacks. This isn’t dramatic or attention seeking. It’s normal. It’s human. It shouldn’t be dimmed down or overlooked.<br><br>
+        It’s normal to feel overwhelmed. It’s normal to feel exhausted. It’s normal to feel lost. Anyone would. Everyone would. It’s not easy – knowing your life might collapse at any moment. Knowing everything that was steady and secure before is no longer there to lean on. It’s okay, to not understand, to feel lost, and to feel like everything is falling apart. It’s simple really, the truth. Having a deadline for when you must leave home? It’s trauma building in real time. It’s difficult for anyone to understand what it’s like to be an adult, let alone a sixteen-year-old.<br><br>
+        Let’s be real. Adulthood can knock later... I’m busy surviving college right now.
       </div>
     </div>
+
+    <!-- Comment toggle button -->
+    <div class="article-controls">
+      <button class="btn secondary toggle-comments" data-article="teenage-adulthood-feet">Show comments</button>
+    </div>
+
+    <!-- Comment system container -->
+    <div class="comments-wrapper" data-article="teenage-adulthood-feet" style="display:none;">
+      <div class="comment-list" aria-live="polite"></div>
+
+      <form class="comment-form" onsubmit="return false;">
+        <input class="small-input comment-name" placeholder="Name (optional)">
+        <textarea class="comment-input" placeholder="Write a comment..."></textarea>
+
+        <div class="comment-row">
+          <button class="btn post-comment" data-article="teenage-adulthood-feet">Post comment</button>
+          <button class="btn secondary clear-comments" data-article="teenage-adulthood-feet">Clear comments</button>
+        </div>
+      </form>
+    </div>
   </div>
+</div>
+
 
   <div class="article-box" data-id="teenage-adult-nonsense" id="article-teenage-adult-nonsense">
     <div class="article-title" role="button" tabindex="0">Things Adults Say That Make Zero Sense</div>
@@ -812,7 +823,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const articleId = btn.getAttribute('data-article');
       const wrapper = document.querySelector('.comments-wrapper[data-article="'+articleId+'"]');
       if(!wrapper) return;
-      const visible = wrapper.style.display !== 'none' && wrapper.style.display !== '';
+      const visible = wrapper.style.display === 'block';
       wrapper.style.display = visible ? 'none' : 'block';
       btn.textContent = visible ? 'Show comments' : 'Hide comments';
       if(!visible){ renderComments(articleId); }
@@ -912,3 +923,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
