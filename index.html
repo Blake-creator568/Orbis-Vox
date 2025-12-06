@@ -111,15 +111,6 @@ img:hover{transform:scale(1.03);border-color:var(--accent);}
   }
 }
 
-/* COMMENTS */
-.comments{margin-top:16px;border-top:1px dashed #ccc;padding-top:12px;}
-.comment-form{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start;}
-.comment-form textarea{width:100%;min-height:70px;padding:8px;border:2px solid #000;border-radius:6px;}
-.comment-form input[type="text"]{padding:8px;border:2px solid #000;border-radius:6px;}
-.comment-list{margin-top:12px;}
-.comment-item{border:1px solid #ddd;padding:8px;border-radius:6px;margin-bottom:8px;background:#fff;}
-.comment-button{display:inline-block;margin:8px 0;padding:10px 16px;font-size:14px;font-weight:bold;background:#fff;color:#000;border:2px solid #000;cursor:pointer;text-transform:uppercase;border-radius:6px;}
-.comment-button:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
 
 /* MODAL */
 .contact-box{display:none;position:fixed;z-index:10000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.6);}
@@ -154,24 +145,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
 
-  // Comment system
-  window.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".comments").forEach(container => {
-      const articleId = container.dataset.id;
-      const form = document.createElement("form");
-      form.className = "comment-form";
-      form.innerHTML = `
-        <textarea placeholder="Your comment"></textarea>
-        <input type="text" placeholder="Your name">
-        <button type="submit" class="comment-button">Post Comment</button>
-      `;
-      const list = document.createElement("div");
-      list.className = "comment-list";
-      container.appendChild(form);
-      container.appendChild(list);
-
-      const commentsCollection = collection(db, "comments", articleId, "messages");
-
       // Real-time updates
       onSnapshot(query(commentsCollection, orderBy("timestamp")), snapshot => {
         list.innerHTML = "";
@@ -184,22 +157,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         });
       });
 
-      form.addEventListener("submit", async e => {
-        e.preventDefault();
-        const commentText = form.querySelector("textarea").value.trim();
-        const commenter = form.querySelector("input").value.trim();
-        if(commentText){
-          await addDoc(commentsCollection, {
-            text: commentText,
-            name: commenter,
-            timestamp: new Date()
-          });
-          form.reset();
-        }
-      });
-    });
-  });
-</script>
 </head>
 
 <body>
@@ -256,7 +213,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           The BBC isn’t evil. It’s just… slow. Heavy. Too careful. And the world right now is anything but careful. Maybe that’s why so many of us end up getting our updates from TikTok at 3am — yeah, it’s messy, but at least it feels awake.
         </div>
       </div>
-      <div class="comments" data-id="bbc-today"></div>
+    
     </div>
   </div>
 
@@ -273,7 +230,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           What do you think – should all girls be allowed to join, or do you agree with the rules that are set in place?
         </div>
       </div>
-      <div class="comments" data-id="trans-girls-ban"></div>
+    
     </div>
   </div>
 
@@ -296,7 +253,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           Fun isn’t deep. It doesn’t need to be. It’s the crack in the wall that lets the light through when everything else feels heavy. And honestly? Those tiny dumb moments are what keep half of us sane.
         </div>
       </div>
-      <div class="comments" data-id="fun-daily-moments"></div>
     </div>
   </div>
 
@@ -334,7 +290,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
       </div>
 
       <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
-      <div class="comments" data-id="dog-choir"></div>
     </div>
   </div>
 
@@ -365,7 +320,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         If any of this helps you unwind? Do it proudly.
       </div>
     </div>
-    <div class="comments" data-id="fun-chaos-therapy"></div>
   </div>
 </div>
 
@@ -382,7 +336,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         These little things hit like a brick on an already shit day, and yet somehow, we survive to ruin tomorrow all over again.
       </div>
     </div>
-    <div class="comments" data-id="teenage-gremlin-days"></div>
   </div>
 </div>
 
@@ -405,7 +358,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           So yes, global issues are more intense, closer, and way harder to ignore. And if you’re a teenager trying to navigate school, friendships, and the looming pressure of life decisions, it’s exhausting.
         </div>
       </div>
-      <div class="comments" data-id="global-speed"></div>
     </div>
   </div>
 
@@ -431,7 +383,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           progress to the world. These changes remind us how change is created one step at a time.
         </div>
       </div>
-      <div class="comments" data-id="womens-rights"></div>
     </div>
   </div>
 
@@ -449,7 +400,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         So yes, monuments are supposed to be impressive, but really... half of them are low-key freaky if you stop to actually think about them. Next time you pass one, look a little closer. Or don’t. Your call.
       </div>
     </div>
-    <div class="comments" data-id="creepy-monuments"></div>
   </div>
 </div>
 
@@ -490,7 +440,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           because of all the pressure from the world around them.
         </div>
       </div>
-      <div class="comments" data-id="teenage-exhaustion"></div>
     </div>
   </div>
 
@@ -510,7 +459,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         Let’s be real. Adulthood can knock later... I’m busy surviving college right now.
       </div>
     </div>
-    <div class="comments" data-id="teenage-adulthood-feet"></div>
   </div>
 </div>
 
@@ -529,7 +477,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         5. “Just be a teenager, live your life.” – right, sure, yeah. I shall ignore everything that brings me chaos and live life in a white room.
       </div>
     </div>
-    <div class="comments" data-id="teenage-adult-nonsense"></div>
   </div>
 </div>
 
@@ -551,8 +498,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         I mean, seriously? We must filter every thought like we’re running our own PR for our personalities. Do we seriously have to filter ourselves to fit in? If being ‘myself’ is too much, that sounds like a ‘them’ problem. If I have to sand down every edge just to make people comfortable, what’s the point of having a personality? Honestly? I’d rather be different than ‘original.’ Wouldn’t you?
       </div>
     </div>
-    <div class="comments" data-id="teenage-be-yourself"></div>
-  </div>
+ </div>
 </div>
 
 </section>
@@ -696,5 +642,6 @@ document.querySelectorAll(".comments").forEach(container => {
 </div>
 </body>
 </html>
+
 
 
