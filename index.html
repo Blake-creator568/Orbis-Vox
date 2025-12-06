@@ -693,45 +693,101 @@ document.querySelectorAll(".comments").forEach(container => {
   });
 });
 
+<!-- Paste this once, right before </body> -->
+<style>
+/* tiny styles so the button is visible and consistent */
+.cv-toggle-btn{
+  display: block;
+  margin: 8px 0;
+  padding: 6px 10px;
+  cursor: pointer;
+  border: 1px solid #888;
+  background: #fff;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.comments-hidden { display: none !important; }
+</style>
+
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  // Find all comment sections by class
-  const sections = document.querySelectorAll('.comments');
+(function(){
+  // Create or init a toggle for one .comments element
+  function initToggle(section) {
+    if (!section || section.dataset.cvInit === "1") return;
+    section.dataset.cvInit = "1";
 
-  sections.forEach((section, index) => {
-    // Create the button
-    const button = document.createElement('button');
-    button.textContent = 'Show Comments';
-    button.style.marginBottom = '10px';
-    button.style.display = 'block';
+    // ensure section is hidden initially
+    section.classList.add('comments-hidden');
 
-    // Wrap the section in a container to avoid layout issues
+    // create wrapper container so button always sits above
     const container = document.createElement('div');
     section.parentNode.insertBefore(container, section);
-    container.appendChild(button);
     container.appendChild(section);
 
-    // Hide the section initially
-    section.style.display = 'none';
+    // create button
+    const btn = document.createElement('button');
+    btn.className = 'cv-toggle-btn';
+    btn.type = 'button';
+    btn.textContent = 'Show Comments';
+    container.insertBefore(btn, section);
 
-    // Toggle on click
-    button.addEventListener('click', function() {
-      if (section.style.display === 'none') {
-        section.style.display = 'block';
-        button.textContent = 'Hide Comments';
+    btn.addEventListener('click', function(){
+      const hidden = section.classList.contains('comments-hidden');
+      if (hidden) {
+        section.classList.remove('comments-hidden');
+        btn.textContent = 'Hide Comments';
       } else {
-        section.style.display = 'none';
-        button.textContent = 'Show Comments';
+        section.classList.add('comments-hidden');
+        btn.textContent = 'Show Comments';
+      }
+      // optional: focus first comment when opened
+      if (!section.classList.contains('comments-hidden')) {
+        const first = section.querySelector('p,div,li');
+        if (first) first.scrollIntoView({behavior:'smooth', block:'nearest'});
       }
     });
+  }
+
+  // Initialize existing sections
+  function initAll() {
+    document.querySelectorAll('.comments').forEach(initToggle);
+  }
+
+  // Watch for new .comments nodes added later
+  const observer = new MutationObserver(mutations => {
+    for (const m of mutations) {
+      if (m.addedNodes && m.addedNodes.length) {
+        m.addedNodes.forEach(node => {
+          if (!(node instanceof HTMLElement)) return;
+          if (node.matches && node.matches('.comments')) {
+            initToggle(node);
+          } else {
+            // also check descendants
+            node.querySelectorAll && node.querySelectorAll('.comments').forEach(initToggle);
+          }
+        });
+      }
+    }
   });
-});
+
+  document.addEventListener('DOMContentLoaded', function(){
+    initAll();
+    observer.observe(document.body, { childList: true, subtree: true });
+  });
+
+  // Safety: if script injected after DOM loaded
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initAll();
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+})();
 </script>
 
 
 </div>
 </body>
 </html>
+
 
 
 
