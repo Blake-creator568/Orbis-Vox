@@ -2,142 +2,52 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Orbis Vox</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Orbis Vox</title>
 <style>
-:root {
-  --bg: #fdfcf8;
-  --paper: #fff;
-  --ink: #1a1a1a;
-  --accent: #8B0000; /* Orbis Vox red */
-  --accent-2: #B22222;
-  --font-primary: 'Arial', sans-serif;
-}
+/* === Orbis Vox Style === */
+body { margin: 0; font-family: "Helvetica Neue", Arial, sans-serif; background: #fdfcf8; color: #1a1a1a; line-height: 1.6; }
+a { text-decoration: none; color: inherit; }
 
-body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--bg);
-  color: var(--ink);
-  font-family: var(--font-primary);
-  line-height: 1.6;
-}
-
-.section-title {
-  font-size: 2em;
-  font-weight: bold;
-  color: var(--accent);
-  margin: 40px 20px 20px;
-  text-align: center;
-  text-transform: uppercase;
-}
+.section-title { font-size: 2rem; color: #8B0000; margin: 2rem 0 1rem 0; text-align: center; font-weight: bold; }
 
 .article-box {
-  background: var(--paper);
-  border-left: 4px solid var(--accent);
-  margin: 20px auto;
-  padding: 20px;
-  max-width: 1000px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background: #fff; border: 2px solid #B22222; border-radius: 12px; padding: 1.5rem;
+  margin: 1rem auto; max-width: 900px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s ease;
 }
 
-.article-title {
-  font-size: 1.5em;
-  font-weight: bold;
-  cursor: pointer;
-  margin-bottom: 10px;
-  color: var(--accent-2);
-}
+.article-title { font-size: 1.5rem; font-weight: bold; color: #B22222; margin-bottom: 1rem; }
 
-.article-content {
-  display: none; /* starts collapsed */
-  margin-top: 10px;
-}
+.article-content { display: none; margin-top: 1rem; }
 
-.columns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
+.columns { display: flex; flex-wrap: wrap; gap: 1rem; }
+.col { flex: 1 1 45%; }
 
-.col {
-  flex: 1 1 45%;
-}
+.caption { font-size: 0.85rem; color: #666; text-align: center; margin-top: 0.5rem; }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
+.fact { font-style: italic; margin-top: 1rem; color: #8B0000; }
 
-.caption {
-  font-size: 0.8em;
-  color: #555;
-  text-align: center;
-  margin-top: 5px;
-}
+.comments { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #B22222; display: none; }
 
-.comment-toggle {
-  cursor: pointer;
-  color: var(--accent);
-  font-weight: bold;
-  margin-top: 15px;
-}
+#contact-popup { display: none; position: fixed; bottom: 20px; right: 20px; width: 280px; background: #fff;
+border: 2px solid #B22222; border-radius: 12px; padding: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1000; }
+#contact-popup h3 { margin-top: 0; color: #8B0000; }
 
-.comments {
-  display: none;
-  margin-top: 10px;
-  padding: 10px;
-  background: #f5f5f5;
-  border-left: 3px solid var(--accent);
-}
-
-#contactPopup {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--paper);
-  padding: 30px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  z-index: 1000;
-}
-
-#contactPopup h2 {
-  margin-top: 0;
-  color: var(--accent);
-}
-
-#contactPopup button {
-  margin-top: 15px;
-  padding: 8px 16px;
-  background: var(--accent-2);
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .columns {
-    flex-direction: column;
-  }
-  .col {
-    flex: 1 1 100%;
-  }
-}
+@media (max-width: 768px) { .columns { flex-direction: column; } }
 </style>
 </head>
 <body>
 
-<!-- CONTACT BUTTON -->
-<button class="contact-btn" onclick="toggleContact()">Contact Me</button>
-<div class="contact-popup" id="contactPopup">
-  <h3>Contact</h3>
+<!-- CONTACT POPUP -->
+<div id="contact-popup">
+  <h3>Contact Me</h3>
   <p>Email: <a href="mailto:chloerichardson5318@gmail.com">chloerichardson5318@gmail.com</a></p>
   <p>Phone: <a href="tel:07423093169">07423093169</a></p>
   <button onclick="toggleContact()">Close</button>
+</div>
+
+<div style="text-align:center; margin: 1rem 0;">
+  <button onclick="toggleContact()" style="background:#B22222;color:#fff;padding:0.5rem 1rem;border:none;border-radius:8px;cursor:pointer;">Contact</button>
 </div>
 
 <!-- ================= NEWS ================= -->
@@ -433,27 +343,29 @@ img {
 </section>
 
 <script>
-const articleTitles = document.querySelectorAll('.article-title');
-articleTitles.forEach(title => {
-  title.addEventListener('click', () => {
-    const content = title.nextElementSibling;
+// Toggle article content
+document.querySelectorAll('.article-box').forEach(box => {
+  box.addEventListener('click', () => {
+    const content = box.querySelector('.article-content');
     content.style.display = content.style.display === 'block' ? 'none' : 'block';
   });
 });
 
-function toggleComments(toggle) {
-  const comments = toggle.nextElementSibling;
-  comments.style.display = comments.style.display === 'block' ? 'none' : 'block';
-  toggle.textContent = comments.style.display === 'block' ? 'Hide Comments' : 'Show Comments';
-}
+// Toggle comments individually (double click)
+document.querySelectorAll('.comments').forEach(comments => {
+  const parentBox = comments.closest('.article-box');
+  const toggleComments = () => {
+    comments.style.display = comments.style.display === 'block' ? 'none' : 'block';
+  };
+  parentBox.addEventListener('dblclick', toggleComments);
+});
 
+// Contact popup
 function toggleContact() {
-  const popup = document.getElementById('contactPopup');
+  const popup = document.getElementById('contact-popup');
   popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
 }
 </script>
 
 </body>
 </html>
-
-
