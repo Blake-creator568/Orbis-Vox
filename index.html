@@ -1,137 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Orbis Vox</title>
 <style>
-  :root {
-    --bg: #fdfcf8;
-    --paper: #fff;
-    --ink: #1a1a1a;
-    --accent: #8B0000;
-    --accent-2: #B22222;
-  }
+:root {
+  --bg:#fdfcf8;
+  --paper:#fff;
+  --ink:#1a1a1a;
+  --accent:#8B0000;
+  --accent-2:#B22222;
+  --font-sans: 'Arial', sans-serif;
+}
 
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: var(--bg);
-    color: var(--ink);
-  }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  margin:0;
+  padding:0;
+}
 
-  .section-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 2rem 1rem 1rem;
-    color: var(--accent);
-  }
+header {
+  background: var(--paper);
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #ccc;
+}
 
-  .article-box {
-    background: var(--paper);
-    margin: 1rem;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    cursor: pointer;
-  }
+header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .article-title {
-    font-weight: bold;
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-  }
+header nav .nav-links {
+  display: flex;
+  gap: 15px;
+}
 
-  .article-content {
-    display: none;
-    margin-top: 0.5rem;
-  }
+header nav .nav-links a {
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: bold;
+}
 
+header nav .search-bar input {
+  padding:5px 10px;
+  font-size:16px;
+  border:1px solid #ccc;
+  border-radius:5px;
+  width: 100%;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin:20px 0;
+  text-align:center;
+  color: var(--accent);
+}
+
+.article-box {
+  background: var(--paper);
+  margin: 20px;
+  padding:20px;
+  border-radius:10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.article-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent-2);
+}
+
+.article-content {
+  margin-top: 15px;
+  display:none;
+}
+
+.columns {
+  display:flex;
+  gap:20px;
+}
+
+.col {
+  flex:1;
+}
+
+img {
+  max-width:100%;
+  height:auto;
+  display:block;
+  margin-top:10px;
+}
+
+.caption {
+  font-size:0.8rem;
+  text-align:center;
+  margin-bottom:10px;
+  color:#555;
+}
+
+.comments {
+  margin-top:10px;
+  padding:10px;
+  border-top:1px dashed #ccc;
+  display:none;
+}
+
+.fact {
+  font-style:italic;
+  margin-top:10px;
+  background: #f7f0f0;
+  padding:5px 10px;
+  border-radius:5px;
+}
+
+/* Collapsible behavior */
+.article-box.active .article-content {
+  display:block;
+}
+
+.article-box.active .comments {
+  display:block;
+}
+
+/* Responsive */
+@media(max-width:768px){
   .columns {
-    display: flex;
-    gap: 2rem;
+    flex-direction:column;
   }
-
-  .col {
-    flex: 1;
+  header nav .nav-links {
+    display:none;
   }
+}
 
-  img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-top: 1rem;
-  }
+/* Footer */
+footer {
+  background: var(--paper);
+  padding:20px;
+  text-align:center;
+  border-top:1px solid #ccc;
+  font-size:1rem;
+}
 
-  .caption {
-    font-size: 0.8rem;
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-
-  .fact {
-    background: var(--accent-2);
-    color: #fff;
-    padding: 0.5rem;
-    margin-top: 1rem;
-    border-radius: 5px;
-    font-style: italic;
-  }
-
-  .comments {
-    margin-top: 1rem;
-    padding: 0.5rem;
-    background: #eee;
-    border-radius: 5px;
-  }
-
-  /* Search Bar */
-  #search-container {
-    margin: 1rem;
-    text-align: center;
-  }
-
-  #search-input {
-    width: 90%;
-    max-width: 500px;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .columns {
-      flex-direction: column;
-    }
-  }
-
-  /* Collapsible icon */
-  .article-title::after {
-    content: " ▼";
-    float: right;
-    font-size: 0.8rem;
-  }
-
-  .article-box.active .article-title::after {
-    content: " ▲";
-  }
-
+footer a {
+  color: var(--accent-2);
+  text-decoration:none;
+}
 </style>
 </head>
 <body>
 
-<!-- SEARCH -->
-<div id="search-container">
-  <input type="text" id="search-input" placeholder="Search articles...">
-</div>
+<header>
+  <nav>
+    <div class="nav-links">
+      <a href="#news">News</a>
+      <a href="#fun">Fun</a>
+      <a href="#global">Global Issues</a>
+      <a href="#teenage">Teenage Life</a>
+      <a href="#about">About</a>
+    </div>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search articles...">
+    </div>
+  </nav>
+</header>
+
+<!-- ================= Articles ================= -->
 
 <!-- NEWS -->
 <section id="news" class="fade-in">
   <div class="section-title">News</div>
 
-  <!-- BBC Today -->
   <div class="article-box" data-id="bbc-today">
     <div class="article-title">A Truthful Look at the BBC Today</div>
     <div class="article-content">
@@ -145,11 +192,10 @@
           The BBC isn’t evil. It’s just… slow. Heavy. Too careful. And the world right now is anything but careful. Maybe that’s why so many of us end up getting our updates from TikTok at 3am — yeah, it’s messy, but at least it feels awake.
         </div>
       </div>
-      <div class="comments" data-id="bbc-today">Comments...</div>
+      <div class="comments" data-id="bbc-today"></div>
     </div>
   </div>
 
-  <!-- Trans girls ban -->
   <div class="article-box" data-id="trans-girls-ban">
     <div class="article-title">Discrimination shown as trans girls are banned from Girl Guide groups</div>
     <div class="article-content">
@@ -163,7 +209,7 @@
           What do you think – should all girls be allowed to join, or do you agree with the rules that are set in place?
         </div>
       </div>
-      <div class="comments" data-id="trans-girls-ban">Comments...</div>
+      <div class="comments" data-id="trans-girls-ban"></div>
     </div>
   </div>
 </section>
@@ -172,7 +218,6 @@
 <section id="fun" class="fade-in">
   <div class="section-title">Fun</div>
 
-  <!-- Fun Daily Moments -->
   <div class="article-box" data-id="fun-daily-moments">
     <div class="article-title">The Things We Pretend Aren’t the Best Part of the Day</div>
     <div class="article-content">
@@ -186,19 +231,21 @@
           Fun isn’t deep. It doesn’t need to be. It’s the crack in the wall that lets the light through when everything else feels heavy. And honestly? Those tiny dumb moments are what keep half of us sane.
         </div>
       </div>
-      <div class="comments" data-id="fun-daily-moments">Comments...</div>
+      <div class="comments" data-id="fun-daily-moments"></div>
     </div>
   </div>
 
-  <!-- Dog Choir -->
   <div class="article-box" data-id="dog-choir">
     <div class="article-title">West Hallam’s Dog Choir Wakes Residents</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
-          Residents across West Hallam were startled awake at an insane hour this morning as the village’s infamous “Dog Choir” began another full-volume performance.<br><br>
-          The chaos always begins the same way: one dog, somewhere in the distance, lets out a single bark that somehow sounds like someone has stubbed their toe.<br><br>
-          Within seconds, every single dog in the village has a turn, creating a racket that can only be described as: “Someone listening to their phone on full blast.”<br><br>
+          Residents across West Hallam were startled awake at an insane hour this morning as the village’s infamous 
+          “Dog Choir” began another full-volume performance.<br><br>
+          The chaos always begins the same way: one dog, somewhere in the distance, lets out a single bark that 
+          somehow sounds like someone has stubbed their toe.<br><br>
+          Within seconds, every single dog in the village has a turn, creating a racket that can only be described as:
+          “Someone listening to their phone on full blast.”<br><br>
           No one knows what throws them off. Some assumed triggers by families vary of:<br>
           • A gust of wind that suspiciously sounds like a whistle.<br>
           • A leaf flying by with a look of disgust.<br>
@@ -207,44 +254,182 @@
         </div>
         <div class="col">
           I’m convinced they hold meetings through Skype when we are away.<br><br>
-          The barking usually reaches maximum volume at the exact moment you were finally about to sit down and relax after a long day at work.<br><br>
+          The barking usually reaches maximum volume at the exact moment you were finally about to sit down and relax 
+          after a long day at work.<br><br>
           This leaves locals feeling ready to sue the entire canine population.<br><br>
           Despite the daily chaos, many admit the barking has become part of West Hallam life.<br>
           It’s consistent.<br>
           It’s loud.<br>
           And it absolutely doesn’t care that you have college in an hour.<br><br>
-          Well, at least someone in this village has some variation of entertainment. Can’t blame the dogs, at least they’re talkative.<br><br>
+          Well, at least someone in this village has some variation of entertainment. Can’t blame the dogs, 
+          at least they’re talkative.<br><br>
           <img src="dog.jpg" alt="Dog Photo">
           <div class="caption">PHOTO: BLAKE RICHARDSON</div>
         </div>
       </div>
       <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
-      <div class="comments" data-id="dog-choir">Comments...</div>
+      <div class="comments" data-id="dog-choir"></div>
     </div>
   </div>
+
+  <div class="article-box" data-id="fun-chaos-therapy">
+    <div class="article-title">College Chaos Therapy: How Students Unwind</div>
+    <div class="article-content">
+      <div class="columns">
+        <div class="col">
+          Everyone has their own version of “self-help.”<br><br>
+          Some people draw.<br>
+          Some people write.<br>
+          And then there are college students, whose coping habits can best be described as a Revels chocolate bag – you never know until you bite.<br><br>
+          Here’s what most students at Broomfield College said – raw, brutal, and unhinged:
+        </div>
+        <div class="col">
+          • Scream clubs – Loads of people join and scream their lungs out.<br>
+          • Burrito yourself – Wrap yourself in a blanket really tight.<br>
+          • Exist – Get into bed, be alone, scroll on your phone.<br>
+          • Committing arson – DO NOT recommend.<br>
+          • Smash some shit – throw plates, punch stuff, be violent.<br>
+          • Irritate your siblings – best way to regulate yourself.<br>
+          • Aggressive bubble popping – Fidgety, calming, aggressive.<br>
+          • Go to bed – nothing like a bit of sleep to make us un-wind.<br>
+          • Play online games – alone, or with friends, neither matter just relax.<br>
+          • Golfing range – can be relaxing if you don’t smack someone with the club!<br>
+          • Blast music – ah, nothing like a bit of eardrum damage to kick off the day.<br><br>
+          Chaos activities aren’t about being productive or responsible. They’re about giving your brain a silly, small moment to breathe.<br><br>
+          If any of this helps you unwind? Do it proudly.
+        </div>
+      </div>
+      <div class="comments" data-id="fun-chaos-therapy"></div>
+    </div>
+  </div>
+
 </section>
 
 <!-- GLOBAL -->
 <section id="global" class="fade-in">
   <div class="section-title">Global Issues</div>
 
-  <!-- Global Speed -->
-  <div class="article-box" data-id="global-speed">
-    <div class="article-title">The World Feels Like It’s Spinning Faster Than We Can Stand</div>
+  <!-- Global articles follow same structure as above... -->
+  <!-- Include: teenage-gremlin-days, global-speed, womens-rights, creepy-monuments -->
+  <div class="article-box" data-id="teenage-gremlin-days">
+    <div class="article-title">Things That Ruin Your Day Every Day</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
-          Sometimes it feels like the world is moving way faster than anyone can actually keep up with. You open the news and it’s disaster after disaster — conflict here, climate chaos there, politicians arguing like toddlers while everything burns quietly in the background. And somehow we’re supposed to just… get on with our day? Go to class? Pretend everything is fine?<br><br>
-          Global issues don’t feel “global” anymore. They feel personal. Close. Like they’re breathing down the back of your neck. When the cost of living spikes on the other side of the world, you feel it in the price of your school lunch. When a country thousands of miles away is flooding, you see it on your timeline before you even brush your teeth. When leaders mess up, it’s our generation that pays for it later — not theirs.
+          Ever get one of those days where you wake up ready to tackle the day, but life has other plans. As if waking up early couldn’t get any worse – now life decides this is the perfect day to become a fucking gremlin? Yeah? Me too. Let’s learn together just how much of a gremlin life can be.<br><br>
+          Let’s start with phones. If that’s what you can call them now. I think the more appropriate term would be a ‘hand-held bomb.’ Fits, right? The one thing that never shuts up or is abnormally silent. You never know if it’s going to ‘blow up’ or stay neutral. The constant alerts drive us mad. I mean, seriously? Shut up. I haven’t got the patience to keep checking what fucking upgrade I can afford, Vodaphone.
         </div>
         <div class="col">
-          What’s worse is how normal it’s becoming. We doomscroll until the shock wears off. We watch tragedies like they’re episodes in a series we didn’t ask to binge. The world keeps throwing punches, and everyone’s acting like we should’ve trained for this.<br><br>
-          So yes, global issues are more intense, closer, and way harder to ignore. And if you’re a teenager trying to navigate school, friendships, and the looming pressure of life decisions, it’s exhausting.
+          People. Not just any people, no. The ones who are obnoxiously loud in public spaces. The ones who blast music as they walk with their trousers halfway down their legs. You aren’t a roadman, mate. The ones who shout on phone calls right next to you. I mean, are we being for real? No one needs bleeding eardrums while getting coffee. Dude, turn it down. Yeah, because what I really needed today was a rock concert in the middle of fucking Greggs.<br><br>
+          These little things hit like a brick on an already shit day, and yet somehow, we survive to ruin tomorrow all over again.
         </div>
       </div>
-      <div class="comments" data-id="global-speed">Comments...</div>
+      <div class="comments" data-id="teenage-gremlin-days"></div>
     </div>
   </div>
+
+</section>
+
+<!-- TEENAGE -->
+<section id="teenage" class="fade-in">
+  <div class="section-title">Teenage Life</div>
+
+  <div class="article-box" data-id="teenage-exhaustion">
+    <div class="article-title">Why young people are so exhausted all the time</div>
+    <div class="article-content">
+      <div class="columns">
+        <div class="col">
+          Teenagers. Dramatic or genuinely drained? What do you think? Forty-three percent of teenagers in the UK 
+          are exhausted mentally or physically. So, are they being dramatic? Let us find out.<br><br>
+          Seventy-five percent of students aged 11–18 have complained of feeling overwhelmed about the education system. 
+          This prevents students from achieving what they could be capable of within school hours. Many students arrive 
+          on time and do their work without showing any exhaustion. These students do not necessarily have the energy 
+          to do this; most will pretend so no one asks questions.<br><br>
+          A former pupil at Kirk Hallam Academy said, “I pretended to be okay because it was easier than answering 
+          their questions. I told a couple of teachers, but I never got the support I needed which resulted in my 
+          self-esteem dropping drastically.”<br><br>
+          <img src="images.jpeg" alt="Teenagers looking tired">
+          <div class="caption">PHOTO: TEENAGERS’ EXHAUSTION IN THE UK</div>
+        </div>
+        <div class="col">
+          Another point to consider is home life. A variety of students have unstable living circumstances. 
+          As a teenager they find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends.<br><br>
+          One in seven teenagers have reported living in a neglectful home and the toll it has taken on their mental health. 
+          How could we change this? Parents/Carers, you need to be more respectful to your children. Most children grow up 
+          hating you if you treat them horribly as they are growing.<br><br>
+          Relationships. The one thing most teenagers yearn for. Are teenage relationships healthy or are they better off without? 
+          Teenage relationships have a profound and dualistic effect on mental health: healthy, supportive relationships function 
+          as a vital protective factor, while unhealthy ones increase the risk of anxiety, depression, and low self-esteem.<br><br>
+          In conclusion, most teenagers are overwhelmed by education and family issues. However, relationships can be a solution. 
+          The majority of students find comfort in having one familiar person. Teenagers are not being dramatic, they are stressed 
+          because of all the pressure from the world around them.
+        </div>
+      </div>
+      <div class="comments" data-id="teenage-exhaustion"></div>
+    </div>
+  </div>
+
+  <div class="article-box" data-id="teenage-adulthood-feet">
+    <div class="article-title">Adulthood’s Footsteps Are Loud</div>
+    <div class="article-content">
+      <div class="columns">
+        <div class="col">
+          They say adulthood is coming, but no one says how loud its footsteps sound when you’re a teenager.<br><br>
+          As a kid you usually envy being a teenager, you can’t wait to grow up. The difference is that when you’re a teenager, you wish to be a kid again. Most teenagers deal with a variety of issues that are common, but some deal with the rarer issues of being forced into adulthood at sixteen. What’s the effect? Let’s have a look.<br><br>
+          It’s peculiar living in the in-between. Old enough to know what stress feels like, young enough to know that people still look at you like you’re overreacting. There’s this constant pressure to prepare – for what? Taxes? Food? A home? A whole world that still feels years away but is somehow already on our doorstep, knocking vigorously.
+        </div>
+        <div class="col">
+          Adults keep telling us, “Enjoy being young while you can” – usually right after reminding us about grades, careers, deadlines, responsibility and something vague called “the real world.” Very relaxing. Thanks.<br><br>
+          It’s like living on the edge of a cliff. Knowing one day you’ll fall but don’t know if there will be a safety net. I mean. Who can prepare for everything adults learn over the course of 20-25 years at sixteen? Everyone says it isn’t that big of a deal. Yeah. Says the one chilling at home with their no need for a plan snacks. This isn’t dramatic or attention seeking. It’s normal. It’s human. It shouldn’t be dimmed down or overlooked.<br><br>
+          It’s normal to feel overwhelmed. It’s normal to feel exhausted. It’s normal to feel lost. Anyone would. Everyone would. It’s not easy – knowing your life might collapse at any moment. Knowing everything that was steady and secure before is no longer there to lean on. It’s okay, to not understand, to feel lost, and to feel like everything is falling apart. It’s simple really, the truth. Having a deadline for when you must leave home? It’s trauma building in real time. It’s difficult for anyone to understand what it’s like to be an adult, let alone a sixteen-year-old.<br><br>
+          Let’s be real. Adulthood can knock later... I’m busy surviving college right now.
+        </div>
+      </div>
+      <div class="comments" data-id="teenage-adulthood-feet"></div>
+    </div>
+  </div>
+
+  <div class="article-box" data-id="teenage-adult-nonsense">
+    <div class="article-title">Things Adults Say That Make Zero Sense</div>
+    <div class="article-content">
+      <div class="columns">
+        <div class="col">
+          Things adults say that make zero sense.<br><br>
+          1. “You need experience to get experience.” – Sorry? What?<br>
+          2. “You’ll understand when you’re older.” – Will I? Seriously?<br>
+          3. “You’re too young to be stressed.” – Right, makes sense, I’ll just ignore school and my mental health.
+        </div>
+        <div class="col">
+          4. “You’ve not even grown up yet, stop stressing.” – Yeah, sure. How am I supposed to chill when all I see on the news is chaos?<br>
+          5. “Just be a teenager, live your life.” – right, sure, yeah. I shall ignore everything that brings me chaos and live life in a white room.
+        </div>
+      </div>
+      <div class="comments" data-id="teenage-adult-nonsense"></div>
+    </div>
+  </div>
+
+  <div class="article-box" data-id="teenage-be-yourself">
+    <div class="article-title">The World Wants Me to ‘Be Myself’ But Only the Polite Version</div>
+    <div class="article-content">
+      <div class="columns">
+        <div class="col">
+          The world wants me to ‘be myself’ but only the polite, edited, convenient version.<br><br>
+          Everyone loves to say “just be yourself” which is hilarious because the second I do, the hidden animals in people just suddenly wake up and start gnawing at my sanity. Like, are we being for real? Yeah, sure. I’ll be myself but don’t blame me when I lose my shit.<br><br>
+          The rules of ‘be yourself’ no-one admits: <br>
+          • Be confident but not that confident.<br>
+          • Have opinions but only the ones we agree with.<br>
+          • Speak your mind unless it makes someone uncomfortable.
+        </div>
+        <div class="col">
+          • Be unique but don’t stand out too much.<br>
+          • Be honest but only if the truth is cute and convenient.<br><br>
+          I mean, seriously? We must filter every thought like we’re running our own PR for our personalities. Do we seriously have to filter ourselves to fit in? If being ‘myself’ is too much, that sounds like a ‘them’ problem. If I have to sand down every edge just to make people comfortable, what’s the point of having a personality? Honestly? I’d rather be different than ‘original.’ Wouldn’t you?
+        </div>
+      </div>
+      <div class="comments" data-id="teenage-be-yourself"></div>
+    </div>
+  </div>
+
 </section>
 
 <!-- ABOUT -->
@@ -268,48 +453,32 @@
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact" class="fade-in">
-  <div class="section-title">Contact</div>
-  <div class="article-box">
-    <div class="columns">
-      <div class="col">
-        Phone: <a href="tel:07423093169">07423093169</a><br>
-        Email: <a href="mailto:chloerichardson5318@gmail.com">chloerichardson5318@gmail.com</a>
-      </div>
-      <div class="col"></div>
-    </div>
-  </div>
-</section>
+<!-- FOOTER -->
+<footer>
+  Contact: <a href="tel:07423093169">07423093169</a> | <a href="mailto:chloerichardson5318@gmail.com">chloerichardson5318@gmail.com</a>
+</footer>
 
 <script>
-  // Collapse/expand articles
-  document.querySelectorAll('.article-box').forEach(box => {
-    box.addEventListener('click', () => {
-      box.classList.toggle('active');
-      const content = box.querySelector('.article-content');
-      if(content.style.display === 'block'){
-        content.style.display = 'none';
-      } else {
-        content.style.display = 'block';
-      }
-    });
+// Collapsible articles
+document.querySelectorAll('.article-box').forEach(box => {
+  box.querySelector('.article-title').addEventListener('click', () => {
+    box.classList.toggle('active');
   });
+});
 
-  // Search
-  const searchInput = document.getElementById('search-input');
-  searchInput.addEventListener('input', () => {
-    const query = searchInput.value.toLowerCase();
-    document.querySelectorAll('.article-box').forEach(box => {
-      const title = box.querySelector('.article-title').textContent.toLowerCase();
-      const content = box.querySelector('.article-content').textContent.toLowerCase();
-      if(title.includes(query) || content.includes(query)){
-        box.style.display = '';
-      } else {
-        box.style.display = 'none';
-      }
-    });
+// Search functionality
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', () => {
+  const query = searchInput.value.toLowerCase();
+  document.querySelectorAll('.article-box').forEach(box => {
+    const text = box.querySelector('.article-title').innerText.toLowerCase() + box.querySelector('.article-content').innerText.toLowerCase();
+    if(text.includes(query)) {
+      box.style.display = '';
+    } else {
+      box.style.display = 'none';
+    }
   });
+});
 </script>
 
 </body>
