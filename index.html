@@ -83,7 +83,7 @@ nav #searchInput{
 .section-title{font-size:34px;text-align:center;margin:34px 0 18px;text-transform:uppercase;border-bottom:2px double #000;padding-bottom:8px;color:#000;}
 .article-box{margin-bottom:34px;border-top:2px solid #000;border-bottom:2px solid #000;padding:18px;background:var(--paper);box-shadow:var(--card-shadow);transition:transform .2s;}
 .article-box:hover{transform:translateY(-3px);}
-.article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;}
+.article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2);}
 .article-title small{display:block;font-size:12px;color:var(--muted);text-transform:none;margin-top:6px;}
 .columns{display:flex;gap:24px;flex-wrap:wrap;}
 .col{width:48%;font-size:17px;line-height:1.6;text-align:justify;}
@@ -93,27 +93,6 @@ img:hover{transform:scale(1.03);border-color:var(--accent);}
 .caption{text-align:center;font-style:italic;margin-top:6px;font-size:13px;color:#7a7a7a;}
 .empty-article{border:2px dashed #bcbcbc;background:#f2f2f2;padding:20px;margin:20px 0;height:160px;font-style:italic;text-align:center;color:#7a7a7a;font-size:18px;}
 .poll,.fact{background:#f9f9f0;padding:10px;margin:15px 0;border:1px solid #000;font-style:italic;}
-
-/* Collapsible content */
-.article-content{display:none;margin-top:10px;}
-.article-open .article-content{display:block;}
-.article-controls{display:flex;justify-content:center;gap:12px;margin-top:8px;}
-.btn{background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:bold;}
-.btn.secondary{background:#fff;color:var(--accent);border:2px solid var(--accent);}
-
-/* COMMENTS */
-.comments-wrapper{margin-top:12px;border-top:1px dashed #ddd;padding-top:12px;}
-.comment-toggle{background:none;border:0;color:var(--accent);font-weight:bold;cursor:pointer;text-decoration:underline;}
-.comment-list{margin-top:10px;max-height:320px;overflow:auto;padding-right:8px;}
-.comment{background:#fff;padding:8px;border-left:4px solid var(--accent);margin-bottom:8px;}
-.comment-meta{font-size:12px;color:var(--muted);margin-bottom:6px;}
-.comment-text{white-space:pre-wrap;}
-
-/* comment form */
-.comment-form{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
-.comment-input{padding:8px;border:1px solid #ddd;border-radius:4px;min-height:56px;resize:vertical;}
-.comment-row{display:flex;gap:8px;align-items:center;}
-.small-input{padding:8px;border:1px solid #ddd;border-radius:4px;flex:0 0 160px;}
 
 /* MOBILE FIX — THIS IS WHAT STOPS THE SQUASHING */
 @media(max-width:750px){
@@ -132,6 +111,16 @@ img:hover{transform:scale(1.03);border-color:var(--accent);}
   }
 }
 
+/* COMMENTS */
+.comments{margin-top:16px;border-top:1px dashed #ccc;padding-top:12px;}
+.comment-form{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start;}
+.comment-form textarea{width:100%;min-height:70px;padding:8px;border:2px solid #000;border-radius:6px;}
+.comment-form input[type="text"]{padding:8px;border:2px solid #000;border-radius:6px;}
+.comment-list{margin-top:12px;}
+.comment-item{border:1px solid #ddd;padding:8px;border-radius:6px;margin-bottom:8px;background:#fff;}
+.comment-button{display:inline-block;margin:8px 0;padding:10px 16px;font-size:14px;font-weight:bold;background:#fff;color:#000;border:2px solid #000;cursor:pointer;text-transform:uppercase;border-radius:6px;}
+.comment-button:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+
 /* MODAL */
 .contact-box{display:none;position:fixed;z-index:10000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.6);}
 .modal-content{background-color:#fff;margin:10% auto;padding:20px;border:2px solid #000;width:90%;max-width:420px;text-align:center;border-radius:6px;position:relative;}
@@ -139,8 +128,78 @@ img:hover{transform:scale(1.03);border-color:var(--accent);}
 
 footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px;color:var(--accent-2);font-weight:bold;}
 
-@media print{nav,.visitor-counter{display:none} body{border:none;padding:10px;background:#fff} .article-box{box-shadow:none;border:none;padding:0} .section-title{page-break-before:always}}
+@media print{nav,.comment-button,.comment-form,.visitor-counter{display:none} body{border:none;padding:10px;background:#fff} .article-box{box-shadow:none;border:none;padding:0} .section-title{page-break-before:always}}
 </style>
+
+<!-- Firebase -->
+<script type="module">
+  // Import Firebase modules
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-analytics.js";
+  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
+    authDomain: "orbis-vox.firebaseapp.com",
+    databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "orbis-vox",
+    storageBucket: "orbis-vox.firebasestorage.app",
+    messagingSenderId: "43657144944",
+    appId: "1:43657144944:web:c7564b655819a30a1fe2b5",
+    measurementId: "G-68DVTPHY2H"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
+
+  // Comment system
+  window.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".comments").forEach(container => {
+      const articleId = container.dataset.id;
+      const form = document.createElement("form");
+      form.className = "comment-form";
+      form.innerHTML = `
+        <textarea placeholder="Your comment"></textarea>
+        <input type="text" placeholder="Your name">
+        <button type="submit" class="comment-button">Post Comment</button>
+      `;
+      const list = document.createElement("div");
+      list.className = "comment-list";
+      container.appendChild(form);
+      container.appendChild(list);
+
+      const commentsCollection = collection(db, "comments", articleId, "messages");
+
+      // Real-time updates
+      onSnapshot(query(commentsCollection, orderBy("timestamp")), snapshot => {
+        list.innerHTML = "";
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const commentItem = document.createElement("div");
+          commentItem.className = "comment-item";
+          commentItem.innerHTML = `<strong>${data.name || "Anonymous"}:</strong> ${data.text}`;
+          list.appendChild(commentItem);
+        });
+      });
+
+      form.addEventListener("submit", async e => {
+        e.preventDefault();
+        const commentText = form.querySelector("textarea").value.trim();
+        const commenter = form.querySelector("input").value.trim();
+        if(commentText){
+          await addDoc(commentsCollection, {
+            text: commentText,
+            name: commenter,
+            timestamp: new Date()
+          });
+          form.reset();
+        }
+      });
+    });
+  });
+</script>
 </head>
 
 <body>
@@ -167,7 +226,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
     <a href="#about">About</a>
     <a href="#" id="contactBtn">Contact</a>
   </div>
-  <div class="hamburger" id="hamburger" aria-hidden="true">
+  <div class="hamburger" id="hamburger">
     <div></div><div></div><div></div>
   </div>
   <input id="searchInput" placeholder="Search articles..." aria-label="Search articles">
@@ -181,11 +240,11 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 <!-- ================= Articles ================= -->
 
 <!-- NEWS -->
-<section id="news">
+<section id="news" class="fade-in">
   <div class="section-title">News</div>
 
-  <div class="article-box" data-id="bbc-today" id="article-bbc-today">
-    <div class="article-title" role="button" tabindex="0">A Truthful Look at the BBC Today</div>
+  <div class="article-box" data-id="bbc-today">
+    <div class="article-title">A Truthful Look at the BBC Today</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
@@ -197,27 +256,12 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           The BBC isn’t evil. It’s just… slow. Heavy. Too careful. And the world right now is anything but careful. Maybe that’s why so many of us end up getting our updates from TikTok at 3am — yeah, it’s messy, but at least it feels awake.
         </div>
       </div>
-
-      <div class="article-controls">
-        <button class="btn secondary toggle-comments" data-article="bbc-today">Show comments</button>
-      </div>
-
-      <div class="comments-wrapper" data-article="bbc-today" style="display:none;">
-        <div class="comment-list" aria-live="polite"></div>
-        <form class="comment-form" onsubmit="return false;">
-          <input class="small-input comment-name" placeholder="Name (optional)">
-          <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-          <div class="comment-row">
-            <button class="btn post-comment" data-article="bbc-today">Post comment</button>
-            <button class="btn secondary clear-comments" data-article="bbc-today">Clear comments</button>
-          </div>
-        </form>
-      </div>
+      <div class="comments" data-id="bbc-today"></div>
     </div>
   </div>
 
-  <div class="article-box" data-id="trans-girls-ban" id="article-trans-girls-ban">
-    <div class="article-title" role="button" tabindex="0">Discrimination shown as trans girls are banned from Girl Guide groups</div>
+  <div class="article-box" data-id="trans-girls-ban">
+    <div class="article-title">Discrimination shown as trans girls are banned from Girl Guide groups</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
@@ -229,33 +273,18 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           What do you think – should all girls be allowed to join, or do you agree with the rules that are set in place?
         </div>
       </div>
-
-      <div class="article-controls">
-        <button class="btn secondary toggle-comments" data-article="trans-girls-ban">Show comments</button>
-      </div>
-
-      <div class="comments-wrapper" data-article="trans-girls-ban" style="display:none;">
-        <div class="comment-list" aria-live="polite"></div>
-        <form class="comment-form" onsubmit="return false;">
-          <input class="small-input comment-name" placeholder="Name (optional)">
-          <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-          <div class="comment-row">
-            <button class="btn post-comment" data-article="trans-girls-ban">Post comment</button>
-            <button class="btn secondary clear-comments" data-article="trans-girls-ban">Clear comments</button>
-          </div>
-        </form>
-      </div>
+      <div class="comments" data-id="trans-girls-ban"></div>
     </div>
   </div>
 
 </section>
 
 <!-- FUN -->
-<section id="fun">
+<section id="fun" class="fade-in">
   <div class="section-title">Fun</div>
 
-  <div class="article-box" data-id="fun-daily-moments" id="article-fun-daily-moments">
-    <div class="article-title" role="button" tabindex="0">The Things We Pretend Aren’t the Best Part of the Day</div>
+  <div class="article-box" data-id="fun-daily-moments">
+    <div class="article-title">The Things We Pretend Aren’t the Best Part of the Day</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
@@ -267,27 +296,12 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           Fun isn’t deep. It doesn’t need to be. It’s the crack in the wall that lets the light through when everything else feels heavy. And honestly? Those tiny dumb moments are what keep half of us sane.
         </div>
       </div>
-
-      <div class="article-controls">
-        <button class="btn secondary toggle-comments" data-article="fun-daily-moments">Show comments</button>
-      </div>
-
-      <div class="comments-wrapper" data-article="fun-daily-moments" style="display:none;">
-        <div class="comment-list" aria-live="polite"></div>
-        <form class="comment-form" onsubmit="return false;">
-          <input class="small-input comment-name" placeholder="Name (optional)">
-          <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-          <div class="comment-row">
-            <button class="btn post-comment" data-article="fun-daily-moments">Post comment</button>
-            <button class="btn secondary clear-comments" data-article="fun-daily-moments">Clear comments</button>
-          </div>
-        </form>
-      </div>
+      <div class="comments" data-id="fun-daily-moments"></div>
     </div>
   </div>
 
-  <div class="article-box" data-id="dog-choir" id="article-dog-choir">
-    <div class="article-title" role="button" tabindex="0">West Hallam’s Dog Choir Wakes Residents</div>
+  <div class="article-box" data-id="dog-choir">
+    <div class="article-title">West Hallam’s Dog Choir Wakes Residents</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
@@ -320,111 +334,66 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
       </div>
 
       <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
-
-      <div class="article-controls">
-        <button class="btn secondary toggle-comments" data-article="dog-choir">Show comments</button>
-      </div>
-
-      <div class="comments-wrapper" data-article="dog-choir" style="display:none;">
-        <div class="comment-list" aria-live="polite"></div>
-        <form class="comment-form" onsubmit="return false;">
-          <input class="small-input comment-name" placeholder="Name (optional)">
-          <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-          <div class="comment-row">
-            <button class="btn post-comment" data-article="dog-choir">Post comment</button>
-            <button class="btn secondary clear-comments" data-article="dog-choir">Clear comments</button>
-          </div>
-        </form>
-      </div>
+      <div class="comments" data-id="dog-choir"></div>
     </div>
   </div>
 
-  <div class="article-box" data-id="fun-chaos-therapy" id="article-fun-chaos-therapy">
-    <div class="article-title" role="button" tabindex="0">College Chaos Therapy: How Students Unwind</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          Everyone has their own version of “self-help.”<br><br>
-          Some people draw.<br>
-          Some people write.<br>
-          And then there are college students, whose coping habits can best be described as a Revels chocolate bag – you never know until you bite.<br><br>
-          Here’s what most students at Broomfield College said – raw, brutal, and unhinged:
-        </div>
-        <div class="col">
-          • Scream clubs – Loads of people join and scream their lungs out.<br>
-          • Burrito yourself – Wrap yourself in a blanket really tight.<br><br>
-          • Exist – Get into bed, be alone, scroll on your phone.<br><br>
-          • Committing arson – DO NOT recommend.<br><br>
-          • Smash some shit – throw plates, punch stuff, be violent.<br><br>
-          • Irritate your siblings – best way to regulate yourself.<br><br>
-          • Aggressive bubble popping – Fidgety, calming, aggressive.<br><br>
-          • Go to bed – nothing like a bit of sleep to make us un-wind.<br><br>
-          • Play online games – alone, or with friends, neither matter just relax.<br><br>
-          • Golfing range – can be relaxing if you don’t smack someone with the club!<br><br>
-          • Blast music – ah, nothing like a bit of eardrum damage to kick off the day.<br><br>
-          Chaos activities aren’t about being productive or responsible. They’re about giving your brain a silly, small moment to breathe.<br><br>
-          If any of this helps you unwind? Do it proudly.
-        </div>
+  <div class="article-box" data-id="fun-chaos-therapy">
+  <div class="article-title">College Chaos Therapy: How Students Unwind</div>
+  <div class="article-content">
+    <div class="columns">
+      <div class="col">
+        Everyone has their own version of “self-help.”<br><br>
+        Some people draw.<br>
+        Some people write.<br>
+        And then there are college students, whose coping habits can best be described as a Revels chocolate bag – you never know until you bite.<br><br>
+        Here’s what most students at Broomfield College said – raw, brutal, and unhinged:
       </div>
-
-      <div class="article-controls">
-        <button class="btn secondary toggle-comments" data-article="fun-chaos-therapy">Show comments</button>
-      </div>
-
-      <div class="comments-wrapper" data-article="fun-chaos-therapy" style="display:none;">
-        <div class="comment-list" aria-live="polite"></div>
-        <form class="comment-form" onsubmit="return false;">
-          <input class="small-input comment-name" placeholder="Name (optional)">
-          <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-          <div class="comment-row">
-            <button class="btn post-comment" data-article="fun-chaos-therapy">Post comment</button>
-            <button class="btn secondary clear-comments" data-article="fun-chaos-therapy">Clear comments</button>
-          </div>
-        </form>
+      <div class="col">
+        • Scream clubs – Loads of people join and scream their lungs out.<br>
+        • Burrito yourself – Wrap yourself in a blanket really tight.<br>
+        • Exist – Get into bed, be alone, scroll on your phone.<br>
+        • Committing arson – DO NOT recommend.<br>
+        • Smash some shit – throw plates, punch stuff, be violent.<br>
+        • Irritate your siblings – best way to regulate yourself.<br>
+        • Aggressive bubble popping – Fidgety, calming, aggressive.<br>
+        • Go to bed – nothing like a bit of sleep to make us un-wind.<br>
+        • Play online games – alone, or with friends, neither matter just relax.<br>
+        • Golfing range – can be relaxing if you don’t smack someone with the club!<br>
+        • Blast music – ah, nothing like a bit of eardrum damage to kick off the day.<br><br>
+        Chaos activities aren’t about being productive or responsible. They’re about giving your brain a silly, small moment to breathe.<br><br>
+        If any of this helps you unwind? Do it proudly.
       </div>
     </div>
+    <div class="comments" data-id="fun-chaos-therapy"></div>
   </div>
+</div>
 
-  <div class="article-box" data-id="teenage-gremlin-days" id="article-teenage-gremlin-days">
-    <div class="article-title" role="button" tabindex="0">Things That Ruin Your Day Every Day</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          Ever get one of those days where you wake up ready to tackle the day, but life has other plans. As if waking up early couldn’t get any worse – now life decides this is the perfect day to become a fucking gremlin? Yeah? Me too. Let’s learn together just how much of a gremlin life can be.<br><br>
-          Let’s start with phones. If that’s what you can call them now. I think the more appropriate term would be a ‘hand-held bomb.’ Fits, right? The one thing that never shuts up or is abnormally silent. You never know if it’s going to ‘blow up’ or stay neutral. The constant alerts drive us mad. I mean, seriously? Shut up. I haven’t got the patience to keep checking what fucking upgrade I can afford, Vodaphone.
-        </div>
-        <div class="col">
-          People. Not just any people, no. The ones who are obnoxiously loud in a public spaces. The ones who blast music as they walk with their trousers halfway down their legs. You aren’t a roadman, mate. The ones who shout on phone calls right next to you. I mean, are we being for real? No one needs bleeding eardrums while getting coffee. Dude, turn it down. Yeah, because what I really needed today was a rock concert in the middle of fucking Greggs.<br><br>
-          These little things hit like a brick on an already shit day, and yet somehow, we survive to ruin tomorrow all over again.
-        </div>
+  <div class="article-box" data-id="teenage-gremlin-days">
+  <div class="article-title">Things That Ruin Your Day Every Day</div>
+  <div class="article-content">
+    <div class="columns">
+      <div class="col">
+        Ever get one of those days where you wake up ready to tackle the day, but life has other plans. As if waking up early couldn’t get any worse – now life decides this is the perfect day to become a fucking gremlin? Yeah? Me too. Let’s learn together just how much of a gremlin life can be.<br><br>
+        Let’s start with phones. If that’s what you can call them now. I think the more appropriate term would be a ‘hand-held bomb.’ Fits, right? The one thing that never shuts up or is abnormally silent. You never know if it’s going to ‘blow up’ or stay neutral. The constant alerts drive us mad. I mean, seriously? Shut up. I haven’t got the patience to keep checking what fucking upgrade I can afford, Vodaphone.
       </div>
-
-      <div class="article-controls">
-        <button class="btn secondary toggle-comments" data-article="teenage-gremlin-days">Show comments</button>
-      </div>
-
-      <div class="comments-wrapper" data-article="teenage-gremlin-days" style="display:none;">
-        <div class="comment-list" aria-live="polite"></div>
-        <form class="comment-form" onsubmit="return false;">
-          <input class="small-input comment-name" placeholder="Name (optional)">
-          <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-          <div class="comment-row">
-            <button class="btn post-comment" data-article="teenage-gremlin-days">Post comment</button>
-            <button class="btn secondary clear-comments" data-article="teenage-gremlin-days">Clear comments</button>
-          </div>
-        </form>
+      <div class="col">
+        People. Not just any people, no. The ones who are obnoxiously loud in a public spaces. The ones who blast music as they walk with their trousers halfway down their legs. You aren’t a roadman, mate. The ones who shout on phone calls right next to you. I mean, are we being for real? No one needs bleeding eardrums while getting coffee. Dude, turn it down. Yeah, because what I really needed today was a rock concert in the middle of fucking Greggs.<br><br>
+        These little things hit like a brick on an already shit day, and yet somehow, we survive to ruin tomorrow all over again.
       </div>
     </div>
+    <div class="comments" data-id="teenage-gremlin-days"></div>
   </div>
+</div>
 
 </section>
 
 <!-- GLOBAL -->
-<section id="global">
+<section id="global" class="fade-in">
   <div class="section-title">Global Issues</div>
 
-  <div class="article-box" data-id="global-speed" id="article-global-speed">
-    <div class="article-title" role="button" tabindex="0">The World Feels Like It’s Spinning Faster Than We Can Stand</div>
+  <div class="article-box" data-id="global-speed">
+    <div class="article-title">The World Feels Like It’s Spinning Faster Than We Can Stand</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
@@ -432,30 +401,16 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
           Global issues don’t feel “global” anymore. They feel personal. Close. Like they’re breathing down the back of your neck. When the cost of living spikes on the other side of the world, you feel it in the price of your school lunch. When a country thousands of miles away is flooding, you see it on your timeline before you even brush your teeth. When leaders mess up, it’s our generation that pays for it later — not theirs.
         </div>
         <div class="col">
-          What’s worse is how normal it’s becoming. We doomscroll until the shock wears off. We watch tragedies like they’re episodes in a series we didn’t ask to binge. The world keeps throwing punches, and everyone’s acting like we should’ve trained for this.
+          What’s worse is how normal it’s becoming. We doomscroll until the shock wears off. We watch tragedies like they’re episodes in a series we didn’t ask to binge. The world keeps throwing punches, and everyone’s acting like we should’ve trained for this.<br><br>
+          So yes, global issues are more intense, closer, and way harder to ignore. And if you’re a teenager trying to navigate school, friendships, and the looming pressure of life decisions, it’s exhausting.
         </div>
       </div>
-
-      <div class="article-controls">
-        <button class="btn secondary toggle-comments" data-article="global-speed">Show comments</button>
-      </div>
-
-      <div class="comments-wrapper" data-article="global-speed" style="display:none;">
-        <div class="comment-list" aria-live="polite"></div>
-        <form class="comment-form" onsubmit="return false;">
-          <input class="small-input comment-name" placeholder="Name (optional)">
-          <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-          <div class="comment-row">
-            <button class="btn post-comment" data-article="global-speed">Post comment</button>
-            <button class="btn secondary clear-comments" data-article="global-speed">Clear comments</button>
-          </div>
-        </form>
-      </div>
+      <div class="comments" data-id="global-speed"></div>
     </div>
   </div>
 
-  <div class="article-box" data-id="womens-rights" id="article-womens-rights">
-    <div class="article-title" role="button" tabindex="0">Breaking Barriers: Milestones in the Women's Rights Movement</div>
+  <div class="article-box" data-id="womens-rights">
+    <div class="article-title">Breaking Barriers: Milestones in the Women's Rights Movement</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
@@ -466,110 +421,81 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         </div>
         <div class="col">
           In the late 19th to early 20th century, women gained the right to freedom. Personal freedom such as universities. 
-          This meant women could legally choose her own path in life and ensure her own future. It was a weighty decision for women who wanted more for their lives, which was most, and this choice meant women could become lawyers, officers of the law or even prime ministers.<br><br>
+          This meant women could legally choose her own path in life and ensure her own future. It was a weighty decision 
+          for women who wanted more for their lives, which was most, and this choice meant women could become lawyers, 
+          officers of the law or even prime ministers.<br><br>
           For example, Margaret Thatcher became the first female Prime Minister of the UK in 1979. 
           Thatcher was seen as a divisive figure, but she proved women can do the same jobs men can, if not better.<br><br>
           Women’s rights have changed over the years. From being their husband’s property to becoming lawyers and Prime Ministers. 
-          Gaining the right to vote, the right to owning their own property, and equal pay. Each step has been crucial progress to the world. These changes remind us how change is created one step at a time.
+          Gaining the right to vote, the right to owning their own property, and equal pay. Each step has been crucial 
+          progress to the world. These changes remind us how change is created one step at a time.
         </div>
       </div>
-
-      <div class="article-controls">
-        <button class="btn secondary toggle-comments" data-article="womens-rights">Show comments</button>
-      </div>
-
-      <div class="comments-wrapper" data-article="womens-rights" style="display:none;">
-        <div class="comment-list" aria-live="polite"></div>
-        <form class="comment-form" onsubmit="return false;">
-          <input class="small-input comment-name" placeholder="Name (optional)">
-          <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-          <div class="comment-row">
-            <button class="btn post-comment" data-article="womens-rights">Post comment</button>
-            <button class="btn secondary clear-comments" data-article="womens-rights">Clear comments</button>
-          </div>
-        </form>
-      </div>
+      <div class="comments" data-id="womens-rights"></div>
     </div>
   </div>
 
-  <div class="article-box" data-id="creepy-monuments" id="article-creepy-monuments">
-    <div class="article-title" role="button" tabindex="0">Monuments That Are Kinda Creepy When You Think About Them</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          Monuments are supposed to be inspiring, right? Big, impressive statues and all that but then you actually look at the detail for more than a glance… and all of a sudden, they are kind of terrifying. Hold on, let me explain.<br><br>
-          Theres something about a statue just… staring at you forever. Like, who made this and why the hell does it feel like it can see into your soul? Like getting a glimpse of the devil. Why the fuck are these a thing? Ah, perfect, capitalism has now outsourced judgement to inanimate marble – eco-friendly, yet brutally disturbing and disoriented.
-        </div>
-        <div class="col">
-          Abstract statues. Cool concept… maybe but also what the hell am I looking at? The ambiguity is actually a little disturbing. I mean, faces made of shapes that don’t make a face. I don’t even know what I’m looking at. Fantastic, capitalism has now outsourced judgement to inanimate marble – eco-friendly, yet brutally disturbing and disoriented.<br><br>
-          Old statues with scary faces, memorials with unsettling histories… sometimes history is just really good at giving you the chills. It’s as if artistic ambition met a budget for frightful expressions and decided nothing says, “honour the dead” like eyes that follow you with silent judgement. You can almost hear the sculptors’ inner message “let them whisper, let them wonder, and above all, let them never smile here.”
-        </div>
+  <div class="article-box" data-id="creepy-monuments">
+  <div class="article-title">Monuments That Are Kinda Creepy When You Think About Them</div>
+  <div class="article-content">
+    <div class="columns">
+      <div class="col">
+        Monuments are supposed to be inspiring, right? Big, impressive statues and all that but then you actually look at the detail for more than a glance… and all of a sudden, they are kind of terrifying. Hold on, let me explain.<br><br>
+        Theres something about a statue just… staring at you forever. Like, who made this and why the hell does it feel like it can see into your soul? It’s like getting a glimpse of the devil. Why the fuck are these a thing? Ah, perfect, a statue who clearly knows my deepest, darkest secrets.
       </div>
-
-      <div class="article-controls">
-        <button class="btn secondary toggle-comments" data-article="creepy-monuments">Show comments</button>
-      </div>
-
-      <div class="comments-wrapper" data-article="creepy-monuments" style="display:none;">
-        <div class="comment-list" aria-live="polite"></div>
-        <form class="comment-form" onsubmit="return false;">
-          <input class="small-input comment-name" placeholder="Name (optional)">
-          <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-          <div class="comment-row">
-            <button class="btn post-comment" data-article="creepy-monuments">Post comment</button>
-            <button class="btn secondary clear-comments" data-article="creepy-monuments">Clear comments</button>
-          </div>
-        </form>
+      <div class="col">
+        Abstract statues. Cool concept… maybe but also what the hell am I looking at? The ambiguity is actually a little disturbing. I mean, faces made of shapes that don’t make a face. I don’t even know what I’m looking at. Fantastic, capitalism has now outsourced judgement to inanimate marble – eco-friendly, yet brutally disturbing and disoriented.<br><br>
+        Old statues with scary faces, memorials with unsettling histories… sometimes history is just really good at giving you the chills. It’s as if artistic ambition met a budget for frightful expressions and decided nothing says, “honour the dead” like eyes that follow you with silent judgement. You can almost hear the sculptors’ inner message “let them whisper, let them wonder, and above all, let them never smile here.”<br><br>
+        So yes, monuments are supposed to be impressive, but really... half of them are low-key freaky if you stop to actually think about them. Next time you pass one, look a little closer. Or don’t. Your call.
       </div>
     </div>
+    <div class="comments" data-id="creepy-monuments"></div>
   </div>
+</div>
 
 </section>
 
 <!-- TEENAGE -->
-<section id="teenage">
+<section id="teenage" class="fade-in">
   <div class="section-title">Teenage Life</div>
 
-  <div class="article-box" data-id="teenage-exhaustion" id="article-teenage-exhaustion">
-    <div class="article-title" role="button" tabindex="0">Why young people are so exhausted all the time</div>
+  <div class="article-box" data-id="teenage-exhaustion">
+    <div class="article-title">Why young people are so exhausted all the time</div>
     <div class="article-content">
       <div class="columns">
         <div class="col">
-          Teenagers. Dramatic or genuinely drained? What do you think? Forty-three percent of teenagers in the UK are exhausted mentally or physically. So, are they being dramatic? Let us find out.<br><br>
-          Seventy-five percent of students aged 11–18 have complained of feeling overwhelmed about the education system. This prevents students from achieving what they could be capable of within school hours. Many students arrive on time and do their work without showing any exhaustion. These students do not necessarily have the energy to do this; most will pretend so no one asks questions.<br><br>
-          A former pupil at Kirk Hallam Academy said, “I pretended to be okay because it was easier than answering their questions. I told a couple of teachers, but I never got the support I needed which resulted in my self-esteem dropping drastically.”<br><br>
+          Teenagers. Dramatic or genuinely drained? What do you think? Forty-three percent of teenagers in the UK 
+          are exhausted mentally or physically. So, are they being dramatic? Let us find out.<br><br>
+          Seventy-five percent of students aged 11–18 have complained of feeling overwhelmed about the education system. 
+          This prevents students from achieving what they could be capable of within school hours. Many students arrive 
+          on time and do their work without showing any exhaustion. These students do not necessarily have the energy 
+          to do this; most will pretend so no one asks questions.<br><br>
+          A former pupil at Kirk Hallam Academy said, “I pretended to be okay because it was easier than answering 
+          their questions. I told a couple of teachers, but I never got the support I needed which resulted in my 
+          self-esteem dropping drastically.”<br><br>
           <img src="images.jpeg" alt="Teenagers looking tired">
           <div class="caption">PHOTO: TEENAGERS’ EXHAUSTION IN THE UK</div>
         </div>
         <div class="col">
-          Another point to consider is home life. A variety of students have unstable living circumstances. As a teenager they find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends.<br><br>
-          One in seven teenagers have reported living in a neglectful home and the toll it has taken on their mental health. How could we change this? Parents/Carers, you need to be more respectful to your children. Most children grow up hating you if you treat them horribly as they are growing.<br><br>
-          Relationships. The one thing most teenagers yearn for. Are teenage relationships healthy or are they better off without? Teenage relationships have a profound and dualistic effect on mental health: healthy, supportive relationships function as a vital protective factor, while unhealthy ones increase the risk of anxiety, depression, and low self-esteem.<br><br>
-          In conclusion, most teenagers are overwhelmed by education and family issues. However, relationships can be a solution. The majority of students find comfort in having one familiar person. Teenagers are not being dramatic, they are stressed because of all the pressure from the world around them.
+          Another point to consider is home life. A variety of students have unstable living circumstances. 
+          As a teenager they find it hard to speak up. Teenagers do not want to be seen as vulnerable around their friends.<br><br>
+          One in seven teenagers have reported living in a neglectful home and the toll it has taken on their mental health. 
+          How could we change this? Parents/Carers, you need to be more respectful to your children. Most children grow up 
+          hating you if you treat them horribly as they are growing.<br><br>
+          Relationships. The one thing most teenagers yearn for. Are teenage relationships healthy or are they better off without? 
+          Teenage relationships have a profound and dualistic effect on mental health: healthy, supportive relationships function 
+          as a vital protective factor, while unhealthy ones increase the risk of anxiety, depression, and low self-esteem.<br><br>
+          In conclusion, most teenagers are overwhelmed by education and family issues. However, relationships can be a solution. 
+          The majority of students find comfort in having one familiar person. Teenagers are not being dramatic, they are stressed 
+          because of all the pressure from the world around them.
         </div>
       </div>
-
-      <div class="article-controls">
-        <button class="btn secondary toggle-comments" data-article="teenage-exhaustion">Show comments</button>
-      </div>
-
-      <div class="comments-wrapper" data-article="teenage-exhaustion" style="display:none;">
-        <div class="comment-list" aria-live="polite"></div>
-        <form class="comment-form" onsubmit="return false;">
-          <input class="small-input comment-name" placeholder="Name (optional)">
-          <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-          <div class="comment-row">
-            <button class="btn post-comment" data-article="teenage-exhaustion">Post comment</button>
-            <button class="btn secondary clear-comments" data-article="teenage-exhaustion">Clear comments</button>
-          </div>
-        </form>
-      </div>
+      <div class="comments" data-id="teenage-exhaustion"></div>
     </div>
   </div>
 
- <div class="article-box" data-id="teenage-adulthood-feet" id="article-teenage-adulthood-feet">
-  <div class="article-title" role="button" tabindex="0">Adulthood’s Footsteps Are Loud</div>
-
+  <div class="article-box" data-id="teenage-adulthood-feet">
+  <div class="article-title">Adulthood’s Footsteps Are Loud</div>
   <div class="article-content">
     <div class="columns">
       <div class="col">
@@ -577,7 +503,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         As a kid you usually envy being a teenager, you can’t wait to grow up. The difference is that when you’re a teenager, you wish to be a kid again. Most teenagers deal with a variety of issues that are common, but some deal with the rarer issues of being forced into adulthood at sixteen. What’s the effect? Let’s have a look.<br><br>
         It’s peculiar living in the in-between. Old enough to know what stress feels like, young enough to know that people still look at you like you’re overreacting. There’s this constant pressure to prepare – for what? Taxes? Food? A home? A whole world that still feels years away but is somehow already on our doorstep, knocking vigorously.
       </div>
-
       <div class="col">
         Adults keep telling us, “Enjoy being young while you can” – usually right after reminding us about grades, careers, deadlines, responsibility and something vague called “the real world.” Very relaxing. Thanks.<br><br>
         It’s like living on the edge of a cliff. Knowing one day you’ll fall but don’t know if there will be a safety net. I mean. Who can prepare for everything adults learn over the course of 20-25 years at sixteen? Everyone says it isn’t that big of a deal. Yeah. Says the one chilling at home with their no need for a plan snacks. This isn’t dramatic or attention seeking. It’s normal. It’s human. It shouldn’t be dimmed down or overlooked.<br><br>
@@ -585,105 +510,55 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         Let’s be real. Adulthood can knock later... I’m busy surviving college right now.
       </div>
     </div>
-
-    <!-- Comment toggle button -->
-    <div class="article-controls">
-      <button class="btn secondary toggle-comments" data-article="teenage-adulthood-feet">Show comments</button>
-    </div>
-
-    <!-- Comment system container -->
-    <div class="comments-wrapper" data-article="teenage-adulthood-feet" style="display:none;">
-      <div class="comment-list" aria-live="polite"></div>
-
-      <form class="comment-form" onsubmit="return false;">
-        <input class="small-input comment-name" placeholder="Name (optional)">
-        <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-
-        <div class="comment-row">
-          <button class="btn post-comment" data-article="teenage-adulthood-feet">Post comment</button>
-          <button class="btn secondary clear-comments" data-article="teenage-adulthood-feet">Clear comments</button>
-        </div>
-      </form>
-    </div>
+    <div class="comments" data-id="teenage-adulthood-feet"></div>
   </div>
 </div>
 
-
-  <div class="article-box" data-id="teenage-adult-nonsense" id="article-teenage-adult-nonsense">
-    <div class="article-title" role="button" tabindex="0">Things Adults Say That Make Zero Sense</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          Things adults say that make zero sense.<br><br>
-          1. “You need experience to get experience.” – Sorry? What?<br>
-          2. “You’ll understand when you’re older.” – Will I? Seriously?<br>
-          3. “You’re too young to be stressed.” – Right, makes sense, I’ll just ignore school and my mental health.
-        </div>
-        <div class="col">
-          4. “You’ve not even grown up yet, stop stressing.” – Yeah, sure. How am I supposed to chill when all I see on the news is chaos?<br>
-          5. “Just be a teenager, live your life.” – right, sure, yeah. I shall ignore everything that brings me chaos and live life in a white room.
-        </div>
+  <div class="article-box" data-id="teenage-adult-nonsense">
+  <div class="article-title">Things Adults Say That Make Zero Sense</div>
+  <div class="article-content">
+    <div class="columns">
+      <div class="col">
+        Things adults say that make zero sense.<br><br>
+        1. “You need experience to get experience.” – Sorry? What?<br>
+        2. “You’ll understand when you’re older.” – Will I? Seriously?<br>
+        3. “You’re too young to be stressed.” – Right, makes sense, I’ll just ignore school and my mental health.
       </div>
-
-      <div class="article-controls">
-        <button class="btn secondary toggle-comments" data-article="teenage-adult-nonsense">Show comments</button>
-      </div>
-
-      <div class="comments-wrapper" data-article="teenage-adult-nonsense" style="display:none;">
-        <div class="comment-list" aria-live="polite"></div>
-        <form class="comment-form" onsubmit="return false;">
-          <input class="small-input comment-name" placeholder="Name (optional)">
-          <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-          <div class="comment-row">
-            <button class="btn post-comment" data-article="teenage-adult-nonsense">Post comment</button>
-            <button class="btn secondary clear-comments" data-article="teenage-adult-nonsense">Clear comments</button>
-          </div>
-        </form>
+      <div class="col">
+        4. “You’ve not even grown up yet, stop stressing.” – Yeah, sure. How am I supposed to chill when all I see on the news is chaos?<br>
+        5. “Just be a teenager, live your life.” – right, sure, yeah. I shall ignore everything that brings me chaos and live life in a white room.
       </div>
     </div>
+    <div class="comments" data-id="teenage-adult-nonsense"></div>
   </div>
+</div>
 
-  <div class="article-box" data-id="teenage-be-yourself" id="article-teenage-be-yourself">
-    <div class="article-title" role="button" tabindex="0">The World Wants Me to ‘Be Myself’ But Only the Polite Version</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          The world wants me to ‘be myself’ but only the polite, edited, convenient version.<br><br>
-          Everyone loves to say “just be yourself” which is hilarious because the second I do, the hidden animals in people just suddenly wake up and start gnawing at my sanity. Like, are we being for real? Yeah, sure. I’ll be myself but don’t blame me when I lose my shit.<br><br>
-          The rules of ‘be yourself’ no-one admits: <br>
-          • Be confident but not that confident.<br>
-          • Have opinions but only the ones we agree with.<br>
-          • Speak your mind unless it makes someone uncomfortable.
-        </div>
-        <div class="col">
-          • Be unique but don’t stand out too much.<br>
-          • Be honest but only if the truth is cute and convenient.<br><br>
-          I mean, seriously? We must filter every thought like we’re running our own PR for our personalities. Do we seriously have to filter ourselves to fit in? If being ‘myself’ is too much, that sounds like a ‘them’ problem. If I have to sand down every edge just to make people comfortable, what’s the point of having a personality? Honestly? I’d rather be different than ‘original.’ Wouldn’t you?
-        </div>
+  <div class="article-box" data-id="teenage-be-yourself">
+  <div class="article-title">The World Wants Me to ‘Be Myself’ But Only the Polite Version</div>
+  <div class="article-content">
+    <div class="columns">
+      <div class="col">
+        The world wants me to ‘be myself’ but only the polite, edited, convenient version.<br><br>
+        Everyone loves to say “just be yourself” which is hilarious because the second I do, the hidden animals in people just suddenly wake up and start gnawing at my sanity. Like, are we being for real? Yeah, sure. I’ll be myself but don’t blame me when I lose my shit.<br><br>
+        The rules of ‘be yourself’ no-one admits: <br>
+        • Be confident but not that confident.<br>
+        • Have opinions but only the ones we agree with.<br>
+        • Speak your mind unless it makes someone uncomfortable.
       </div>
-
-      <div class="article-controls">
-        <button class="btn secondary toggle-comments" data-article="teenage-be-yourself">Show comments</button>
-      </div>
-
-      <div class="comments-wrapper" data-article="teenage-be-yourself" style="display:none;">
-        <div class="comment-list" aria-live="polite"></div>
-        <form class="comment-form" onsubmit="return false;">
-          <input class="small-input comment-name" placeholder="Name (optional)">
-          <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-          <div class="comment-row">
-            <button class="btn post-comment" data-article="teenage-be-yourself">Post comment</button>
-            <button class="btn secondary clear-comments" data-article="teenage-be-yourself">Clear comments</button>
-          </div>
-        </form>
+      <div class="col">
+        • Be unique but don’t stand out too much.<br>
+        • Be honest but only if the truth is cute and convenient.<br><br>
+        I mean, seriously? We must filter every thought like we’re running our own PR for our personalities. Do we seriously have to filter ourselves to fit in? If being ‘myself’ is too much, that sounds like a ‘them’ problem. If I have to sand down every edge just to make people comfortable, what’s the point of having a personality? Honestly? I’d rather be different than ‘original.’ Wouldn’t you?
       </div>
     </div>
+    <div class="comments" data-id="teenage-be-yourself"></div>
   </div>
+</div>
 
 </section>
 
 <!-- ABOUT -->
-<section id="about">
+<section id="about" class="fade-in">
   <div class="section-title">About</div>
   <div class="article-box">
     <div class="columns">
@@ -704,18 +579,18 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 </section>
 
 <!-- VISITOR COUNTER -->
-<div class="visitor-counter" style="text-align:center;margin-top:20px;">
-  <a href="https://www.hitwebcounter.com/" target="_blank" rel="noopener">
+<div class="visitor-counter">
+  <a href="https://www.hitwebcounter.com/" target="_blank">
     <img src="https://hitwebcounter.com/counter/counter.php?page=21461049&style=0030&nbdigits=5&type=page&initCount=1000" 
     title="Free Tools" alt="Free Tools" border="0" style="width:auto; height:18px;"/>
   </a>
 </div>
 
 <!-- CONTACT MODAL -->
-<div class="contact-box" id="contactModal" aria-hidden="true">
-  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
-    <span class="close-modal" id="closeModal" aria-label="Close">&times;</span>
-    <h2 id="contactTitle">Contact Blake</h2>
+<div class="contact-box" id="contactModal">
+  <div class="modal-content">
+    <span class="close-modal" id="closeModal">&times;</span>
+    <h2>Contact Blake</h2>
     <p>Phone: <a href="tel:07423093169">07423093169</a></p>
     <p>Email: <a href="mailto:chloerichardson5318@gmail.com">chloerichardson5318@gmail.com</a></p>
   </div>
@@ -727,200 +602,98 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 
 </div>
 
-<script>
-/* ---------------------------
-  Utilities for comments & UI
-   --------------------------- */
+<script type="module">
+// =============== FIREBASE INIT ===============
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 
-/* Helper: format timestamp */
-function formatTimestamp(ts){
-  const d = new Date(ts);
-  return d.toLocaleString();
-}
+const firebaseConfig = {
+  apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
+  authDomain: "orbis-vox.firebaseapp.com",
+  databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "orbis-vox",
+  storageBucket: "orbis-vox.firebasestorage.app",
+  messagingSenderId: "43657144944",
+  appId: "1:43657144944:web:c7564b655819a30a1fe2b5",
+  measurementId: "G-68DVTPHY2H"
+};
 
-/* Comments storage helpers */
-function getCommentsKey(articleId){ return 'orbis_comments_' + articleId; }
-function loadComments(articleId){
-  try {
-    const raw = localStorage.getItem(getCommentsKey(articleId));
-    return raw ? JSON.parse(raw) : [];
-  } catch (e){ return []; }
-}
-function saveComments(articleId, comments){
-  try { localStorage.setItem(getCommentsKey(articleId), JSON.stringify(comments)); } catch(e){}
-}
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-/* Render comments into the comment-list element */
-function renderComments(articleId){
-  const wrapper = document.querySelector('.comments-wrapper[data-article="'+articleId+'"]');
-  if(!wrapper) return;
-  const list = wrapper.querySelector('.comment-list');
-  list.innerHTML = '';
-  const comments = loadComments(articleId);
-  if(comments.length === 0){
-    list.innerHTML = '<div style="color:'+getComputedStyle(document.documentElement).getPropertyValue('--muted')+'">No comments yet — be the first.</div>';
-    return;
-  }
-  comments.forEach(c=>{
-    const div = document.createElement('div');
-    div.className = 'comment';
-    const meta = document.createElement('div');
-    meta.className = 'comment-meta';
-    meta.textContent = (c.name ? c.name + ' — ' : '') + formatTimestamp(c.ts);
-    const text = document.createElement('div');
-    text.className = 'comment-text';
-    text.textContent = c.text;
-    div.appendChild(meta);
-    div.appendChild(text);
-    list.appendChild(div);
+// =============== NAVIGATION ===============
+const hamburger = document.getElementById("hamburger");
+const nav = document.querySelector("nav");
+hamburger.addEventListener("click",()=>{nav.classList.toggle("active");});
+
+// Contact modal
+const contactBtn = document.getElementById("contactBtn");
+const contactModal = document.getElementById("contactModal");
+const closeModal = document.getElementById("closeModal");
+
+// Search
+const searchInput = document.getElementById("searchInput");
+searchInput.addEventListener("input", function() {
+  const query = this.value.toLowerCase();
+  const articles = document.querySelectorAll(".article-box");
+  articles.forEach(article => {
+    const title = article.querySelector(".article-title").innerText.toLowerCase();
+    const content = article.querySelector(".article-content").innerText.toLowerCase();
+    article.style.display = title.includes(query) || content.includes(query) ? "" : "none";
   });
-}
+});
 
-/* Post comment handler */
-function postComment(articleId, name, text){
-  if(!text || !text.trim()) return false;
-  const comments = loadComments(articleId);
-  comments.push({name: name ? name.trim() : '', text: text.trim(), ts: Date.now()});
-  saveComments(articleId, comments);
-  renderComments(articleId);
-  return true;
-}
+// Contact modal open/close
+contactBtn.addEventListener("click",(e)=>{
+  e.preventDefault();
+  contactModal.style.display="block";
+});
+closeModal.addEventListener("click",()=>{contactModal.style.display="none";});
+window.addEventListener("click",(e)=>{if(e.target==contactModal){contactModal.style.display="none";}});
 
-/* Clear comments (localStorage) */
-function clearComments(articleId){
-  localStorage.removeItem(getCommentsKey(articleId));
-  renderComments(articleId);
-}
+// =============== COMMENTS SYSTEM ===============
+document.querySelectorAll(".comments").forEach(container => {
+  const articleId = container.dataset.id;
+  const form = document.createElement("form");
+  form.className = "comment-form";
+  form.innerHTML = `
+    <textarea placeholder="Your comment"></textarea>
+    <input type="text" placeholder="Your name">
+    <button type="submit" class="comment-button">Post Comment</button>
+  `;
+  const list = document.createElement("div");
+  list.className = "comment-list";
 
-/* ---------------------------
-  Wire up UI interactions
-   --------------------------- */
+  container.appendChild(form);
+  container.appendChild(list);
 
-document.addEventListener('DOMContentLoaded', () => {
+  const commentsRef = collection(db, "comments_" + articleId);
+  const q = query(commentsRef, orderBy("timestamp", "asc"));
 
-  // 1) Enable article title toggle (open/close article)
-  document.querySelectorAll('.article-box').forEach(box => {
-    const title = box.querySelector('.article-title');
-    const content = box.querySelector('.article-content');
-    title.addEventListener('click', (e) => {
-      // ignore clicks coming from controls inside title (if any)
-      box.classList.toggle('article-open');
-      // ensure content is visible if open, hidden if closed (CSS handles via class)
-      // when opening, also render comments (so they're ready)
-      if(box.classList.contains('article-open')){
-        const id = box.getAttribute('data-id');
-        renderComments(id);
-      }
-    });
-    // keyboard access
-    title.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); title.click(); } });
-  });
-
-  // 2) Toggle comment sections
-  document.querySelectorAll('.toggle-comments').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const articleId = btn.getAttribute('data-article');
-      const wrapper = document.querySelector('.comments-wrapper[data-article="'+articleId+'"]');
-      if(!wrapper) return;
-      const visible = wrapper.style.display === 'block';
-      wrapper.style.display = visible ? 'none' : 'block';
-      btn.textContent = visible ? 'Show comments' : 'Hide comments';
-      if(!visible){ renderComments(articleId); }
+  onSnapshot(q, snapshot => {
+    list.innerHTML = "";
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const commentItem = document.createElement("div");
+      commentItem.className = "comment-item";
+      commentItem.innerHTML = `<strong>${data.name || "Anonymous"}:</strong> ${data.text}`;
+      list.appendChild(commentItem);
     });
   });
 
-  // 3) Post comment buttons
-  document.querySelectorAll('.post-comment').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const articleId = btn.getAttribute('data-article');
-      const wrapper = document.querySelector('.comments-wrapper[data-article="'+articleId+'"]');
-      const nameInput = wrapper.querySelector('.comment-name');
-      const textInput = wrapper.querySelector('.comment-input');
-      if(postComment(articleId, nameInput.value, textInput.value)){
-        textInput.value = '';
-        // keep wrapper open and refresh comments
-        wrapper.style.display = 'block';
-      } else {
-        // simple feedback (flash)
-        textInput.style.border = '2px solid red';
-        setTimeout(()=> textInput.style.border = '', 900);
-      }
-    });
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const text = form.querySelector("textarea").value.trim();
+    const name = form.querySelector("input").value.trim() || "Anonymous";
+    if(text){
+      await addDoc(commentsRef, { text, name, timestamp: new Date() });
+      form.reset();
+    }
   });
-
-  // 4) Clear comments (completely remove for that article)
-  document.querySelectorAll('.clear-comments').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const articleId = btn.getAttribute('data-article');
-      if(confirm('Really clear all comments for this article? This cannot be undone.')) {
-        clearComments(articleId);
-      }
-    });
-  });
-
-  // 5) Initialize comment areas but don't render until opened
-  document.querySelectorAll('.comments-wrapper').forEach(wrapper => {
-    const articleId = wrapper.getAttribute('data-article');
-    // ensure lists exist
-    const list = wrapper.querySelector('.comment-list');
-    if(list) list.innerHTML = '<div style="color:'+getComputedStyle(document.documentElement).getPropertyValue('--muted')+'">No comments yet — be the first.</div>';
-  });
-
-  // 6) Search
-  const search = document.getElementById('searchInput');
-  if(search){
-    search.addEventListener('input', () => {
-      const q = search.value.trim().toLowerCase();
-      document.querySelectorAll('.article-box').forEach(box => {
-        const title = box.querySelector('.article-title').innerText.toLowerCase();
-        const content = box.querySelector('.article-content').innerText.toLowerCase();
-        const match = title.includes(q) || content.includes(q);
-        box.style.display = match ? '' : 'none';
-      });
-    });
-  }
-
-  // 7) Contact modal handlers
-  const contactBtn = document.getElementById('contactBtn');
-  const contactModal = document.getElementById('contactModal');
-  const closeModal = document.getElementById('closeModal');
-  if(contactBtn && contactModal && closeModal){
-    contactBtn.addEventListener('click', (e) => { e.preventDefault(); contactModal.style.display = 'block'; contactModal.setAttribute('aria-hidden','false'); });
-    closeModal.addEventListener('click', () => { contactModal.style.display = 'none'; contactModal.setAttribute('aria-hidden','true'); });
-    window.addEventListener('click', (e) => { if(e.target === contactModal){ contactModal.style.display = 'none'; contactModal.setAttribute('aria-hidden','true'); }});
-  }
-
-  // 8) Ensure anchors close other open UI for a smoother mobile experience
-  document.querySelectorAll('nav a[href^="#"]').forEach(a => {
-    a.addEventListener('click', () => {
-      // collapse all articles for clarity on navigation (optional)
-      // (we keep this commented — enable if you want auto-collapse)
-      // document.querySelectorAll('.article-box.article-open').forEach(b => b.classList.remove('article-open'));
-    });
-  });
-
-  // Accessibility: allow users to expand all comments quickly with shift+click on any toggle
-  document.querySelectorAll('.toggle-comments').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-      if(e.shiftKey){
-        // open all comment wrappers
-        document.querySelectorAll('.comments-wrapper').forEach(w=>{
-          w.style.display = 'block';
-          const id = w.getAttribute('data-article');
-          const tb = document.querySelector('.toggle-comments[data-article="'+id+'"]');
-          if(tb) tb.textContent = 'Hide comments';
-          renderComments(id);
-        });
-      }
-    });
-  });
-
-}); // DOMContentLoaded
+});
 </script>
 
+</div>
 </body>
 </html>
 
