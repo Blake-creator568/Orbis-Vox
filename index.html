@@ -132,26 +132,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 </style>
 
 <!-- Firebase -->
-<script type="module">
-  // Import Firebase modules
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
-    authDomain: "orbis-vox.firebaseapp.com",
-    databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "orbis-vox",
-    storageBucket: "orbis-vox.firebasestorage.app",
-    messagingSenderId: "43657144944",
-    appId: "1:43657144944:web:c7564b655819a30a1fe2b5",
-    measurementId: "G-68DVTPHY2H"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
   // Comment system
   window.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".comments").forEach(container => {
@@ -781,10 +761,103 @@ document.querySelectorAll(".comments").forEach(container => {
 })();
 </script>
 
+<script type="module">
+  // ===== FIREBASE INIT =====
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
+    authDomain: "orbis-vox.firebaseapp.com",
+    databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "orbis-vox",
+    storageBucket: "orbis-vox.firebasestorage.app",
+    messagingSenderId: "43657144944",
+    appId: "1:43657144944:web:c7564b655819a30a1fe2b5"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // ===== COMMENTS SYSTEM WITH TOGGLE =====
+  document.querySelectorAll(".comments").forEach(container => {
+    const articleId = container.dataset.id;
+
+    // Create toggle button
+    const toggleBtn = document.createElement("button");
+    toggleBtn.className = "comment-toggle";
+    toggleBtn.textContent = "Show Comments";
+    toggleBtn.style.cursor = "pointer";
+    container.appendChild(toggleBtn);
+
+    // Create comment wrapper
+    const wrapper = document.createElement("div");
+    wrapper.style.display = "none"; // hidden by default
+    wrapper.style.marginTop = "10px";
+
+    // Comment form
+    const form = document.createElement("form");
+    form.className = "comment-form";
+    form.innerHTML = `
+      <textarea placeholder="Your comment" required style="width:100%; margin-bottom:5px;"></textarea>
+      <input type="text" placeholder="Your name" style="width:100%; margin-bottom:5px;">
+      <button type="submit" class="comment-button">Post Comment</button>
+    `;
+
+    // Comment list
+    const list = document.createElement("div");
+    list.className = "comment-list";
+    list.style.marginTop = "10px";
+
+    wrapper.appendChild(form);
+    wrapper.appendChild(list);
+    container.appendChild(wrapper);
+
+    // Toggle functionality
+    toggleBtn.addEventListener("click", () => {
+      if(wrapper.style.display === "none"){
+        wrapper.style.display = "block";
+        toggleBtn.textContent = "Hide Comments";
+      } else {
+        wrapper.style.display = "none";
+        toggleBtn.textContent = "Show Comments";
+      }
+    });
+
+    // Firestore reference and query
+    const commentsRef = collection(db, "comments_" + articleId);
+    const q = query(commentsRef, orderBy("timestamp", "asc"));
+
+    // Real-time listener
+    onSnapshot(q, snapshot => {
+      list.innerHTML = "";
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const item = document.createElement("div");
+        item.className = "comment-item";
+        item.style.padding = "5px 0";
+        item.innerHTML = `<strong>${data.name || "Anonymous"}:</strong> ${data.text}`;
+        list.appendChild(item);
+      });
+    });
+
+    // Submit comment
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+      const text = form.querySelector("textarea").value.trim();
+      const name = form.querySelector("input").value.trim() || "Anonymous";
+      if(text){
+        await addDoc(commentsRef, { text, name, timestamp: new Date() });
+        form.reset();
+      }
+    });
+  });
+</script>
 
 </div>
 </body>
 </html>
+
 
 
 
