@@ -695,19 +695,23 @@ document.querySelectorAll(".comments").forEach(container => {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+  // Find all comment sections by class
   const sections = document.querySelectorAll('.comments');
 
-  sections.forEach(section => {
-    // Only add button if section exists
-    if (!section) return;
-
-    // Create the toggle button
+  sections.forEach((section, index) => {
+    // Create the button
     const button = document.createElement('button');
     button.textContent = 'Show Comments';
     button.style.marginBottom = '10px';
-    button.style.display = 'block'; // ensure it shows
+    button.style.display = 'block';
 
-    // Hide the section by default
+    // Wrap the section in a container to avoid layout issues
+    const container = document.createElement('div');
+    section.parentNode.insertBefore(container, section);
+    container.appendChild(button);
+    container.appendChild(section);
+
+    // Hide the section initially
     section.style.display = 'none';
 
     // Toggle on click
@@ -720,18 +724,15 @@ document.addEventListener("DOMContentLoaded", function() {
         button.textContent = 'Show Comments';
       }
     });
-
-    // Insert button before the comment section
-    section.parentNode.insertBefore(button, section);
   });
 });
 </script>
 
 
-
 </div>
 </body>
 </html>
+
 
 
 
