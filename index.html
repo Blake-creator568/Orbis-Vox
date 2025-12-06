@@ -135,7 +135,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 <script type="module">
   // Import Firebase modules
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-analytics.js";
   import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.24.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -151,7 +150,6 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
   const db = getFirestore(app);
 
   // Comment system
@@ -787,6 +785,7 @@ document.querySelectorAll(".comments").forEach(container => {
 </div>
 </body>
 </html>
+
 
 
 
