@@ -235,6 +235,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         </div>
       </div>
       <div class="comments" data-id="bbc-today"></div>
+      <button class="toggle-comments-btn">Hide Comments</button>
     </div>
   </div>
 
@@ -252,6 +253,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         </div>
       </div>
       <div class="comments" data-id="trans-girls-ban"></div>
+      <button class="toggle-comments-btn">Hide Comments</button>
     </div>
   </div>
 
@@ -275,6 +277,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         </div>
       </div>
       <div class="comments" data-id="fun-daily-moments"></div>
+      <button class="toggle-comments-btn">Hide Comments</button>
     </div>
   </div>
 
@@ -313,6 +316,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
 
       <div class="fact">Fact of the Day: Dogs respond differently to musical tones depending on breed.</div>
       <div class="comments" data-id="dog-choir"></div>
+      <button class="toggle-comments-btn">Hide Comments</button>
     </div>
   </div>
 
@@ -330,6 +334,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
       </div>
     </div>
     <div class="comments" data-id="teenage-gremlin-days"></div>
+    <button class="toggle-comments-btn">Hide Comments</button>
   </div>
 </div>
 
@@ -361,6 +366,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
       </div>
     </div>
     <div class="comments" data-id="fun-chaos-therapy"></div>
+    <button class="toggle-comments-btn">Hide Comments</button>
   </div>
 </div>
 
@@ -384,6 +390,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         </div>
       </div>
       <div class="comments" data-id="global-speed"></div>
+      <button class="toggle-comments-btn">Hide Comments</button>
     </div>
   </div>
 
@@ -410,6 +417,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         </div>
       </div>
       <div class="comments" data-id="womens-rights"></div>
+      <button class="toggle-comments-btn">Hide Comments</button>
     </div>
   </div>
 
@@ -428,6 +436,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
       </div>
     </div>
     <div class="comments" data-id="creepy-monuments"></div>
+    <button class="toggle-comments-btn">Hide Comments</button>
   </div>
 </div>
 
@@ -470,6 +479,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
         </div>
       </div>
       <div class="comments" data-id="teenage-exhaustion"></div>
+      <button class="toggle-comments-btn">Hide Comments</button>
     </div>
   </div>
 
@@ -492,6 +502,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
       </div>
     </div>
     <div class="comments" data-id="teenage-be-yourself"></div>
+    <button class="toggle-comments-btn">Hide Comments</button>
   </div>
 </div>
 
@@ -511,6 +522,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
       </div>
     </div>
     <div class="comments" data-id="teenage-adult-nonsense"></div>
+    <button class="toggle-comments-btn">Hide Comments</button>
   </div>
 </div>
 
@@ -531,6 +543,7 @@ footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #0
       </div>
     </div>
     <div class="comments" data-id="teenage-adulthood-feet"></div>
+    <button class="toggle-comments-btn">Hide Comments</button>
   </div>
 </div>
 
@@ -854,9 +867,30 @@ document.querySelectorAll(".comments").forEach(container => {
   });
 </script>
 
+  <script>
+  // Select all toggle buttons
+  const toggleButtons = document.querySelectorAll('.toggle-comments-btn');
+
+  toggleButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Find the comment section inside the same article
+      const comments = button.previousElementSibling; // assumes comments div is just before button
+      if (comments.style.display === 'none') {
+        comments.style.display = 'block';
+        button.textContent = 'Hide Comments';
+      } else {
+        comments.style.display = 'none';
+        button.textContent = 'Show Comments';
+      }
+    });
+  });
+</script>
+
+
 </div>
 </body>
 </html>
+
 
 
 
