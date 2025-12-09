@@ -658,19 +658,15 @@ document.addEventListener("click", e => {
 });
 </script>
 <script>
-// Toggle article content
+// ARTICLE TOGGLE (this must run first)
 document.querySelectorAll('.article-title').forEach(title => {
   title.addEventListener('click', () => {
     const content = title.nextElementSibling;
-    if (content.style.display === "block") {
-      content.style.display = "none";
-    } else {
-      content.style.display = "block";
-    }
+    content.style.display = (content.style.display === "block") ? "none" : "block";
   });
 });
 
-// Search filter
+// SEARCH FILTER
 document.getElementById("searchInput").addEventListener("input", function () {
   let filter = this.value.toLowerCase();
   let articles = document.querySelectorAll(".article-box");
@@ -681,7 +677,7 @@ document.getElementById("searchInput").addEventListener("input", function () {
   });
 });
 
-// Auto-open the first article in each section
+// AUTO-OPEN FIRST ARTICLE PER SECTION
 document.querySelectorAll(".section-title").forEach(section => {
   const sectionBox = section.nextElementSibling;
   if (sectionBox) {
@@ -692,7 +688,7 @@ document.querySelectorAll(".section-title").forEach(section => {
   }
 });
 
-// Add subtle glow to first article titles in each section
+// ADD GLOW TO FIRST ARTICLE TITLE
 document.querySelectorAll(".section-title").forEach(section => {
   const sectionBox = section.nextElementSibling;
   if (sectionBox) {
@@ -705,6 +701,7 @@ document.querySelectorAll(".section-title").forEach(section => {
 </script>
 </body>
 </html>
+
 
 
 
