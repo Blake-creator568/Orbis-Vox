@@ -182,7 +182,32 @@ body {
 .article p {
   margin: 0 0 10px 0;      /* adjust spacing inside article */
 }
+/* Compact spacing for Orbis Vox articles */
+.article-box p,
+.article-box h1,
+.article-box h2,
+.article-box h3,
+.article-box h4,
+.article-box h5,
+.article-box h6,
+.article-box li {
+    margin-top: 0.2em !important;
+    margin-bottom: 0.2em !important;
+    line-height: 1.4 !important;
+}
 
+.article-box ul,
+.article-box ol {
+    margin-top: 0.3em !important;
+    margin-bottom: 0.3em !important;
+    padding-left: 1.2em !important;
+}
+
+.article-box blockquote {
+    margin-top: 0.3em !important;
+    margin-bottom: 0.3em !important;
+    padding-left: 1em !important;
+}
 </style>
 </head>
 
@@ -746,6 +771,7 @@ document.querySelectorAll('.section').forEach(section => {
 
 </body>
 </html>
+
 
 
 
