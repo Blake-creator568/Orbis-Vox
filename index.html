@@ -678,16 +678,6 @@ document.getElementById("searchInput").addEventListener("input", function () {
 });
 
 // AUTO-OPEN FIRST ARTICLE PER SECTION
-document.querySelectorAll(".section-title").forEach(section => {
-  const sectionBox = section.nextElementSibling;
-  if (sectionBox) {
-    const firstArticle = sectionBox.querySelector(".article-box .article-content");
-    if (firstArticle) {
-      firstArticle.style.display = "block";
-    }
-  }
-});
-
 // ADD GLOW TO FIRST ARTICLE TITLE
 document.querySelectorAll(".section-title").forEach(section => {
   const sectionBox = section.nextElementSibling;
@@ -699,8 +689,21 @@ document.querySelectorAll(".section-title").forEach(section => {
   }
 });
 </script>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Make all article titles clickable
+  document.querySelectorAll('.article-title').forEach(title => {
+    title.addEventListener('click', () => {
+      const content = title.nextElementSibling;
+      content.style.display = (content.style.display === "block") ? "none" : "block";
+    });
+  });
+});
+</script>
+
 </body>
 </html>
+
 
 
 
