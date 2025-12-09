@@ -150,6 +150,11 @@ body {
   margin-bottom: 0 !important;
 }
 
+  /* Subtle glow for featured article titles */
+.featured-article-title {
+  text-shadow: 0 0 6px rgba(0,0,0,0.35);
+}
+
 </style>
 </head>
 
@@ -652,9 +657,55 @@ document.addEventListener("click", e => {
   }
 });
 </script>
+<script>
+// Toggle article content
+document.querySelectorAll('.article-title').forEach(title => {
+  title.addEventListener('click', () => {
+    const content = title.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+});
 
+// Search filter
+document.getElementById("searchInput").addEventListener("input", function () {
+  let filter = this.value.toLowerCase();
+  let articles = document.querySelectorAll(".article-box");
+
+  articles.forEach(article => {
+    let title = article.querySelector(".article-title").textContent.toLowerCase();
+    article.style.display = title.includes(filter) ? "block" : "none";
+  });
+});
+
+// Auto-open the first article in each section
+document.querySelectorAll(".section-title").forEach(section => {
+  const sectionBox = section.nextElementSibling;
+  if (sectionBox) {
+    const firstArticle = sectionBox.querySelector(".article-box .article-content");
+    if (firstArticle) {
+      firstArticle.style.display = "block";
+    }
+  }
+});
+
+// Add subtle glow to first article titles in each section
+document.querySelectorAll(".section-title").forEach(section => {
+  const sectionBox = section.nextElementSibling;
+  if (sectionBox) {
+    const firstArticleTitle = sectionBox.querySelector(".article-box .article-title");
+    if (firstArticleTitle) {
+      firstArticleTitle.classList.add("featured-article-title");
+    }
+  }
+});
+</script>
 </body>
 </html>
+
 
 
 
