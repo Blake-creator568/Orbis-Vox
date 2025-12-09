@@ -155,6 +155,34 @@ body {
   text-shadow: 0 0 6px rgba(0,0,0,0.35);
 }
 
+  /* CSS — place in your stylesheet (e.g. style.css) */
+/* Container with all the articles */
+.articles-container {
+  display: flex;
+  flex-wrap: wrap;         /* lets articles flow to new rows */
+  gap: 20px;               /* space between articles — adjust as needed */
+  justify-content: flex-start; /* aligns left, but you can use center / space‑between etc. if you prefer */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Each article box */
+.article {
+  flex: 1 1 300px;         /* flexible: grows/shrinks; minimum width ~300px */
+  box-sizing: border-box;  /* includes padding/border in width/height calculations */
+  margin: 0;               /* reset default margins */
+  padding: 15px;           /* add some inner spacing (optional) */
+  background: #fff;        /* optional — background of article */
+  /* add more styling for your article content: e.g. border, box-shadow, etc. */
+}
+
+/* Example: ensure headings/images inside article don’t add unexpected margins */
+.article h2,
+.article p {
+  margin: 0 0 10px 0;      /* adjust spacing inside article */
+}
+
 </style>
 </head>
 
@@ -718,6 +746,7 @@ document.querySelectorAll('.section').forEach(section => {
 
 </body>
 </html>
+
 
 
 
