@@ -237,40 +237,34 @@ body {
 .section-title {
   margin: 12px 0 !important;       /* smaller gap above/below section titles */
 }
-  /* Gothic-Y2K border overlay */
+
+  
+/* Gothic-Y2K decorative frame */
 body::before {
     content: "";
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    pointer-events: none; /* so clicks go through */
-    z-index: 9999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none; /* clicks pass through */
+    z-index: 999; 
+
     background:
-        /* Top border triangles */
-        repeating-linear-gradient(
-            45deg,
-            black 0 2px,
-            transparent 2px 10px
-        ) top left/100% 20px no-repeat,
-        /* Bottom border triangles */
-        repeating-linear-gradient(
-            -45deg,
-            black 0 2px,
-            transparent 2px 10px
-        ) bottom left/100% 20px no-repeat,
-        /* Left border triangles */
-        repeating-linear-gradient(
-            135deg,
-            black 0 2px,
-            transparent 2px 10px
-        ) top left/20px 100% no-repeat,
-        /* Right border triangles */
-        repeating-linear-gradient(
-            -135deg,
-            black 0 2px,
-            transparent 2px 10px
-        ) top right/20px 100% no-repeat;
-    background-color: transparent; /* optional if you want page background to show */
+        /* Top strip */
+        linear-gradient(to right, black 10px, transparent 10px) top/100% 20px no-repeat,
+        /* Bottom strip */
+        linear-gradient(to right, black 10px, transparent 10px) bottom/100% 20px no-repeat,
+        /* Left strip */
+        linear-gradient(to bottom, black 10px, transparent 10px) left/20px calc(100% - 40px) no-repeat,
+        /* Right strip */
+        linear-gradient(to bottom, black 10px, transparent 10px) right/20px calc(100% - 40px) no-repeat;
+    
+    background-size: 40px 20px, 40px 20px, 20px 40px, 20px 40px; /* spacing of spikes */
+    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+    background-position: top left, bottom left, top left, top right;
 }
+
 
 </style>
 </head>
@@ -1012,6 +1006,7 @@ document.querySelectorAll('.section').forEach(section => {
 
 </body>
 </html>
+
 
 
 
