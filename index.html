@@ -238,29 +238,6 @@ body {
   margin: 12px 0 !important;       /* smaller gap above/below section titles */
 }
 
-  
-/* Gothic-Y2K black flame frame */
-body::before {
-    content: "";
-    position: fixed;
-    top: 20px;       /* inset from top */
-    left: 20px;      /* inset from left */
-    right: 20px;     /* inset from right */
-    bottom: 20px;    /* inset from bottom */
-    pointer-events: none;
-    z-index: 9999;
-    
-    background:
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><path fill="black" d="M0,20 C10,0 20,20 30,0 C40,20 50,0 60,20 C70,0 80,20 90,0 C100,20 L100,20 L0,20 Z"/></svg>') repeat-x top,
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><path fill="black" d="M0,0 C10,20 20,0 30,20 C40,0 50,20 60,0 C70,20 80,0 90,20 C100,0 L100,0 L0,0 Z"/></svg>') repeat-x bottom,
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 100"><path fill="black" d="M20,0 C0,10 20,20 0,30 C20,40 0,50 20,60 C0,70 20,80 0,90 C20,100 L20,100 L20,0 Z"/></svg>') repeat-y left,
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 100"><path fill="black" d="M0,0 C20,10 0,20 20,30 C0,40 20,50 0,60 C20,70 0,80 20,90 C0,100 L0,100 L0,0 Z"/></svg>') repeat-y right;
-    
-    background-size: auto 20px, auto 20px, 20px auto, 20px auto; /* height for top/bottom, width for sides */
-    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
-}
-
-
 </style>
 </head>
 
@@ -1001,6 +978,7 @@ document.querySelectorAll('.section').forEach(section => {
 
 </body>
 </html>
+
 
 
 
