@@ -895,8 +895,8 @@ document.querySelectorAll('.article-box').forEach(article => {
   });
 });
 
-// 3️⃣ Fixed Add comment section function
-function addCommentSection(article) {
+// ------------------- Add Comment Section Function -------------------
+function addCommentSection(article){
   if(article.querySelector('.comment-section')) return; // Already exists
 
   const articleId = article.dataset.id;
@@ -912,29 +912,15 @@ function addCommentSection(article) {
     </div>
   `;
 
-  // Put comment section at the bottom of the article
-  article.appendChild(commentSection);
+  // Add at bottom of article content
+  const contentDiv = article.querySelector('.article-content');
+  contentDiv.appendChild(commentSection);
 
   const toggleBtn = commentSection.querySelector('.comment-toggle');
   const container = commentSection.querySelector('.comments');
   const commentList = container.querySelector('.comment-list');
 
-  // ✅ Load old comments and keep them updating live
-  db.collection("comments")
-    .where("articleId", "==", articleId)
-    .orderBy("timestamp", "asc")
-    .get() // First load old comments
-    .then(snapshot => {
-      commentList.innerHTML = '';
-      snapshot.forEach(doc => {
-        const comment = document.createElement('div');
-        comment.className = 'comment';
-        comment.textContent = doc.data().text;
-        commentList.appendChild(comment);
-      });
-    });
-
-  // Live updates for new comments
+  // Load comments live from Firebase
   db.collection("comments")
     .where("articleId", "==", articleId)
     .orderBy("timestamp", "asc")
@@ -948,7 +934,7 @@ function addCommentSection(article) {
       });
     });
 
-  // Toggle comments visibility
+  // Toggle visibility of comments
   toggleBtn.addEventListener('click', () => {
     if(container.style.display === 'block'){
       container.style.display = 'none';
@@ -959,7 +945,6 @@ function addCommentSection(article) {
     }
   });
 }
-
 
 // ------------------- Post Comment -------------------
 document.addEventListener('click', e => {
@@ -1044,90 +1029,9 @@ document.addEventListener('click', e => {
 }
 .post-comment:hover { background: red; border-color: red; }
 </style>
-  <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const articles = document.querySelectorAll('.article-box');
-
-  articles.forEach(article => {
-    const title = article.querySelector('.article-title');
-    const content = article.querySelector('.article-content');
-    const articleId = article.dataset.id;
-
-    // Add comment section if missing
-    if(!article.querySelector('.comment-section')){
-      const commentSection = document.createElement('div');
-      commentSection.className = 'comment-section';
-      commentSection.innerHTML = `
-        <button class="comment-toggle" style="display:none;">Show Comments</button>
-        <div class="comments" style="display:none;">
-          <div class="comment-list"></div>
-          <textarea placeholder="Spill your chaos here..." class="comment-input"></textarea>
-          <button class="post-comment">Post</button>
-        </div>
-      `;
-      article.appendChild(commentSection);
-    }
-
-    const commentSection = article.querySelector('.comment-section');
-    const toggleBtn = commentSection.querySelector('.comment-toggle');
-    const container = commentSection.querySelector('.comments');
-    const commentList = commentSection.querySelector('.comment-list');
-
-    // Load all comments (old + new)
-    db.collection("comments")
-      .where("articleId", "==", articleId)
-      .orderBy("timestamp", "asc")
-      .onSnapshot(snapshot => {
-        commentList.innerHTML = '';
-        snapshot.forEach(doc => {
-          const comment = document.createElement('div');
-          comment.className = 'comment';
-          comment.textContent = doc.data().text;
-          commentList.appendChild(comment);
-        });
-      });
-
-    // Show/hide comment button based on article open state
-    title.addEventListener('click', () => {
-      const isOpening = content.style.display !== 'block';
-      content.style.display = isOpening ? 'block' : 'none';
-      toggleBtn.style.display = isOpening ? 'inline-block' : 'none';
-      if(!isOpening) container.style.display = 'none';
-    });
-
-    // Toggle comments
-    toggleBtn.addEventListener('click', () => {
-      if(container.style.display === 'block'){
-        container.style.display = 'none';
-        toggleBtn.textContent = 'Show Comments';
-      } else {
-        container.style.display = 'block';
-        toggleBtn.textContent = 'Hide Comments';
-      }
-    });
-  });
-
-  // Post comments
-  document.addEventListener('click', e => {
-    if(e.target.classList.contains('post-comment')){
-      const container = e.target.closest('.comments');
-      const input = container.querySelector('.comment-input');
-      const text = input.value.trim();
-      if(!text) return;
-
-      const articleId = e.target.closest('.article-box').dataset.id;
-
-      db.collection("comments").add({
-        articleId: articleId,
-        text: text,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(()=>{ input.value = ''; });
-    }
-  });
-});
-</script>
 </body>
 </html>
+
 
 
 
