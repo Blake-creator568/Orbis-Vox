@@ -989,7 +989,7 @@ document.querySelectorAll('.section').forEach(section => {
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-<!-- 1️⃣ Firebase scripts (compat version for Firestore) -->
+<!-- 1️⃣ Firebase scripts -->
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
@@ -1005,12 +1005,11 @@ document.querySelectorAll('.section').forEach(section => {
     appId: "1:43657144944:web:c7564b655819a30a1fe2b5",
     measurementId: "G-68DVTPHY2H"
   };
-  
-  // Initialize Firebase
+
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  // Function to add comment section to an article
+  // Add comment section to an article
   function addCommentSection(article) {
     if(article.querySelector('.comment-section')) return;
 
@@ -1026,19 +1025,19 @@ document.querySelectorAll('.section').forEach(section => {
       </div>
     `;
 
-    // Append at the end of article content
     const contentDiv = article.querySelector('.article-content');
     if(contentDiv) contentDiv.appendChild(commentSection);
     else article.appendChild(commentSection);
 
-    // Toggle visibility & load comments
     const toggleBtn = commentSection.querySelector('.comment-toggle');
     const container = commentSection.querySelector('.comments');
+
+    // Collapsible & load comments
     toggleBtn.addEventListener('click', () => {
       if(container.style.display === 'none' || container.style.display === '') {
         container.style.display = 'block';
         toggleBtn.textContent = 'Hide Comments';
-        loadComments(container, articleId); // load comments now
+        loadComments(container, articleId);
       } else {
         container.style.display = 'none';
         toggleBtn.textContent = 'Show Comments';
@@ -1046,12 +1045,12 @@ document.querySelectorAll('.section').forEach(section => {
     });
   }
 
-  // Add comment sections only when article is clicked
+  // Only attach comment sections when article is clicked
   document.querySelectorAll('.article-box').forEach(article => {
     article.addEventListener('click', () => addCommentSection(article));
   });
 
-  // Post a comment
+  // Post comment
   document.addEventListener('click', function(e) {
     if(e.target && e.target.classList.contains('post-comment')) {
       const container = e.target.closest('.comments');
@@ -1074,14 +1073,16 @@ document.querySelectorAll('.section').forEach(section => {
     const commentList = container.querySelector('.comment-list');
     db.collection("comments")
       .where("articleId", "==", articleId)
-      .orderBy("timestamp")
+      .orderBy("timestamp", "asc")
       .onSnapshot(snapshot => {
         commentList.innerHTML = '';
         snapshot.forEach(doc => {
-          const comment = document.createElement('div');
-          comment.className = 'comment';
-          comment.textContent = doc.data().text;
-          commentList.appendChild(comment);
+          if(doc.exists) {
+            const comment = document.createElement('div');
+            comment.className = 'comment';
+            comment.textContent = doc.data().text;
+            commentList.appendChild(comment);
+          }
         });
       });
   }
@@ -1093,7 +1094,7 @@ document.querySelectorAll('.section').forEach(section => {
 .comment-toggle {
   cursor: pointer;
   padding: 6px 12px;
-  background: #c00; /* red background */
+  background: #c00; /* red button */
   color: #fff;
   border: 1px solid #900;
   border-radius: 5px;
@@ -1101,8 +1102,17 @@ document.querySelectorAll('.section').forEach(section => {
   transition: 0.2s;
 }
 .comment-toggle:hover { background: #900; border-color: #c00; }
-.comments { margin-top: 10px; display: none; background: #330000; padding: 10px; border-radius: 5px; }
+
+.comments {
+  margin-top: 10px;
+  display: none;
+  background: #330000;
+  padding: 10px;
+  border-radius: 5px;
+}
+
 .comment-list { margin-bottom: 10px; }
+
 .comment {
   background: #550000;
   color: #fff;
@@ -1113,8 +1123,10 @@ document.querySelectorAll('.section').forEach(section => {
   font-size: 0.95rem;
   border-radius: 3px;
 }
+
 .comment-input {
   width: 100%;
+  max-width: 100%;
   height: 50px;
   margin-bottom: 5px;
   background: #fff; /* white input */
@@ -1123,7 +1135,10 @@ document.querySelectorAll('.section').forEach(section => {
   border-radius: 5px;
   padding: 5px;
   font-family: 'Arial', sans-serif;
+  resize: none; /* prevent resizing */
+  box-sizing: border-box; /* prevents overflow */
 }
+
 .post-comment {
   padding: 6px 12px;
   cursor: pointer;
@@ -1137,8 +1152,10 @@ document.querySelectorAll('.section').forEach(section => {
 </style>
 
 
+
 </body>
 </html>
+
 
 
 
