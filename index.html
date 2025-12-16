@@ -995,7 +995,6 @@ document.querySelectorAll('.section').forEach(section => {
 
 <!-- 2️⃣ Comment system JS -->
 <script>
-  // Firebase config (your keys)
   const firebaseConfig = {
     apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
     authDomain: "orbis-vox.firebaseapp.com",
@@ -1013,7 +1012,7 @@ document.querySelectorAll('.section').forEach(section => {
 
   // Function to add comment section to an article
   function addCommentSection(article) {
-    if(article.querySelector('.comment-section')) return; // already added
+    if(article.querySelector('.comment-section')) return;
 
     const articleId = article.dataset.id;
     const commentSection = document.createElement('div');
@@ -1027,30 +1026,29 @@ document.querySelectorAll('.section').forEach(section => {
       </div>
     `;
 
-    // Append at the end of the article content
+    // Append at the end of article content
     const contentDiv = article.querySelector('.article-content');
-    if(contentDiv) {
-      contentDiv.appendChild(commentSection);
-    } else {
-      article.appendChild(commentSection);
-    }
+    if(contentDiv) contentDiv.appendChild(commentSection);
+    else article.appendChild(commentSection);
 
-    // Toggle visibility
+    // Toggle visibility & load comments
     const toggleBtn = commentSection.querySelector('.comment-toggle');
+    const container = commentSection.querySelector('.comments');
     toggleBtn.addEventListener('click', () => {
-      const container = commentSection.querySelector('.comments');
-      container.style.display = container.style.display === 'none' ? 'block' : 'none';
-      toggleBtn.textContent = container.style.display === 'block' ? 'Hide Comments' : 'Show Comments';
-      if(container.style.display === 'block') loadComments(container, articleId);
+      if(container.style.display === 'none' || container.style.display === '') {
+        container.style.display = 'block';
+        toggleBtn.textContent = 'Hide Comments';
+        loadComments(container, articleId); // load comments now
+      } else {
+        container.style.display = 'none';
+        toggleBtn.textContent = 'Show Comments';
+      }
     });
   }
 
-  // Automatically add comment section **only when article is opened**
+  // Add comment sections only when article is clicked
   document.querySelectorAll('.article-box').forEach(article => {
-    // Example: if you have an "open article" mechanism
-    article.addEventListener('click', () => {
-      addCommentSection(article);
-    });
+    article.addEventListener('click', () => addCommentSection(article));
   });
 
   // Post a comment
@@ -1089,20 +1087,20 @@ document.querySelectorAll('.section').forEach(section => {
   }
 </script>
 
-<!-- 3️⃣ CSS for comment section -->
+<!-- 3️⃣ CSS -->
 <style>
 .comment-section { margin-top: 20px; font-family: 'Arial', sans-serif; }
 .comment-toggle {
   cursor: pointer;
   padding: 6px 12px;
-  background: #222;
+  background: #c00; /* red background */
   color: #fff;
-  border: 1px solid #fff;
+  border: 1px solid #900;
   border-radius: 5px;
   margin-bottom: 5px;
   transition: 0.2s;
 }
-.comment-toggle:hover { background: red; border-color: red; }
+.comment-toggle:hover { background: #900; border-color: #c00; }
 .comments { margin-top: 10px; display: none; background: #330000; padding: 10px; border-radius: 5px; }
 .comment-list { margin-bottom: 10px; }
 .comment {
@@ -1119,9 +1117,9 @@ document.querySelectorAll('.section').forEach(section => {
   width: 100%;
   height: 50px;
   margin-bottom: 5px;
-  background: #550000;
-  color: #fff;
-  border: 1px solid #ff0000;
+  background: #fff; /* white input */
+  color: #000; /* black text */
+  border: 1px solid #c00;
   border-radius: 5px;
   padding: 5px;
   font-family: 'Arial', sans-serif;
@@ -1138,8 +1136,10 @@ document.querySelectorAll('.section').forEach(section => {
 .post-comment:hover { background: red; border-color: red; }
 </style>
 
+
 </body>
 </html>
+
 
 
 
