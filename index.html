@@ -1029,8 +1029,32 @@ document.addEventListener('click', e => {
 }
 .post-comment:hover { background: red; border-color: red; }
 </style>
+  <script>
+  document.querySelectorAll('.article-box').forEach(article => {
+    const articleId = article.dataset.id;
+    const commentList = article.querySelector('.comment-list');
+
+    if (!commentList) return;
+
+    firebase.firestore()
+      .collection("comments")
+      .where("articleId", "==", articleId)
+      .orderBy("timestamp", "asc")
+      .onSnapshot(snapshot => {
+        commentList.innerHTML = "";
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const div = document.createElement("div");
+          div.className = "comment";
+          div.innerHTML = `<strong>${data.name || "Anonymous"}:</strong> ${data.text}`;
+          commentList.appendChild(div);
+        });
+      });
+  });
+</script>
 </body>
 </html>
+
 
 
 
