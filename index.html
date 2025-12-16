@@ -911,90 +911,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-</script>
-<script>
-document.querySelectorAll('.section').forEach(section => {
-  section.querySelectorAll('.article').forEach((article, i) => {
-    const title = article.querySelector('.article-title');
-    const content = article.querySelector('.article-content');
-
-    // First article open by default
-    content.style.display = i === 0 ? "block" : "none";
-
-    // Toggle on click
-    title.addEventListener('click', () => {
-      content.style.display = content.style.display === "block" ? "none" : "block";
-    });
-  });
-});
-</script>
-
-<style>
-/* Container for the comments */
-.comment-section { margin-top: 20px; font-family: 'Arial', sans-serif; }
-
-/* Show Comments button */
-.comment-toggle {
-  cursor: pointer;
-  padding: 6px 12px;
-  background: #222;
-  color: #fff;
-  border: 1px solid #fff;
-  border-radius: 5px;
-  margin-bottom: 5px;
-  transition: 0.2s;
-}
-.comment-toggle:hover { background: red; border-color: red; }
-
-/* Comment container */
-.comments { margin-top: 10px; display: none; }
-
-/* List of comments */
-.comment-list { margin-bottom: 10px; }
-.comment {
-  background: #111;
-  color: #fff;
-  padding: 5px 10px;
-  border-left: 3px solid red;
-  margin-bottom: 6px;
-  line-height: 1.4;
-  font-size: 0.95rem;
-}
-
-/* Input for new comment */
-.comment-input {
-  width: 100%;
-  height: 50px;
-  margin-bottom: 5px;
-  background: #222;
-  color: #fff;
-  border: 1px solid #fff;
-  border-radius: 5px;
-  padding: 5px;
-  font-family: 'Arial', sans-serif;
-}
-
-/* Post button */
-.post-comment {
-  padding: 6px 12px;
-  cursor: pointer;
-  background: #222;
-  color: #fff;
-  border: 1px solid #fff;
-  border-radius: 5px;
-  transition: 0.2s;
-}
-.post-comment:hover { background: red; border-color: red; }
-</style>
+<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-<!-- 1️⃣ Firebase scripts -->
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-
-<!-- 2️⃣ Comment system JS -->
+<!-- Collapsible Articles + Bottom Comment Button -->
 <script>
+  // Initialize Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
     authDomain: "orbis-vox.firebaseapp.com",
@@ -1009,11 +932,29 @@ document.querySelectorAll('.section').forEach(section => {
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  // Add comment section to an article
-  function addCommentSection(article) {
+  // COLLAPSIBLE ARTICLES
+  document.querySelectorAll('.article-box').forEach(article => {
+    const title = article.querySelector('.article-title');
+    const content = article.querySelector('.article-content');
+
+    // Default closed
+    content.style.display = "none";
+
+    title.addEventListener('click', () => {
+      const isOpening = content.style.display !== "block";
+      content.style.display = isOpening ? "block" : "none";
+
+      // Only add comment section if opening
+      if(isOpening) addCommentSection(article);
+    });
+  });
+
+  // ADD COMMENT SECTION
+  function addCommentSection(article){
     if(article.querySelector('.comment-section')) return;
 
     const articleId = article.dataset.id;
+
     const commentSection = document.createElement('div');
     commentSection.className = 'comment-section';
     commentSection.innerHTML = `
@@ -1025,34 +966,41 @@ document.querySelectorAll('.section').forEach(section => {
       </div>
     `;
 
-    const contentDiv = article.querySelector('.article-content');
-    if(contentDiv) contentDiv.appendChild(commentSection);
-    else article.appendChild(commentSection);
+    article.appendChild(commentSection); // Added at **bottom of article**
 
     const toggleBtn = commentSection.querySelector('.comment-toggle');
     const container = commentSection.querySelector('.comments');
+    const commentList = container.querySelector('.comment-list');
 
-    // Collapsible & load comments
-    toggleBtn.addEventListener('click', () => {
-      if(container.style.display === 'none' || container.style.display === '') {
-        container.style.display = 'block';
-        toggleBtn.textContent = 'Hide Comments';
-        loadComments(container, articleId);
-      } else {
+    // Load comments live
+    db.collection("comments")
+      .where("articleId","==",articleId)
+      .orderBy("timestamp","asc")
+      .onSnapshot(snapshot=>{
+        commentList.innerHTML = '';
+        snapshot.forEach(doc=>{
+          const comment = document.createElement('div');
+          comment.className = 'comment';
+          comment.textContent = doc.data().text;
+          commentList.appendChild(comment);
+        });
+      });
+
+    // Toggle visibility
+    toggleBtn.addEventListener('click', ()=>{
+      if(container.style.display === 'block'){
         container.style.display = 'none';
         toggleBtn.textContent = 'Show Comments';
+      } else {
+        container.style.display = 'block';
+        toggleBtn.textContent = 'Hide Comments';
       }
     });
   }
 
-  // Only attach comment sections when article is clicked
-  document.querySelectorAll('.article-box').forEach(article => {
-    article.addEventListener('click', () => addCommentSection(article));
-  });
-
-  // Post comment
-  document.addEventListener('click', function(e) {
-    if(e.target && e.target.classList.contains('post-comment')) {
+  // POST COMMENT
+  document.addEventListener('click', e=>{
+    if(e.target.classList.contains('post-comment')){
       const container = e.target.closest('.comments');
       const input = container.querySelector('.comment-input');
       const text = input.value.trim();
@@ -1064,41 +1012,23 @@ document.querySelectorAll('.section').forEach(section => {
         articleId: articleId,
         text: text,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => { input.value = ''; });
+      }).then(()=>{ input.value = ''; });
     }
   });
-
-  // Load comments
-  function loadComments(container, articleId) {
-    const commentList = container.querySelector('.comment-list');
-    db.collection("comments")
-      .where("articleId", "==", articleId)
-      .orderBy("timestamp", "asc")
-      .onSnapshot(snapshot => {
-        commentList.innerHTML = '';
-        snapshot.forEach(doc => {
-          if(doc.exists) {
-            const comment = document.createElement('div');
-            comment.className = 'comment';
-            comment.textContent = doc.data().text;
-            commentList.appendChild(comment);
-          }
-        });
-      });
-  }
 </script>
 
-<!-- 3️⃣ CSS -->
+<!-- COMMENT SYSTEM CSS -->
 <style>
 .comment-section { margin-top: 20px; font-family: 'Arial', sans-serif; }
+
 .comment-toggle {
   cursor: pointer;
   padding: 6px 12px;
-  background: #c00; /* red button */
+  background: #c00;
   color: #fff;
   border: 1px solid #900;
   border-radius: 5px;
-  margin-bottom: 5px;
+  margin-top: 10px;
   transition: 0.2s;
 }
 .comment-toggle:hover { background: #900; border-color: #c00; }
@@ -1126,17 +1056,16 @@ document.querySelectorAll('.section').forEach(section => {
 
 .comment-input {
   width: 100%;
-  max-width: 100%;
   height: 50px;
   margin-bottom: 5px;
-  background: #fff; /* white input */
-  color: #000; /* black text */
+  background: #fff;
+  color: #000;
   border: 1px solid #c00;
   border-radius: 5px;
   padding: 5px;
   font-family: 'Arial', sans-serif;
-  resize: none; /* prevent resizing */
-  box-sizing: border-box; /* prevents overflow */
+  resize: none;
+  box-sizing: border-box;
 }
 
 .post-comment {
@@ -1151,49 +1080,5 @@ document.querySelectorAll('.section').forEach(section => {
 .post-comment:hover { background: red; border-color: red; }
 </style>
 
-
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
