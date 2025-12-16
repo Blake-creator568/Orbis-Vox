@@ -1029,8 +1029,28 @@ document.addEventListener('click', e => {
 }
 .post-comment:hover { background: red; border-color: red; }
 </style>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".article-box").forEach(article => {
+    const title = article.querySelector(".article-title");
+    const content = article.querySelector(".article-content");
+    const commentSection = article.querySelector(".comment-section");
+
+    if (!commentSection) return;
+
+    // Hide comments when page loads
+    commentSection.style.display = "none";
+
+    title.addEventListener("click", () => {
+      const isOpen = content.style.display === "block";
+      commentSection.style.display = isOpen ? "block" : "none";
+    });
+  });
+});
+</script>
 </body>
 </html>
+
 
 
 
