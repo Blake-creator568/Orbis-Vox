@@ -915,7 +915,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-<!-- Collapsible Articles + Bottom Comment Button -->
+<!-- COLLAPSIBLE ARTICLES + COMMENTS -->
 <script>
   // Initialize Firebase
   const firebaseConfig = {
@@ -949,7 +949,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ADD COMMENT SECTION
+  // ADD COMMENT SECTION AT BOTTOM
   function addCommentSection(article){
     if(article.querySelector('.comment-section')) return;
 
@@ -966,7 +966,8 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
-    article.appendChild(commentSection); // Added at **bottom of article**
+    const contentDiv = article.querySelector('.article-content');
+    contentDiv.appendChild(commentSection); // at bottom
 
     const toggleBtn = commentSection.querySelector('.comment-toggle');
     const container = commentSection.querySelector('.comments');
@@ -1021,10 +1022,11 @@ document.addEventListener("DOMContentLoaded", () => {
 <style>
 .comment-section { margin-top: 20px; font-family: 'Arial', sans-serif; }
 
+/* Show Comments button */
 .comment-toggle {
   cursor: pointer;
   padding: 6px 12px;
-  background: #c00;
+  background: #c00; /* red button */
   color: #fff;
   border: 1px solid #900;
   border-radius: 5px;
@@ -1056,16 +1058,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 .comment-input {
   width: 100%;
+  max-width: 100%;
   height: 50px;
   margin-bottom: 5px;
-  background: #fff;
-  color: #000;
+  background: #fff; /* white input */
+  color: #000; /* black text */
   border: 1px solid #c00;
   border-radius: 5px;
   padding: 5px;
   font-family: 'Arial', sans-serif;
-  resize: none;
-  box-sizing: border-box;
+  resize: none; /* prevent resizing */
+  box-sizing: border-box; /* prevents overflow */
 }
 
 .post-comment {
@@ -1080,5 +1083,7 @@ document.addEventListener("DOMContentLoaded", () => {
 .post-comment:hover { background: red; border-color: red; }
 </style>
 
+
 </body>
 </html>
+
