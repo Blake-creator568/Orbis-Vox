@@ -829,195 +829,143 @@ body {
   &copy; 2025 Orbis Vox
 </footer>
 
-</div>
+
+</div> 
+  <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
 <script type="module">
-// Navigation
+// ------------------- Navigation -------------------
 const hamburger = document.getElementById("hamburger");
 const nav = document.querySelector("nav");
-hamburger.addEventListener("click",()=>{nav.classList.toggle("active");});
+hamburger.addEventListener("click", () => { nav.classList.toggle("active"); });
 
-// Contact modal
+// ------------------- Contact Modal -------------------
 const contactBtn = document.getElementById("contactBtn");
 const contactModal = document.getElementById("contactModal");
 const closeModal = document.getElementById("closeModal");
 
-contactBtn.addEventListener("click",(e)=>{
+contactBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  contactModal.style.display="block";
+  contactModal.style.display = "block";
 });
-closeModal.addEventListener("click",()=>{contactModal.style.display="none";});
-window.addEventListener("click",(e)=>{if(e.target==contactModal){contactModal.style.display="none";}});
+closeModal.addEventListener("click", () => { contactModal.style.display = "none"; });
+window.addEventListener("click", (e) => { if(e.target == contactModal){ contactModal.style.display = "none"; } });
 
-// Search
+// ------------------- Search Filter -------------------
 const searchInput = document.getElementById("searchInput");
 searchInput.addEventListener("input", function() {
   const query = this.value.toLowerCase();
-  const articles = document.querySelectorAll(".article-box");
-  articles.forEach(article => {
+  document.querySelectorAll(".article-box").forEach(article => {
     const title = article.querySelector(".article-title")?.innerText.toLowerCase() || "";
     const content = article.querySelector(".article-content")?.innerText.toLowerCase() || "";
-    article.style.display = title.includes(query) || content.includes(query) ? "" : "none";
+    article.style.display = (title.includes(query) || content.includes(query)) ? "" : "none";
   });
 });
 
-// Collapsible articles
-document.addEventListener("click", e => {
-  if(e.target.classList.contains("article-title")){
-    const content = e.target.nextElementSibling;
-    if(content) content.style.display = content.style.display === "block" ? "none" : "block";
-  }
-});
-</script>
-<script>
-// ARTICLE TOGGLE (this must run first)
-document.querySelectorAll('.article-title').forEach(title => {
+// ------------------- Firebase -------------------
+const firebaseConfig = {
+  apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
+  authDomain: "orbis-vox.firebaseapp.com",
+  databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "orbis-vox",
+  storageBucket: "orbis-vox.firebasestorage.app",
+  messagingSenderId: "43657144944",
+  appId: "1:43657144944:web:c7564b655819a30a1fe2b5",
+  measurementId: "G-68DVTPHY2H"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// ------------------- Collapsible Articles + Comment Section -------------------
+document.querySelectorAll('.article-box').forEach(article => {
+  const title = article.querySelector('.article-title');
+  const content = article.querySelector('.article-content');
+
+  // Default: collapsed
+  content.style.display = "none";
+
   title.addEventListener('click', () => {
-    const content = title.nextElementSibling;
-    content.style.display = (content.style.display === "block") ? "none" : "block";
+    const isOpening = content.style.display !== "block";
+    content.style.display = isOpening ? "block" : "none";
+
+    // Only add comment section if opening
+    if(isOpening) addCommentSection(article);
   });
 });
 
-// SEARCH FILTER
-document.getElementById("searchInput").addEventListener("input", function () {
-  let filter = this.value.toLowerCase();
-  let articles = document.querySelectorAll(".article-box");
+// ------------------- Add Comment Section Function -------------------
+function addCommentSection(article){
+  if(article.querySelector('.comment-section')) return; // Already exists
 
-  articles.forEach(article => {
-    let title = article.querySelector(".article-title").textContent.toLowerCase();
-    article.style.display = title.includes(filter) ? "block" : "none";
-  });
-});
+  const articleId = article.dataset.id;
 
-// AUTO-OPEN FIRST ARTICLE PER SECTION
-// ADD GLOW TO FIRST ARTICLE TITLE
-document.querySelectorAll(".section-title").forEach(section => {
-  const sectionBox = section.nextElementSibling;
-  if (sectionBox) {
-    const firstArticleTitle = sectionBox.querySelector(".article-box .article-title");
-    if (firstArticleTitle) {
-      firstArticleTitle.classList.add("featured-article-title");
-    }
-  }
-});
-</script>
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
-  // Make all article titles clickable
-  document.querySelectorAll('.article-title').forEach(title => {
-    title.addEventListener('click', () => {
-      const content = title.nextElementSibling;
-      content.style.display = (content.style.display === "block") ? "none" : "block";
-    });
-  });
-});
+  const commentSection = document.createElement('div');
+  commentSection.className = 'comment-section';
+  commentSection.innerHTML = `
+    <button class="comment-toggle">Show Comments</button>
+    <div class="comments">
+      <div class="comment-list"></div>
+      <textarea placeholder="Spill your chaos here..." class="comment-input"></textarea>
+      <button class="post-comment">Post</button>
+    </div>
+  `;
 
-   <!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  // Add at bottom of article content
+  const contentDiv = article.querySelector('.article-content');
+  contentDiv.appendChild(commentSection);
 
-<!-- Collapsible Articles + Comment System -->
-<script>
-  // 1️⃣ Initialize Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
-    authDomain: "orbis-vox.firebaseapp.com",
-    databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "orbis-vox",
-    storageBucket: "orbis-vox.firebasestorage.app",
-    messagingSenderId: "43657144944",
-    appId: "1:43657144944:web:c7564b655819a30a1fe2b5",
-    measurementId: "G-68DVTPHY2H"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
+  const toggleBtn = commentSection.querySelector('.comment-toggle');
+  const container = commentSection.querySelector('.comments');
+  const commentList = container.querySelector('.comment-list');
 
-  // 2️⃣ Collapsible articles + attach comment section
-  document.querySelectorAll('.article-box').forEach(article => {
-    const title = article.querySelector('.article-title');
-    const content = article.querySelector('.article-content');
-
-    // Default: collapsed
-    content.style.display = "none";
-
-    title.addEventListener('click', () => {
-      const isOpening = content.style.display !== "block";
-      content.style.display = isOpening ? "block" : "none";
-
-      // Only add comment section if opening
-      if (isOpening) addCommentSection(article);
-    });
-  });
-
-  // 3️⃣ Add comment section function
-  function addCommentSection(article) {
-    if(article.querySelector('.comment-section')) return; // Already exists
-
-    const articleId = article.dataset.id;
-
-    const commentSection = document.createElement('div');
-    commentSection.className = 'comment-section';
-    commentSection.innerHTML = `
-      <button class="comment-toggle">Show Comments</button>
-      <div class="comments">
-        <div class="comment-list"></div>
-        <textarea placeholder="Spill your chaos here..." class="comment-input"></textarea>
-        <button class="post-comment">Post</button>
-      </div>
-    `;
-
-    article.appendChild(commentSection); // At the bottom of the article
-
-    const toggleBtn = commentSection.querySelector('.comment-toggle');
-    const container = commentSection.querySelector('.comments');
-    const commentList = container.querySelector('.comment-list');
-
-    // Load comments live
-    db.collection("comments")
-      .where("articleId", "==", articleId)
-      .orderBy("timestamp", "asc")
-      .onSnapshot(snapshot => {
-        commentList.innerHTML = '';
-        snapshot.forEach(doc => {
-          const comment = document.createElement('div');
-          comment.className = 'comment';
-          comment.textContent = doc.data().text;
-          commentList.appendChild(comment);
-        });
+  // Load comments live from Firebase
+  db.collection("comments")
+    .where("articleId", "==", articleId)
+    .orderBy("timestamp", "asc")
+    .onSnapshot(snapshot => {
+      commentList.innerHTML = '';
+      snapshot.forEach(doc => {
+        const comment = document.createElement('div');
+        comment.className = 'comment';
+        comment.textContent = doc.data().text;
+        commentList.appendChild(comment);
       });
-
-    // Toggle visibility of comments
-    toggleBtn.addEventListener('click', () => {
-      if (container.style.display === 'block') {
-        container.style.display = 'none';
-        toggleBtn.textContent = 'Show Comments';
-      } else {
-        container.style.display = 'block';
-        toggleBtn.textContent = 'Hide Comments';
-      }
     });
-  }
 
-  // 4️⃣ Post comments
-  document.addEventListener('click', e => {
-    if(e.target.classList.contains('post-comment')){
-      const container = e.target.closest('.comments');
-      const input = container.querySelector('.comment-input');
-      const text = input.value.trim();
-      if(!text) return;
-
-      const articleId = e.target.closest('.article-box').dataset.id;
-
-      db.collection("comments").add({
-        articleId: articleId,
-        text: text,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(()=>{ input.value = ''; });
+  // Toggle visibility of comments
+  toggleBtn.addEventListener('click', () => {
+    if(container.style.display === 'block'){
+      container.style.display = 'none';
+      toggleBtn.textContent = 'Show Comments';
+    } else {
+      container.style.display = 'block';
+      toggleBtn.textContent = 'Hide Comments';
     }
   });
+}
+
+// ------------------- Post Comment -------------------
+document.addEventListener('click', e => {
+  if(e.target.classList.contains('post-comment')){
+    const container = e.target.closest('.comments');
+    const input = container.querySelector('.comment-input');
+    const text = input.value.trim();
+    if(!text) return;
+
+    const articleId = e.target.closest('.article-box').dataset.id;
+
+    db.collection("comments").add({
+      articleId: articleId,
+      text: text,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(()=>{ input.value = ''; });
+  }
+});
 </script>
 
-<!-- 5️⃣ Comment System CSS -->
+<!-- ------------------- Comment System CSS ------------------- -->
 <style>
 .comment-section { margin-top: 20px; font-family: 'Arial', sans-serif; }
 
@@ -1060,14 +1008,14 @@ document.addEventListener("DOMContentLoaded", () => {
   max-width: 100%;
   height: 50px;
   margin-bottom: 5px;
-  background: #fff; /* white input */
+  background: #fff;
   color: #000;
   border: 1px solid #c00;
   border-radius: 5px;
   padding: 5px;
   font-family: 'Arial', sans-serif;
-  resize: none; /* prevent resizing */
-  box-sizing: border-box; /* prevents overflow */
+  resize: none;
+  box-sizing: border-box;
 }
 
 .post-comment {
@@ -1082,7 +1030,5 @@ document.addEventListener("DOMContentLoaded", () => {
 .post-comment:hover { background: red; border-color: red; }
 </style>
 
-</body>
-</html>
 
 
