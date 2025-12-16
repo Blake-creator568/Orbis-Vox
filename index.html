@@ -895,8 +895,8 @@ document.querySelectorAll('.article-box').forEach(article => {
   });
 });
 
-// ------------------- Add Comment Section Function -------------------
-function addCommentSection(article){
+// 3️⃣ Fixed Add comment section function
+function addCommentSection(article) {
   if(article.querySelector('.comment-section')) return; // Already exists
 
   const articleId = article.dataset.id;
@@ -912,15 +912,29 @@ function addCommentSection(article){
     </div>
   `;
 
-  // Add at bottom of article content
-  const contentDiv = article.querySelector('.article-content');
-  contentDiv.appendChild(commentSection);
+  // Put comment section at the bottom of the article
+  article.appendChild(commentSection);
 
   const toggleBtn = commentSection.querySelector('.comment-toggle');
   const container = commentSection.querySelector('.comments');
   const commentList = container.querySelector('.comment-list');
 
-  // Load comments live from Firebase
+  // ✅ Load old comments and keep them updating live
+  db.collection("comments")
+    .where("articleId", "==", articleId)
+    .orderBy("timestamp", "asc")
+    .get() // First load old comments
+    .then(snapshot => {
+      commentList.innerHTML = '';
+      snapshot.forEach(doc => {
+        const comment = document.createElement('div');
+        comment.className = 'comment';
+        comment.textContent = doc.data().text;
+        commentList.appendChild(comment);
+      });
+    });
+
+  // Live updates for new comments
   db.collection("comments")
     .where("articleId", "==", articleId)
     .orderBy("timestamp", "asc")
@@ -934,7 +948,7 @@ function addCommentSection(article){
       });
     });
 
-  // Toggle visibility of comments
+  // Toggle comments visibility
   toggleBtn.addEventListener('click', () => {
     if(container.style.display === 'block'){
       container.style.display = 'none';
@@ -945,6 +959,7 @@ function addCommentSection(article){
     }
   });
 }
+
 
 // ------------------- Post Comment -------------------
 document.addEventListener('click', e => {
@@ -1029,6 +1044,7 @@ document.addEventListener('click', e => {
 }
 .post-comment:hover { background: red; border-color: red; }
 </style>
+
 
 
 
