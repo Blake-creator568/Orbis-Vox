@@ -1120,8 +1120,98 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  document.querySelectorAll(".article-box").forEach(article => {
+    const content = article.querySelector(".article-content");
+    if (!content) return;
+
+    // Create comment section ONCE
+    if (!article.querySelector(".comment-section")) {
+      const articleId = article.dataset.id;
+
+      const section = document.createElement("div");
+      section.className = "comment-section";
+      section.style.display = "none";
+      section.innerHTML = `
+        <button class="comment-toggle">Show Comments</button>
+        <div class="comments" style="display:none;">
+          <div class="comment-list"></div>
+          <input class="comment-name" placeholder="Your name">
+          <textarea class="comment-input" placeholder="Your comment"></textarea>
+          <button class="post-comment">Post</button>
+        </div>
+      `;
+
+      article.appendChild(section);
+
+      const toggleBtn = section.querySelector(".comment-toggle");
+      const commentsBox = section.querySelector(".comments");
+      const list = section.querySelector(".comment-list");
+
+      toggleBtn.addEventListener("click", () => {
+        commentsBox.style.display =
+          commentsBox.style.display === "block" ? "none" : "block";
+      });
+
+      // Live comments
+      db.collection("comments")
+        .where("articleId", "==", articleId)
+        .orderBy("timestamp", "asc")
+        .onSnapshot(snapshot => {
+          list.innerHTML = "";
+          snapshot.forEach(doc => {
+            const c = doc.data();
+            const el = document.createElement("div");
+            el.className = "comment";
+            el.innerHTML = `<strong>${c.name}</strong><br>${c.text}`;
+            list.appendChild(el);
+          });
+        });
+    }
+
+    const section = article.querySelector(".comment-section");
+
+    // WATCH article open/close without controlling it
+    const observer = new MutationObserver(() => {
+      section.style.display =
+        content.style.display === "block" ? "block" : "none";
+    });
+
+    observer.observe(content, { attributes: true, attributeFilter: ["style"] });
+  });
+
+  // Posting comments
+  document.addEventListener("click", e => {
+    if (!e.target.classList.contains("post-comment")) return;
+
+    const box = e.target.closest(".comments");
+    const name = box.querySelector(".comment-name").value.trim();
+    const text = box.querySelector(".comment-input").value.trim();
+
+    if (!name || !text) {
+      alert("Name required");
+      return;
+    }
+
+    const articleId = e.target.closest(".article-box").dataset.id;
+
+    db.collection("comments").add({
+      articleId,
+      name,
+      text,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    box.querySelector(".comment-input").value = "";
+  });
+
+});
+</script>
 </body>
 </html>
+
 
 
 
