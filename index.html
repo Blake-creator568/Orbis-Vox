@@ -911,13 +911,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-<!-- Firebase SDKs -->
+
+   <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-<!-- COLLAPSIBLE ARTICLES + COMMENTS -->
+<!-- Collapsible Articles + Comment System -->
 <script>
-  // Initialize Firebase
+  // 1️⃣ Initialize Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
     authDomain: "orbis-vox.firebaseapp.com",
@@ -928,16 +929,15 @@ document.addEventListener("DOMContentLoaded", () => {
     appId: "1:43657144944:web:c7564b655819a30a1fe2b5",
     measurementId: "G-68DVTPHY2H"
   };
-
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  // COLLAPSIBLE ARTICLES
+  // 2️⃣ Collapsible articles + attach comment section
   document.querySelectorAll('.article-box').forEach(article => {
     const title = article.querySelector('.article-title');
     const content = article.querySelector('.article-content');
 
-    // Default closed
+    // Default: collapsed
     content.style.display = "none";
 
     title.addEventListener('click', () => {
@@ -945,13 +945,13 @@ document.addEventListener("DOMContentLoaded", () => {
       content.style.display = isOpening ? "block" : "none";
 
       // Only add comment section if opening
-      if(isOpening) addCommentSection(article);
+      if (isOpening) addCommentSection(article);
     });
   });
 
-  // ADD COMMENT SECTION AT BOTTOM
-  function addCommentSection(article){
-    if(article.querySelector('.comment-section')) return;
+  // 3️⃣ Add comment section function
+  function addCommentSection(article) {
+    if(article.querySelector('.comment-section')) return; // Already exists
 
     const articleId = article.dataset.id;
 
@@ -966,8 +966,7 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
-    const contentDiv = article.querySelector('.article-content');
-    contentDiv.appendChild(commentSection); // at bottom
+    article.appendChild(commentSection); // At the bottom of the article
 
     const toggleBtn = commentSection.querySelector('.comment-toggle');
     const container = commentSection.querySelector('.comments');
@@ -975,11 +974,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Load comments live
     db.collection("comments")
-      .where("articleId","==",articleId)
-      .orderBy("timestamp","asc")
-      .onSnapshot(snapshot=>{
+      .where("articleId", "==", articleId)
+      .orderBy("timestamp", "asc")
+      .onSnapshot(snapshot => {
         commentList.innerHTML = '';
-        snapshot.forEach(doc=>{
+        snapshot.forEach(doc => {
           const comment = document.createElement('div');
           comment.className = 'comment';
           comment.textContent = doc.data().text;
@@ -987,9 +986,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
 
-    // Toggle visibility
-    toggleBtn.addEventListener('click', ()=>{
-      if(container.style.display === 'block'){
+    // Toggle visibility of comments
+    toggleBtn.addEventListener('click', () => {
+      if (container.style.display === 'block') {
         container.style.display = 'none';
         toggleBtn.textContent = 'Show Comments';
       } else {
@@ -999,8 +998,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // POST COMMENT
-  document.addEventListener('click', e=>{
+  // 4️⃣ Post comments
+  document.addEventListener('click', e => {
     if(e.target.classList.contains('post-comment')){
       const container = e.target.closest('.comments');
       const input = container.querySelector('.comment-input');
@@ -1018,7 +1017,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 </script>
 
-<!-- COMMENT SYSTEM CSS -->
+<!-- 5️⃣ Comment System CSS -->
 <style>
 .comment-section { margin-top: 20px; font-family: 'Arial', sans-serif; }
 
@@ -1062,7 +1061,7 @@ document.addEventListener("DOMContentLoaded", () => {
   height: 50px;
   margin-bottom: 5px;
   background: #fff; /* white input */
-  color: #000; /* black text */
+  color: #000;
   border: 1px solid #c00;
   border-radius: 5px;
   padding: 5px;
@@ -1083,7 +1082,7 @@ document.addEventListener("DOMContentLoaded", () => {
 .post-comment:hover { background: red; border-color: red; }
 </style>
 
-
 </body>
 </html>
+
 
