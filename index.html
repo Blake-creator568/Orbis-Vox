@@ -929,8 +929,201 @@ document.querySelectorAll('.section').forEach(section => {
 });
 </script>
 
+<style>
+/* Container for the comments */
+.comment-section { margin-top: 20px; font-family: 'Arial', sans-serif; }
+
+/* Show Comments button */
+.comment-toggle {
+  cursor: pointer;
+  padding: 6px 12px;
+  background: #222;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  transition: 0.2s;
+}
+.comment-toggle:hover { background: red; border-color: red; }
+
+/* Comment container */
+.comments { margin-top: 10px; display: none; }
+
+/* List of comments */
+.comment-list { margin-bottom: 10px; }
+.comment {
+  background: #111;
+  color: #fff;
+  padding: 5px 10px;
+  border-left: 3px solid red;
+  margin-bottom: 6px;
+  line-height: 1.4;
+  font-size: 0.95rem;
+}
+
+/* Input for new comment */
+.comment-input {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 5px;
+  background: #222;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  padding: 5px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Post button */
+.post-comment {
+  padding: 6px 12px;
+  cursor: pointer;
+  background: #222;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+.post-comment:hover { background: red; border-color: red; }
+</style>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+<!-- 1️⃣ Firebase scripts (compat version for Firestore) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+<!-- 2️⃣ Comment system JS -->
+<script>
+  // Firebase config (your keys)
+  const firebaseConfig = {
+    apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
+    authDomain: "orbis-vox.firebaseapp.com",
+    databaseURL: "https://orbis-vox-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "orbis-vox",
+    storageBucket: "orbis-vox.firebasestorage.app",
+    messagingSenderId: "43657144944",
+    appId: "1:43657144944:web:c7564b655819a30a1fe2b5",
+    measurementId: "G-68DVTPHY2H"
+  };
+  
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // Automatically add comment boxes to all articles
+  document.querySelectorAll('.article-box').forEach(article => {
+    const articleId = article.dataset.id;
+
+    const commentSection = document.createElement('div');
+    commentSection.className = 'comment-section';
+    commentSection.innerHTML = `
+      <button class="comment-toggle">Show Comments</button>
+      <div class="comments">
+        <div class="comment-list"></div>
+        <textarea placeholder="Spill your chaos here..." class="comment-input"></textarea>
+        <button class="post-comment">Post</button>
+      </div>
+    `;
+    article.appendChild(commentSection);
+
+    // Toggle visibility
+    const toggleBtn = commentSection.querySelector('.comment-toggle');
+    toggleBtn.addEventListener('click', () => {
+      const container = commentSection.querySelector('.comments');
+      container.style.display = container.style.display === 'none' ? 'block' : 'none';
+      toggleBtn.textContent = container.style.display === 'block' ? 'Hide Comments' : 'Show Comments';
+      if(container.style.display === 'block') loadComments(container, articleId);
+    });
+  });
+
+  // Post a comment
+  document.addEventListener('click', function(e) {
+    if(e.target && e.target.classList.contains('post-comment')) {
+      const container = e.target.closest('.comments');
+      const input = container.querySelector('.comment-input');
+      const text = input.value.trim();
+      if(!text) return;
+
+      const articleId = e.target.closest('.article-box').dataset.id;
+
+      db.collection("comments").add({
+        articleId: articleId,
+        text: text,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => { input.value = ''; });
+    }
+  });
+
+  // Load comments
+  function loadComments(container, articleId) {
+    const commentList = container.querySelector('.comment-list');
+    db.collection("comments")
+      .where("articleId", "==", articleId)
+      .orderBy("timestamp")
+      .onSnapshot(snapshot => {
+        commentList.innerHTML = '';
+        snapshot.forEach(doc => {
+          const comment = document.createElement('div');
+          comment.className = 'comment';
+          comment.textContent = doc.data().text;
+          commentList.appendChild(comment);
+        });
+      });
+  }
+</script>
+
+<!-- 3️⃣ CSS for comment section -->
+<style>
+.comment-section { margin-top: 20px; font-family: 'Arial', sans-serif; }
+.comment-toggle {
+  cursor: pointer;
+  padding: 6px 12px;
+  background: #222;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  transition: 0.2s;
+}
+.comment-toggle:hover { background: red; border-color: red; }
+.comments { margin-top: 10px; display: none; }
+.comment-list { margin-bottom: 10px; }
+.comment {
+  background: #111;
+  color: #fff;
+  padding: 5px 10px;
+  border-left: 3px solid red;
+  margin-bottom: 6px;
+  line-height: 1.4;
+  font-size: 0.95rem;
+}
+.comment-input {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 5px;
+  background: #222;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  padding: 5px;
+  font-family: 'Arial', sans-serif;
+}
+.post-comment {
+  padding: 6px 12px;
+  cursor: pointer;
+  background: #222;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+.post-comment:hover { background: red; border-color: red; }
+</style>
+
 </body>
 </html>
+
 
 
 
