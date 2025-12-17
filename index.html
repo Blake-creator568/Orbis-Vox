@@ -1051,9 +1051,77 @@ document.addEventListener('click', e => {
         });
       });
   });
+</script>#
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  document.querySelectorAll(".article-box").forEach(article => {
+    const content = article.querySelector(".article-content");
+    if (!content) return;
+
+    // Build comment UI
+    const commentsUI = document.createElement("div");
+    commentsUI.className = "comment-section";
+    commentsUI.innerHTML = `
+      <button class="comment-toggle">Show comments</button>
+      <div class="comments" style="display:none">
+        <input class="comment-name" placeholder="Your name" />
+        <textarea class="comment-input" placeholder="Write a comment..."></textarea>
+        <button class="post-comment">Post</button>
+        <div class="comment-list"></div>
+      </div>
+    `;
+    content.appendChild(commentsUI);
+
+    const toggle = commentsUI.querySelector(".comment-toggle");
+    const box = commentsUI.querySelector(".comments");
+    const list = commentsUI.querySelector(".comment-list");
+
+    toggle.onclick = () => {
+      box.style.display = box.style.display === "block" ? "none" : "block";
+      toggle.textContent = box.style.display === "block" ? "Hide comments" : "Show comments";
+    };
+
+    const articleId = article.dataset.id;
+
+    // LIVE LOAD COMMENTS
+    firebase.firestore()
+      .collection("comments")
+      .where("articleId", "==", articleId)
+      .orderBy("timestamp")
+      .onSnapshot(snapshot => {
+        list.innerHTML = "";
+        snapshot.forEach(doc => {
+          const c = doc.data();
+          const div = document.createElement("div");
+          div.className = "comment";
+          div.innerHTML = `<strong>${c.name}</strong><br>${c.text}`;
+          list.appendChild(div);
+        });
+      });
+
+    // POST COMMENT
+    commentsUI.querySelector(".post-comment").onclick = () => {
+      const name = commentsUI.querySelector(".comment-name").value.trim();
+      const text = commentsUI.querySelector(".comment-input").value.trim();
+      if (!name || !text) return alert("Name + comment required");
+
+      firebase.firestore().collection("comments").add({
+        articleId,
+        name,
+        text,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      commentsUI.querySelector(".comment-input").value = "";
+    };
+  });
+
+});
 </script>
 </body>
 </html>
+
 
 
 
