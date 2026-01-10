@@ -1198,8 +1198,170 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+  <script>
+(function () {
+  // ---------- REQUIREMENT: Firebase must already be loaded + initialized ----------
+  // You already have firebaseConfig + firebase.initializeApp(...) in your page.
+  // Also your RTDB rules must allow reads/writes.
+  if (!window.firebase || !firebase.database) {
+    console.error("Firebase RTDB not available. Ensure firebase-app.js + firebase-database.js are loaded.");
+    return;
+  }
+
+  const rtdb = firebase.database();
+
+  // Make a stable key from the article title
+  function slugify(text) {
+    return String(text || "")
+      .toLowerCase()
+      .trim()
+      .replace(/[’']/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  // Prevent HTML injection in displayed comments
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  // Find the "article container" for each title
+  function getArticleContainers() {
+    // If you already use .article-box, prefer that
+    const boxes = document.querySelectorAll(".article-box");
+    if (boxes.length) return Array.from(boxes);
+
+    // Fallback: use each title's parent element as the container
+    return Array.from(document.querySelectorAll(".article-title"))
+      .map(t => t.closest(".article-box") || t.parentElement)
+      .filter(Boolean);
+  }
+
+  function ensureCommentsForArticle(articleEl) {
+    // Avoid duplicates
+    if (articleEl.querySelector(".comment-section[data-orbis='1']")) return;
+
+    const titleEl = articleEl.querySelector(".article-title");
+    const titleText = titleEl ? titleEl.textContent : "untitled";
+    const articleId =
+      (articleEl.dataset && articleEl.dataset.id) ? articleEl.dataset.id :
+      (titleEl && titleEl.dataset && titleEl.dataset.id) ? titleEl.dataset.id :
+      (slugify(titleText) || ("untitled-" + Math.random().toString(16).slice(2)));
+
+    // Where to insert the comment UI
+    const target = articleEl.querySelector(".article-content") || articleEl;
+
+    const section = document.createElement("div");
+    section.className = "comment-section";
+    section.setAttribute("data-orbis", "1");
+    section.style.marginTop = "20px";
+    section.innerHTML = `
+      <button class="comment-toggle" type="button"
+        style="cursor:pointer;padding:6px 12px;background:#c00;color:#fff;border:1px solid #900;border-radius:5px;transition:.2s;">
+        Show Comments
+      </button>
+
+      <div class="comments" style="display:none;margin-top:10px;background:#330000;padding:10px;border-radius:5px;">
+        <div class="comment-list" style="margin-bottom:10px;"></div>
+
+        <input class="comment-name" placeholder="Name (optional)" maxlength="40"
+          style="width:100%;box-sizing:border-box;margin:0 0 6px 0;padding:6px;border:1px solid #c00;border-radius:5px;" />
+
+        <textarea class="comment-input" placeholder="Spill your chaos here..." maxlength="800"
+          style="width:100%;box-sizing:border-box;height:50px;margin-bottom:6px;background:#fff;color:#000;border:1px solid #c00;border-radius:5px;padding:6px;resize:none;"></textarea>
+
+        <button class="post-comment" type="button"
+          style="padding:6px 12px;cursor:pointer;background:#222;color:#fff;border:1px solid #fff;border-radius:5px;transition:.2s;">
+          Post
+        </button>
+      </div>
+    `;
+
+    target.appendChild(section);
+
+    const toggleBtn = section.querySelector(".comment-toggle");
+    const box = section.querySelector(".comments");
+    const list = section.querySelector(".comment-list");
+    const nameInput = section.querySelector(".comment-name");
+    const textInput = section.querySelector(".comment-input");
+    const postBtn = section.querySelector(".post-comment");
+
+    // Toggle show/hide
+    toggleBtn.addEventListener("click", () => {
+      const open = box.style.display === "block";
+      box.style.display = open ? "none" : "block";
+      toggleBtn.textContent = open ? "Show Comments" : "Hide Comments";
+    });
+
+    // Live load comments for everyone: comments/{articleId}
+    const ref = rtdb.ref("comments/" + articleId).orderByChild("timestamp");
+
+    ref.on("value", (snap) => {
+      list.innerHTML = "";
+      const val = snap.val();
+
+      if (!val) {
+        list.innerHTML = `<div style="opacity:.75;color:#fff;">No comments yet.</div>`;
+        return;
+      }
+
+      const entries = Object.values(val).sort((a,b) => (a.timestamp||0) - (b.timestamp||0));
+
+      for (const c of entries) {
+        const nm = (c.name && String(c.name).trim()) ? String(c.name).trim() : "Anonymous";
+        const msg = c.text || "";
+        const div = document.createElement("div");
+        div.className = "comment";
+        div.style.cssText = "background:#550000;color:#fff;padding:5px 10px;border-left:3px solid #ff0000;margin-bottom:6px;line-height:1.4;font-size:.95rem;border-radius:3px;";
+        div.innerHTML = `<strong>${escapeHtml(nm)}:</strong> ${escapeHtml(msg)}`;
+        list.appendChild(div);
+      }
+    }, (err) => console.error("RTDB load error:", err));
+
+    // Post comment
+    postBtn.addEventListener("click", async () => {
+      const name = (nameInput.value || "").trim();
+      const text = (textInput.value || "").trim();
+      if (!text) return;
+
+      try {
+        await rtdb.ref("comments/" + articleId).push({
+          name: name || "Anonymous",
+          text,
+          timestamp: Date.now()
+        });
+        textInput.value = "";
+        textInput.focus();
+      } catch (err) {
+        console.error("RTDB post error:", err);
+        alert("Comment failed to post (check RTDB rules).");
+      }
+    });
+  }
+
+  function init() {
+    getArticleContainers().forEach(ensureCommentsForArticle);
+  }
+
+  // Init on load + keep watching (for collapsible content / dynamic changes)
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+
+  const obs = new MutationObserver(() => init());
+  obs.observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script>
 </body>
 </html>
+
 
 
 
