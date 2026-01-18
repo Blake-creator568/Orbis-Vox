@@ -1625,8 +1625,7 @@ document.addEventListener("DOMContentLoaded", () => {
       wrap.classList.remove("is-open");
       wrap.setAttribute("aria-hidden", "true");
     }, 3500);
-  }
-
+  
   closeBtn.addEventListener("click", () => {
     wrap.classList.remove("is-open");
     wrap.setAttribute("aria-hidden", "true");
@@ -1642,33 +1641,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 })();
 </script>
-  
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const wrap = document.getElementById("ovStickman");
+  if(!wrap){
+    alert("STICKMAN DIV NOT FOUND");
+    return;
+  }
+
+  wrap.classList.add("is-open");
+  alert("STICKMAN SHOULD BE VISIBLE NOW");
+});
+</script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
