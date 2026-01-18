@@ -1023,10 +1023,16 @@ document.querySelectorAll(".article-box").forEach(article => {
   const content = article.querySelector(".article-content");
   content.style.display = "none";
 
-  title.addEventListener("click", () => {
-    content.style.display = content.style.display === "block" ? "none" : "block";
-    if (content.style.display === "block") initComments(article);
-  });
+ title.addEventListener("click", () => {
+  const opening = content.style.display !== "block";
+  content.style.display = opening ? "block" : "none";
+
+  // 🔽 THIS IS THE NEW LINE
+  if (!opening) {
+    document.getElementById("ovStickmanInline").hidden = true;
+  }
+
+  if (opening) initComments(article);
 });
 
 /* ==================== COMMENTS ==================== */
@@ -1034,49 +1040,79 @@ function initComments(article){
   if(article.querySelector(".comment-section")) return;
 
   const articleId = article.dataset.id;
+
   const section = document.createElement("div");
   section.className = "comment-section";
+
   section.innerHTML = `
-    <button class="comment-toggle">Show Comments</button>
+    <button class="comment-toggle">Show comments</button>
+
     <div class="comments" style="display:none">
       <div class="comment-list"></div>
-      <textarea class="comment-input" placeholder="Spill your chaos here..."></textarea>
+
+      <input class="comment-name" placeholder="Your name (optional)" />
+      <textarea class="comment-input" placeholder="Write a comment..."></textarea>
       <button class="post-comment">Post</button>
     </div>
   `;
+
   article.querySelector(".article-content").appendChild(section);
 
-  const toggle = section.querySelector(".comment-toggle");
-  const comments = section.querySelector(".comments");
-  toggle.onclick = () => {
-    comments.style.display = comments.style.display === "block" ? "none" : "block";
+  const toggleBtn = section.querySelector(".comment-toggle");
+  const commentsBox = section.querySelector(".comments");
+  const list = section.querySelector(".comment-list");
+  const nameInput = section.querySelector(".comment-name");
+  const textInput = section.querySelector(".comment-input");
+
+  // 🔽 TOGGLE VISIBILITY (collapsible)
+  toggleBtn.onclick = () => {
+    const open = commentsBox.style.display === "block";
+    commentsBox.style.display = open ? "none" : "block";
+    toggleBtn.textContent = open ? "Show comments" : "Hide comments";
   };
 
-  const list = section.querySelector(".comment-list");
-  db.collection("comments").where("articleId","==",articleId)
-    .orderBy("timestamp","asc")
-    .onSnapshot(snap => {
+  // 🔄 LOAD COMMENTS (for everyone, always)
+  db.collection("comments")
+    .where("articleId", "==", articleId)
+    .orderBy("timestamp", "asc")
+    .onSnapshot(snapshot => {
       list.innerHTML = "";
-      snap.forEach(doc => {
-        const d = document.createElement("div");
-        d.className = "comment";
-        d.textContent = doc.data().text;
-        list.appendChild(d);
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const div = document.createElement("div");
+        div.className = "comment";
+
+        const date = data.timestamp?.toDate
+          ? data.timestamp.toDate().toLocaleString()
+          : "";
+
+        div.innerHTML = `
+          <strong>${data.name || "Anonymous"}</strong>
+          <span style="opacity:.6;font-size:.8em"> · ${date}</span>
+          <div>${data.text}</div>
+        `;
+
+        list.appendChild(div);
       });
     });
 
+  // 📝 POST COMMENT
   section.querySelector(".post-comment").onclick = () => {
-    const input = section.querySelector(".comment-input");
-    if(!input.value.trim()) return;
+    const text = textInput.value.trim();
+    if(!text) return;
+
     db.collection("comments").add({
       articleId,
-      text: input.value,
+      name: nameInput.value.trim() || "Anonymous",
+      text,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
-    input.value = "";
+
+    textInput.value = "";
   };
 }
 
+  
 /* ==================== STICKMAN LOGIC ==================== */
 (function(){
   const stickman = document.getElementById("ovStickmanInline");
@@ -1125,3 +1161,4 @@ function initComments(article){
 
 </body>
 </html>
+
