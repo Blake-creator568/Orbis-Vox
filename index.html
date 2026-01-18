@@ -1522,13 +1522,15 @@ document.addEventListener("DOMContentLoaded", () => {
   </svg>
   <span id="ovInlineText"></span>
 </div>
-
-  <script>
+<script>
 (function(){
   const stickman = document.getElementById("ovStickmanInline");
   const textEl = document.getElementById("ovInlineText");
 
-  if(!stickman || !textEl) return;
+  if(!stickman || !textEl){
+    console.error("Stickman elements not found");
+    return;
+  }
 
   const LINES = [
     "editor present.",
@@ -1537,28 +1539,32 @@ document.addEventListener("DOMContentLoaded", () => {
     "headline approved.",
     "pen deployed.",
     "this matters.",
-    "carry on."
+    "carry on.",
+    "I have thoughts."
   ];
+
+  let currentBox = null;
 
   document.querySelectorAll(".article-box").forEach(box => {
     const title = box.querySelector(".article-title");
-    const content = box.querySelector(".article-content");
-
-    if(!title || !content) return;
+    if(!title) return;
 
     title.addEventListener("click", () => {
-      const isOpen = content.classList.contains("open") ||
-                     content.style.display === "block";
 
-      if(!isOpen){
-        textEl.textContent =
-          LINES[Math.floor(Math.random() * LINES.length)];
-
-        title.appendChild(stickman);
-        stickman.hidden = false;
-      } else {
+      // same article clicked again → hide
+      if(currentBox === box){
         stickman.hidden = true;
+        currentBox = null;
+        return;
       }
+
+      // new article clicked → move stickman
+      textEl.textContent =
+        LINES[Math.floor(Math.random() * LINES.length)];
+
+      title.appendChild(stickman);
+      stickman.hidden = false;
+      currentBox = box;
     });
   });
 })();
@@ -1566,6 +1572,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
