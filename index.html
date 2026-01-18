@@ -1017,8 +1017,7 @@ document.getElementById("closeModal")?.addEventListener("click", () => {
   document.getElementById("contactModal").style.display = "none";
 });
 
-/* ==================== ARTICLE + STICKMAN + COMMENTS ==================== */
-
+/* ==================== STICKMAN SETUP ==================== */
 const stickman = document.getElementById("ovStickmanInline");
 const stickmanText = document.getElementById("ovInlineText");
 
@@ -1030,6 +1029,9 @@ const STICKMAN_LINES = [
   "carry on."
 ];
 
+let openArticle = null;
+
+/* ==================== ARTICLE TOGGLE ==================== */
 document.querySelectorAll(".article-box").forEach(article => {
   const title = article.querySelector(".article-title");
   const content = article.querySelector(".article-content");
@@ -1037,23 +1039,33 @@ document.querySelectorAll(".article-box").forEach(article => {
   content.style.display = "none";
 
   title.addEventListener("click", () => {
-    const opening = content.style.display !== "block";
-    content.style.display = opening ? "block" : "none";
 
-    if (opening) {
+    const isOpening = openArticle !== article;
+
+    // CLOSE CURRENT ARTICLE IF DIFFERENT
+    if (openArticle && openArticle !== article) {
+      openArticle.querySelector(".article-content").style.display = "none";
+    }
+
+    // TOGGLE CURRENT ARTICLE
+    content.style.display = isOpening ? "block" : "none";
+
+    // HANDLE STICKMAN
+    if (isOpening) {
       stickmanText.textContent =
         STICKMAN_LINES[Math.floor(Math.random() * STICKMAN_LINES.length)];
       title.appendChild(stickman);
       stickman.hidden = false;
+      openArticle = article;
       initComments(article);
     } else {
       stickman.hidden = true;
+      openArticle = null;
     }
   });
 });
 
 /* ==================== COMMENTS ==================== */
-
 function initComments(article){
   if(article.querySelector(".comment-section")) return;
 
@@ -1061,6 +1073,7 @@ function initComments(article){
 
   const section = document.createElement("div");
   section.className = "comment-section";
+
   section.innerHTML = `
     <button class="comment-toggle">Show comments</button>
     <div class="comments" style="display:none">
@@ -1085,6 +1098,7 @@ function initComments(article){
     toggleBtn.textContent = open ? "Show comments" : "Hide comments";
   };
 
+  // 🔄 LOAD COMMENTS (ALWAYS)
   db.collection("comments")
     .where("articleId", "==", articleId)
     .orderBy("timestamp", "asc")
@@ -1107,6 +1121,7 @@ function initComments(article){
       });
     });
 
+  // 📝 POST COMMENT
   section.querySelector(".post-comment").onclick = () => {
     const text = textInput.value.trim();
     if(!text) return;
@@ -1116,6 +1131,9 @@ function initComments(article){
       name: nameInput.value.trim() || "Anonymous",
       text,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(err => {
+      alert("Comment failed to post. Check Firestore rules.");
+      console.error(err);
     });
 
     textInput.value = "";
@@ -1124,7 +1142,7 @@ function initComments(article){
 </script>
 
 <style>
-/* Stickman – margin note style */
+/* Stickman – margin note */
 .ov-inline-stickman{
   display:inline-flex;
   align-items:center;
@@ -1152,11 +1170,11 @@ function initComments(article){
   width:auto;
 }
 
-/* Comments spacing */
+/* Comments */
 .comment-section{ margin-top:20px }
 .comment{ margin-bottom:8px }
 </style>
-
 </body>
 </html>
+
 
