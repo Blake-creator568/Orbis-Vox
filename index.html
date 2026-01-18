@@ -1411,9 +1411,184 @@ document.addEventListener("DOMContentLoaded", () => {
   const obs = new MutationObserver(() => init());
   obs.observe(document.documentElement, { childList: true, subtree: true });
 })();
+
+/* Stickman Pop-up */
+.ov-stickman{
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 10px;
+  align-items: end;
+  max-width: min(360px, calc(100vw - 24px));
+  z-index: 9999;
+  transform: translateY(18px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+  font-family: inherit;
+}
+
+.ov-stickman.is-open{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.ov-stickman-figure{
+  width: 58px;
+  height: 88px;
+  position: relative;
+}
+
+.ov-head{
+  width: 18px;
+  height: 18px;
+  border: 3px solid currentColor;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 2px;
+  transform: translateX(-50%);
+}
+
+.ov-body{
+  width: 3px;
+  height: 30px;
+  background: currentColor;
+  position: absolute;
+  left: 50%;
+  top: 22px;
+  transform: translateX(-50%);
+}
+
+.ov-arm{
+  width: 22px;
+  height: 3px;
+  background: currentColor;
+  position: absolute;
+  top: 32px;
+}
+
+.ov-arm-left{ left: 6px; transform: rotate(-20deg); transform-origin: left center; }
+.ov-arm-right{ right: 6px; transform: rotate(20deg); transform-origin: right center; }
+
+.ov-leg{
+  width: 22px;
+  height: 3px;
+  background: currentColor;
+  position: absolute;
+  top: 56px;
+}
+
+.ov-leg-left{ left: 12px; transform: rotate(35deg); transform-origin: left center; }
+.ov-leg-right{ right: 12px; transform: rotate(-35deg); transform-origin: right center; }
+
+.ov-stickman-bubble{
+  background: rgba(255,255,255,.92);
+  border: 2px solid currentColor;
+  border-radius: 14px;
+  padding: 10px 12px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.18);
+}
+
+.ov-stickman-close{
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 2px solid currentColor;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-weight: 600;
+}
+.ov-stickman-close:hover{ transform: translateY(-1px);     
 </script>
+
+<!-- Stickman Pop-up -->
+<div id="ovStickman" class="ov-stickman" aria-live="polite" aria-hidden="true">
+  <div class="ov-stickman-figure" aria-hidden="true">
+    <div class="ov-head"></div>
+    <div class="ov-body"></div>
+    <div class="ov-arm ov-arm-left"></div>
+    <div class="ov-arm ov-arm-right"></div>
+    <div class="ov-leg ov-leg-left"></div>
+    <div class="ov-leg ov-leg-right"></div>
+  </div>
+
+  <div class="ov-stickman-bubble">
+    <div id="ovStickmanText"></div>
+    <button id="ovStickmanClose" class="ov-stickman-close" type="button">ok cheers</button>
+  </div>
+</div>
+
+  <script>
+(function(){
+  const wrap = document.getElementById("ovStickman");
+  const textEl = document.getElementById("ovStickmanText");
+  const closeBtn = document.getElementById("ovStickmanClose");
+
+  if(!wrap || !textEl || !closeBtn) return;
+
+  const LINES = [
+    "Hi. Lovely to see you. I’m about to become emotionally invested in this article.",
+    "Hello! Please read responsibly. Side effects include opinions.",
+    "Hiya. I have brought you journalism and a small amount of chaos. Enjoy.",
+    "Welcome. I’m polite, but my brain is doing parkour.",
+    "Hi. This headline slaps. I’m simply here to witness it respectfully.",
+    "Greetings. If this article makes you think, that’s on purpose. Sorry x",
+    "Hello there. I’m a stickman with standards. You’ve been warned kindly.",
+    "Hi! If you spot a typo, no you didn’t. Cheers.",
+    "Hello. I support free press and dramatic entrances. Thank you.",
+    "Hi. I’ve read worse. This is actually good. Carry on."
+  ];
+
+  let timer = null;
+
+  function showStickman(){
+    const msg = LINES[Math.floor(Math.random() * LINES.length)];
+    textEl.textContent = msg;
+    wrap.classList.add("is-open");
+    wrap.setAttribute("aria-hidden", "false");
+
+    clearTimeout(timer);
+    timer = setTimeout(hideStickman, 4500);
+  }
+
+  function hideStickman(){
+    wrap.classList.remove("is-open");
+    wrap.setAttribute("aria-hidden", "true");
+  }
+
+  closeBtn.addEventListener("click", hideStickman);
+
+  // Trigger rules (edit these selectors to match your site)
+  document.addEventListener("click", (e) => {
+    // 1) clicking an article title / link
+    if (e.target.closest(".article-title, .article-link")) {
+      showStickman();
+      return;
+    }
+
+    // 2) opening a <details class="article"> accordion
+    const details = e.target.closest("details.article");
+    if(details && details.open){
+      showStickman();
+      return;
+    }
+  }, true);
+
+  // Optional: if you use <details> and want it to trigger on toggle properly:
+  document.querySelectorAll("details.article").forEach(d => {
+    d.addEventListener("toggle", () => { if(d.open) showStickman(); });
+  });
+})();
+</script>
+  
 </body>
 </html>
+
 
 
 
