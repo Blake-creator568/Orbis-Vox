@@ -1233,7 +1233,28 @@ document.addEventListener('click', e => {
   background: black;
   color: white;
 }
-  
+  .ov-inline-stickman{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 10px;
+  padding: 4px 8px;
+  border: 2px solid black;
+  background: white;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.ov-inline-stickman svg{
+  width: 26px;
+  height: auto;
+}
+
+.article-title{
+  cursor: pointer;
+}
+
 </style>
   <script>
   document.querySelectorAll('.article-box').forEach(article => {
@@ -1487,25 +1508,22 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 
 
-</script>
-  <!-- ORBIS VOX INLINE STICKMAN -->
+<!-- ORBIS VOX INLINE STICKMAN -->
 <div id="ovStickmanInline" class="ov-inline-stickman" hidden>
   <svg viewBox="0 0 60 90" aria-hidden="true">
-    <!-- head -->
     <circle cx="30" cy="14" r="10" stroke="black" stroke-width="2" fill="none"/>
-    <!-- body -->
     <line x1="30" y1="24" x2="30" y2="52" stroke="black" stroke-width="2"/>
-    <!-- arms -->
     <line x1="30" y1="32" x2="14" y2="44" stroke="black" stroke-width="2"/>
     <line x1="30" y1="32" x2="46" y2="40" stroke="black" stroke-width="2"/>
-    <!-- pen -->
     <line x1="46" y1="40" x2="58" y2="34" stroke="black" stroke-width="1.5"/>
     <circle cx="58" cy="34" r="1.5" fill="black"/>
-    <!-- legs -->
     <line x1="30" y1="52" x2="18" y2="80" stroke="black" stroke-width="2"/>
     <line x1="30" y1="52" x2="42" y2="80" stroke="black" stroke-width="2"/>
   </svg>
-<script>
+  <span id="ovInlineText"></span>
+</div>
+
+  <script>
 (function(){
   const stickman = document.getElementById("ovStickmanInline");
   const textEl = document.getElementById("ovInlineText");
@@ -1513,25 +1531,30 @@ document.addEventListener("DOMContentLoaded", () => {
   if(!stickman || !textEl) return;
 
   const LINES = [
+    "editor present.",
     "reading respectfully.",
-    "editor has thoughts.",
-    "this matters actually.",
     "journalism detected.",
-    "carry on.",
     "headline approved.",
-    "pen deployed."
+    "pen deployed.",
+    "this matters.",
+    "carry on."
   ];
 
-  document.querySelectorAll("details").forEach(details => {
-    const summary = details.querySelector("summary");
-    if(!summary) return;
+  document.querySelectorAll(".article-box").forEach(box => {
+    const title = box.querySelector(".article-title");
+    const content = box.querySelector(".article-content");
 
-    details.addEventListener("toggle", () => {
-      if(details.open){
+    if(!title || !content) return;
+
+    title.addEventListener("click", () => {
+      const isOpen = content.classList.contains("open") ||
+                     content.style.display === "block";
+
+      if(!isOpen){
         textEl.textContent =
           LINES[Math.floor(Math.random() * LINES.length)];
 
-        summary.appendChild(stickman);
+        title.appendChild(stickman);
         stickman.hidden = false;
       } else {
         stickman.hidden = true;
@@ -1541,9 +1564,8 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 </script>
 
-  <span id="ovInlineText"></span>
-</div>
 </body>
 </html>
+
 
 
