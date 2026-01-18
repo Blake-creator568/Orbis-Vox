@@ -1000,6 +1000,13 @@ summary{
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
 <script>
+
+
+  <!-- FIREBASE SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+<script>
 /* ==================== FIREBASE ==================== */
 firebase.initializeApp({
   apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
@@ -1017,7 +1024,7 @@ document.getElementById("closeModal")?.addEventListener("click", () => {
   document.getElementById("contactModal").style.display = "none";
 });
 
-/* ==================== STICKMAN SETUP ==================== */
+/* ==================== STICKMAN (robust) ==================== */
 const stickman = document.getElementById("ovStickmanInline");
 const stickmanText = document.getElementById("ovInlineText");
 
@@ -1026,71 +1033,51 @@ const STICKMAN_LINES = [
   "journalism detected.",
   "pen deployed.",
   "headline approved.",
-  "carry on."
+  "carry on.",
+  "I have notes."
 ];
 
-let openArticle = null;
+function showStickmanOn(titleEl){
+  if(!stickman || !stickmanText || !titleEl) return;
+  stickmanText.textContent = STICKMAN_LINES[Math.floor(Math.random()*STICKMAN_LINES.length)];
+  titleEl.appendChild(stickman);
+  stickman.hidden = false;
+}
+function hideStickman(){
+  if(stickman) stickman.hidden = true;
+}
 
-/* ==================== ARTICLE TOGGLE ==================== */
-document.querySelectorAll(".article-box").forEach(article => {
-  const title = article.querySelector(".article-title");
-  const content = article.querySelector(".article-content");
-
-  content.style.display = "none";
-
-  title.addEventListener("click", () => {
-
-    const isOpening = openArticle !== article;
-
-    // CLOSE CURRENT ARTICLE IF DIFFERENT
-    if (openArticle && openArticle !== article) {
-      openArticle.querySelector(".article-content").style.display = "none";
-    }
-
-    // TOGGLE CURRENT ARTICLE
-    content.style.display = isOpening ? "block" : "none";
-
-    // HANDLE STICKMAN
-    if (isOpening) {
-      stickmanText.textContent =
-        STICKMAN_LINES[Math.floor(Math.random() * STICKMAN_LINES.length)];
-      title.appendChild(stickman);
-      stickman.hidden = false;
-      openArticle = article;
-      initComments(article);
-    } else {
-      stickman.hidden = true;
-      openArticle = null;
-    }
-  });
-});
-
-/* ==================== COMMENTS ==================== */
+/* ==================== COMMENTS (persistent, named, dated) ==================== */
 function initComments(article){
   if(article.querySelector(".comment-section")) return;
 
   const articleId = article.dataset.id;
+  if(!articleId){
+    console.error("Missing data-id on .article-box");
+    return;
+  }
 
   const section = document.createElement("div");
   section.className = "comment-section";
-
   section.innerHTML = `
-    <button class="comment-toggle">Show comments</button>
+    <button class="comment-toggle" type="button">Show comments</button>
     <div class="comments" style="display:none">
       <div class="comment-list"></div>
       <input class="comment-name" placeholder="Your name (optional)" />
       <textarea class="comment-input" placeholder="Write a comment..."></textarea>
-      <button class="post-comment">Post</button>
+      <button class="post-comment" type="button">Post</button>
     </div>
   `;
 
-  article.querySelector(".article-content").appendChild(section);
+  const content = article.querySelector(".article-content");
+  content.appendChild(section);
 
   const toggleBtn = section.querySelector(".comment-toggle");
   const commentsBox = section.querySelector(".comments");
   const list = section.querySelector(".comment-list");
   const nameInput = section.querySelector(".comment-name");
   const textInput = section.querySelector(".comment-input");
+  const postBtn = section.querySelector(".post-comment");
 
   toggleBtn.onclick = () => {
     const open = commentsBox.style.display === "block";
@@ -1098,82 +1085,123 @@ function initComments(article){
     toggleBtn.textContent = open ? "Show comments" : "Hide comments";
   };
 
-  // 🔄 LOAD COMMENTS (ALWAYS)
+  // Live load
   db.collection("comments")
-    .where("articleId", "==", articleId)
-    .orderBy("timestamp", "asc")
+    .where("articleId","==",articleId)
+    .orderBy("timestamp","asc")
     .onSnapshot(snapshot => {
       list.innerHTML = "";
       snapshot.forEach(doc => {
         const data = doc.data();
-        const date = data.timestamp?.toDate
+
+        const dateStr = data.timestamp?.toDate
           ? data.timestamp.toDate().toLocaleString()
           : "";
 
         const div = document.createElement("div");
         div.className = "comment";
         div.innerHTML = `
-          <strong>${data.name || "Anonymous"}</strong>
-          <span style="opacity:.6;font-size:.8em"> · ${date}</span>
-          <div>${data.text}</div>
+          <strong>${(data.name || "Anonymous")}</strong>
+          <span style="opacity:.6;font-size:.8em"> · ${dateStr}</span>
+          <div>${(data.text || "")}</div>
         `;
         list.appendChild(div);
       });
+
+      if(!snapshot.size){
+        list.innerHTML = `<div style="opacity:.7">No comments yet.</div>`;
+      }
+    }, err => {
+      console.error("Firestore read error:", err);
     });
 
-  // 📝 POST COMMENT
-  section.querySelector(".post-comment").onclick = () => {
+  // Post
+  postBtn.onclick = async () => {
     const text = textInput.value.trim();
     if(!text) return;
 
-    db.collection("comments").add({
-      articleId,
-      name: nameInput.value.trim() || "Anonymous",
-      text,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    }).catch(err => {
-      alert("Comment failed to post. Check Firestore rules.");
-      console.error(err);
-    });
+    const name = nameInput.value.trim() || "Anonymous";
 
-    textInput.value = "";
+    try{
+      await db.collection("comments").add({
+        articleId,
+        name,
+        text,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      textInput.value = "";
+    }catch(err){
+      console.error("Firestore write error:", err);
+      alert("Comments are blocked by Firestore rules right now. Open DevTools > Console for the error.");
+    }
   };
 }
+
+/* ==================== ARTICLE OPEN/CLOSE (and kill old click handlers) ==================== */
+/* This removes any existing click listeners by replacing the title nodes */
+document.querySelectorAll(".article-box").forEach(article => {
+  const oldTitle = article.querySelector(".article-title");
+  const content = article.querySelector(".article-content");
+  if(!oldTitle || !content) return;
+
+  // Replace title node to wipe existing event listeners from previous scripts
+  const title = oldTitle.cloneNode(true);
+  oldTitle.parentNode.replaceChild(title, oldTitle);
+
+  // Start collapsed (you can remove if your CSS already handles it)
+  content.style.display = "none";
+
+  // Observe content visibility: if it becomes hidden by ANY script, hide stickman
+  const obs = new MutationObserver(() => {
+    const hidden = content.style.display === "none" || getComputedStyle(content).display === "none";
+    if(hidden) hideStickman();
+  });
+  obs.observe(content, { attributes:true, attributeFilter:["style","class"] });
+
+  title.addEventListener("click", () => {
+    const opening = getComputedStyle(content).display === "none";
+    content.style.display = opening ? "block" : "none";
+
+    if(opening){
+      showStickmanOn(title);
+      initComments(article);
+    }else{
+      hideStickman();
+    }
+  });
+});
 </script>
 
 <style>
-/* Stickman – margin note */
+/* Visitor counter small + corner */
+.visitor-counter{
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  opacity: .85;
+  z-index: 9999;
+}
+.visitor-counter img{ height: 18px; width:auto; }
+
+/* Stickman – no box */
 .ov-inline-stickman{
   display:inline-flex;
   align-items:center;
   gap:6px;
   margin-left:10px;
   font-size:.85rem;
-  background:none;
   border:none;
+  background:none;
   padding:0;
 }
-.ov-inline-stickman svg{ width:22px }
+.ov-inline-stickman svg{ width:22px; height:auto; }
 
-/* Article titles */
-.article-title{ cursor:pointer }
-
-/* Visitor counter */
-.visitor-counter{
-  position:fixed;
-  bottom:10px;
-  right:10px;
-  opacity:.85;
-}
-.visitor-counter img{
-  height:18px;
-  width:auto;
-}
-
-/* Comments */
-.comment-section{ margin-top:20px }
-.comment{ margin-bottom:8px }
+/* Comments base spacing */
+.comment-section{ margin-top:20px; }
+.comment{ margin:8px 0; }
+.article-title{ cursor:pointer; }
 </style>
+
 </body>
 </html>
 
