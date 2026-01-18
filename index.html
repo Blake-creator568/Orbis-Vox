@@ -1160,6 +1160,59 @@ document.addEventListener('click', e => {
   transition: 0.2s;
 }
 .post-comment:hover { background: red; border-color: red; }
+/* ORBIS VOX STICKMAN MODAL */
+.ov-stickman{
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.45);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+
+.ov-stickman.is-open{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ov-stickman-card{
+  background: white;
+  border: 3px solid black;
+  padding: 20px 24px 18px;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,.4);
+}
+
+.ov-stickman-svg{
+  width: 90px;
+  margin-bottom: 12px;
+}
+
+.ov-stickman-text{
+  font-size: 1rem;
+  line-height: 1.4;
+  margin: 8px 0 14px;
+  color: black;
+}
+
+.ov-stickman-close{
+  border: 2px solid black;
+  background: transparent;
+  padding: 6px 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ov-stickman-close:hover{
+  background: black;
+  color: white;
+}
+  
 </style>
   <script>
   document.querySelectorAll('.article-box').forEach(article => {
@@ -1506,24 +1559,35 @@ document.addEventListener("DOMContentLoaded", () => {
 .ov-stickman-close:hover{ transform: translateY(-1px);     
 </script>
 
-<!-- Stickman Pop-up -->
-<div id="ovStickman" class="ov-stickman" aria-live="polite" aria-hidden="true">
-  <div class="ov-stickman-figure" aria-hidden="true">
-    <div class="ov-head"></div>
-    <div class="ov-body"></div>
-    <div class="ov-arm ov-arm-left"></div>
-    <div class="ov-arm ov-arm-right"></div>
-    <div class="ov-leg ov-leg-left"></div>
-    <div class="ov-leg ov-leg-right"></div>
-  </div>
+<!-- ORBIS VOX STICKMAN -->
+<div id="ovStickman" class="ov-stickman" aria-hidden="true">
+  <div class="ov-stickman-card">
+    
+    <!-- Stickman SVG -->
+    <svg class="ov-stickman-svg" viewBox="0 0 120 200" aria-hidden="true">
+      <!-- head -->
+      <circle cx="60" cy="30" r="18" stroke="black" stroke-width="4" fill="none"/>
+      <!-- body -->
+      <line x1="60" y1="48" x2="60" y2="120" stroke="black" stroke-width="4"/>
+      <!-- arms -->
+      <line x1="60" y1="70" x2="25" y2="95" stroke="black" stroke-width="4"/>
+      <line x1="60" y1="70" x2="95" y2="85" stroke="black" stroke-width="4"/>
+      <!-- pen -->
+      <line x1="95" y1="85" x2="115" y2="75" stroke="black" stroke-width="3"/>
+      <circle cx="115" cy="75" r="2" fill="black"/>
+      <!-- legs -->
+      <line x1="60" y1="120" x2="35" y2="170" stroke="black" stroke-width="4"/>
+      <line x1="60" y1="120" x2="85" y2="170" stroke="black" stroke-width="4"/>
+    </svg>
 
-  <div class="ov-stickman-bubble">
-    <div id="ovStickmanText"></div>
-    <button id="ovStickmanClose" class="ov-stickman-close" type="button">ok cheers</button>
+    <!-- Text -->
+    <p id="ovStickmanText" class="ov-stickman-text"></p>
+
+    <button id="ovStickmanClose" class="ov-stickman-close">carry on</button>
   </div>
 </div>
 
-<script>
+  <script>
 (function(){
   const wrap = document.getElementById("ovStickman");
   const textEl = document.getElementById("ovStickmanText");
@@ -1532,23 +1596,27 @@ document.addEventListener("DOMContentLoaded", () => {
   if(!wrap || !textEl || !closeBtn) return;
 
   const LINES = [
-    "Hello. I’ve appeared politely and without warning.",
-    "Hi. You opened an article. I am now emotionally invested.",
-    "Greetings. This is journalism. I am unwell about it.",
-    "Hello there. Please read responsibly. I will not.",
-    "Hiya. This article has activated my thoughts.",
-    "Good evening. I am a stickman with standards.",
-    "Hello. I support free press and dramatic entrances.",
-    "Hi. I was minding my business and then you clicked this."
+    "Hello. I’ve arrived politely to observe this journalism.",
+    "You opened an article. I am now invested emotionally.",
+    "This is Orbis Vox. Please read with intent.",
+    "I support free press and mild chaos.",
+    "This article has activated my editor instincts.",
+    "I brought a pen. That means I’m serious.",
+    "Read this carefully. I worked hard on the stickman.",
+    "This is a good headline. I will not elaborate.",
+    "I am a stickman, not a metaphor. Or am I?",
+    "Carry on. I’ll be watching respectfully."
   ];
 
-  let hideTimer = null;
+  let hideTimer;
 
   function showStickman(){
     clearTimeout(hideTimer);
 
-    textEl.textContent =
+    const randomLine =
       LINES[Math.floor(Math.random() * LINES.length)];
+
+    textEl.textContent = randomLine;
 
     wrap.classList.add("is-open");
     wrap.setAttribute("aria-hidden", "false");
@@ -1556,7 +1624,7 @@ document.addEventListener("DOMContentLoaded", () => {
     hideTimer = setTimeout(() => {
       wrap.classList.remove("is-open");
       wrap.setAttribute("aria-hidden", "true");
-    }, 4000);
+    }, 3500);
   }
 
   closeBtn.addEventListener("click", () => {
@@ -1564,7 +1632,7 @@ document.addEventListener("DOMContentLoaded", () => {
     wrap.setAttribute("aria-hidden", "true");
   });
 
-  // 🔥 THIS IS THE IMPORTANT PART
+  // Trigger on collapsible article open
   document.querySelectorAll("details").forEach(details => {
     details.addEventListener("toggle", () => {
       if(details.open){
@@ -1577,6 +1645,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
 </body>
 </html>
+
 
 
 
