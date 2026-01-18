@@ -964,7 +964,7 @@ summary{
 <div class="visitor-counter">
   <a href="https://www.hitwebcounter.com/" target="_blank">
     <img src="https://hitwebcounter.com/counter/counter.php?page=21461049&style=0030&nbdigits=5&type=page&initCount=1000"
-         alt="Visitor Counter" style="height:18px;">
+         alt="Visitor Counter">
   </a>
 </div>
 
@@ -980,7 +980,7 @@ summary{
 
 <footer>&copy; 2025 Orbis Vox</footer>
 
-<!-- INLINE STICKMAN (EDITOR NOTE) -->
+<!-- INLINE STICKMAN -->
 <div id="ovStickmanInline" class="ov-inline-stickman" hidden>
   <svg viewBox="0 0 60 90" aria-hidden="true">
     <circle cx="30" cy="14" r="10" stroke="black" stroke-width="2" fill="none"/>
@@ -1008,7 +1008,7 @@ firebase.initializeApp({
 });
 const db = firebase.firestore();
 
-/* ==================== NAV + CONTACT ==================== */
+/* ==================== CONTACT MODAL ==================== */
 document.getElementById("contactBtn")?.addEventListener("click", e => {
   e.preventDefault();
   document.getElementById("contactModal").style.display = "block";
@@ -1017,25 +1017,43 @@ document.getElementById("closeModal")?.addEventListener("click", () => {
   document.getElementById("contactModal").style.display = "none";
 });
 
-/* ==================== ARTICLE TOGGLE ==================== */
+/* ==================== ARTICLE + STICKMAN + COMMENTS ==================== */
+
+const stickman = document.getElementById("ovStickmanInline");
+const stickmanText = document.getElementById("ovInlineText");
+
+const STICKMAN_LINES = [
+  "editor present.",
+  "journalism detected.",
+  "pen deployed.",
+  "headline approved.",
+  "carry on."
+];
+
 document.querySelectorAll(".article-box").forEach(article => {
   const title = article.querySelector(".article-title");
   const content = article.querySelector(".article-content");
+
   content.style.display = "none";
 
- title.addEventListener("click", () => {
-  const opening = content.style.display !== "block";
-  content.style.display = opening ? "block" : "none";
+  title.addEventListener("click", () => {
+    const opening = content.style.display !== "block";
+    content.style.display = opening ? "block" : "none";
 
-  // 🔽 THIS IS THE NEW LINE
-  if (!opening) {
-    document.getElementById("ovStickmanInline").hidden = true;
-  }
-
-  if (opening) initComments(article);
+    if (opening) {
+      stickmanText.textContent =
+        STICKMAN_LINES[Math.floor(Math.random() * STICKMAN_LINES.length)];
+      title.appendChild(stickman);
+      stickman.hidden = false;
+      initComments(article);
+    } else {
+      stickman.hidden = true;
+    }
+  });
 });
 
 /* ==================== COMMENTS ==================== */
+
 function initComments(article){
   if(article.querySelector(".comment-section")) return;
 
@@ -1043,13 +1061,10 @@ function initComments(article){
 
   const section = document.createElement("div");
   section.className = "comment-section";
-
   section.innerHTML = `
     <button class="comment-toggle">Show comments</button>
-
     <div class="comments" style="display:none">
       <div class="comment-list"></div>
-
       <input class="comment-name" placeholder="Your name (optional)" />
       <textarea class="comment-input" placeholder="Write a comment..."></textarea>
       <button class="post-comment">Post</button>
@@ -1064,14 +1079,12 @@ function initComments(article){
   const nameInput = section.querySelector(".comment-name");
   const textInput = section.querySelector(".comment-input");
 
-  // 🔽 TOGGLE VISIBILITY (collapsible)
   toggleBtn.onclick = () => {
     const open = commentsBox.style.display === "block";
     commentsBox.style.display = open ? "none" : "block";
     toggleBtn.textContent = open ? "Show comments" : "Hide comments";
   };
 
-  // 🔄 LOAD COMMENTS (for everyone, always)
   db.collection("comments")
     .where("articleId", "==", articleId)
     .orderBy("timestamp", "asc")
@@ -1079,24 +1092,21 @@ function initComments(article){
       list.innerHTML = "";
       snapshot.forEach(doc => {
         const data = doc.data();
-        const div = document.createElement("div");
-        div.className = "comment";
-
         const date = data.timestamp?.toDate
           ? data.timestamp.toDate().toLocaleString()
           : "";
 
+        const div = document.createElement("div");
+        div.className = "comment";
         div.innerHTML = `
           <strong>${data.name || "Anonymous"}</strong>
           <span style="opacity:.6;font-size:.8em"> · ${date}</span>
           <div>${data.text}</div>
         `;
-
         list.appendChild(div);
       });
     });
 
-  // 📝 POST COMMENT
   section.querySelector(".post-comment").onclick = () => {
     const text = textInput.value.trim();
     if(!text) return;
@@ -1111,52 +1121,40 @@ function initComments(article){
     textInput.value = "";
   };
 }
-
-  
-/* ==================== STICKMAN LOGIC ==================== */
-(function(){
-  const stickman = document.getElementById("ovStickmanInline");
-  const textEl = document.getElementById("ovInlineText");
-  const LINES = [
-    "editor present.",
-    "journalism detected.",
-    "pen deployed.",
-    "headline approved.",
-    "carry on."
-  ];
-
-  let current = null;
-
-  document.querySelectorAll(".article-box").forEach(box => {
-    const title = box.querySelector(".article-title");
-    title.addEventListener("click", () => {
-      if(current === box){
-        stickman.hidden = true;
-        current = null;
-        return;
-      }
-      textEl.textContent = LINES[Math.floor(Math.random()*LINES.length)];
-      title.appendChild(stickman);
-      stickman.hidden = false;
-      current = box;
-    });
-  });
-})();
 </script>
 
 <style>
+/* Stickman – margin note style */
 .ov-inline-stickman{
   display:inline-flex;
   align-items:center;
   gap:6px;
   margin-left:10px;
-  padding:4px 8px;
-  border:2px solid black;
-  background:white;
   font-size:.85rem;
+  background:none;
+  border:none;
+  padding:0;
 }
-.ov-inline-stickman svg{width:26px}
-.article-title{cursor:pointer}
+.ov-inline-stickman svg{ width:22px }
+
+/* Article titles */
+.article-title{ cursor:pointer }
+
+/* Visitor counter */
+.visitor-counter{
+  position:fixed;
+  bottom:10px;
+  right:10px;
+  opacity:.85;
+}
+.visitor-counter img{
+  height:18px;
+  width:auto;
+}
+
+/* Comments spacing */
+.comment-section{ margin-top:20px }
+.comment{ margin-bottom:8px }
 </style>
 
 </body>
