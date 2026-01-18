@@ -238,6 +238,27 @@ body {
   margin: 12px 0 !important;       /* smaller gap above/below section titles */
 }
 
+  .ov-inline-stickman{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 10px;
+  padding: 4px 8px;
+  border: 2px solid black;
+  background: white;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.ov-inline-stickman svg{
+  width: 28px;
+  height: auto;
+}
+
+summary{
+  position: relative;
+}
 </style>
 </head>
 
@@ -1465,231 +1486,64 @@ document.addEventListener("DOMContentLoaded", () => {
   obs.observe(document.documentElement, { childList: true, subtree: true });
 })();
 
-/* Stickman Pop-up */
-.ov-stickman{
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  display: grid;
-  grid-template-columns: 58px 1fr;
-  gap: 10px;
-  align-items: end;
-  max-width: min(360px, calc(100vw - 24px));
-  z-index: 9999;
-  transform: translateY(18px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .25s ease, transform .25s ease;
-  font-family: inherit;
-}
 
-.ov-stickman.is-open{
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.ov-stickman-figure{
-  width: 58px;
-  height: 88px;
-  position: relative;
-}
-
-.ov-head{
-  width: 18px;
-  height: 18px;
-  border: 3px solid currentColor;
-  border-radius: 50%;
-  position: absolute;
-  left: 50%;
-  top: 2px;
-  transform: translateX(-50%);
-}
-
-.ov-body{
-  width: 3px;
-  height: 30px;
-  background: currentColor;
-  position: absolute;
-  left: 50%;
-  top: 22px;
-  transform: translateX(-50%);
-}
-
-.ov-arm{
-  width: 22px;
-  height: 3px;
-  background: currentColor;
-  position: absolute;
-  top: 32px;
-}
-
-.ov-arm-left{ left: 6px; transform: rotate(-20deg); transform-origin: left center; }
-.ov-arm-right{ right: 6px; transform: rotate(20deg); transform-origin: right center; }
-
-.ov-leg{
-  width: 22px;
-  height: 3px;
-  background: currentColor;
-  position: absolute;
-  top: 56px;
-}
-
-.ov-leg-left{ left: 12px; transform: rotate(35deg); transform-origin: left center; }
-.ov-leg-right{ right: 12px; transform: rotate(-35deg); transform-origin: right center; }
-
-.ov-stickman-bubble{
-  background: rgba(255,255,255,.92);
-  border: 2px solid currentColor;
-  border-radius: 14px;
-  padding: 10px 12px;
-  box-shadow: 0 10px 28px rgba(0,0,0,.18);
-}
-
-.ov-stickman-close{
-  margin-top: 8px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 2px solid currentColor;
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  font-weight: 600;
-}
-.ov-stickman-close:hover{ transform: translateY(-1px);     
 </script>
-
-<!-- ORBIS VOX STICKMAN -->
-<div id="ovStickman" class="ov-stickman" aria-hidden="true">
-  <div class="ov-stickman-card">
-    
-    <!-- Stickman SVG -->
-    <svg class="ov-stickman-svg" viewBox="0 0 120 200" aria-hidden="true">
-      <!-- head -->
-      <circle cx="60" cy="30" r="18" stroke="black" stroke-width="4" fill="none"/>
-      <!-- body -->
-      <line x1="60" y1="48" x2="60" y2="120" stroke="black" stroke-width="4"/>
-      <!-- arms -->
-      <line x1="60" y1="70" x2="25" y2="95" stroke="black" stroke-width="4"/>
-      <line x1="60" y1="70" x2="95" y2="85" stroke="black" stroke-width="4"/>
-      <!-- pen -->
-      <line x1="95" y1="85" x2="115" y2="75" stroke="black" stroke-width="3"/>
-      <circle cx="115" cy="75" r="2" fill="black"/>
-      <!-- legs -->
-      <line x1="60" y1="120" x2="35" y2="170" stroke="black" stroke-width="4"/>
-      <line x1="60" y1="120" x2="85" y2="170" stroke="black" stroke-width="4"/>
-    </svg>
-
-    <!-- Text -->
-    <p id="ovStickmanText" class="ov-stickman-text"></p>
-
-    <button id="ovStickmanClose" class="ov-stickman-close">carry on</button>
-  </div>
-</div>
-
-  <script>
+  <!-- ORBIS VOX INLINE STICKMAN -->
+<div id="ovStickmanInline" class="ov-inline-stickman" hidden>
+  <svg viewBox="0 0 60 90" aria-hidden="true">
+    <!-- head -->
+    <circle cx="30" cy="14" r="10" stroke="black" stroke-width="2" fill="none"/>
+    <!-- body -->
+    <line x1="30" y1="24" x2="30" y2="52" stroke="black" stroke-width="2"/>
+    <!-- arms -->
+    <line x1="30" y1="32" x2="14" y2="44" stroke="black" stroke-width="2"/>
+    <line x1="30" y1="32" x2="46" y2="40" stroke="black" stroke-width="2"/>
+    <!-- pen -->
+    <line x1="46" y1="40" x2="58" y2="34" stroke="black" stroke-width="1.5"/>
+    <circle cx="58" cy="34" r="1.5" fill="black"/>
+    <!-- legs -->
+    <line x1="30" y1="52" x2="18" y2="80" stroke="black" stroke-width="2"/>
+    <line x1="30" y1="52" x2="42" y2="80" stroke="black" stroke-width="2"/>
+  </svg>
+<script>
 (function(){
-  const wrap = document.getElementById("ovStickman");
-  const textEl = document.getElementById("ovStickmanText");
-  const closeBtn = document.getElementById("ovStickmanClose");
+  const stickman = document.getElementById("ovStickmanInline");
+  const textEl = document.getElementById("ovInlineText");
 
-  if(!wrap || !textEl || !closeBtn) return;
+  if(!stickman || !textEl) return;
 
   const LINES = [
-    "Hello. I’ve arrived politely to observe this journalism.",
-    "You opened an article. I am now invested emotionally.",
-    "This is Orbis Vox. Please read with intent.",
-    "I support free press and mild chaos.",
-    "This article has activated my editor instincts.",
-    "I brought a pen. That means I’m serious.",
-    "Read this carefully. I worked hard on the stickman.",
-    "This is a good headline. I will not elaborate.",
-    "I am a stickman, not a metaphor. Or am I?",
-    "Carry on. I’ll be watching respectfully."
+    "reading respectfully.",
+    "editor has thoughts.",
+    "this matters actually.",
+    "journalism detected.",
+    "carry on.",
+    "headline approved.",
+    "pen deployed."
   ];
 
-  let hideTimer;
-
-  function showStickman(){
-    clearTimeout(hideTimer);
-
-    const randomLine =
-      LINES[Math.floor(Math.random() * LINES.length)];
-
-    textEl.textContent = randomLine;
-
-    wrap.classList.add("is-open");
-    wrap.setAttribute("aria-hidden", "false");
-
-    hideTimer = setTimeout(() => {
-      wrap.classList.remove("is-open");
-      wrap.setAttribute("aria-hidden", "true");
-    }, 3500);
-  
-  closeBtn.addEventListener("click", () => {
-    wrap.classList.remove("is-open");
-    wrap.setAttribute("aria-hidden", "true");
-  });
-
-  // Trigger on collapsible article open
   document.querySelectorAll("details").forEach(details => {
+    const summary = details.querySelector("summary");
+    if(!summary) return;
+
     details.addEventListener("toggle", () => {
       if(details.open){
-        showStickman();
+        textEl.textContent =
+          LINES[Math.floor(Math.random() * LINES.length)];
+
+        summary.appendChild(stickman);
+        stickman.hidden = false;
+      } else {
+        stickman.hidden = true;
       }
     });
   });
 })();
-  </script> 
-<script>
-(function(){
-  const wrap = document.getElementById("ovStickman");
-  const textEl = document.getElementById("ovStickmanText");
-  const closeBtn = document.getElementById("ovStickmanClose");
-
-  if(!wrap || !textEl || !closeBtn) return;
-
-  const LINES = [
-    "Hello. You opened an article. I am now involved.",
-    "This is journalism. I’ve brought a pen.",
-    "Please read carefully. I am watching politely.",
-    "You clicked this on purpose. Respect.",
-    "This article has activated my editorial instincts.",
-    "I appear only when journalism happens.",
-    "Carry on. I’ll pretend I wasn’t here."
-  ];
-
-  let hideTimer = null;
-
-  function showStickman(){
-    clearTimeout(hideTimer);
-
-    textEl.textContent =
-      LINES[Math.floor(Math.random() * LINES.length)];
-
-    wrap.classList.add("is-open");
-    wrap.setAttribute("aria-hidden", "false");
-
-    hideTimer = setTimeout(() => {
-      wrap.classList.remove("is-open");
-      wrap.setAttribute("aria-hidden", "true");
-    }, 3500);
-  }
-
-  closeBtn.addEventListener("click", () => {
-    wrap.classList.remove("is-open");
-    wrap.setAttribute("aria-hidden", "true");
-  });
-
-  // 🔥 LISTEN FOR *ANY* COLLAPSIBLE OPENING
-  document.addEventListener("toggle", (e) => {
-    if (e.target.tagName === "DETAILS" && e.target.open) {
-      showStickman();
-    }
-  }, true);
-
-})();
 </script>
+
+  <span id="ovInlineText"></span>
+</div>
 </body>
 </html>
+
 
