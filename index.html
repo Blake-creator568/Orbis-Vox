@@ -1523,7 +1523,7 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
 </div>
 
-  <script>
+<script>
 (function(){
   const wrap = document.getElementById("ovStickman");
   const textEl = document.getElementById("ovStickmanText");
@@ -1532,62 +1532,52 @@ document.addEventListener("DOMContentLoaded", () => {
   if(!wrap || !textEl || !closeBtn) return;
 
   const LINES = [
-    "Hi. Lovely to see you. I’m about to become emotionally invested in this article.",
-    "Hello! Please read responsibly. Side effects include opinions.",
-    "Hiya. I have brought you journalism and a small amount of chaos. Enjoy.",
-    "Welcome. I’m polite, but my brain is doing parkour.",
-    "Hi. This headline slaps. I’m simply here to witness it respectfully.",
-    "Greetings. If this article makes you think, that’s on purpose. Sorry x",
-    "Hello there. I’m a stickman with standards. You’ve been warned kindly.",
-    "Hi! If you spot a typo, no you didn’t. Cheers.",
-    "Hello. I support free press and dramatic entrances. Thank you.",
-    "Hi. I’ve read worse. This is actually good. Carry on."
+    "Hello. I’ve appeared politely and without warning.",
+    "Hi. You opened an article. I am now emotionally invested.",
+    "Greetings. This is journalism. I am unwell about it.",
+    "Hello there. Please read responsibly. I will not.",
+    "Hiya. This article has activated my thoughts.",
+    "Good evening. I am a stickman with standards.",
+    "Hello. I support free press and dramatic entrances.",
+    "Hi. I was minding my business and then you clicked this."
   ];
 
-  let timer = null;
+  let hideTimer = null;
 
   function showStickman(){
-    const msg = LINES[Math.floor(Math.random() * LINES.length)];
-    textEl.textContent = msg;
+    clearTimeout(hideTimer);
+
+    textEl.textContent =
+      LINES[Math.floor(Math.random() * LINES.length)];
+
     wrap.classList.add("is-open");
     wrap.setAttribute("aria-hidden", "false");
 
-    clearTimeout(timer);
-    timer = setTimeout(hideStickman, 4500);
+    hideTimer = setTimeout(() => {
+      wrap.classList.remove("is-open");
+      wrap.setAttribute("aria-hidden", "true");
+    }, 4000);
   }
 
-  function hideStickman(){
+  closeBtn.addEventListener("click", () => {
     wrap.classList.remove("is-open");
     wrap.setAttribute("aria-hidden", "true");
-  }
+  });
 
-  closeBtn.addEventListener("click", hideStickman);
-
-  // Trigger rules (edit these selectors to match your site)
-  document.addEventListener("click", (e) => {
-    // 1) clicking an article title / link
-    if (e.target.closest(".article-title, .article-link")) {
-      showStickman();
-      return;
-    }
-
-    // 2) opening a <details class="article"> accordion
-    const details = e.target.closest("details.article");
-    if(details && details.open){
-      showStickman();
-      return;
-    }
-  }, true);
-
-  // Optional: if you use <details> and want it to trigger on toggle properly:
-  document.querySelectorAll("details.article").forEach(d => {
-    d.addEventListener("toggle", () => { if(d.open) showStickman(); });
+  // 🔥 THIS IS THE IMPORTANT PART
+  document.querySelectorAll("details").forEach(details => {
+    details.addEventListener("toggle", () => {
+      if(details.open){
+        showStickman();
+      }
+    });
   });
 })();
 </script>
   
 </body>
 </html>
+
 
 
 
