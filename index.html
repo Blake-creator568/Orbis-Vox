@@ -1640,19 +1640,56 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 })();
-</script>
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
+  </script> 
+<script>
+(function(){
   const wrap = document.getElementById("ovStickman");
-  if(!wrap){
-    alert("STICKMAN DIV NOT FOUND");
-    return;
+  const textEl = document.getElementById("ovStickmanText");
+  const closeBtn = document.getElementById("ovStickmanClose");
+
+  if(!wrap || !textEl || !closeBtn) return;
+
+  const LINES = [
+    "Hello. You opened an article. I am now involved.",
+    "This is journalism. I’ve brought a pen.",
+    "Please read carefully. I am watching politely.",
+    "You clicked this on purpose. Respect.",
+    "This article has activated my editorial instincts.",
+    "I appear only when journalism happens.",
+    "Carry on. I’ll pretend I wasn’t here."
+  ];
+
+  let hideTimer = null;
+
+  function showStickman(){
+    clearTimeout(hideTimer);
+
+    textEl.textContent =
+      LINES[Math.floor(Math.random() * LINES.length)];
+
+    wrap.classList.add("is-open");
+    wrap.setAttribute("aria-hidden", "false");
+
+    hideTimer = setTimeout(() => {
+      wrap.classList.remove("is-open");
+      wrap.setAttribute("aria-hidden", "true");
+    }, 3500);
   }
 
-  wrap.classList.add("is-open");
-  alert("STICKMAN SHOULD BE VISIBLE NOW");
-});
-</script>
+  closeBtn.addEventListener("click", () => {
+    wrap.classList.remove("is-open");
+    wrap.setAttribute("aria-hidden", "true");
+  });
 
+  // 🔥 LISTEN FOR *ANY* COLLAPSIBLE OPENING
+  document.addEventListener("toggle", (e) => {
+    if (e.target.tagName === "DETAILS" && e.target.open) {
+      showStickman();
+    }
+  }, true);
+
+})();
+</script>
 </body>
 </html>
+
