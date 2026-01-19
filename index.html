@@ -1336,9 +1336,40 @@ canvas {
   }
   }
 </style>
+<script>
+const searchInput = document.getElementById("searchInput");
 
+if (searchInput) {
+  searchInput.addEventListener("input", () => {
+    const q = searchInput.value.toLowerCase().trim();
+
+    document.querySelectorAll(".article-box").forEach(article => {
+      const title = article.querySelector(".article-title");
+      const content = article.querySelector(".article-content");
+
+      const text = (
+        title.innerText + " " + content.innerText
+      ).toLowerCase();
+
+      if (!q) {
+        article.style.display = "";
+        content.style.display = "none";
+        return;
+      }
+
+      if (text.includes(q)) {
+        article.style.display = "";
+        content.style.display = "block"; // auto-open match
+      } else {
+        article.style.display = "none";
+      }
+    });
+  });
+}
+</script>
 </body>
 </html>
+
 
 
 
