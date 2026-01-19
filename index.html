@@ -1385,8 +1385,40 @@ if (searchInput) {
   });
 }
 </script>
+  <script>
+/* EMERGENCY ARTICLE TOGGLE FIX (Orbis Vox)
+   - makes .article-title toggle its .article-content
+   - works even if older handlers are broken
+   - runs after everything else */
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".article-box").forEach(article => {
+    const title = article.querySelector(".article-title");
+    const content = article.querySelector(".article-content");
+    if (!title || !content) return;
+
+    // Ensure starting collapsed (remove this line if you want them open by default)
+    if (!content.dataset.ovInit) {
+      content.style.display = "none";
+      content.dataset.ovInit = "1";
+    }
+
+    // Remove old listeners by cloning the title
+    const freshTitle = title.cloneNode(true);
+    title.parentNode.replaceChild(freshTitle, title);
+
+    freshTitle.addEventListener("click", () => {
+      const opening = content.style.display !== "block";
+      content.style.display = opening ? "block" : "none";
+
+      // Optional: keep it tidy by scrolling the opened one into view a bit
+      if (opening) freshTitle.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    });
+  });
+});
+  </script>
 </body>
 </html>
+
 
 
 
