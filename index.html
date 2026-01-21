@@ -1277,12 +1277,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       try{
         await db.collection("comments").add({
-          articleId,
-          name,
-          text,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        textInput.value = "";
+  articleId,
+  name,
+  text,
+  timestamp: firebase.firestore.FieldValue.serverTimestamp()
+});
+
+fetch("https://ntfy.sh/orbis-vox-comments", {
+  method: "POST",
+  body: `💬 New comment on: ${document.title}`
+});
+
+textInput.value = "";
+        
       }catch(err){
         console.error("Firestore write error:", err);
         errBox.style.display = "block";
@@ -1480,6 +1487,7 @@ if (searchInput) {
 </script>
 </body>
 </html>
+
 
 
 
