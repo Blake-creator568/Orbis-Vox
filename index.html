@@ -1295,14 +1295,16 @@ function initComments(article){
       });
 
       textInput.value = "";
-    }catch(err){
+        }catch(err){
       console.error("Firestore write error:", err);
       errBox.style.display = "block";
       errBox.textContent = "Comment failed to post (Firestore rules blocked it).";
-      };
+    }
+  };
 }
 });
 </script>
+
 
 
 <style>
@@ -1470,4 +1472,5 @@ if (searchInput) {
 </script>
 </body>
 </html>
+
 
