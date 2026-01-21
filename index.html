@@ -1063,6 +1063,10 @@ summary{
   </a>
 </div>
 
+  <div>
+<button id="panicBtn" class="panic-btn">PANIC</button>
+  </div>
+  
 <!-- CONTACT MODAL -->
 <div class="contact-box" id="contactModal">
   <div class="modal-content">
@@ -1459,6 +1463,24 @@ canvas {
     display: none !important;
   }
   }
+
+  .panic-btn{
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+  padding: 6px 12px;
+  font-weight: 800;
+  font-size: 0.75rem;
+  border-radius: 6px;
+  border: 2px solid #b30000;
+  background: #c40000;
+  color: white;
+  cursor: pointer;
+  z-index: 9999;
+}
+.panic-btn:hover{
+  filter: brightness(0.9);
+}
 </style>
 <script>
 const searchInput = document.getElementById("searchInput");
@@ -1487,12 +1509,27 @@ if (searchInput) {
       } else {
         article.style.display = "none";
       }
+  // PANIC BUTTON — close everything
+  document.getElementById("panicBtn")?.addEventListener("click", () => {
+    document.querySelectorAll(".article-content").forEach(c => {
+      c.style.display = "none";
+    });
+
+    document.querySelectorAll(".comments").forEach(c => {
+      c.style.display = "none";
+    });
+
+    document.querySelectorAll(".comment-toggle").forEach(btn => {
+      btn.textContent = "Show comments";
+    });
+  });
     });
   });
 }
 </script>
 </body>
 </html>
+
 
 
 
