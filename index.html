@@ -1191,137 +1191,118 @@ document.addEventListener("DOMContentLoaded", () => {
     if(note) note.classList.remove("is-on");
   }
 
-  /* ==================== COMMENTS (saved + loaded for everyone) ==================== */
-  function initComments(article){
-    if(article.querySelector(".comment-section")) return;
+  <style>
+ /* ==================== COMMENTS (saved + loaded for everyone) ==================== */
+function initComments(article){
+  if(article.querySelector(".comment-section")) return;
 
-    const articleId = article.dataset.id;
-    const articleTitle =
-    if(!articleId){
-      console.error("Missing data-id on .article-box");
-      return;
-    }
-
-    const section = document.createElement("div");
-    section.className = "comment-section";
-    section.innerHTML = `
-      <button class="comment-toggle" type="button">Show comments</button>
-
-      <div class="comments" style="display:none">
-        <div class="comment-list"></div>
-
-        <input class="comment-name" placeholder="Your name (optional)" maxlength="40" />
-        <textarea class="comment-input" placeholder="Spill your chaos here..." maxlength="800"></textarea>
-        <button class="post-comment" type="button">Post</button>
-
-        <div class="comment-error" style="display:none"></div>
-      </div>
-    `;
-
-    article.querySelector(".article-content")?.appendChild(section);
-
-    const toggleBtn = section.querySelector(".comment-toggle");
-    const commentsBox = section.querySelector(".comments");
-    const list = section.querySelector(".comment-list");
-    const nameInput = section.querySelector(".comment-name");
-    const textInput = section.querySelector(".comment-input");
-    const postBtn = section.querySelector(".post-comment");
-    const errBox = section.querySelector(".comment-error");
-
-    toggleBtn.onclick = () => {
-      const open = commentsBox.style.display === "block";
-      commentsBox.style.display = open ? "none" : "block";
-      toggleBtn.textContent = open ? "Show comments" : "Hide comments";
-    };
-
-    // LIVE LOAD (everyone, old + new)
-    db.collection("comments")
-      .where("articleId","==",articleId)
-      .orderBy("timestamp","asc")
-      .onSnapshot(snapshot => {
-        list.innerHTML = "";
-        if(!snapshot.size){
-          list.innerHTML = `<div class="comment-empty">No comments yet.</div>`;
-          return;
-        }
-
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          const dateStr = data.timestamp?.toDate
-            ? data.timestamp.toDate().toLocaleString()
-            : "";
-
-          const div = document.createElement("div");
-          div.className = "comment";
-          div.innerHTML = `
-            <div class="comment-head">
-              <strong>${data.name || "Anonymous"}</strong>
-              <span class="comment-date">${dateStr}</span>
-            </div>
-            <div class="comment-body">${data.text || ""}</div>
-          `;
-          list.appendChild(div);
-        });
-      }, err => {
-        console.error("Firestore read error:", err);
-        errBox.style.display = "block";
-        errBox.textContent = "Comments failed to load (Firestore read error).";
-      });
-
-    // POST (saved for everyone)
-    postBtn.onclick = async () => {
-      errBox.style.display = "none";
-      const text = textInput.value.trim();
-      if(!text) return;
-
-      const name = nameInput.value.trim() || "Anonymous";
-
-      try{
-        await db.collection("comments").add({
-  articleId,
-  name,
-  text,
-  timestamp: firebase.firestore.FieldValue.serverTimestamp()
-});
-
-fetch("https://ntfy.sh/orbis-vox-comments", {
-  method: "POST",
-  body: `💬 New comment on: ${articleTitle}\n\n"${text}"`
-});
-
-textInput.value = "";
-        
-      }catch(err){
-        console.error("Firestore write error:", err);
-        errBox.style.display = "block";
-        errBox.textContent = "Comment failed to post (Firestore rules blocked it).";
-      }
-    };
+  const articleId = article.dataset.id;
+  if(!articleId){
+    console.error("Missing data-id on .article-box");
+    return;
   }
 
-  /* ==================== ARTICLE COLLAPSE + HOOKS ==================== */
-  document.querySelectorAll(".article-box").forEach(article => {
-    const title = article.querySelector(".article-title");
-    const content = article.querySelector(".article-content");
-    if(!title || !content) return;
+  // ✅ FIXED: properly defined article title
+  const articleTitle =
+    article.querySelector(".article-title")?.innerText || "an article";
 
-    // Start collapsed
-    content.style.display = "none";
+  const section = document.createElement("div");
+  section.className = "comment-section";
+  section.innerHTML = `
+    <button class="comment-toggle" type="button">Show comments</button>
 
-    title.addEventListener("click", () => {
-      const opening = content.style.display !== "block";
-      content.style.display = opening ? "block" : "none";
+    <div class="comments" style="display:none">
+      <div class="comment-list"></div>
 
-      if(opening){
-        showStickman(title);
-        initComments(article);
-      } else {
-        hideStickman(title);
+      <input class="comment-name" placeholder="Your name (optional)" maxlength="40" />
+      <textarea class="comment-input" placeholder="Spill your chaos here..." maxlength="800"></textarea>
+      <button class="post-comment" type="button">Post</button>
+
+      <div class="comment-error" style="display:none"></div>
+    </div>
+  `;
+
+  article.querySelector(".article-content")?.appendChild(section);
+
+  const toggleBtn = section.querySelector(".comment-toggle");
+  const commentsBox = section.querySelector(".comments");
+  const list = section.querySelector(".comment-list");
+  const nameInput = section.querySelector(".comment-name");
+  const textInput = section.querySelector(".comment-input");
+  const postBtn = section.querySelector(".post-comment");
+  const errBox = section.querySelector(".comment-error");
+
+  toggleBtn.onclick = () => {
+    const open = commentsBox.style.display === "block";
+    commentsBox.style.display = open ? "none" : "block";
+    toggleBtn.textContent = open ? "Show comments" : "Hide comments";
+  };
+
+  // LIVE LOAD (everyone, old + new)
+  db.collection("comments")
+    .where("articleId","==",articleId)
+    .orderBy("timestamp","asc")
+    .onSnapshot(snapshot => {
+      list.innerHTML = "";
+      if(!snapshot.size){
+        list.innerHTML = `<div class="comment-empty">No comments yet.</div>`;
+        return;
       }
+
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const dateStr = data.timestamp?.toDate
+          ? data.timestamp.toDate().toLocaleString()
+          : "";
+
+        const div = document.createElement("div");
+        div.className = "comment";
+        div.innerHTML = `
+          <div class="comment-head">
+            <strong>${data.name || "Anonymous"}</strong>
+            <span class="comment-date">${dateStr}</span>
+          </div>
+          <div class="comment-body">${data.text || ""}</div>
+        `;
+        list.appendChild(div);
+      });
+    }, err => {
+      console.error("Firestore read error:", err);
+      errBox.style.display = "block";
+      errBox.textContent = "Comments failed to load (Firestore read error).";
     });
-  });
-});
-</script>
+
+  // POST (saved for everyone)
+  postBtn.onclick = async () => {
+    errBox.style.display = "none";
+    const text = textInput.value.trim();
+    if(!text) return;
+
+    const name = nameInput.value.trim() || "Anonymous";
+
+    try{
+      await db.collection("comments").add({
+        articleId,
+        name,
+        text,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      // 🔔 NOTIFY ONLY YOU
+      fetch("https://ntfy.sh/orbis-vox-comments", {
+        method: "POST",
+        body: `💬 New comment on: ${articleTitle}\n\n"${text}"`
+      });
+
+      textInput.value = "";
+    }catch(err){
+      console.error("Firestore write error:", err);
+      errBox.style.display = "block";
+      errBox.textContent = "Comment failed to post (Firestore rules blocked it).";
+    }
+  };
+}
+  </style>
 
 <style>
 /* Visitor counter small + corner */
@@ -1488,6 +1469,7 @@ if (searchInput) {
 </script>
 </body>
 </html>
+
 
 
 
