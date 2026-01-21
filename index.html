@@ -1196,6 +1196,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if(article.querySelector(".comment-section")) return;
 
     const articleId = article.dataset.id;
+    const articleTitle = article.querySelector(".article-title")?.innerText || "an article";
     if(!articleId){
       console.error("Missing data-id on .article-box");
       return;
@@ -1285,7 +1286,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 fetch("https://ntfy.sh/orbis-vox-comments", {
   method: "POST",
-  body: `💬 New comment on: ${document.title}`
+  body: `💬 New comment on: ${articleTitle}\n\n"${text}"`
 });
 
 textInput.value = "";
@@ -1487,6 +1488,7 @@ if (searchInput) {
 </script>
 </body>
 </html>
+
 
 
 
