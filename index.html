@@ -1302,6 +1302,27 @@ function initComments(article){
     }
   };
 }
+    /* ==================== ARTICLE COLLAPSE + HOOKS ==================== */
+  document.querySelectorAll(".article-box").forEach(article => {
+    const title = article.querySelector(".article-title");
+    const content = article.querySelector(".article-content");
+    if(!title || !content) return;
+
+    // Start collapsed
+    content.style.display = "none";
+
+    title.addEventListener("click", () => {
+      const opening = content.style.display !== "block";
+      content.style.display = opening ? "block" : "none";
+
+      if(opening){
+        showStickman(title);
+        initComments(article);
+      } else {
+        hideStickman(title);
+      }
+    });
+  });
 });
 </script>
 
@@ -1472,5 +1493,6 @@ if (searchInput) {
 </script>
 </body>
 </html>
+
 
 
