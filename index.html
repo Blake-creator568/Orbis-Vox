@@ -1196,7 +1196,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if(article.querySelector(".comment-section")) return;
 
     const articleId = article.dataset.id;
-    const articleTitle = article.querySelector(".article-title")?.innerText || "an article";
+    const articleTitle =
     if(!articleId){
       console.error("Missing data-id on .article-box");
       return;
@@ -1488,6 +1488,7 @@ if (searchInput) {
 </script>
 </body>
 </html>
+
 
 
 
