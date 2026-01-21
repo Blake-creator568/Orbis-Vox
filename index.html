@@ -1104,78 +1104,31 @@ document.addEventListener("DOMContentLoaded", () => {
     "Journalism detected. I have become annoying.",
     "I brought a pen. That means I’m serious.",
     "I’d clap but I’m 2D.",
-    "Can I be a dinosaur, please?",
-    "If this headline fails, I'm quitting journalism and becoming a Traffic Cone :)",
-    "This is giving ‘front page’ energy. Maybe.",
-    "I support free press and mild chaos.",
-    "Can I be a dinosaur, please?",
-    "You opened this. That’s on you.",
-    "I’m not saying it’s dramatic… but it is.",
-    "Editor present. Vibes monitored.",
-    "This is important. Probably.",
-    "I’d clap but I’m 2D.",
-    "I am a stickman with standards.",
-    "Interesting choice of article. Respect.",
-      "I’d clap but I’m 2D.",
-    "This is… actually good. Don’t get cocky.",
     "If this headline fails, I'm quitting journalism and becoming a Traffic Cone :)",
     "Orbis Vox moment. Documenting the chaos.",
-    "I had a point. I lost it.",
-    "Editor's note: I am running on caffeine and spite.",
-    "This was meant to be shorter. It got ideas.",
-    "This is the quiet version of yelling.",
-    "This headline cost me three hours of sleep.",
-    "If this flops I'm blaming the moon, or gru.",
-    "I had a plan. It grew legs.",
-     "Written under protest.",
-    "I blinked and there were 800 words.",
-    "This article was peer-reviewed by a Traffic Cone.",
-    "I hit save and ran. PS: I didn't look back.",
-    "I have no notes. Only vibes.",
-    "Oops.",
-    "Anyway.",
-    "This article is wearing socks.",
-    "...",
-    "Running on 48 hours without sleep - don't judge.",
-    "Can I be a dinosaur, please?",
+    "Running on 48 hours without sleep - don't judge."
   ];
 
   function randomLine(){
     return STICKMAN_LINES[Math.floor(Math.random() * STICKMAN_LINES.length)];
   }
 
-  /* ==================== STICKMAN (per-article, not shared) ==================== */
+  /* ==================== STICKMAN ==================== */
   function ensureStickmanNote(titleEl){
-    // One stickman per article title, so it never “teleports” or gets stuck.
     let note = titleEl.querySelector(".ov-stick-note");
     if(note) return note;
 
     note = document.createElement("span");
     note.className = "ov-stick-note";
-    note.setAttribute("aria-hidden", "true");
     note.innerHTML = `
       <svg class="ov-stick-svg" viewBox="0 0 70 95">
-        <!-- devil horns -->
-        <path d="M22 6 C16 8, 14 15, 18 20" stroke="black" stroke-width="2" fill="none"/>
-        <path d="M48 6 C54 8, 56 15, 52 20" stroke="black" stroke-width="2" fill="none"/>
-
-        <!-- head -->
         <circle cx="35" cy="22" r="12" stroke="black" stroke-width="2" fill="none"/>
-        <!-- body -->
         <line x1="35" y1="34" x2="35" y2="62" stroke="black" stroke-width="2"/>
-        <!-- arms -->
         <line x1="35" y1="42" x2="18" y2="54" stroke="black" stroke-width="2"/>
         <line x1="35" y1="42" x2="52" y2="50" stroke="black" stroke-width="2"/>
-        <!-- pen -->
-        <line x1="52" y1="50" x2="67" y2="44" stroke="black" stroke-width="1.6"/>
-        <circle cx="67" cy="44" r="1.6" fill="black"/>
-        <!-- legs -->
-        <line x1="35" y1="62" x2="24" y2="90" stroke="black" stroke-width="2"/>
-        <line x1="35" y1="62" x2="46" y2="90" stroke="black" stroke-width="2"/>
       </svg>
       <span class="ov-stick-text"></span>
     `;
-
     titleEl.appendChild(note);
     return note;
   }
@@ -1191,118 +1144,65 @@ document.addEventListener("DOMContentLoaded", () => {
     if(note) note.classList.remove("is-on");
   }
 
-  
- /* ==================== COMMENTS (saved + loaded for everyone) ==================== */
-function initComments(article){
-  if(article.querySelector(".comment-section")) return;
+  /* ==================== COMMENTS ==================== */
+  function initComments(article){
+    if(article.querySelector(".comment-section")) return;
 
-  const articleId = article.dataset.id;
-  if(!articleId){
-    console.error("Missing data-id on .article-box");
-    return;
-  }
+    const articleId = article.dataset.id;
+    if(!articleId) return;
 
-  // ✅ FIXED: properly defined article title
-  const articleTitle =
-    article.querySelector(".article-title")?.innerText || "an article";
+    const articleTitle =
+      article.querySelector(".article-title")?.innerText || "an article";
 
-  const section = document.createElement("div");
-  section.className = "comment-section";
-  section.innerHTML = `
-    <button class="comment-toggle" type="button">Show comments</button>
+    const section = document.createElement("div");
+    section.className = "comment-section";
+    section.innerHTML = `
+      <button class="comment-toggle">Show comments</button>
+      <div class="comments" style="display:none">
+        <div class="comment-list"></div>
+        <input class="comment-name" placeholder="Your name (optional)" />
+        <textarea class="comment-input" placeholder="Spill your chaos here..."></textarea>
+        <button class="post-comment">Post</button>
+      </div>
+    `;
+    article.querySelector(".article-content").appendChild(section);
 
-    <div class="comments" style="display:none">
-      <div class="comment-list"></div>
+    const postBtn = section.querySelector(".post-comment");
+    const textInput = section.querySelector(".comment-input");
 
-      <input class="comment-name" placeholder="Your name (optional)" maxlength="40" />
-      <textarea class="comment-input" placeholder="Spill your chaos here..." maxlength="800"></textarea>
-      <button class="post-comment" type="button">Post</button>
+    postBtn.onclick = async () => {
+      const text = textInput.value.trim();
+      if(!text) return;
 
-      <div class="comment-error" style="display:none"></div>
-    </div>
-  `;
-
-  article.querySelector(".article-content")?.appendChild(section);
-
-  const toggleBtn = section.querySelector(".comment-toggle");
-  const commentsBox = section.querySelector(".comments");
-  const list = section.querySelector(".comment-list");
-  const nameInput = section.querySelector(".comment-name");
-  const textInput = section.querySelector(".comment-input");
-  const postBtn = section.querySelector(".post-comment");
-  const errBox = section.querySelector(".comment-error");
-
-  toggleBtn.onclick = () => {
-    const open = commentsBox.style.display === "block";
-    commentsBox.style.display = open ? "none" : "block";
-    toggleBtn.textContent = open ? "Show comments" : "Hide comments";
-  };
-
-  // LIVE LOAD (everyone, old + new)
-  db.collection("comments")
-    .where("articleId","==",articleId)
-    .orderBy("timestamp","asc")
-    .onSnapshot(snapshot => {
-      list.innerHTML = "";
-      if(!snapshot.size){
-        list.innerHTML = `<div class="comment-empty">No comments yet.</div>`;
-        return;
-      }
-
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const dateStr = data.timestamp?.toDate
-          ? data.timestamp.toDate().toLocaleString()
-          : "";
-
-        const div = document.createElement("div");
-        div.className = "comment";
-        div.innerHTML = `
-          <div class="comment-head">
-            <strong>${data.name || "Anonymous"}</strong>
-            <span class="comment-date">${dateStr}</span>
-          </div>
-          <div class="comment-body">${data.text || ""}</div>
-        `;
-        list.appendChild(div);
-      });
-    }, err => {
-      console.error("Firestore read error:", err);
-      errBox.style.display = "block";
-      errBox.textContent = "Comments failed to load (Firestore read error).";
-    });
-
-  // POST (saved for everyone)
-  postBtn.onclick = async () => {
-    errBox.style.display = "none";
-    const text = textInput.value.trim();
-    if(!text) return;
-
-    const name = nameInput.value.trim() || "Anonymous";
-
-    try{
       await db.collection("comments").add({
         articleId,
-        name,
         text,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       });
 
-      // 🔔 NOTIFY ONLY YOU
       fetch("https://ntfy.sh/orbis-vox-comments", {
         method: "POST",
         body: `💬 New comment on: ${articleTitle}\n\n"${text}"`
       });
 
       textInput.value = "";
-    }catch(err){
-      console.error("Firestore write error:", err);
-      errBox.style.display = "block";
-      errBox.textContent = "Comment failed to post (Firestore rules blocked it).";
-    }
-  };
-}
+    };
+  }
 
+  /* ==================== ARTICLE COLLAPSE ==================== */
+  document.querySelectorAll(".article-box").forEach(article => {
+    const title = article.querySelector(".article-title");
+    const content = article.querySelector(".article-content");
+    content.style.display = "none";
+
+    title.addEventListener("click", () => {
+      const opening = content.style.display !== "block";
+      content.style.display = opening ? "block" : "none";
+      opening ? (showStickman(title), initComments(article)) : hideStickman(title);
+    });
+  });
+});
+</script>
 
 <style>
 /* Visitor counter small + corner */
@@ -1315,188 +1215,23 @@ function initComments(article){
 }
 .visitor-counter img{
   height: 18px;
-  width: auto;
-  display:block;
 }
-
-/* Stickman note next to headline (no box) */
-.ov-stick-note{
-  display:none;
-  align-items:center;
-  gap:6px;
-  margin-left:10px;
-  vertical-align:middle;
-}
-.ov-stick-note.is-on{
-  display:inline-flex;
-}
-.ov-stick-svg{
-  width:22px;
-  height:auto;
-}
-.ov-stick-text{
-  font-size:.85rem;
-  line-height:1.1;
-  white-space:nowrap;
-}
-
-/* Comments styling (red box vibe) */
-.comment-section{
-  margin-top: 18px;
-}
-.comment-toggle{
-  cursor:pointer;
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: 2px solid #b30000;
-  background: #c40000;
-  color: white;
-  font-weight: 700;
-}
-.comment-toggle:hover{
-  filter: brightness(0.95);
-}
-
-.comments{
-  margin-top: 10px;
-  border-left: 4px solid #c40000;
-  padding-left: 10px;
-}
-
-.comment-list{
-  margin-bottom: 10px;
-}
-.comment-empty{
-  opacity: .75;
-}
-
-.comment{
-  margin: 8px 0;
-  padding: 8px 10px;
-  border: 1px solid #c40000;
-  border-radius: 8px;
-  background: rgba(196,0,0,0.08);
-}
-.comment-head{
-  display:flex;
-  gap:10px;
-  align-items:baseline;
-}
-.comment-date{
-  opacity:.7;
-  font-size:.8rem;
-}
-.comment-body{
-  margin-top: 4px;
-}
-
-.comment-name{
-  width: 100%;
-  box-sizing:border-box;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 2px solid #c40000;
-  margin: 6px 0;
-}
-.comment-input{
-  width: 100%;
-  box-sizing:border-box;
-  min-height: 60px;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 2px solid #c40000;
-  resize: vertical;
-}
-.post-comment{
-  cursor:pointer;
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 2px solid #b30000;
-  background: #c40000;
-  color: white;
-  font-weight: 800;
-}
-.post-comment:hover{
-  filter: brightness(0.95);
-}
-
-.comment-error{
-  margin-top: 8px;
-  color: #b30000;
-  font-weight: 700;
-}
-
-canvas {
-  display: none !important;
-}
-@media (hover: none) {
-  .ov-stick-note,
-  .ov-inline-stickman {
-    display: none !important;
-  }
-  }
+.ov-stick-note{display:none}
+.ov-stick-note.is-on{display:inline-flex}
 </style>
-<script>
-const searchInput = document.getElementById("searchInput");
 
+<script>
+/* SEARCH */
+const searchInput = document.getElementById("searchInput");
 if (searchInput) {
   searchInput.addEventListener("input", () => {
-    const q = searchInput.value.toLowerCase().trim();
-
+    const q = searchInput.value.toLowerCase();
     document.querySelectorAll(".article-box").forEach(article => {
-      const title = article.querySelector(".article-title");
-      const content = article.querySelector(".article-content");
-
-      const text = (
-        title.innerText + " " + content.innerText
-      ).toLowerCase();
-
-      // Empty search = do NOTHING to open articles
-      if (!q) {
-        article.style.display = "";
-        return;
-      }
-
-      // Match = show article, but DO NOT force toggle
-      if (text.includes(q)) {
-        article.style.display = "";
-      } else {
-        article.style.display = "none";
-      }
+      article.style.display =
+        article.innerText.toLowerCase().includes(q) ? "" : "none";
     });
   });
 }
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
