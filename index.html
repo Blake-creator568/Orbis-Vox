@@ -1299,10 +1299,11 @@ function initComments(article){
       console.error("Firestore write error:", err);
       errBox.style.display = "block";
       errBox.textContent = "Comment failed to post (Firestore rules blocked it).";
-    }
-  };
+      };
 }
-  </script> 
+});
+</script>
+
 
 <style>
 /* Visitor counter small + corner */
@@ -1469,3 +1470,4 @@ if (searchInput) {
 </script>
 </body>
 </html>
+
