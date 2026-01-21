@@ -40,7 +40,15 @@
         return;
       }
 
-      const token = await getToken(messaging, { vapidKey });
+      const registration = await navigator.serviceWorker.register(
+  "/Orbis-Vox/firebase-messaging-sw.js"
+);
+
+const token = await getToken(messaging, {
+  vapidKey,
+  serviceWorkerRegistration: registration
+});
+
 
       alert(
         "SUCCESS!\n\nThis is your PHONE TOKEN.\nSave it somewhere safe:\n\n" +
