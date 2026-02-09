@@ -1481,9 +1481,7 @@ canvas {
     display: none !important;
   }
   }
-  .article-title.read {
-  color: #9a9a9a;
-}
+
 </style>
 <script>
 const searchInput = document.getElementById("searchInput");
@@ -1516,25 +1514,9 @@ if (searchInput) {
   });
 }
 </script>
-<script>
-  document.querySelectorAll(".article-title").forEach(title => {
-    const key = "orbisvox-read-" + title.id;
-
-    // If already read, grey it out
-    if (localStorage.getItem(key)) {
-      title.classList.add("read");
-    }
-
-    // When clicked, start 5-minute timer
-    title.addEventListener("click", () => {
-      setTimeout(() => {
-        localStorage.setItem(key, "true");
-      }, 300000); // 5 minutes
-    });
-  });
-</script>
 </body>
 </html>
+
 
 
 
