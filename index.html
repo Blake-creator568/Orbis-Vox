@@ -59,13 +59,15 @@ nav a{
   transition:color .2s;
 }
 nav a:hover{color:#FFD2D2;text-decoration:underline;}
-nav #searchInput{
-  padding:6px 10px;
-  font-size:16px;
-  border-radius:6px;
-  border:none;
-  width:220px;
-  margin-left:8px;
+nav /* Nav search bar styling */
+#searchInput {
+  width: 150px;        /* smaller width so it fits */
+  height: 28px;        /* match nav link height */
+  vertical-align: middle; /* aligns with links */
+  margin-left: 10px;   /* space between Sign Up and search */
+  padding: 2px 6px;
+  font-size: 0.9em;
+  box-sizing: border-box;
 }
 .hamburger{display:none;flex-direction:column;cursor:pointer;}
 .hamburger div{width:25px;height:3px;background-color:#fff;margin:4px 0;transition:all 0.3s ease;}
@@ -1731,6 +1733,7 @@ signupSubmit.addEventListener('click', () => {
 </script>
 </body>
 </html>
+
 
 
 
