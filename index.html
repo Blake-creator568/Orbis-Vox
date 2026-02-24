@@ -1633,13 +1633,6 @@ canvas {
   font-size: 0.85em;
   margin-bottom: 4px;
 }
-
-.new-star {
-  color: #000;
-  font-weight: bold;
-  font-size: 0.9em;
-  margin-bottom: 8px;
-}
 </style>
 <script>
 const searchInput = document.getElementById("searchInput");
@@ -1672,28 +1665,9 @@ if (searchInput) {
   });
 }
 </script>
-  <script>
-const articles = document.querySelectorAll('.article-box');
-
-articles.forEach(article => {
-  const dateDiv = article.querySelector('.article-date');
-  const starDiv = article.querySelector('.new-star');
-  if (!dateDiv || !starDiv) return;
-
-  const dateStr = dateDiv.getAttribute('data-date');
-  if (!dateStr) return;
-
-  const postDate = new Date(dateStr);
-  const now = new Date();
-  const diffDays = (now - postDate) / (1000 * 60 * 60 * 24);
-
-  if (diffDays <= 14) { // 14 days = 2 weeks
-    starDiv.style.display = 'block';
-  }
-});
-</script>
 </body>
 </html>
+
 
 
 
