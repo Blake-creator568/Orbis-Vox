@@ -277,7 +277,7 @@ summary{
 </header>
 
 <nav>
-  <div>
+ <div>
     <a href="#news" id="homeLink">Home</a>
     <a href="#news">News</a>
     <a href="#fun" id="funLink">Fun</a>
@@ -285,7 +285,8 @@ summary{
     <a href="#teenage">Teenage Life</a>
     <a href="#about">About</a>
     <a href="#" id="contactBtn">Contact</a>
-  </div>
+    <a href="#" id="signupBtn">Sign Up</a> <!-- NEW -->
+</div>
   <div class="hamburger" id="hamburger">
     <div></div><div></div><div></div>
   </div>
@@ -1665,8 +1666,72 @@ if (searchInput) {
   });
 }
 </script>
+  <script>
+const signupBtn = document.getElementById('signupBtn');
+const signupBox = document.getElementById('signupBox');
+const signupClose = document.getElementById('signupClose');
+
+signupBtn.addEventListener('click', e => {
+  e.preventDefault();
+  signupBox.style.display = 'block';
+});
+
+signupClose.addEventListener('click', () => {
+  signupBox.style.display = 'none';
+});
+
+// Close if user clicks outside the pop-up
+window.addEventListener('click', e => {
+  if (e.target == signupBox) signupBox.style.display = 'none';
+});
+</script>
+ <div id="signupBox" class="popup-box" style="display:none;">
+  <div class="popup-content">
+    <span class="close-btn" id="signupClose">&times;</span>
+    <h3>Sign up for Orbis Vox</h3>
+    <p>Enter your email to get new articles straight to your inbox:</p>
+    <input type="email" id="signupEmail" placeholder="Your email">
+    <button id="signupSubmit">Sign Up</button>
+    <p id="signupMsg" style="margin-top:10px; color:green; display:none;">Thanks! You’re signed up.</p>
+  </div>
+</div>
+  <div style="margin:20px 0;">
+  <h4>Newsletter Emails (copy for Gmail):</h4>
+  <textarea id="emailListBox" style="width:100%; height:120px;" readonly></textarea>
+</div>
+  <script>
+const signupSubmit = document.getElementById('signupSubmit');
+const signupEmail = document.getElementById('signupEmail');
+const signupMsg = document.getElementById('signupMsg');
+const emailListBox = document.getElementById('emailListBox');
+
+let emailList = []; // store all emails
+
+signupSubmit.addEventListener('click', () => {
+  const email = signupEmail.value.trim();
+
+  // simple validation: not empty & unique
+  if (email && !emailList.includes(email)) {
+    emailList.push(email);
+    signupMsg.style.display = 'block';
+    signupMsg.style.color = 'green';
+    signupMsg.textContent = `Thanks! You’re signed up. (${emailList.length} total)`;
+
+    // clear input
+    signupEmail.value = '';
+
+    // push all emails into hidden textarea
+    emailListBox.value = emailList.join('\n');
+  } else {
+    signupMsg.style.display = 'block';
+    signupMsg.style.color = 'red';
+    signupMsg.textContent = 'Please enter a valid, unique email.';
+  }
+});
+</script>
 </body>
 </html>
+
 
 
 
