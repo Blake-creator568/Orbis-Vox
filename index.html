@@ -1691,26 +1691,8 @@ if (searchInput) {
   });
 }
 </script>
-  <script>
-const signupBtn = document.getElementById('signupBtn');
-const signupBox = document.getElementById('signupBox');
-const signupClose = document.getElementById('signupClose');
-
-signupBtn.addEventListener('click', e => {
-  e.preventDefault();
-  signupBox.style.display = 'block';
-});
-
-signupClose.addEventListener('click', () => {
-  signupBox.style.display = 'none';
-});
-
-// Close if user clicks outside the pop-up
-window.addEventListener('click', e => {
-  if (e.target == signupBox) signupBox.style.display = 'none';
-});
-</script>
- <div id="signupBox" class="popup-box" style="display:none;">
+  <!-- SIGNUP POPUP START -->
+<div id="signupBox" style="display:none;">
   <div class="popup-content">
     <span class="close-btn" id="signupClose">&times;</span>
     <h3>Sign up for Orbis Vox</h3>
@@ -1720,42 +1702,99 @@ window.addEventListener('click', e => {
     <p id="signupMsg" style="margin-top:10px; color:green; display:none;">Thanks! You’re signed up.</p>
   </div>
 </div>
-  <div style="margin:20px 0;">
+
+<div style="margin:20px 0;">
   <h4>Newsletter Emails (copy for Gmail):</h4>
   <textarea id="emailListBox" style="width:100%; height:120px;" readonly></textarea>
 </div>
-  <script>
-const signupSubmit = document.getElementById('signupSubmit');
-const signupEmail = document.getElementById('signupEmail');
-const signupMsg = document.getElementById('signupMsg');
-const emailListBox = document.getElementById('emailListBox');
 
-let emailList = []; // store all emails
+<style>
+/* POPUP MODAL STYLING */
+#signupBox {
+  display: none;
+  position: fixed;      /* stays in viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5); /* dark overlay */
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;       /* on top of everything */
+  display: flex;        /* center children */
+  padding: 20px;
+  box-sizing: border-box;
+}
 
-signupSubmit.addEventListener('click', () => {
-  const email = signupEmail.value.trim();
+#signupBox .popup-content {
+  background: #fff;
+  width: 90%;
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 12px rgba(0,0,0,0.35);
+  text-align: center;
+}
 
-  // simple validation: not empty & unique
-  if (email && !emailList.includes(email)) {
-    emailList.push(email);
-    signupMsg.style.display = 'block';
-    signupMsg.style.color = 'green';
-    signupMsg.textContent = `Thanks! You’re signed up. (${emailList.length} total)`;
+#signupBox .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 22px;
+  cursor: pointer;
+}
+</style>
 
-    // clear input
-    signupEmail.value = '';
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const signupBtn = document.getElementById('signupBtn');
+  const signupBox = document.getElementById('signupBox');
+  const signupClose = document.getElementById('signupClose');
+  const signupSubmit = document.getElementById('signupSubmit');
+  const signupEmail = document.getElementById('signupEmail');
+  const signupMsg = document.getElementById('signupMsg');
+  const emailListBox = document.getElementById('emailListBox');
 
-    // push all emails into hidden textarea
-    emailListBox.value = emailList.join('\n');
-  } else {
-    signupMsg.style.display = 'block';
-    signupMsg.style.color = 'red';
-    signupMsg.textContent = 'Please enter a valid, unique email.';
-  }
+  let emailList = [];
+
+  // OPEN POPUP
+  signupBtn && signupBtn.addEventListener('click', e => {
+    e.preventDefault();
+    signupBox.style.display = 'flex';
+  });
+
+  // CLOSE POPUP WITH X
+  signupClose && signupClose.addEventListener('click', () => {
+    signupBox.style.display = 'none';
+  });
+
+  // CLOSE POPUP BY CLICKING OUTSIDE
+  window.addEventListener('click', e => {
+    if (e.target === signupBox) signupBox.style.display = 'none';
+  });
+
+  // SUBMIT EMAIL
+  signupSubmit.addEventListener('click', () => {
+    const email = signupEmail.value.trim();
+    if (email && !emailList.includes(email)) {
+      emailList.push(email);
+      signupMsg.style.display = 'block';
+      signupMsg.style.color = 'green';
+      signupMsg.textContent = `Thanks! You’re signed up. (${emailList.length} total)`;
+      signupEmail.value = '';
+      emailListBox.value = emailList.join('\n');
+    } else {
+      signupMsg.style.display = 'block';
+      signupMsg.style.color = 'red';
+      signupMsg.textContent = 'Please enter a valid, unique email.';
+    }
+  });
 });
 </script>
+<!-- SIGNUP POPUP END -->
 </body>
 </html>
+
 
 
 
