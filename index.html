@@ -1629,11 +1629,27 @@ canvas {
     display: none !important;
   }
   }
-.article-box.new-article .article-title::before {
+/* Make date text black everywhere */
+.article-date {
+  color: #000 !important;
+  font-size: 0.85em;
+  margin-bottom: 8px;
+}
+
+/* Star for new articles */
+.article-box.new-article .article-title::before,
+.article-box.new-article .preview-title::before {
   content: "★ ";
-  color: #ff3b30; /* red star */
+  color: #000; /* black star */
   font-weight: bold;
   margin-right: 6px;
+  display: inline-block;
+}
+
+/* Extra: ensure the star shows even in collapsed/preview cards */
+.article-box.new-article .article-title,
+.article-box.new-article .preview-title {
+  position: relative; 
 }
 </style>
 <script>
@@ -1685,6 +1701,7 @@ if (searchInput) {
 </script>
 </body>
 </html>
+
 
 
 
