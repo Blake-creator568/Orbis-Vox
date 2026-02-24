@@ -1636,6 +1636,29 @@ canvas {
   font-size: 0.85em;
   margin-bottom: 4px;
 }
+  #signupBox {
+  display: none;           /* hidden by default */
+  position: fixed;         /* stay on screen */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5); /* dark overlay behind box */
+  z-index: 9999;           /* above everything */
+}
+
+#signupBox .popup-content {
+  background: #fff;
+  width: 300px;
+  max-width: 90%;
+  padding: 20px;
+  border-radius: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* center perfectly */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
 </style>
 <script>
 const searchInput = document.getElementById("searchInput");
@@ -1733,6 +1756,7 @@ signupSubmit.addEventListener('click', () => {
 </script>
 </body>
 </html>
+
 
 
 
