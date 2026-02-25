@@ -1748,6 +1748,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const signupEmail = document.getElementById('signupEmail');
   const signupMsg = document.getElementById('signupMsg');
 
+  // MailerLite form URL (your form ID)
   const MAILERLITE_URL = "https://assets.mailerlite.com/jsonp/2140738/forms/180329288342439302/subscribe";
 
   // OPEN POPUP
@@ -1798,6 +1799,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
-<!-- SIGNUP POPUP END -->
+
+<!-- MailerLite Universal -->
+<script>
+(function(w,d,e,u,f,l,n){
+  w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);};
+  l=d.createElement(e); l.async=1; l.src=u;
+  n=d.getElementsByTagName(e)[0]; n.parentNode.insertBefore(l,n);
+})(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+ml('account', '2140738');
+</script>
+<!-- End MailerLite Universal -->
 </body>
 </html>
+
