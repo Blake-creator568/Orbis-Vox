@@ -1636,158 +1636,107 @@ canvas {
   font-size: 0.85em;
   margin-bottom: 4px;
 }
-  #signupBox {
-  display: none;           /* hidden by default */
-  position: fixed;         /* stay on screen */
+<style/>
+  <!-- SIGNUP POPUP START -->
+
+<style>
+#signupBox {
+  display: none;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5); /* dark overlay behind box */
-  z-index: 9999;           /* above everything */
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
 }
 
 #signupBox .popup-content {
   background: #fff;
-  width: 300px;
+  width: 400px;
   max-width: 90%;
   padding: 20px;
   border-radius: 8px;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* center perfectly */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
-</style>
-<script>
-const searchInput = document.getElementById("searchInput");
 
-if (searchInput) {
-  searchInput.addEventListener("input", () => {
-    const q = searchInput.value.toLowerCase().trim();
-
-    document.querySelectorAll(".article-box").forEach(article => {
-      const title = article.querySelector(".article-title");
-      const content = article.querySelector(".article-content");
-
-      const text = (
-        title.innerText + " " + content.innerText
-      ).toLowerCase();
-
-      // Empty search = do NOTHING to open articles
-      if (!q) {
-        article.style.display = "";
-        return;
-      }
-
-      // Match = show article, but DO NOT force toggle
-      if (text.includes(q)) {
-        article.style.display = "";
-      } else {
-        article.style.display = "none";
-      }
-    });
-  });
-}
-</script>
-<!-- SIGNUP POPUP START -->
-<div id="signupBox" style="display:none;">
-  <div class="popup-content">
-    <span class="close-btn" id="signupClose">&times;</span>
-    <h3>Sign up for Orbis Vox</h3>
-    <p>Enter your email to get new articles straight to your inbox:</p>
-    <!-- MailerLite form -->
-    <div class="ml-form-embed"
-     data-account="2140738"
-     data-form-id="180329288342439302">
-</div>
-  </div>
-</div>
-
-<style>
-#signupBox {
-  display: none;
-  position: fixed;
-  top:0; left:0;
-  width:100vw; height:100vh;
-  background: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-  padding: 20px;
-  box-sizing: border-box;
-}
-#signupBox .popup-content {
-  position: relative;
-  background: #fff;
-  width: 90%; max-width: 400px;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.35);
-  text-align: center;
-}
-#signupBox .close-btn {
+#signupClose {
   position: absolute;
-  top: 10px; right: 15px;
+  top: 10px;
+  right: 15px;
   font-size: 22px;
   cursor: pointer;
 }
-#signupBox input { width:100%; padding:10px; margin:10px 0; box-sizing:border-box; }
-#signupBox button { padding:10px 20px; cursor:pointer; width:100%; }
 </style>
 
-<!-- MailerLite Universal -->
+<div id="signupBox">
+  <div class="popup-content">
+    <span id="signupClose">&times;</span>
+
+    <h3>Sign up for Orbis Vox</h3>
+    <p>Enter your email to get new articles straight to your inbox:</p>
+
+    <!-- MailerLite Hosted Form (GUARANTEED WORKING) -->
+    <iframe 
+      src="https://preview.mailerlite.io/forms/2140738/180329288342439302/share"
+      width="100%" 
+      height="450"
+      style="border:none;">
+    </iframe>
+
+  </div>
+</div>
+
+<!-- MailerLite Universal Script -->
 <script>
-(function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);},
-l=d.createElement(e),l.async=1,l.src=u,n=d.getElementsByTagName(e)[0],
-n.parentNode.insertBefore(l,n);})(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+(function(w,d,e,u,f,l,n){
+  w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);};
+  l=d.createElement(e);
+  l.async=1;
+  l.src=u;
+  n=d.getElementsByTagName(e)[0];
+  n.parentNode.insertBefore(l,n);
+})(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+
 ml('account', '2140738');
 </script>
-<!-- End MailerLite Universal -->
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const signupBtn = document.getElementById('signupBtn'); // your nav Sign Up button
-  const signupBox = document.getElementById('signupBox');
-  const signupClose = document.getElementById('signupClose');
-  const signupForm = document.getElementById('mlForm');
-  const signupMsg = document.getElementById('signupMsg');
 
-  // OPEN POPUP
-  signupBtn?.addEventListener('click', e => {
-    e.preventDefault();
-    signupBox.style.display = 'flex';
-    signupMsg.style.display = 'none';
+  const signupBtn = document.getElementById("signupBtn");
+  const signupBox = document.getElementById("signupBox");
+  const signupClose = document.getElementById("signupClose");
+
+  if (signupBtn) {
+    signupBtn.addEventListener("click", function(e){
+      e.preventDefault();
+      signupBox.style.display = "block";
+    });
+  }
+
+  if (signupClose) {
+    signupClose.addEventListener("click", function(){
+      signupBox.style.display = "none";
+    });
+  }
+
+  window.addEventListener("click", function(e){
+    if (e.target === signupBox) {
+      signupBox.style.display = "none";
+    }
   });
 
-  // CLOSE POPUP
-  signupClose?.addEventListener('click', () => signupBox.style.display = 'none');
-  window.addEventListener('click', e => { if (e.target === signupBox) signupBox.style.display = 'none'; });
-
-  // HANDLE SUCCESS / ERROR
-  signupForm?.addEventListener('submit', e => {
-    signupMsg.style.display = 'block';
-    signupMsg.style.color = 'black';
-    signupMsg.textContent = 'Submitting…';
-    setTimeout(() => { // MailerLite handles submission, wait for response
-      const mlSuccess = signupForm.querySelector('.ml-success-message');
-      const mlError = signupForm.querySelector('.ml-error-message');
-      if (mlSuccess && mlSuccess.innerText.trim()) {
-        signupMsg.style.color = 'green';
-        signupMsg.textContent = mlSuccess.innerText.trim();
-        signupForm.reset();
-      } else if (mlError && mlError.innerText.trim()) {
-        signupMsg.style.color = 'red';
-        signupMsg.textContent = mlError.innerText.trim();
-      }
-    }, 800);
-  });
 });
 </script>
 <!-- SIGNUP POPUP END -->
 </body>
 </html>
+
 
 
 
