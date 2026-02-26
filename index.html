@@ -1698,11 +1698,10 @@ if (searchInput) {
     <h3>Sign up for Orbis Vox</h3>
     <p>Enter your email to get new articles straight to your inbox:</p>
     <!-- MailerLite form -->
-    <form id="mlForm" class="ml-block-form" data-form-id="180329288342439302" data-account="2140738">
-      <input type="email" name="fields[email]" id="signupEmail" placeholder="Your email" required>
-      <button type="submit">Sign Up</button>
-      <p id="signupMsg" style="margin-top:10px; display:none;"></p>
-    </form>
+    <div class="ml-form-embed"
+     data-account="2140738"
+     data-form-id="180329288342439302">
+</div>
   </div>
 </div>
 
@@ -1744,7 +1743,6 @@ if (searchInput) {
 l=d.createElement(e),l.async=1,l.src=u,n=d.getElementsByTagName(e)[0],
 n.parentNode.insertBefore(l,n);})(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
 ml('account', '2140738');
-  ml('forms.create', '180329288342439302');
 </script>
 <!-- End MailerLite Universal -->
 
@@ -1790,6 +1788,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- SIGNUP POPUP END -->
 </body>
 </html>
+
 
 
 
