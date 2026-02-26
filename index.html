@@ -1783,8 +1783,61 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 <!-- END SIGNUP POPUP ADD-ON -->
 <!-- SIGNUP POPUP END -->
+  <!-- SEARCH BAR & FUZZY SEARCH START -->
+<script>
+// Simple fuzzy search helper
+function fuzzyMatch(str, query) {
+  str = str.toLowerCase();
+  query = query.toLowerCase();
+  // Exact match or partial match
+  if (str.includes(query)) return true;
+  // Fuzzy: allow one letter off
+  let mismatch = 0;
+  let i = 0, j = 0;
+  while (i < str.length && j < query.length) {
+    if (str[i] === query[j]) {
+      i++; j++;
+    } else {
+      mismatch++;
+      i++;
+      if (mismatch > 1) return false;
+    }
+  }
+  return true;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("searchInput");
+  if (!searchInput) return;
+
+  const articles = Array.from(document.querySelectorAll(".article-box"));
+
+  searchInput.addEventListener("input", () => {
+    const q = searchInput.value.toLowerCase().trim();
+
+    articles.forEach(article => {
+      const title = article.querySelector(".article-title")?.innerText || "";
+      const content = article.querySelector(".article-content")?.innerText || "";
+      const text = title + " " + content;
+
+      if (!q) {
+        article.style.display = "";
+        return;
+      }
+
+      if (fuzzyMatch(text, q)) {
+        article.style.display = "";
+      } else {
+        article.style.display = "none";
+      }
+    });
+  });
+});
+</script>
+<!-- SEARCH BAR & FUZZY SEARCH END -->
 </body>
 </html>
+
 
 
 
