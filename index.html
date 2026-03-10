@@ -1818,6 +1818,12 @@ document.addEventListener("DOMContentLoaded", function() {
   font-size: 22px;
   cursor: pointer;
 }
+  @media only screen and (max-width: 768px) {
+  #signupPopup .ml-embedded .ml-close, /* MailerLite’s close button if it appears */
+  #signupPopup .popup-content > span:last-child { /* generic fallback */
+    display: none !important;
+  }
+}
 </style>
 
 <script>
@@ -1897,6 +1903,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- SEARCH BAR & FUZZY SEARCH END -->
 </body>
 </html>
+
 
 
 
