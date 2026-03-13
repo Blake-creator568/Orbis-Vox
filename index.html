@@ -262,12 +262,14 @@ summary{
   position: relative;
 }
 .featured-title {
-    color: #990000;
+    color: #990000;                /* text stays crimson */
     font-weight: bold;
     font-size: 2.2em;
     margin-bottom: 20px;
     text-align: center;
-    text-decoration: underline;  /* new underline */
+    text-decoration: underline;    
+    text-decoration-color: black;  /* underline is black */
+    text-decoration-thickness: 2px; /* slightly thicker underline */
 }
 
 .featured-articles {
@@ -308,10 +310,10 @@ summary{
     background: #b30000;
 }
   .featured-meta-line {
-    text-align: center;        /* center the line */
-    font-size: 0.95em;         /* slightly smaller than main headline */
-    color: #555;               /* subtle color, not too bold */
-    margin-bottom: 15px;       /* space below it before the Featured articles */
+    text-align: center;        
+    font-size: 1.1em;          /* slightly bigger now */
+    color: #555;               
+    margin-bottom: 15px;       
 }
 </style>
 </head>
