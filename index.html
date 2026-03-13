@@ -1966,11 +1966,10 @@ const articleDate = new Date(dateElement.dataset.date);
 
 if(articleDate >= weekAgo){
 
-const id = article.dataset.id;
+const titleElement = article.querySelector(".article-title");
+const title = titleElement ? titleElement.innerText : "Article";
 
-// find title automatically
-let titleElement = article.querySelector("h1, h2, h3");
-let title = titleElement ? titleElement.innerText : "Article";
+const id = article.dataset.id;
 
 const item = document.createElement("div");
 
@@ -1992,6 +1991,7 @@ featuredBox.appendChild(item);
 </script>
 </body>
 </html>
+
 
 
 
