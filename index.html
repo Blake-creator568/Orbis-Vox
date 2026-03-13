@@ -1766,62 +1766,63 @@ canvas {
  <!-- SIGNUP POPUP START -->
 <style>
 #signupPopup {
-    display: none; /* hidden by default */
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
+  display: none; /* hidden by default */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
 }
 
 #signupPopup .popup-content {
-    position: relative;
-    background: #fff;
-    width: 90%; max-width: 400px;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-    text-align: center;
+  position: relative;
+  background: #fff;
+  width: 90%; max-width: 400px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.35);
+  text-align: center;
 }
 
-/* hide the × close button completely */
+/* REMOVE the close button completely */
 #signupPopup .close-btn {
-    display: none !important;
+  display: none !important;
 }
 
-/* hide any MailerLite close buttons if they appear */
+/* hide any MailerLite close buttons */
 #signupPopup .ml-embedded .ml-close {
-    display: none !important;
+  display: none !important;
 }
 </style>
 
 <div id="signupPopup">
   <div class="popup-content">
     <h3>Sign up for Orbis Vox</h3>
-    <!-- MailerLite form -->
+    <!-- MailerLite form already embedded -->
     <div class="ml-embedded" data-form="Y3Gsx1"></div>
   </div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const signupBtn = document.getElementById('signupBtn');
-    const popup = document.getElementById('signupPopup');
+  const signupBtn = document.getElementById('signupBtn');
+  const popup = document.getElementById('signupPopup');
+  const popupContent = popup.querySelector('.popup-content');
 
-    if (!signupBtn || !popup) return;
+  if (!signupBtn || !popup) return;
 
-    // Open popup
-    signupBtn.addEventListener('click', e => {
-        e.preventDefault();
-        popup.style.display = 'flex'; // JS controls showing
-    });
+  // Open popup
+  signupBtn.addEventListener('click', e => {
+    e.preventDefault();
+    popup.style.display = 'flex';
+  });
 
-    // Close popup when clicking outside the popup content
-    window.addEventListener('click', e => {
-        if (e.target === popup) popup.style.display = 'none';
-    });
+  // Close popup by clicking outside content
+  window.addEventListener('click', e => {
+    if (e.target === popup) popup.style.display = 'none';
+  });
 });
 </script>
 <!-- SIGNUP POPUP END -->
