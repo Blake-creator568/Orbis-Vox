@@ -351,7 +351,7 @@ summary{
     <a href="#teenage">Teenage Life</a>
     <a href="#about">About</a>
     <a href="#" id="contactBtn">Contact</a>
-    <a href="#" id="signupBtn">Sign Up</a>
+   <a href="#signupPopup">Sign Up</a>
 </div>
   <div class="hamburger" id="hamburger">
     <div></div><div></div><div></div>
@@ -1763,64 +1763,61 @@ canvas {
   margin-bottom: 4px;
 }
 <style/>
-  <!-- SIGNUP POPUP START -->
+ <!-- SIGNUP POPUP -->
 
-<div id="signupPopup">
+<div id="signupPopup" class="popup">
   <div class="popup-content">
 
+    <a href="#" class="popup-close">×</a>
+
     <h3>Sign up for Orbis Vox</h3>
+
     <div class="ml-embedded" data-form="Y3Gsx1"></div>
 
   </div>
 </div>
 
 <style>
-#signupPopup{
-  display:none;
+
+.popup{
   position:fixed;
   top:0;
   left:0;
-  width:100vw;
-  height:100vh;
+  width:100%;
+  height:100%;
   background:rgba(0,0,0,0.5);
+  display:none;
   justify-content:center;
   align-items:center;
   z-index:10000;
 }
 
-#signupPopup .popup-content{
+.popup:target{
+  display:flex;
+}
+
+.popup-content{
   background:#fff;
+  padding:30px;
   width:90%;
   max-width:400px;
-  padding:25px;
   border-radius:8px;
   text-align:center;
   box-shadow:0 6px 18px rgba(0,0,0,0.25);
 }
+
+.popup-close{
+  position:absolute;
+  right:20px;
+  top:10px;
+  text-decoration:none;
+  font-size:24px;
+  color:black;
+}
+
 </style>
 
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-
-  const btn = document.getElementById("signupBtn");
-  const popup = document.getElementById("signupPopup");
-
-  if(btn){
-    btn.addEventListener("click", function(e){
-      e.preventDefault();
-      popup.style.display = "flex";
-    });
-  }
-
-  window.addEventListener("click", function(e){
-    if(e.target === popup){
-      popup.style.display = "none";
-    }
-  });
-
-});
-</script>
-
+<!-- MailerLite script -->
 <script>
 (function(w,d,e,u,f,l,n){
   w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);};
@@ -1833,8 +1830,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
 ml('account','2140738');
 </script>
-
-<!-- SIGNUP POPUP END -->
   <script>
 document.addEventListener("DOMContentLoaded", function(){
 
