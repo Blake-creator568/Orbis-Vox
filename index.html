@@ -1975,7 +1975,7 @@ const item = document.createElement("div");
 
 item.innerHTML = `
 <span>${title}</span>
-<button onclick="document.querySelector('[data-id="${id}"]').scrollIntoView({behavior:'smooth'})">
+<button class="featured-btn" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth'})">
 Read More
 </button>
 `;
@@ -1991,6 +1991,7 @@ featuredBox.appendChild(item);
 </script>
 </body>
 </html>
+
 
 
 
