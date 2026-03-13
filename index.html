@@ -261,6 +261,41 @@ body {
 summary{
   position: relative;
 }
+  .featured-title{
+color:#990000;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.featured-articles{
+margin-bottom:30px;
+}
+
+.featured-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px 0;
+border-bottom:1px solid #ddd;
+}
+
+.featured-item h3{
+margin:0;
+font-size:1em;
+}
+
+.featured-btn{
+background:#990000;
+color:white;
+border:none;
+padding:6px 12px;
+cursor:pointer;
+font-size:0.9em;
+}
+
+.featured-btn:hover{
+background:#b30000;
+}
 </style>
 </head>
 
@@ -302,12 +337,22 @@ summary{
   <div>Enjoy the chaos<div/>
 </div>
 
+<section class="featured-articles">
+
+<h2 class="featured-title">FEATURED ARTICLES</h2>
+
+<div id="featured-container">
+<!-- JS will insert featured articles here -->
+</div>
+
+</section>
+    
 <!-- NEWS -->
 <section id="news" class="fade-in">
   <div class="section-title">News</div>
 
     <div class="article-box" data-id="teenage-be-yourself">
-      <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+      <div class="article-date" data-date="2025-12-23" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 23 Dec 2025
 </div>
   <div class="article-title">The World Wants Me to ‘Be Myself’ But Only the Polite Version</div>
@@ -332,7 +377,7 @@ summary{
 </div>
 
   <div class="article-box" data-id="bbc-today">
-    <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+    <div class="article-date" data-date="2025-12-27" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 27 Dec 2025
 </div>
     <div class="article-title">A Truthful Look at the BBC Today</div>
@@ -352,7 +397,7 @@ summary{
   </div>
 
   <div class="article-box" data-id="trans-girls-ban">
-    <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+    <div class="article-date" data-date="2025-12-19" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 19 Dec 2025
 </div>
     <div class="article-title">Discrimination shown as trans girls are banned from Girl Guide groups</div>
@@ -378,7 +423,7 @@ summary{
   <div class="section-title">Fun</div>
 
 <div class="article-box" data-id="fun-would-you-rather">
-  <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+  <div class="article-date" data-date="2025-12-23" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 23 Dec 2025
 </div>
   <div class="article-title">🎧🎬 WOULD YOU RATHER? 🎵</div>
@@ -447,7 +492,7 @@ summary{
 
   
   <div class="article-box" data-id="fun-daily-moments">
-    <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+    <div class="article-date" data-date="2025-12-29" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 29 Dec 2025
     </div>
     <div class="article-title">The Things We Pretend Aren’t the Best Part of the Day</div>
@@ -467,7 +512,7 @@ summary{
   </div>
 
   <div class="article-box" data-id="dog-choir">
-    <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+    <div class="article-date" data-date="2025-10-15" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 15 Oct 2025
 </div>
     <div class="article-title">West Hallam’s Dog Choir Wakes Residents</div>
@@ -508,7 +553,7 @@ summary{
   </div>
 
 <div class="article-box" data-id="fun-chaos-therapy">
-   <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+   <div class="article-date" data-date="2025-10-15" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 15 Oct 2025
 </div>
   <div class="article-title">College Chaos Therapy: How Students Unwind</div>
@@ -543,7 +588,7 @@ summary{
 
 
   <div class="article-box" data-id="teenage-gremlin-days">
-     <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+     <div class="article-date" data-date="2025-10-20" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 20 Oct 2025
 </div>
   <div class="article-title">Things That Ruin Your Day Every Day</div>
@@ -599,7 +644,7 @@ summary{
 </div>
 
 <div class="article-box" data-id="educate-your-sons-trump">
-   <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+   <div class="article-date" data-date="2025-10-30" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 30 Oct 2025
 </div>
   <div class="article-title">“Protect your daughters.” &lt;&lt; “Educate your sons.” – Trump edition.</div>
@@ -636,7 +681,7 @@ summary{
 
   
 <div class="article-box" data-id="voices-no-one-listens">
-   <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+   <div class="article-date" data-date="2026-01-01" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 1 Jan 2026
 </div>
   <div class="article-title">Everyone Wants a Voice – No One Wants to Listen</div>
@@ -671,7 +716,7 @@ summary{
 
   
   <div class="article-box" data-id="global-speed">
-    <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+    <div class="article-date" data-date="2026-01-06" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 6 Jan 2026
 </div>
     <div class="article-title">The World Feels Like It’s Spinning Faster Than We Can Stand</div>
@@ -691,7 +736,7 @@ summary{
   </div>
 
   <div class="article-box" data-id="womens-rights">
-    <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+    <div class="article-date" data-date="2026-01-08" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 8 Jan 2026
 </div>
     <div class="article-title">Breaking Barriers: Milestones in the Women's Rights Movement</div>
@@ -720,7 +765,7 @@ summary{
   </div>
 
 <div class="article-box" data-id="creepy-monuments">
-  <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+  <div class="article-date" data-date="2026-01-11" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 11 Jan 2026
 </div>
   <div class="article-title">Monuments That Are Kinda Creepy When You Actually Clock Them</div>
@@ -825,7 +870,7 @@ summary{
 </div>
 
 <div class="article-box" data-id="observed-while-tidying">
-  <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+  <div class="article-date" data-date="2026-02-01" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 1 Feb 2026
 </div>
   <div class="article-title">You Weren’t Lazy. You Were Just… Observed.</div>
@@ -850,7 +895,7 @@ summary{
 
 
    <div class="article-box" data-id="youth-homelessness-invisible">
-     <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+     <div class="article-date" data-date="2026-02-15" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 15 Feb 2026
 </div>
   <div class="article-title">The Quiet Reality of Youth Homelessness</div>
@@ -878,7 +923,7 @@ summary{
 
   
 <div class="article-box" data-id="not-going-home">
-  <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+  <div class="article-date" data-date="2026-02-19" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 19 Feb 2026
 </div>
   <div class="article-title">Not Going Home: When the Front Door Feels Like a Trap</div>
@@ -935,7 +980,7 @@ summary{
 </div>
 
 <div class="article-box" data-id="surviving-christmas-countdown">
-  <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+  <div class="article-date" data-date="2025-12-16" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 16 Dec 2025
 </div>
   <div class="article-title">Surviving the Christmas countdown: Not everyone’s waiting for cheer.</div>
@@ -962,7 +1007,7 @@ summary{
 </div>
 
 <div class="article-box" data-id="bullying-trauma">
-  <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+  <div class="article-date" data-date="2025-12-05" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 5 Dec 2025
 </div>
   <div class="article-title">The person you were before everyone got their turn.</div>
@@ -1064,7 +1109,7 @@ summary{
 </div>
   
 <div class="article-box" data-id="you-wanted-control">
-  <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+  <div class="article-date" data-date="2026-02-01" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 1 Feb 2026
 </div>
   <div class="article-title">You Never Wanted My Answer — You Just Wanted Control</div>
@@ -1097,7 +1142,7 @@ summary{
 
   
 <div class="article-box" data-id="myth-perfect-household-kid">
-  <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+  <div class="article-date" data-date="2025-12-06" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 6 Dec 2025
 </div>
   <div class="article-title">The Myth of the Perfect Household Kid</div>
@@ -1141,7 +1186,7 @@ summary{
 
 
   <div class="article-box" data-id="teenage-three-hours-cold">
-    <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+    <div class="article-date" data-date="2025-12-13" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 13 Dec 2025
 </div>
   <div class="article-title">Three hours in the cold.</div>
@@ -1167,7 +1212,7 @@ summary{
 
   
 <div class="article-box" data-id="gasping-for-air">
-  <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+  <div class="article-date" data-date="2026-02-01" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 1 Feb 2026
 </div>
   <div class="article-title">Gasping for air in a pool no one notices</div>
@@ -1189,7 +1234,7 @@ summary{
 </div>
 
 <div class="article-box" data-id="teenage-adulthood-feet">
-  <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
+  <div class="article-date" data-date="2025-11-16" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 16 Nov 2025
 </div>
   <div class="article-title">Adulthood’s Footsteps Are Loud</div>
@@ -1901,8 +1946,47 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 <!-- SEARCH BAR & FUZZY SEARCH END -->
+  <script>
+
+const featuredContainer = document.getElementById("featured-container");
+const articles = document.querySelectorAll(".article-box");
+
+const today = new Date();
+const weekAgo = new Date();
+weekAgo.setDate(today.getDate() - 7);
+
+articles.forEach(article => {
+
+const dateElement = article.querySelector(".article-date");
+if(!dateElement) return;
+
+const articleDate = new Date(dateElement.dataset.date);
+
+if(articleDate >= weekAgo){
+
+const title = article.querySelector("h3").innerText;
+const id = article.dataset.id;
+
+const featuredItem = document.createElement("div");
+featuredItem.classList.add("featured-item");
+
+featuredItem.innerHTML = `
+<h3>${title}</h3>
+<button class="featured-btn" onclick="document.querySelector('[data-id=\"${id}\"]').scrollIntoView({behavior:'smooth'})">
+Read More
+</button>
+`;
+
+featuredContainer.appendChild(featuredItem);
+
+}
+
+});
+
+</script>
 </body>
 </html>
+
 
 
 
