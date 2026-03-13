@@ -1815,25 +1815,25 @@ ml('account', '2140738');
 </style>
 
 <script>
-document.addEventListener("DOMContentLoaded", function(){
+window.onload = function(){
 
   const signupBtn = document.getElementById("signupBtn");
   const popup = document.getElementById("signupPopup");
 
-  if(!signupBtn) return;
+  if(!signupBtn || !popup) return;
 
-  signupBtn.addEventListener("click", function(e){
+  signupBtn.onclick = function(e){
     e.preventDefault();
     popup.style.display = "flex";
-  });
+  };
 
-  window.addEventListener("click", function(e){
+  window.onclick = function(e){
     if(e.target === popup){
       popup.style.display = "none";
     }
-  });
+  };
 
-});
+};
 </script>
 
 <!-- SIGNUP POPUP END -->
