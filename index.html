@@ -1800,63 +1800,47 @@ canvas {
 <style/>
   
 <script>
+
 document.addEventListener("DOMContentLoaded", function(){
 
-    const featuredBox = document.getElementById("featured-container");
-    if (!featuredBox) return;
+const featuredBox = document.getElementById("featured-container");
+const articles = document.querySelectorAll(".article-box");
 
-    // Add the featured section heading
-    const heading = document.createElement("div");
-    heading.className = "featured-title";
-    heading.innerText = "FEATURED ARTICLES";
-    featuredBox.appendChild(heading);
+const today = new Date();
+const weekAgo = new Date();
+weekAgo.setDate(today.getDate() - 7);
 
-    const articles = document.querySelectorAll(".article-box");
-    const today = new Date();
-    const weekAgo = new Date();
-    weekAgo.setDate(today.getDate() - 7);
+articles.forEach(article => {
 
-    articles.forEach(article => {
-        const dateElement = article.querySelector(".article-date");
-        if(!dateElement) return;
+const dateElement = article.querySelector(".article-date");
+if(!dateElement) return;
 
-        const articleDate = new Date(dateElement.dataset.date);
-        if(articleDate < weekAgo) return; // skip old articles
+const articleDate = new Date(dateElement.dataset.date);
 
-        const titleElement = article.querySelector(".article-title");
-        const title = titleElement ? titleElement.innerText : "Article";
+if(articleDate >= weekAgo){
 
-        const id = article.dataset.id;
+const titleElement = article.querySelector(".article-title");
+const title = titleElement ? titleElement.innerText : "Article";
 
-        // grab full article text for summary
-        const fullText = article.querySelector('.article-content').innerText;
-        const words = fullText.split(' ').slice(0, 50);
-        let summary = words.join(' ');
+const id = article.dataset.id;
 
-        const lastSentenceIndex = Math.max(
-            summary.lastIndexOf('.'),
-            summary.lastIndexOf('!'),
-            summary.lastIndexOf('?')
-        );
-        if (lastSentenceIndex !== -1) summary = summary.slice(0, lastSentenceIndex + 1);
-        else summary += '...';
+const item = document.createElement("div");
 
-        // create featured item
-        const item = document.createElement("div");
-        item.className = "featured-item";
-        item.setAttribute("data-id", id);
-        item.innerHTML = `
-            <div class="featured-item-title">${title}</div>
-            <div class="featured-summary">${summary}</div>
-            <button class="featured-btn" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth'})">
-                Read More
-            </button>
-        `;
+item.innerHTML = `
+<span>${title}</span>
+<button onclick="document.querySelector('[data-id="${id}"]').scrollIntoView({behavior:'smooth'})">
+Read More
+</button>
+`;
 
-        featuredBox.appendChild(item);
-    });
+featuredBox.appendChild(item);
+
+}
 
 });
+
+});
+
 </script>
   
 </body>
