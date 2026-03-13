@@ -2013,45 +2013,45 @@ featuredBox.appendChild(item);
 });
 
 </script>
-  <script>
+ <script>
 window.addEventListener('DOMContentLoaded', () => {
+    // select all featured items that were just added by the first script
     const featuredItems = document.querySelectorAll('#featured-container .featured-item');
 
     featuredItems.forEach(item => {
         const id = item.getAttribute('data-id');
 
-        // find the actual article with the same data-id
+        // find the full article content using the id
         const articleBox = document.querySelector(`.article-box[data-id="${id}"]`);
+        if (!articleBox) return;
 
-        if (articleBox) {
-            // grab full article text
-            const fullText = articleBox.querySelector('.article-content').innerText;
+        const fullText = articleBox.querySelector('.article-content').innerText;
 
-            // take first 50 words to ensure full sentence
-            const words = fullText.split(' ').slice(0, 50);
-            let summary = words.join(' ');
+        // take first 50 words to ensure a full sentence
+        const words = fullText.split(' ').slice(0, 50);
+        let summary = words.join(' ');
 
-            // cut at last sentence-ending punctuation
-            const lastSentenceIndex = Math.max(
-                summary.lastIndexOf('.'),
-                summary.lastIndexOf('!'),
-                summary.lastIndexOf('?')
-            );
+        const lastSentenceIndex = Math.max(
+            summary.lastIndexOf('.'),
+            summary.lastIndexOf('!'),
+            summary.lastIndexOf('?')
+        );
 
-            if (lastSentenceIndex !== -1) {
-                summary = summary.slice(0, lastSentenceIndex + 1);
-            } else {
-                summary += '...';
-            }
+        if (lastSentenceIndex !== -1) {
+            summary = summary.slice(0, lastSentenceIndex + 1);
+        } else {
+            summary += '...';
+        }
 
-            // create summary element
-            const summaryEl = document.createElement('div');
-            summaryEl.className = 'featured-summary';
-            summaryEl.innerText = summary;
+        // create summary div
+        const summaryEl = document.createElement('div');
+        summaryEl.className = 'featured-summary';
+        summaryEl.innerText = summary;
 
-            // insert below the article title in the featured section
-            const titleEl = item.querySelector('.featured-item-title') || item.querySelector('h3');
-            if (titleEl) titleEl.insertAdjacentElement('afterend', summaryEl);
+        // insert below the title (assumes your first script wraps title in a <span>)
+        const titleEl = item.querySelector('span');
+        if (titleEl) {
+            titleEl.insertAdjacentElement('afterend', summaryEl);
         }
     });
 });
