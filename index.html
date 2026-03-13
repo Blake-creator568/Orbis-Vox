@@ -351,7 +351,7 @@ summary{
     <a href="#teenage">Teenage Life</a>
     <a href="#about">About</a>
     <a href="#" id="contactBtn">Contact</a>
-   <a href="#signupPopup">Sign Up</a>
+    <a href="#" id="signupBtn">Sign Up</a>
 </div>
   <div class="hamburger" id="hamburger">
     <div></div><div></div><div></div>
@@ -1763,23 +1763,6 @@ canvas {
   margin-bottom: 4px;
 }
 <style/>
-
-  
-<!-- SIGNUP BUTTON -->
-<a href="#" id="signupBtn" onclick="ml('show', 'Y3Gsx1'); return false;">Sign Up</a>
-
-<!-- MailerLite script -->
-<script>
-(function(w,d,e,u,f,l,n){
-  w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);};
-  l=d.createElement(e); l.async=1; l.src=u;
-  n=d.getElementsByTagName(e)[0]; n.parentNode.insertBefore(l,n);
-})(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
-
-ml('account','2140738');
-</script>
-
-
   
   <script>
 document.addEventListener("DOMContentLoaded", function(){
@@ -1834,5 +1817,28 @@ document.addEventListener("DOMContentLoaded", function(){
 
 });
 </script>
+
+<script>
+(function(w,d,e,u,f,l,n){
+  w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);};
+  l=d.createElement(e); l.async=1; l.src=u;
+  n=d.getElementsByTagName(e)[0]; n.parentNode.insertBefore(l,n);
+})(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+
+ml('account','2140738');
+</script>
+
+  <script>
+document.addEventListener("DOMContentLoaded", function() {
+  const btn = document.getElementById("signupBtn");
+  if(!btn) return;
+
+  btn.addEventListener("click", function(e) {
+    e.preventDefault();
+    ml('show', 'Y3Gsx1');
+  });
+});
+</script>
+  
 </body>
 </html>
