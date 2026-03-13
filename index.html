@@ -261,10 +261,11 @@ body {
 summary{
   position: relative;
 }
-  .featured-title{
-color:#990000;
-font-weight:bold;
-margin-bottom:15px;
+.featured-title{
+    color:#990000;
+    font-weight:bold;
+    font-size:2.2em; /* same size as your other main headlines */
+    margin-bottom:20px;
 }
 
 .featured-articles{
@@ -272,16 +273,18 @@ margin-bottom:30px;
 }
 
 .featured-item{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:10px 0;
-border-bottom:1px solid #ddd;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 0;
+    border-bottom:1px solid #ddd;
+    margin: 5px 0;  /* adds a tiny gap between each article */
 }
 
 .featured-item h3{
-margin:0;
-font-size:1em;
+    margin:0;
+    font-size:1.2em;  /* slightly bigger than normal text */
+    font-weight:500;   /* optional, gives a bit of emphasis */
 }
 
 .featured-btn{
@@ -2007,6 +2010,7 @@ featuredBox.appendChild(item);
 </script>
 </body>
 </html>
+
 
 
 
