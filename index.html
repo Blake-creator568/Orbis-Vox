@@ -1764,164 +1764,83 @@ canvas {
 }
 <style/>
  <!-- SIGNUP POPUP START -->
-
 <style>
-#signupBox {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  z-index: 9999;
+/* Full-screen overlay for popup */
+#signupPopup {
+    display: none;             /* hidden by default */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
 }
 
-#signupBox .popup-content {
-  background: #fff;
-  width: 400px;
-  max-width: 90%;
-  padding: 25px;
-  border-radius: 8px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+/* popup content box */
+#signupPopup .popup-content {
+    position: relative;
+    background: #fff;
+    width: 90%; max-width: 400px;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    text-align: center;
 }
 
-#signupClose {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 22px;
-  cursor: pointer;
+/* hide the close button entirely */
+#signupPopup .close-btn {
+    display: none !important;
 }
-  @media (max-width: 768px) {
+
+/* hide any leftover MailerLite close buttons */
+#signupPopup .ml-embedded .ml-close {
+    display: none !important;
+}
+
+/* mobile adjustments (same as desktop, fully hidden) */
+@media (max-width: 768px) {
+    #signupPopup, 
+    #signupPopup .popup-content, 
     #signupPopup .close-btn {
-        display: none;
-    }
-    #signupPopup {
-        display: none;
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        width: 0 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 }
 </style>
 
-<div id="signupBox">
+<div id="signupPopup">
   <div class="popup-content">
-    <span id="signupClose">&times;</span>
-
-  </div>
-</div>
-
-<!-- MailerLite Universal Script -->
-<script>
-(function(w,d,e,u,f,l,n){
-  w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);};
-  l=d.createElement(e);
-  l.async=1;
-  l.src=u;
-  n=d.getElementsByTagName(e)[0];
-  n.parentNode.insertBefore(l,n);
-})(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
-
-ml('account', '2140738');
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-
-  const signupBtn = document.getElementById("signupBtn");
-  const signupBox = document.getElementById("signupBox");
-  const signupClose = document.getElementById("signupClose");
-
-  if (signupBtn) {
-    signupBtn.addEventListener("click", function(e){
-      e.preventDefault();
-      signupBox.style.display = "block";
-    });
-  }
-
-  if (signupClose) {
-    signupClose.addEventListener("click", function(){
-      signupBox.style.display = "none";
-    });
-  }
-
-  window.addEventListener("click", function(e){
-    if (e.target === signupBox) {
-      signupBox.style.display = "none";
-    }
-  });
-
-});
-</script>
-<!-- SIGNUP POPUP ADD-ON -->
-<div id="signupPopup" style="display:none;">
-  <div class="popup-content">
-    <span class="close-btn" id="signupPopupClose">&times;</span>
     <h3>Sign up for Orbis Vox</h3>
-    <!-- MailerLite form already embedded -->
+    <!-- MailerLite form embedded -->
     <div class="ml-embedded" data-form="Y3Gsx1"></div>
   </div>
 </div>
 
-<style>
-#signupPopup {
-  display: none;
-  position: fixed;
-  top:0; left:0;
-  width:100vw; height:100vh;
-  background: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-}
-#signupPopup .popup-content {
-  position: relative;
-  background: #fff;
-  width: 90%; max-width: 400px;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.35);
-  text-align: center;
-}
-#signupPopup .close-btn {
-  position: absolute;
-  top: 10px; right: 15px;
-  font-size: 22px;
-  cursor: pointer;
-}
-  @media only screen and (max-width: 768px) {
-  #signupPopup .ml-embedded .ml-close, /* MailerLite’s close button if it appears */
-  #signupPopup .popup-content > span:last-child { /* generic fallback */
-    display: none !important;
-  }
-}
-</style>
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const signupBtn = document.getElementById('signupBtn'); // your existing nav button
-  const popup = document.getElementById('signupPopup');
-  const popupClose = document.getElementById('signupPopupClose');
+    const signupBtn = document.getElementById('signupBtn'); // your nav button
+    const popup = document.getElementById('signupPopup');
 
-  // Open popup
-  signupBtn?.addEventListener('click', e => {
-    e.preventDefault();
-    popup.style.display = 'flex';
-  });
+    if (!signupBtn || !popup) return;
 
-  // Close popup with X
-  popupClose?.addEventListener('click', () => popup.style.display = 'none');
+    // Open popup
+    signupBtn.addEventListener('click', e => {
+        e.preventDefault();
+        popup.style.display = 'flex';
+    });
 
-  // Close popup by clicking outside
-  window.addEventListener('click', e => {
-    if(e.target === popup) popup.style.display = 'none';
-  });
+    // Close popup by clicking outside content
+    window.addEventListener('click', e => {
+        if (e.target === popup) popup.style.display = 'none';
+    });
 });
 </script>
-<!-- END SIGNUP POPUP ADD-ON -->
 <!-- SIGNUP POPUP END -->
   <!-- SEARCH BAR & FUZZY SEARCH START -->
 <script>
