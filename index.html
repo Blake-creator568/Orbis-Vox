@@ -1779,13 +1779,11 @@ canvas {
 ml('account', '2140738');
 </script>
 
-<!-- POPUP -->
 <div id="signupPopup">
   <div class="popup-content">
 
     <h3>Sign up for Orbis Vox</h3>
 
-    <!-- MailerLite form -->
     <div class="ml-embedded" data-form="Y3Gsx1"></div>
 
   </div>
@@ -1806,7 +1804,6 @@ ml('account', '2140738');
 }
 
 #signupPopup .popup-content{
-  position:relative;
   background:#fff;
   width:90%;
   max-width:400px;
@@ -1815,28 +1812,22 @@ ml('account', '2140738');
   box-shadow:0 6px 18px rgba(0,0,0,0.25);
   text-align:center;
 }
-
-/* hide any close buttons completely */
-#signupPopup .close-btn,
-#signupPopup .ml-close{
-  display:none !important;
-}
 </style>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function(){
 
   const signupBtn = document.getElementById("signupBtn");
   const popup = document.getElementById("signupPopup");
 
-  if(!signupBtn || !popup) return;
+  if(!signupBtn) return;
 
-  signupBtn.addEventListener("click", e => {
+  signupBtn.addEventListener("click", function(e){
     e.preventDefault();
     popup.style.display = "flex";
   });
 
-  window.addEventListener("click", e => {
+  window.addEventListener("click", function(e){
     if(e.target === popup){
       popup.style.display = "none";
     }
