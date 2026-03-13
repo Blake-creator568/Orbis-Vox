@@ -1835,5 +1835,58 @@ ml('account','2140738');
 </script>
 
 <!-- SIGNUP POPUP END -->
+  <script>
+document.addEventListener("DOMContentLoaded", function(){
+
+    const featuredBox = document.getElementById("featured-container");
+    if (!featuredBox) return;
+
+    const heading = document.createElement("div");
+    heading.className = "featured-title";
+    heading.innerText = "FEATURED ARTICLES";
+    featuredBox.appendChild(heading);
+
+    const articles = document.querySelectorAll(".article-box");
+
+    const today = new Date();
+    const weekAgo = new Date();
+    weekAgo.setDate(today.getDate() - 7);
+
+    articles.forEach(article => {
+
+        const dateElement = article.querySelector(".article-date");
+        if(!dateElement) return;
+
+        const articleDate = new Date(dateElement.dataset.date);
+        if(articleDate < weekAgo) return;
+
+        const titleElement = article.querySelector(".article-title");
+        const title = titleElement ? titleElement.innerText : "Article";
+
+        const id = article.dataset.id;
+
+        const content = article.querySelector(".article-content");
+        if(!content) return;
+
+        const words = content.innerText.split(' ').slice(0,50);
+        let summary = words.join(' ') + "...";
+
+        const item = document.createElement("div");
+        item.className = "featured-item";
+
+        item.innerHTML = `
+        <div class="featured-item-title">${title}</div>
+        <div class="featured-summary">${summary}</div>
+        <button class="featured-btn" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth'})">
+        Read More
+        </button>
+        `;
+
+        featuredBox.appendChild(item);
+
+    });
+
+});
+</script>
 </body>
 </html>
