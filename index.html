@@ -2013,6 +2013,49 @@ featuredBox.appendChild(item);
 });
 
 </script>
+  <script>
+window.addEventListener('DOMContentLoaded', () => {
+    const featuredItems = document.querySelectorAll('#featured-container .featured-item');
+
+    featuredItems.forEach(item => {
+        const id = item.getAttribute('data-id');
+        const articleBox = document.querySelector(`.article-box[data-id="${id}"]`);
+
+        if (articleBox) {
+            const fullText = articleBox.querySelector('.article-content').innerText;
+
+            // split into words
+            const words = fullText.split(' ').slice(0, 50); // take first 50 words to ensure full sentence
+            let summary = words.join(' ');
+
+            // find last sentence-ending punctuation (., !, ?)
+            const lastSentenceIndex = Math.max(
+                summary.lastIndexOf('.'),
+                summary.lastIndexOf('!'),
+                summary.lastIndexOf('?')
+            );
+
+            if (lastSentenceIndex !== -1) {
+                summary = summary.slice(0, lastSentenceIndex + 1); // include punctuation
+            } else {
+                summary += '...'; // fallback if no punctuation
+            }
+
+            // create summary element
+            const summaryEl = document.createElement('div');
+            summaryEl.className = 'featured-summary';
+            summaryEl.innerText = summary;
+            summaryEl.style.fontSize = '1em';  // same as article content
+            summaryEl.style.marginTop = '6px';
+            summaryEl.style.color = '#333';
+
+            // insert below title
+            const titleEl = item.querySelector('h3');
+            titleEl.insertAdjacentElement('afterend', summaryEl);
+        }
+    });
+});
+</script>
 </body>
 </html>
 
