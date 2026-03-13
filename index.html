@@ -1946,9 +1946,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 <!-- SEARCH BAR & FUZZY SEARCH END -->
-  <script>
+<script>
 
-const featuredContainer = document.getElementById("featured-container");
+document.addEventListener("DOMContentLoaded", function(){
+
+const featuredBox = document.getElementById("featured-container");
 const articles = document.querySelectorAll(".article-box");
 
 const today = new Date();
@@ -1964,28 +1966,33 @@ const articleDate = new Date(dateElement.dataset.date);
 
 if(articleDate >= weekAgo){
 
-const title = article.querySelector("h3").innerText;
 const id = article.dataset.id;
 
-const featuredItem = document.createElement("div");
-featuredItem.classList.add("featured-item");
+// find title automatically
+let titleElement = article.querySelector("h1, h2, h3");
+let title = titleElement ? titleElement.innerText : "Article";
 
-featuredItem.innerHTML = `
-<h3>${title}</h3>
-<button class="featured-btn" onclick="document.querySelector('[data-id=\"${id}\"]').scrollIntoView({behavior:'smooth'})">
+const item = document.createElement("div");
+
+item.innerHTML = `
+<span>${title}</span>
+<button onclick="document.querySelector('[data-id="${id}"]').scrollIntoView({behavior:'smooth'})">
 Read More
 </button>
 `;
 
-featuredContainer.appendChild(featuredItem);
+featuredBox.appendChild(item);
 
 }
+
+});
 
 });
 
 </script>
 </body>
 </html>
+
 
 
 
