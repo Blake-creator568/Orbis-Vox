@@ -1763,59 +1763,64 @@ canvas {
   margin-bottom: 4px;
 }
 <style/>
- <!-- SIGNUP POPUP -->
 
-<div id="signupPopup" class="popup">
+  
+<!-- SIGNUP POPUP -->
+<a href="#" id="signupBtn">Sign Up</a>
+
+<div id="signupPopup">
   <div class="popup-content">
-
-    <a href="#" class="popup-close">×</a>
-
     <h3>Sign up for Orbis Vox</h3>
-
     <div class="ml-embedded" data-form="Y3Gsx1"></div>
-
   </div>
 </div>
 
 <style>
-
-.popup{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.5);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:10000;
+#signupPopup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
 }
 
-.popup:target{
-  display:flex;
+#signupPopup .popup-content {
+  background: #fff;
+  width: 90%;
+  max-width: 400px;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
 }
-
-.popup-content{
-  background:#fff;
-  padding:30px;
-  width:90%;
-  max-width:400px;
-  border-radius:8px;
-  text-align:center;
-  box-shadow:0 6px 18px rgba(0,0,0,0.25);
-}
-
-.popup-close{
-  position:absolute;
-  right:20px;
-  top:10px;
-  text-decoration:none;
-  font-size:24px;
-  color:black;
-}
-
 </style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const signupBtn = document.getElementById("signupBtn");
+  const popup = document.getElementById("signupPopup");
+
+  if (!signupBtn || !popup) return;
+
+  // Open popup
+  signupBtn.addEventListener("click", function(e) {
+    e.preventDefault();
+    popup.style.display = "flex";
+  });
+
+  // Close popup by clicking outside content
+  window.addEventListener("click", function(e) {
+    if (e.target === popup) {
+      popup.style.display = "none";
+    }
+  });
+});
+</script>
 
 <!-- MailerLite script -->
 <script>
@@ -1830,6 +1835,9 @@ canvas {
 
 ml('account','2140738');
 </script>
+
+
+  
   <script>
 document.addEventListener("DOMContentLoaded", function(){
 
