@@ -1828,7 +1828,7 @@ const item = document.createElement("div");
 
 item.innerHTML = `
 <span>${title}</span>
-<button onclick="document.querySelector('[data-id="${id}"]').scrollIntoView({behavior:'smooth'})">
+<button class="featured-btn" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth'})">
 Read More
 </button>
 `;
@@ -1842,6 +1842,50 @@ featuredBox.appendChild(item);
 });
 
 </script>
+ <script>
+window.addEventListener('DOMContentLoaded', () => {
+    // select all featured items that were just added by the first script
+    const featuredItems = document.querySelectorAll('#featured-container .featured-item');
+
+    featuredItems.forEach(item => {
+        const id = item.getAttribute('data-id');
+
+        // find the full article content using the id
+        const articleBox = document.querySelector(`.article-box[data-id="${id}"]`);
+        if (!articleBox) return;
+
+        const fullText = articleBox.querySelector('.article-content').innerText;
+
+        // take first 50 words to ensure a full sentence
+        const words = fullText.split(' ').slice(0, 50);
+        let summary = words.join(' ');
+
+        const lastSentenceIndex = Math.max(
+            summary.lastIndexOf('.'),
+            summary.lastIndexOf('!'),
+            summary.lastIndexOf('?')
+        );
+
+        if (lastSentenceIndex !== -1) {
+            summary = summary.slice(0, lastSentenceIndex + 1);
+        } else {
+            summary += '...';
+        }
+
+        // create summary div
+        const summaryEl = document.createElement('div');
+        summaryEl.className = 'featured-summary';
+        summaryEl.innerText = summary;
+
+        // insert below the title (assumes your first script wraps title in a <span>)
+        const titleEl = item.querySelector('span');
+        if (titleEl) {
+            titleEl.insertAdjacentElement('afterend', summaryEl);
+        }
+    });
+});
+</script>
+
   
 </body>
 </html>
