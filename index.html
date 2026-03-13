@@ -1765,9 +1765,8 @@ canvas {
 <style/>
  <!-- SIGNUP POPUP START -->
 <style>
-/* Full-screen overlay for popup */
 #signupPopup {
-    display: none;             /* hidden by default */
+    display: none; /* hidden by default */
     position: fixed;
     top: 0; left: 0;
     width: 100vw; height: 100vh;
@@ -1777,7 +1776,6 @@ canvas {
     z-index: 10000;
 }
 
-/* popup content box */
 #signupPopup .popup-content {
     position: relative;
     background: #fff;
@@ -1788,43 +1786,28 @@ canvas {
     text-align: center;
 }
 
-/* hide the close button entirely */
+/* hide the × close button completely */
 #signupPopup .close-btn {
     display: none !important;
 }
 
-/* hide any leftover MailerLite close buttons */
+/* hide any MailerLite close buttons if they appear */
 #signupPopup .ml-embedded .ml-close {
     display: none !important;
-}
-
-/* mobile adjustments (same as desktop, fully hidden) */
-@media (max-width: 768px) {
-    #signupPopup, 
-    #signupPopup .popup-content, 
-    #signupPopup .close-btn {
-        display: none !important;
-        visibility: hidden !important;
-        height: 0 !important;
-        width: 0 !important;
-        overflow: hidden !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
 }
 </style>
 
 <div id="signupPopup">
   <div class="popup-content">
     <h3>Sign up for Orbis Vox</h3>
-    <!-- MailerLite form embedded -->
+    <!-- MailerLite form -->
     <div class="ml-embedded" data-form="Y3Gsx1"></div>
   </div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const signupBtn = document.getElementById('signupBtn'); // your nav button
+    const signupBtn = document.getElementById('signupBtn');
     const popup = document.getElementById('signupPopup');
 
     if (!signupBtn || !popup) return;
@@ -1832,17 +1815,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // Open popup
     signupBtn.addEventListener('click', e => {
         e.preventDefault();
-        popup.style.display = 'flex';
+        popup.style.display = 'flex'; // JS controls showing
     });
 
-    // Close popup by clicking outside content
+    // Close popup when clicking outside the popup content
     window.addEventListener('click', e => {
         if (e.target === popup) popup.style.display = 'none';
     });
 });
 </script>
 <!-- SIGNUP POPUP END -->
-  <!-- SEARCH BAR & FUZZY SEARCH START -->
 <script>
 // Simple fuzzy search helper
 function fuzzyMatch(str, query) {
