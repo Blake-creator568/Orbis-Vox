@@ -1763,66 +1763,75 @@ canvas {
   margin-bottom: 4px;
 }
 <style/>
- <!-- SIGNUP POPUP START -->
+<!-- SIGNUP POPUP START -->
 <style>
+/* Main overlay */
 #signupPopup {
-  display: none; /* hidden by default */
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
+    display: none; /* hidden by default */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
 }
 
+/* popup content */
 #signupPopup .popup-content {
-  position: relative;
-  background: #fff;
-  width: 90%; max-width: 400px;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.35);
-  text-align: center;
+    position: relative;
+    background: #fff;
+    width: 90%;
+    max-width: 400px;
+    padding: 30px;           /* more breathing room */
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    text-align: center;
 }
 
-/* REMOVE the close button completely */
-#signupPopup .close-btn {
-  display: none !important;
-}
-
-/* hide any MailerLite close buttons */
+/* hide all close buttons */
+#signupPopup .close-btn,
 #signupPopup .ml-embedded .ml-close {
-  display: none !important;
+    display: none !important;
+}
+
+/* mobile adjustments */
+@media (max-width: 768px) {
+    #signupPopup {
+        display: none;
+    }
+    #signupPopup .popup-content {
+        padding: 25px;
+    }
 }
 </style>
 
 <div id="signupPopup">
-  <div class="popup-content">
-    <h3>Sign up for Orbis Vox</h3>
-    <!-- MailerLite form already embedded -->
-    <div class="ml-embedded" data-form="Y3Gsx1"></div>
-  </div>
+    <div class="popup-content">
+        <h3>Sign up for Orbis Vox</h3>
+        <!-- MailerLite form embedded -->
+        <div class="ml-embedded" data-form="Y3Gsx1"></div>
+    </div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const signupBtn = document.getElementById('signupBtn');
-  const popup = document.getElementById('signupPopup');
-  const popupContent = popup.querySelector('.popup-content');
+    const signupBtn = document.getElementById('signupBtn');
+    const popup = document.getElementById('signupPopup');
 
-  if (!signupBtn || !popup) return;
+    if (!signupBtn || !popup) return;
 
-  // Open popup
-  signupBtn.addEventListener('click', e => {
-    e.preventDefault();
-    popup.style.display = 'flex';
-  });
+    // Open popup
+    signupBtn.addEventListener('click', e => {
+        e.preventDefault();
+        popup.style.display = 'flex';
+    });
 
-  // Close popup by clicking outside content
-  window.addEventListener('click', e => {
-    if (e.target === popup) popup.style.display = 'none';
-  });
+    // Close popup by clicking outside content
+    window.addEventListener('click', e => {
+        if (e.target === popup) popup.style.display = 'none';
+    });
 });
 </script>
 <!-- SIGNUP POPUP END -->
