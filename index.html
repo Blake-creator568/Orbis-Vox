@@ -264,9 +264,10 @@ summary{
 .featured-title {
     color: #990000;
     font-weight: bold;
-    font-size: 2.2em; /* main headline size */
+    font-size: 2.2em;
     margin-bottom: 20px;
-    text-align: center; /* ensures the title is centered */
+    text-align: center;
+    text-decoration: underline;  /* new underline */
 }
 
 .featured-articles {
@@ -290,7 +291,7 @@ summary{
 
 .featured-item h3 {
     margin: 0;
-    font-size: 0.9em;  /* same as Read More buttons */
+    font-size: 1em;  /* slightly bigger than buttons */
     font-weight: 500;
 }
 
@@ -305,6 +306,12 @@ summary{
 
 .featured-btn:hover {
     background: #b30000;
+}
+  .featured-meta-line {
+    text-align: center;        /* center the line */
+    font-size: 0.95em;         /* slightly smaller than main headline */
+    color: #555;               /* subtle color, not too bold */
+    margin-bottom: 15px;       /* space below it before the Featured articles */
 }
 </style>
 </head>
@@ -340,11 +347,8 @@ summary{
   <input id="searchInput" placeholder="Search articles..." aria-label="Search articles">
 </nav>
 
-<div class="date-line">
-  <div>Blake Richardson</div>
-  <div>2025</div>
-  <div>Click on the headlines to read more :)</div>
-  <div>Enjoy the chaos<div/>
+<div class="featured-meta-line">
+  😈 Click on headlines to see more • Blake Richardson • 10 Mar 2026 ✒️
 </div>
 
 <section class="featured-articles">
@@ -2001,6 +2005,7 @@ featuredBox.appendChild(item);
 </script>
 </body>
 </html>
+
 
 
 
