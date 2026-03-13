@@ -264,7 +264,7 @@ summary{
 .featured-title {
     color: #990000;               
     font-weight: bold;
-    font-size: 2.4em;             /* slightly bigger than other headlines */
+    font-size: 2.4em;             
     margin-bottom: 20px;
     text-align: center;
     text-decoration: underline;
@@ -272,29 +272,40 @@ summary{
     text-decoration-thickness: 2px;
 }
 
-.featured-articles {
-    text-align: center;
-    margin-bottom: 30px;
+.featured-meta-line {
+    text-align: center;        
+    font-size: 1.1em;         
+    color: #555;               
+    margin-bottom: 20px;       
+    padding: 10px 0;           
+    border-bottom: 2px solid black; 
 }
 
 #featured-container {
-    max-width: 700px; /* keeps it from stretching too wide */
-    margin: 0 auto;    /* centers the container */
+    max-width: 700px; 
+    margin: 0 auto;    
+    text-align: center;
 }
 
 .featured-item {
     display: flex;
-    justify-content: space-between; /* title left, button right */
+    flex-direction: column;   /* stack title, summary, button */
     align-items: center;
-    padding: 12px 0;                 /* space inside each item */
+    padding: 12px 0;                 
     border-bottom: 1px solid #ddd;
-    margin: 15px 0;                  /* bigger white gap between each article */
+    margin: 15px 0;                  
 }
 
-.featured-item h3 {
-    margin: 0;
-    font-size: 2.15em;   /* same as your regular headlines */
-    font-weight: 500;   /* keeps subtle emphasis */
+.featured-item-title {
+    font-size: 2.15em;   
+    font-weight: 500;   
+    margin-bottom: 6px;
+}
+
+.featured-summary {
+    font-size: 1em;       /* same as article content */
+    color: #333;
+    margin-bottom: 8px;
 }
 
 .featured-btn {
@@ -308,20 +319,6 @@ summary{
 
 .featured-btn:hover {
     background: #b30000;
-}
-  .featured-meta-line {
-    text-align: center;        
-    font-size: 1.1em;          /* slightly bigger now */
-    color: #555;               
-    margin-bottom: 15px;       
-}
-  .featured-meta-line {
-    text-align: center;        
-    font-size: 1.1em;          /* slightly bigger */
-    color: #555;               
-    margin-bottom: 20px;       /* space before Featured section */
-    padding: 10px 0;           /* space above and below text */
-    border-bottom: 2px solid black; /* black separator line */
 }
 </style>
 </head>
@@ -1971,63 +1968,36 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 <!-- SEARCH BAR & FUZZY SEARCH END -->
 <script>
-
 document.addEventListener("DOMContentLoaded", function(){
 
-const featuredBox = document.getElementById("featured-container");
-const articles = document.querySelectorAll(".article-box");
+    const featuredBox = document.getElementById("featured-container");
+    if (!featuredBox) return;
 
-const today = new Date();
-const weekAgo = new Date();
-weekAgo.setDate(today.getDate() - 7);
+    // Add the featured section heading
+    const heading = document.createElement("div");
+    heading.className = "featured-title";
+    heading.innerText = "FEATURED ARTICLES";
+    featuredBox.appendChild(heading);
 
-articles.forEach(article => {
+    const articles = document.querySelectorAll(".article-box");
+    const today = new Date();
+    const weekAgo = new Date();
+    weekAgo.setDate(today.getDate() - 7);
 
-const dateElement = article.querySelector(".article-date");
-if(!dateElement) return;
+    articles.forEach(article => {
+        const dateElement = article.querySelector(".article-date");
+        if(!dateElement) return;
 
-const articleDate = new Date(dateElement.dataset.date);
+        const articleDate = new Date(dateElement.dataset.date);
+        if(articleDate < weekAgo) return; // skip old articles
 
-if(articleDate >= weekAgo){
+        const titleElement = article.querySelector(".article-title");
+        const title = titleElement ? titleElement.innerText : "Article";
 
-const titleElement = article.querySelector(".article-title");
-const title = titleElement ? titleElement.innerText : "Article";
+        const id = article.dataset.id;
 
-const id = article.dataset.id;
-
-const item = document.createElement("div");
-
-item.innerHTML = `
-<span>${title}</span>
-<button class="featured-btn" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth'})">
-Read More
-</button>
-`;
-
-featuredBox.appendChild(item);
-
-}
-
-});
-
-});
-
-</script>
- <script>
-window.addEventListener('DOMContentLoaded', () => {
-    // select all featured items that were just added by the first script
-    const featuredItems = document.querySelectorAll('#featured-container .featured-item');
-
-    featuredItems.forEach(item => {
-        const id = item.getAttribute('data-id');
-
-        // find the full article content using the id
-        const articleBox = document.querySelector(`.article-box[data-id="${id}"]`);
-        if (!articleBox) return;
-
-        const fullText = articleBox.querySelector('.article-content').innerText;
-
-        // take first 50 words to ensure a full sentence
+        // grab full article text for summary
+        const fullText = article.querySelector('.article-content').innerText;
         const words = fullText.split(' ').slice(0, 50);
         let summary = words.join(' ');
 
@@ -2036,24 +2006,24 @@ window.addEventListener('DOMContentLoaded', () => {
             summary.lastIndexOf('!'),
             summary.lastIndexOf('?')
         );
+        if (lastSentenceIndex !== -1) summary = summary.slice(0, lastSentenceIndex + 1);
+        else summary += '...';
 
-        if (lastSentenceIndex !== -1) {
-            summary = summary.slice(0, lastSentenceIndex + 1);
-        } else {
-            summary += '...';
-        }
+        // create featured item
+        const item = document.createElement("div");
+        item.className = "featured-item";
+        item.setAttribute("data-id", id);
+        item.innerHTML = `
+            <div class="featured-item-title">${title}</div>
+            <div class="featured-summary">${summary}</div>
+            <button class="featured-btn" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth'})">
+                Read More
+            </button>
+        `;
 
-        // create summary div
-        const summaryEl = document.createElement('div');
-        summaryEl.className = 'featured-summary';
-        summaryEl.innerText = summary;
-
-        // insert below the title (assumes your first script wraps title in a <span>)
-        const titleEl = item.querySelector('span');
-        if (titleEl) {
-            titleEl.insertAdjacentElement('afterend', summaryEl);
-        }
+        featuredBox.appendChild(item);
     });
+
 });
 </script>
 </body>
