@@ -37,17 +37,16 @@ h1{font-size:86px;margin:0;letter-spacing:8px;text-shadow:1px 1px #ccc;color:#00
 .header-description{font-size:1.1em;margin-top:12px;color:#444;opacity:0;transform:translateY(20px);animation:slideInDesc 1s forwards 0.5s;}
 @keyframes slideInDesc{to{opacity:1;transform:translateY(0);}}
 
-/* NAV BAR STYLING */
+/* NAV BAR CLEAN VERSION */
 nav {
-    background-color: #990000;       /* crimson background */
     display: flex;
-    justify-content: center;          /* center all links */
+    justify-content: space-around;  /* spreads links evenly */
     align-items: center;
-    padding: 12px 0;                  /* vertical spacing */
+    background-color: #990000;      /* crimson background */
+    padding: 10px 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
 }
 
 nav a {
@@ -55,25 +54,25 @@ nav a {
     text-decoration: none;
     font-weight: bold;
     font-size: 1em;
-    margin: 0 18px;                  /* spacing between links */
-    padding: 6px 12px;
-    border-radius: 4px;
-    transition: background 0.2s, color 0.2s;
+    padding: 6px 10px;
+    transition: color 0.2s, background 0.2s;
 }
 
 nav a:hover {
-    background-color: #b30000;
     color: #fff;
+    background-color: rgba(255,255,255,0.1);  /* subtle hover */
+    border-radius: 4px;
 }
 
-/* Mobile nav adjustments */
+/* Mobile adjustments */
 @media (max-width: 768px) {
     nav {
         flex-direction: column;
-        padding: 15px 0;
+        gap: 8px;  /* space between stacked links */
+        padding: 12px 0;
     }
     nav a {
-        margin: 6px 0;
+        padding: 8px 12px;
     }
 }
 
