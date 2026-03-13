@@ -261,47 +261,17 @@ body {
 summary{
   position: relative;
 }
-.featured-title{
-    color:#990000;
-    font-weight:bold;
-    font-size:2.2em; /* same size as your other main headlines */
-    margin-bottom:20px;
+.featured-title {
+    color: #990000;
+    font-weight: bold;
+    font-size: 2.2em; /* main headline size */
+    margin-bottom: 20px;
+    text-align: center; /* ensures the title is centered */
 }
 
-.featured-articles{
-margin-bottom:30px;
-}
-
-.featured-item{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:12px 0;
-    border-bottom:1px solid #ddd;
-    margin: 5px 0;  /* adds a tiny gap between each article */
-}
-
-.featured-item h3{
-    margin:0;
-    font-size:1.2em;  /* slightly bigger than normal text */
-    font-weight:500;   /* optional, gives a bit of emphasis */
-}
-
-.featured-btn{
-background:#990000;
-color:white;
-border:none;
-padding:6px 12px;
-cursor:pointer;
-font-size:0.9em;
-}
-
-.featured-btn:hover{
-background:#b30000;
-}
-  .featured-articles {
+.featured-articles {
     text-align: center;
-    margin-bottom: 30px; /* space below section */
+    margin-bottom: 30px;
 }
 
 #featured-container {
@@ -311,9 +281,30 @@ background:#b30000;
 
 .featured-item {
     display: flex;
-    justify-content: space-between; /* puts title left, button right */
+    justify-content: space-between; /* title left, button right */
     align-items: center;
-    margin: 10px 0; /* space between articles */
+    padding: 12px 0;                 /* space inside each item */
+    border-bottom: 1px solid #ddd;
+    margin: 15px 0;                  /* bigger white gap between each article */
+}
+
+.featured-item h3 {
+    margin: 0;
+    font-size: 0.9em;  /* same as Read More buttons */
+    font-weight: 500;
+}
+
+.featured-btn {
+    background: #990000;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.featured-btn:hover {
+    background: #b30000;
 }
 </style>
 </head>
@@ -2010,6 +2001,7 @@ featuredBox.appendChild(item);
 </script>
 </body>
 </html>
+
 
 
 
