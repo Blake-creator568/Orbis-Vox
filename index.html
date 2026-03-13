@@ -400,7 +400,6 @@ summary{
   
 <section class="featured-articles">
 <div id="featured-container"></div>
-  
 </section>
     
 <!-- NEWS -->
@@ -1799,85 +1798,65 @@ canvas {
 }
 <style/>
   
-  <script>
+<script>
 document.addEventListener("DOMContentLoaded", function(){
 
     const featuredBox = document.getElementById("featured-container");
     if (!featuredBox) return;
 
+    // Add the featured section heading
     const heading = document.createElement("div");
     heading.className = "featured-title";
     heading.innerText = "FEATURED ARTICLES";
     featuredBox.appendChild(heading);
 
     const articles = document.querySelectorAll(".article-box");
-
     const today = new Date();
     const weekAgo = new Date();
     weekAgo.setDate(today.getDate() - 7);
 
     articles.forEach(article => {
-
         const dateElement = article.querySelector(".article-date");
         if(!dateElement) return;
 
         const articleDate = new Date(dateElement.dataset.date);
-        if(articleDate < weekAgo) return;
+        if(articleDate < weekAgo) return; // skip old articles
 
         const titleElement = article.querySelector(".article-title");
         const title = titleElement ? titleElement.innerText : "Article";
 
         const id = article.dataset.id;
 
-        const content = article.querySelector(".article-content");
-        if(!content) return;
+        // grab full article text for summary
+        const fullText = article.querySelector('.article-content').innerText;
+        const words = fullText.split(' ').slice(0, 50);
+        let summary = words.join(' ');
 
-        const words = content.innerText.split(' ').slice(0,50);
-        let summary = words.join(' ') + "...";
+        const lastSentenceIndex = Math.max(
+            summary.lastIndexOf('.'),
+            summary.lastIndexOf('!'),
+            summary.lastIndexOf('?')
+        );
+        if (lastSentenceIndex !== -1) summary = summary.slice(0, lastSentenceIndex + 1);
+        else summary += '...';
 
+        // create featured item
         const item = document.createElement("div");
         item.className = "featured-item";
-
+        item.setAttribute("data-id", id);
         item.innerHTML = `
-        <div class="featured-item-title">${title}</div>
-        <div class="featured-summary">${summary}</div>
-        <button class="featured-btn" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth'})">
-        Read More
-        </button>
+            <div class="featured-item-title">${title}</div>
+            <div class="featured-summary">${summary}</div>
+            <button class="featured-btn" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth'})">
+                Read More
+            </button>
         `;
 
         featuredBox.appendChild(item);
-
     });
 
 });
 </script>
-  <script>
-document.addEventListener("DOMContentLoaded", function(){
-    const searchBtn = document.querySelector('.nav-search-btn');
-    const searchInput = document.querySelector('.nav-search-input');
-
-    if(!searchBtn || !searchInput) return;
-
-    // Search function
-    const doSearch = () => {
-        const query = searchInput.value.toLowerCase();
-        const articles = document.querySelectorAll('.article-box');
-
-        articles.forEach(article => {
-            const title = article.querySelector('.article-title').innerText.toLowerCase();
-            article.style.display = title.includes(query) ? 'block' : 'none';
-        });
-    }
-
-    // Button click
-    searchBtn.addEventListener('click', doSearch);
-
-    // Press Enter
-    searchInput.addEventListener('keypress', function(e){
-        if(e.key === 'Enter') doSearch();
-    });
-});
-</script>
+  
 </body>
 </html>
