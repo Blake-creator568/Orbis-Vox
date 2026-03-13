@@ -1854,18 +1854,28 @@ document.addEventListener("DOMContentLoaded", function(){
 </script>
   <script>
 document.addEventListener("DOMContentLoaded", function(){
-    const searchBtn = document.querySelector('.search-btn');
-    const searchInput = document.querySelector('nav input[type="text"]');
-    
-    searchBtn.addEventListener('click', function(){
+    const searchBtn = document.querySelector('.nav-search-btn');
+    const searchInput = document.querySelector('.nav-search-input');
+
+    if(!searchBtn || !searchInput) return;
+
+    // Search function
+    const doSearch = () => {
         const query = searchInput.value.toLowerCase();
         const articles = document.querySelectorAll('.article-box');
 
         articles.forEach(article => {
             const title = article.querySelector('.article-title').innerText.toLowerCase();
-            if(title.includes(query)) article.style.display = 'block';
-            else article.style.display = 'none';
+            article.style.display = title.includes(query) ? 'block' : 'none';
         });
+    }
+
+    // Button click
+    searchBtn.addEventListener('click', doSearch);
+
+    // Press Enter
+    searchInput.addEventListener('keypress', function(e){
+        if(e.key === 'Enter') doSearch();
     });
 });
 </script>
