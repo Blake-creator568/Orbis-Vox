@@ -297,16 +297,25 @@ body {
 summary{
   position: relative;
 }
-/* Featured section - basic, no spacing fuss */
+/* FEATURED SECTION STYLING */
 .featured-title {
     color: #990000;
     font-weight: bold;
     font-size: 2.4em;
+    margin-bottom: 20px;
     text-align: center;
     text-decoration: underline;
     text-decoration-color: black;
     text-decoration-thickness: 2px;
-    margin-bottom: 10px;
+}
+
+.featured-meta-line {
+    text-align: center;
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    border-bottom: 2px solid black;
 }
 
 #featured-container {
@@ -315,39 +324,52 @@ summary{
     text-align: center;
 }
 
-.featured-item {
+/* EACH FEATURED ITEM */
+#featured-container .featured-item {
     display: flex;
-    flex-direction: column;
+    flex-direction: column;  /* headline → summary → button */
     align-items: center;
-    margin: 10px 0;
-    border-bottom: 1px solid #ddd; /* basic separator */
-    padding-bottom: 6px;
+    gap: 4px;                /* spacing between headline, summary, button */
+    padding: 4px 0;           /* tiny padding inside item */
+    margin: 4px 0;            /* tiny gap between items */
+    border-bottom: 1px solid #ddd;
 }
 
-.featured-item-title {
-    font-size: 2em;
+#featured-container .featured-item:last-child {
+    border-bottom: none;      /* remove line under last item */
+}
+
+/* HEADLINE */
+#featured-container .featured-item-title {
+    font-size: 2.15em;
     font-weight: 500;
-    margin-bottom: 6px;
+    margin: 0;                /* no extra spacing */
 }
 
-.featured-summary {
+/* SUMMARY */
+#featured-container .featured-summary {
     font-size: 1em;
-    margin-bottom: 6px;
+    color: #333;
+    margin: 0;                /* remove default spacing */
+    text-align: center;
 }
 
-.featured-btn {
+/* BUTTON */
+#featured-container .featured-btn {
     background: #990000;
     color: white;
     border: none;
     padding: 6px 12px;
     cursor: pointer;
     font-size: 0.9em;
+    margin-top: 2px;          /* tiny gap above button */
 }
 
-.featured-btn:hover {
+#featured-container .featured-btn:hover {
     background: #b30000;
 }
 
+/* NEWS SECTION BLACK LINE */
 #news-section {
     border-top: 2px solid black;
     padding-top: 10px;
@@ -1829,77 +1851,62 @@ padding:6px 12px;
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 
-/* ================= FEATURED ARTICLES ================= */
+  /* ================= FEATURED ARTICLES ================= */
+  const featuredBox = document.getElementById("featured-container");
+  const articles = document.querySelectorAll(".article-box");
 
-const featuredBox = document.getElementById("featured-container");
+  const today = new Date();
+  const weekAgo = new Date();
+  weekAgo.setDate(today.getDate() - 7);
 
-// clear old featured items
-featuredBox.innerHTML = "";
-
-const articles = document.querySelectorAll(".article-box");
-
-const today = new Date();
-const weekAgo = new Date();
-weekAgo.setDate(today.getDate() - 7);
-
-articles.forEach(article => {
-
+  articles.forEach(article => {
     const dateElement = article.querySelector(".article-date");
     if(!dateElement) return;
 
     const articleDate = new Date(dateElement.dataset.date);
 
-    // only include articles from last 7 days
     if(articleDate >= weekAgo){
+      const titleElement = article.querySelector(".article-title");
+      const title = titleElement ? titleElement.innerText : "Article";
+      const id = article.dataset.id;
 
-        const titleElement = article.querySelector(".article-title");
-        const title = titleElement ? titleElement.innerText : "Article";
+      const item = document.createElement("div");
+      item.className = "featured-item";
+      item.setAttribute("data-id", id);
 
-        const id = article.dataset.id;
+      item.innerHTML = `
+        <span class="featured-item-title">${title}</span>
+        <button class="featured-btn" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth'})">
+          Read More
+        </button>
+      `;
 
-        const item = document.createElement("div");
-        item.className = "featured-item";
-        item.setAttribute("data-id", id);
-
-        // summary placeholder, will fill below
-        item.innerHTML = `
-            <span class="featured-item-title">${title}</span>
-            <button class="featured-btn" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth'})">
-            Read More
-            </button>
-        `;
-
-        featuredBox.appendChild(item);
+      featuredBox.appendChild(item);
     }
+  });
 
-});
+  /* ================= FEATURED SUMMARIES ================= */
+  const featuredItems = document.querySelectorAll('#featured-container .featured-item');
 
-/* ================= FEATURED SUMMARIES ================= */
-
-// add summaries right after title
-const featuredItems = document.querySelectorAll('#featured-container .featured-item');
-
-featuredItems.forEach(item => {
-
+  featuredItems.forEach(item => {
     const id = item.getAttribute('data-id');
     const articleBox = document.querySelector(`.article-box[data-id="${id}"]`);
     if (!articleBox) return;
 
     const fullText = articleBox.querySelector('.article-content').innerText;
-
     const words = fullText.split(' ').slice(0, 50);
     let summary = words.join(' ');
 
     const lastSentenceIndex = Math.max(
-        summary.lastIndexOf('.'),
-        summary.lastIndexOf('!'),
-        summary.lastIndexOf('?')
+      summary.lastIndexOf('.'),
+      summary.lastIndexOf('!'),
+      summary.lastIndexOf('?')
     );
 
     if (lastSentenceIndex !== -1) {
-        summary = summary.slice(0, lastSentenceIndex + 1);
+      summary = summary.slice(0, lastSentenceIndex + 1);
     } else {
-        summary += '...';
+      summary += '...';
     }
 
     const summaryEl = document.createElement('div');
@@ -1908,25 +1915,25 @@ featuredItems.forEach(item => {
 
     const titleEl = item.querySelector('.featured-item-title');
     if (titleEl) {
-        titleEl.insertAdjacentElement('afterend', summaryEl);
+      titleEl.insertAdjacentElement('afterend', summaryEl);
     }
+  });
 
-});
+  /* ================= SEARCH ================= */
+  const searchInput = document.getElementById("searchInput");
 
-/* ================= SEARCH ================= */
-
-const searchInput = document.getElementById("searchInput");
-
-searchInput.addEventListener("input", function(){
-
+  searchInput.addEventListener("input", function(){
     const term = this.value.toLowerCase();
 
     document.querySelectorAll(".article-box").forEach(article => {
-        const text = article.innerText.toLowerCase();
-        article.style.display = text.includes(term) ? "block" : "none";
+      const text = article.innerText.toLowerCase();
+      if(text.includes(term)){
+        article.style.display = "block";
+      } else {
+        article.style.display = "none";
+      }
     });
-
-});
+  });
 
 });
 </script>
