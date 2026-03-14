@@ -297,7 +297,9 @@ body {
 summary{
   position: relative;
 }
-/* FEATURED SECTION */
+/* ================= FEATURED SECTION ================= */
+
+/* section title */
 .featured-title {
     color: #990000;               
     font-weight: bold;
@@ -309,6 +311,7 @@ summary{
     text-decoration-thickness: 2px;
 }
 
+/* meta line under section title */
 .featured-meta-line {
     text-align: center;        
     font-size: 1.1em;         
@@ -318,50 +321,57 @@ summary{
     border-bottom: 2px solid black; 
 }
 
+/* container for featured items */
 #featured-container {
     max-width: 700px; 
     margin: 0 auto;    
     text-align: center;
 }
 
-/* FEATURED ITEMS: ultra-tight vertical spacing */
-#featured-container .featured-item {
+/* individual featured item */
+.featured-item {
     display: flex;
-    flex-direction: column;
+    flex-direction: column;      /* stack headline → summary → button */
     align-items: center;
-    gap: 4px;            /* space between headline → summary → button */
-    padding: 0;           /* remove inner padding */
-    margin: 4px 0;        /* small space between items */
-    border-bottom: 1px solid #ddd;
+    padding: 4px 0;              /* small padding inside item */
+    margin: 6px 0;               /* small gap between items */
+    border-bottom: none;          /* remove grey line */
 }
 
-#featured-container .featured-item-title {
-    margin: 0;           /* remove default spacing */
+/* headline inside featured item */
+.featured-item-title {
+    font-size: 2em;               /* keep big */
+    font-weight: 500;
+    margin: 0;                    /* remove extra gap */
 }
 
-#featured-container .featured-summary {
-    margin: 0;           /* remove top/bottom spacing */
+/* summary under headline */
+.featured-summary {
+    font-size: 1em;
+    color: #333;
+    margin: 2px 0 6px 0;          /* tiny space between headline and summary, summary → button */
 }
 
-#featured-container .featured-btn {
-    margin-top: 2px;     /* tiny gap before button */
+/* featured button */
+.featured-btn {
     background: #990000;
     color: white;
     border: none;
     padding: 6px 12px;
     cursor: pointer;
     font-size: 0.9em;
+    margin-top: 2px;             /* tiny gap above button */
 }
 
-#featured-container .featured-btn:hover {
+.featured-btn:hover {
     background: #b30000;
 }
 
-/* NEWS SECTION TOP LINE */
+/* black line above news section to match others */
 #news-section {
     border-top: 2px solid black;
-    padding-top: 10px;    /* small padding above news content */
-    margin-top: 15px;     /* space between featured items and news section */
+    padding-top: 10px;           /* small padding above news content */
+    margin-top: 15px;            /* spacing between featured items and news */
 }
 </style>
 </head>
@@ -1837,12 +1847,15 @@ padding:6px 12px;
 </style>
   
 <script>
-
 document.addEventListener("DOMContentLoaded", function(){
 
 /* ================= FEATURED ARTICLES ================= */
 
 const featuredBox = document.getElementById("featured-container");
+
+// clear old featured items
+featuredBox.innerHTML = "";
+
 const articles = document.querySelectorAll(".article-box");
 
 const today = new Date();
@@ -1851,71 +1864,72 @@ weekAgo.setDate(today.getDate() - 7);
 
 articles.forEach(article => {
 
-const dateElement = article.querySelector(".article-date");
-if(!dateElement) return;
+    const dateElement = article.querySelector(".article-date");
+    if(!dateElement) return;
 
-const articleDate = new Date(dateElement.dataset.date);
+    const articleDate = new Date(dateElement.dataset.date);
 
-if(articleDate >= weekAgo){
+    // only include articles from last 7 days
+    if(articleDate >= weekAgo){
 
-const titleElement = article.querySelector(".article-title");
-const title = titleElement ? titleElement.innerText : "Article";
+        const titleElement = article.querySelector(".article-title");
+        const title = titleElement ? titleElement.innerText : "Article";
 
-const id = article.dataset.id;
+        const id = article.dataset.id;
 
-const item = document.createElement("div");
-item.className = "featured-item";
-item.setAttribute("data-id", id);
+        const item = document.createElement("div");
+        item.className = "featured-item";
+        item.setAttribute("data-id", id);
 
-item.innerHTML = `
-<span class="featured-item-title">${title}</span>
-<button class="featured-btn" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth'})">
-Read More
-</button>
-`;
+        // summary placeholder, will fill below
+        item.innerHTML = `
+            <span class="featured-item-title">${title}</span>
+            <button class="featured-btn" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth'})">
+            Read More
+            </button>
+        `;
 
-featuredBox.appendChild(item);
-
-}
+        featuredBox.appendChild(item);
+    }
 
 });
 
 /* ================= FEATURED SUMMARIES ================= */
 
+// add summaries right after title
 const featuredItems = document.querySelectorAll('#featured-container .featured-item');
 
 featuredItems.forEach(item => {
 
-const id = item.getAttribute('data-id');
+    const id = item.getAttribute('data-id');
+    const articleBox = document.querySelector(`.article-box[data-id="${id}"]`);
+    if (!articleBox) return;
 
-const articleBox = document.querySelector(`.article-box[data-id="${id}"]`);
-if (!articleBox) return;
+    const fullText = articleBox.querySelector('.article-content').innerText;
 
-const fullText = articleBox.querySelector('.article-content').innerText;
+    const words = fullText.split(' ').slice(0, 50);
+    let summary = words.join(' ');
 
-const words = fullText.split(' ').slice(0, 50);
-let summary = words.join(' ');
+    const lastSentenceIndex = Math.max(
+        summary.lastIndexOf('.'),
+        summary.lastIndexOf('!'),
+        summary.lastIndexOf('?')
+    );
 
-const lastSentenceIndex = Math.max(
-summary.lastIndexOf('.'),
-summary.lastIndexOf('!'),
-summary.lastIndexOf('?')
-);
+    if (lastSentenceIndex !== -1) {
+        summary = summary.slice(0, lastSentenceIndex + 1);
+    } else {
+        summary += '...';
+    }
 
-if (lastSentenceIndex !== -1) {
-summary = summary.slice(0, lastSentenceIndex + 1);
-} else {
-summary += '...';
-}
+    const summaryEl = document.createElement('div');
+    summaryEl.className = 'featured-summary';
+    summaryEl.innerText = summary;
 
-const summaryEl = document.createElement('div');
-summaryEl.className = 'featured-summary';
-summaryEl.innerText = summary;
-
-const titleEl = item.querySelector('.featured-item-title');
-if (titleEl) {
-titleEl.insertAdjacentElement('afterend', summaryEl);
-}
+    const titleEl = item.querySelector('.featured-item-title');
+    if (titleEl) {
+        titleEl.insertAdjacentElement('afterend', summaryEl);
+    }
 
 });
 
@@ -1925,19 +1939,12 @@ const searchInput = document.getElementById("searchInput");
 
 searchInput.addEventListener("input", function(){
 
-const term = this.value.toLowerCase();
+    const term = this.value.toLowerCase();
 
-document.querySelectorAll(".article-box").forEach(article => {
-
-const text = article.innerText.toLowerCase();
-
-if(text.includes(term)){
-article.style.display = "block";
-}else{
-article.style.display = "none";
-}
-
-});
+    document.querySelectorAll(".article-box").forEach(article => {
+        const text = article.innerText.toLowerCase();
+        article.style.display = text.includes(term) ? "block" : "none";
+    });
 
 });
 
