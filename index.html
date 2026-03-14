@@ -372,18 +372,28 @@ summary{
     margin-top: 20px;   /* spacing between featured and news */
 }
   
-/* only affect featured summary spacing */
+
+/* FEATURED ITEMS: tight vertical spacing */
+#featured-container .featured-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;  /* controls space between headline → summary → button */
+  padding: 0; /* removes extra padding inside each featured item */
+  margin: 4px 0; /* small space between each featured item */
+  border-bottom: 1px solid #ddd;
+}
+
 #featured-container .featured-item-title {
-    margin-bottom: 4px;  /* tiny gap after headline */
+  margin: 0;   /* remove default spacing */
 }
 
 #featured-container .featured-summary {
-    margin-top: 0;       /* remove extra top margin */
-    margin-bottom: 6px;  /* small gap before button */
+  margin: 0;   /* remove default top/bottom spacing */
 }
 
 #featured-container .featured-btn {
-    margin-top: 2px;     /* tiny gap above button */
+  margin-top: 2px; /* tiny gap before button */
 }
 </style>
 </head>
