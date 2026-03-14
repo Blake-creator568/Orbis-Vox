@@ -297,6 +297,7 @@ body {
 summary{
   position: relative;
 }
+/* FEATURED SECTION */
 .featured-title {
     color: #990000;               
     font-weight: bold;
@@ -323,38 +324,27 @@ summary{
     text-align: center;
 }
 
-/* ultra-tight featured items */
-.featured-item {
+/* FEATURED ITEMS: ultra-tight vertical spacing */
+#featured-container .featured-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2px 0;       /* almost no padding inside item */
-    margin: 4px 0;        /* very small space between items */
+    gap: 4px;            /* space between headline → summary → button */
+    padding: 0;           /* remove inner padding */
+    margin: 4px 0;        /* small space between items */
     border-bottom: 1px solid #ddd;
 }
 
-/* FEATURED ITEMS - tighter headline + summary */
-.featured-item-title {
-    margin-bottom: 4px;  /* smaller gap below headline */
+#featured-container .featured-item-title {
+    margin: 0;           /* remove default spacing */
 }
 
-.featured-summary {
-    margin-top: 0;       /* remove extra top space */
-    margin-bottom: 8px;  /* keep tiny gap before button */
+#featured-container .featured-summary {
+    margin: 0;           /* remove top/bottom spacing */
 }
 
-/* NEWS SECTION TOP LINE */
-#news-section {
-    border-top: 2px solid black; /* black line above news */
-    padding-top: 10px;           /* small padding above news content */
-    margin-top: 15px;            /* space between featured items and news section */
-}
-
-.featured-btn {
-    margin-top: 2px;      /* tiny gap above button */
-}
-
-.featured-btn {
+#featured-container .featured-btn {
+    margin-top: 2px;     /* tiny gap before button */
     background: #990000;
     color: white;
     border: none;
@@ -363,37 +353,15 @@ summary{
     font-size: 0.9em;
 }
 
-.featured-btn:hover {
+#featured-container .featured-btn:hover {
     background: #b30000;
 }
-  #news-section {
+
+/* NEWS SECTION TOP LINE */
+#news-section {
     border-top: 2px solid black;
-    padding-top: 15px;  /* adds white space above the news */
-    margin-top: 20px;   /* spacing between featured and news */
-}
-  
-
-/* FEATURED ITEMS: tight vertical spacing */
-#featured-container .featured-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;  /* controls space between headline → summary → button */
-  padding: 0; /* removes extra padding inside each featured item */
-  margin: 4px 0; /* small space between each featured item */
-  border-bottom: 1px solid #ddd;
-}
-
-#featured-container .featured-item-title {
-  margin: 0;   /* remove default spacing */
-}
-
-#featured-container .featured-summary {
-  margin: 0;   /* remove default top/bottom spacing */
-}
-
-#featured-container .featured-btn {
-  margin-top: 2px; /* tiny gap before button */
+    padding-top: 10px;    /* small padding above news content */
+    margin-top: 15px;     /* space between featured items and news section */
 }
 </style>
 </head>
