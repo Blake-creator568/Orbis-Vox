@@ -379,7 +379,7 @@ summary{
 </header>
 
 <nav>
- <div>
+ <div id="navLinks">
     <a href="#news" id="homeLink">Home</a>
     <a href="#news">News</a>
     <a href="#fun" id="funLink">Fun</a>
@@ -1802,6 +1802,36 @@ color:#990000;
 border-radius:4px;
 padding:6px 12px;
 }
+  
+@media (max-width: 768px){
+
+#navLinks{
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background: white;
+  padding: 15px 0;
+  border-top: 1px solid #ddd;
+}
+
+#navLinks a{
+  display: block;
+  padding: 12px;
+  text-align: center;
+}
+
+#navLinks.show-nav{
+  display: flex;
+}
+
+.hamburger{
+  cursor: pointer;
+}
+
+}
 </style>
   
 <script>
@@ -1958,6 +1988,18 @@ window.addEventListener("click", function(e){
 n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
 (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
 ml('account', '2140738');
+</script>
+  <script>
+document.addEventListener("DOMContentLoaded", function(){
+
+const hamburger = document.getElementById("hamburger");
+const navLinks = document.getElementById("navLinks");
+
+hamburger.addEventListener("click", function(){
+  navLinks.classList.toggle("show-nav");
+});
+
+});
 </script>
 </body>
 </html>
