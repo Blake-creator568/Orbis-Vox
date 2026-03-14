@@ -389,13 +389,17 @@ summary{
     <a href="#" id="contactBtn">Contact</a>
 </div>
 <div class="hamburger" id="hamburger"> 
-    <div>c </div> <div> </div> <div> </div> 
+    <div> </div> <div> </div> <div> </div> 
 </div> 
   <input id="searchInput" placeholder="Search articles..." aria-label="Search articles"> </nav>
 
 <div class="featured-meta-line">
   😈 Click on headlines to see more • Blake Richardson • Contact me, come join the chaos! ✒️
 </div>
+  
+  <section id="featured-container">
+<h2 class="featured-title">Featured Articles</h2>
+</section>
     
 <!-- NEWS -->
 <section id="news" class="fade-in">
@@ -1791,11 +1795,13 @@ canvas {
   font-size: 0.85em;
   margin-bottom: 4px;
 }
-<style/>
+</style>
   
 <script>
 
 document.addEventListener("DOMContentLoaded", function(){
+
+/* ================= FEATURED ARTICLES ================= */
 
 const featuredBox = document.getElementById("featured-container");
 const articles = document.querySelectorAll(".article-box");
@@ -1819,9 +1825,11 @@ const title = titleElement ? titleElement.innerText : "Article";
 const id = article.dataset.id;
 
 const item = document.createElement("div");
+item.className = "featured-item";
+item.setAttribute("data-id", id);
 
 item.innerHTML = `
-<span>${title}</span>
+<span class="featured-item-title">${title}</span>
 <button class="featured-btn" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth'})">
 Read More
 </button>
@@ -1833,53 +1841,70 @@ featuredBox.appendChild(item);
 
 });
 
+/* ================= FEATURED SUMMARIES ================= */
+
+const featuredItems = document.querySelectorAll('#featured-container .featured-item');
+
+featuredItems.forEach(item => {
+
+const id = item.getAttribute('data-id');
+
+const articleBox = document.querySelector(`.article-box[data-id="${id}"]`);
+if (!articleBox) return;
+
+const fullText = articleBox.querySelector('.article-content').innerText;
+
+const words = fullText.split(' ').slice(0, 50);
+let summary = words.join(' ');
+
+const lastSentenceIndex = Math.max(
+summary.lastIndexOf('.'),
+summary.lastIndexOf('!'),
+summary.lastIndexOf('?')
+);
+
+if (lastSentenceIndex !== -1) {
+summary = summary.slice(0, lastSentenceIndex + 1);
+} else {
+summary += '...';
+}
+
+const summaryEl = document.createElement('div');
+summaryEl.className = 'featured-summary';
+summaryEl.innerText = summary;
+
+const titleEl = item.querySelector('.featured-item-title');
+if (titleEl) {
+titleEl.insertAdjacentElement('afterend', summaryEl);
+}
+
+});
+
+/* ================= SEARCH ================= */
+
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", function(){
+
+const term = this.value.toLowerCase();
+
+document.querySelectorAll(".article-box").forEach(article => {
+
+const text = article.innerText.toLowerCase();
+
+if(text.includes(term)){
+article.style.display = "block";
+}else{
+article.style.display = "none";
+}
+
+});
+
+});
+
 });
 
 </script>
- <script>
-window.addEventListener('DOMContentLoaded', () => {
-    // select all featured items that were just added by the first script
-    const featuredItems = document.querySelectorAll('#featured-container .featured-item');
-
-    featuredItems.forEach(item => {
-        const id = item.getAttribute('data-id');
-
-        // find the full article content using the id
-        const articleBox = document.querySelector(`.article-box[data-id="${id}"]`);
-        if (!articleBox) return;
-
-        const fullText = articleBox.querySelector('.article-content').innerText;
-
-        // take first 50 words to ensure a full sentence
-        const words = fullText.split(' ').slice(0, 50);
-        let summary = words.join(' ');
-
-        const lastSentenceIndex = Math.max(
-            summary.lastIndexOf('.'),
-            summary.lastIndexOf('!'),
-            summary.lastIndexOf('?')
-        );
-
-        if (lastSentenceIndex !== -1) {
-            summary = summary.slice(0, lastSentenceIndex + 1);
-        } else {
-            summary += '...';
-        }
-
-        // create summary div
-        const summaryEl = document.createElement('div');
-        summaryEl.className = 'featured-summary';
-        summaryEl.innerText = summary;
-
-        // insert below the title (assumes your first script wraps title in a <span>)
-        const titleEl = item.querySelector('span');
-        if (titleEl) {
-            titleEl.insertAdjacentElement('afterend', summaryEl);
-        }
-    });
-});
-</script>
-
   
 </body>
 </html>
