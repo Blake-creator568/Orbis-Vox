@@ -297,25 +297,16 @@ body {
 summary{
   position: relative;
 }
-/* FEATURED SECTION STYLING */
+/* Featured section - basic, no spacing fuss */
 .featured-title {
     color: #990000;
     font-weight: bold;
     font-size: 2.4em;
-    margin-bottom: 20px;
     text-align: center;
     text-decoration: underline;
     text-decoration-color: black;
     text-decoration-thickness: 2px;
-}
-
-.featured-meta-line {
-    text-align: center;
-    font-size: 1.1em;
-    color: #555;
-    margin-bottom: 20px;
-    padding: 10px 0;
-    border-bottom: 2px solid black;
+    margin-bottom: 10px;
 }
 
 #featured-container {
@@ -324,52 +315,39 @@ summary{
     text-align: center;
 }
 
-/* EACH FEATURED ITEM */
-#featured-container .featured-item {
+.featured-item {
     display: flex;
-    flex-direction: column;  /* headline → summary → button */
+    flex-direction: column;
     align-items: center;
-    gap: 4px;                /* spacing between headline, summary, button */
-    padding: 4px 0;           /* tiny padding inside item */
-    margin: 4px 0;            /* tiny gap between items */
-    border-bottom: 1px solid #ddd;
+    margin: 10px 0;
+    border-bottom: 1px solid #ddd; /* basic separator */
+    padding-bottom: 6px;
 }
 
-#featured-container .featured-item:last-child {
-    border-bottom: none;      /* remove line under last item */
-}
-
-/* HEADLINE */
-#featured-container .featured-item-title {
-    font-size: 2.15em;
+.featured-item-title {
+    font-size: 2em;
     font-weight: 500;
-    margin: 0;                /* no extra spacing */
+    margin-bottom: 6px;
 }
 
-/* SUMMARY */
-#featured-container .featured-summary {
+.featured-summary {
     font-size: 1em;
-    color: #333;
-    margin: 0;                /* remove default spacing */
-    text-align: center;
+    margin-bottom: 6px;
 }
 
-/* BUTTON */
-#featured-container .featured-btn {
+.featured-btn {
     background: #990000;
     color: white;
     border: none;
     padding: 6px 12px;
     cursor: pointer;
     font-size: 0.9em;
-    margin-top: 2px;          /* tiny gap above button */
 }
 
-#featured-container .featured-btn:hover {
+.featured-btn:hover {
     background: #b30000;
 }
 
-/* NEWS SECTION BLACK LINE */
 #news-section {
     border-top: 2px solid black;
     padding-top: 10px;
