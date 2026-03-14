@@ -323,23 +323,25 @@ summary{
     text-align: center;
 }
 
+/* keep title size, shrink spacing */
 .featured-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 8px 0;          /* smaller vertical padding */
+    padding: 6px 0;      /* shrink padding inside each item */
+    margin: 8px 0;        /* shrink space between items */
     border-bottom: 1px solid #ddd;
-    margin: 6px 0;            /* smaller vertical margin */
 }
 
-/* Article headline + summary spacing */
 .featured-item-title {
-    margin-bottom: 4px;  /* shrink space under title */
+    font-size: 2.15em;    /* keep original size */
+    font-weight: 500;
+    margin-bottom: 2px;   /* tiny gap under title */
 }
 
 .featured-summary {
-    margin-top: 0;        /* remove extra top margin */
-    margin-bottom: 6px;   /* keep a tiny gap before the button */
+    margin-top: 0;        /* remove top margin so it hugs the title */
+    margin-bottom: 6px;   /* small gap before the button */
 }
 
 .featured-btn {
