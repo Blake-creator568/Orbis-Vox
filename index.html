@@ -297,81 +297,83 @@ body {
 summary{
   position: relative;
 }
-/* ================= FEATURED SECTION ================= */
-
-/* section title */
+/* FEATURED SECTION STYLING */
 .featured-title {
-    color: #990000;               
+    color: #990000;
     font-weight: bold;
-    font-size: 2.4em;             
+    font-size: 2.4em;
     margin-bottom: 20px;
     text-align: center;
     text-decoration: underline;
-    text-decoration-color: black; 
+    text-decoration-color: black;
     text-decoration-thickness: 2px;
 }
 
-/* meta line under section title */
 .featured-meta-line {
-    text-align: center;        
-    font-size: 1.1em;         
-    color: #555;               
-    margin-bottom: 20px;       
-    padding: 10px 0;           
-    border-bottom: 2px solid black; 
+    text-align: center;
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    border-bottom: 2px solid black;
 }
 
-/* container for featured items */
 #featured-container {
-    max-width: 700px; 
-    margin: 0 auto;    
+    max-width: 700px;
+    margin: 0 auto;
     text-align: center;
 }
 
-/* individual featured item */
-.featured-item {
+/* EACH FEATURED ITEM */
+#featured-container .featured-item {
     display: flex;
-    flex-direction: column;      /* stack headline → summary → button */
+    flex-direction: column;  /* headline → summary → button */
     align-items: center;
-    padding: 4px 0;              /* small padding inside item */
-    margin: 6px 0;               /* small gap between items */
-    border-bottom: none;          /* remove grey line */
+    gap: 4px;                /* spacing between headline, summary, button */
+    padding: 4px 0;           /* tiny padding inside item */
+    margin: 4px 0;            /* tiny gap between items */
+    border-bottom: 1px solid #ddd;
 }
 
-/* headline inside featured item */
-.featured-item-title {
-    font-size: 2em;               /* keep big */
+#featured-container .featured-item:last-child {
+    border-bottom: none;      /* remove line under last item */
+}
+
+/* HEADLINE */
+#featured-container .featured-item-title {
+    font-size: 2.15em;
     font-weight: 500;
-    margin: 0;                    /* remove extra gap */
+    margin: 0;                /* no extra spacing */
 }
 
-/* summary under headline */
-.featured-summary {
+/* SUMMARY */
+#featured-container .featured-summary {
     font-size: 1em;
     color: #333;
-    margin: 2px 0 6px 0;          /* tiny space between headline and summary, summary → button */
+    margin: 0;                /* remove default spacing */
+    text-align: center;
 }
 
-/* featured button */
-.featured-btn {
+/* BUTTON */
+#featured-container .featured-btn {
     background: #990000;
     color: white;
     border: none;
     padding: 6px 12px;
     cursor: pointer;
     font-size: 0.9em;
-    margin-top: 2px;             /* tiny gap above button */
+    margin-top: 2px;          /* tiny gap above button */
 }
 
-.featured-btn:hover {
+#featured-container .featured-btn:hover {
     background: #b30000;
 }
 
-/* black line above news section to match others */
+/* NEWS SECTION BLACK LINE */
 #news-section {
     border-top: 2px solid black;
-    padding-top: 10px;           /* small padding above news content */
-    margin-top: 15px;            /* spacing between featured items and news */
+    padding-top: 10px;
+    margin-top: 15px;
 }
 </style>
 </head>
