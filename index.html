@@ -323,25 +323,29 @@ summary{
     text-align: center;
 }
 
-/* keep title size, shrink spacing */
+/* ultra-tight featured items */
 .featured-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 6px 0;      /* shrink padding inside each item */
-    margin: 8px 0;        /* shrink space between items */
+    padding: 2px 0;       /* almost no padding inside item */
+    margin: 4px 0;        /* very small space between items */
     border-bottom: 1px solid #ddd;
 }
 
 .featured-item-title {
-    font-size: 2.15em;    /* keep original size */
+    font-size: 2.15em;    /* keep the big headline */
     font-weight: 500;
-    margin-bottom: 2px;   /* tiny gap under title */
+    margin-bottom: 0;     /* remove extra space below title */
 }
 
 .featured-summary {
-    margin-top: 0;        /* remove top margin so it hugs the title */
-    margin-bottom: 6px;   /* small gap before the button */
+    margin-top: 0;        /* hugs title */
+    margin-bottom: 2px;   /* tiny space before button */
+}
+
+.featured-btn {
+    margin-top: 2px;      /* tiny gap above button */
 }
 
 .featured-btn {
