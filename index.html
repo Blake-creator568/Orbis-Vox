@@ -387,6 +387,7 @@ summary{
     <a href="#teenage">Teenage Life</a>
     <a href="#about">About</a>
     <a href="#" id="contactBtn">Contact</a>
+    <a href="#" id="signupBtn">Sign Up</a>
 </div>
 <div class="hamburger" id="hamburger"> 
     <div> </div> <div> </div> <div> </div> 
@@ -1795,6 +1796,12 @@ canvas {
   font-size: 0.85em;
   margin-bottom: 4px;
 }
+  #signupBtn{
+background:white;
+color:#990000;
+border-radius:4px;
+padding:6px 12px;
+}
 </style>
   
 <script>
@@ -1903,8 +1910,54 @@ article.style.display = "none";
 });
 
 });
-
 </script>
-  
+  <div id="signupPopup" class="contact-box">
+  <div class="modal-content">
+
+    <span class="close-modal" id="closeSignup">&times;</span>
+
+    <h2>Join Orbis Vox</h2>
+    <p>Get new articles straight to your inbox.</p>
+
+    <!-- MailerLite embed -->
+    <div class="ml-embedded" data-form="Y3Gsx1"></div>
+
+  </div>
+</div>
+  <script>
+document.addEventListener("DOMContentLoaded", function(){
+
+const signupBtn = document.getElementById("signupBtn");
+const signupPopup = document.getElementById("signupPopup");
+const closeSignup = document.getElementById("closeSignup");
+
+if(signupBtn){
+signupBtn.addEventListener("click", function(e){
+  e.preventDefault();
+  signupPopup.style.display = "block";
+});
+}
+
+if(closeSignup){
+closeSignup.addEventListener("click", function(){
+  signupPopup.style.display = "none";
+});
+}
+
+window.addEventListener("click", function(e){
+  if(e.target === signupPopup){
+    signupPopup.style.display = "none";
+  }
+});
+
+});
+</script>
+  <script>
+(function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+.push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+ml('account', '2140738');
+</script>
 </body>
 </html>
