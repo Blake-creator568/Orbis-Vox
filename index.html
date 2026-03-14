@@ -333,15 +333,21 @@ summary{
     border-bottom: 1px solid #ddd;
 }
 
+/* FEATURED ITEMS - tighter headline + summary */
 .featured-item-title {
-    font-size: 2.15em;    /* keep the big headline */
-    font-weight: 500;
-    margin-bottom: 0;     /* remove extra space below title */
+    margin-bottom: 4px;  /* smaller gap below headline */
 }
 
 .featured-summary {
-    margin-top: 0;        /* hugs title */
-    margin-bottom: 2px;   /* tiny space before button */
+    margin-top: 0;       /* remove extra top space */
+    margin-bottom: 8px;  /* keep tiny gap before button */
+}
+
+/* NEWS SECTION TOP LINE */
+#news-section {
+    border-top: 2px solid black; /* black line above news */
+    padding-top: 10px;           /* small padding above news content */
+    margin-top: 15px;            /* space between featured items and news section */
 }
 
 .featured-btn {
