@@ -650,7 +650,7 @@ summary{
 <section id="global" class="fade-in">
   <div class="section-title">Global Issues</div>
 
-<div class="article-box" data-id="everyones-fine-performance">
+<div class="article-box" id="everyones-fine-performance" data-id="everyones-fine-performance">
     <div class="article-date" data-date="2026-03-17" style="font-size:0.85em; color:#000; margin-bottom:8px;">
   Posted: 17 Mar 2026
 </div>
@@ -1714,6 +1714,18 @@ hamburger.addEventListener("click", function(){
 });
 
 });
+</script>
+  <script>
+  const featuredArticles = document.querySelectorAll('#featured .article-box');
+
+  featuredArticles.forEach(article => {
+    const articleId = article.getAttribute('data-id');
+    const btn = article.querySelector('.read-more');
+
+    if (btn && articleId) {
+      btn.href = `#${articleId}`;
+    }
+  });
 </script>
 </body>
 </html>
