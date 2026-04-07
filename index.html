@@ -1591,6 +1591,12 @@ padding:6px 12px;
 }
 
 }
+  .article-title.recent::before {
+  content: "★ "; /* star before the headline */
+  color: gold;
+  font-size: 1em;
+  margin-right: 4px;
+}
 </style>
   
 <script>
@@ -1672,6 +1678,20 @@ hamburger.addEventListener("click", function(){
   navLinks.classList.toggle("show-nav");
 });
 
+});
+    const articles = document.querySelectorAll('.article-box');
+const now = new Date();
+const currentMonth = now.getMonth();
+const currentYear = now.getFullYear();
+
+articles.forEach(article => {
+  const dateAttr = article.getAttribute('data-date');
+  if (!dateAttr) return;
+
+  const articleDate = new Date(dateAttr);
+  if (articleDate.getMonth() === currentMonth && articleDate.getFullYear() === currentYear) {
+    article.querySelector('.article-title').classList.add('recent');
+  }
 });
 </script>
 </body>
