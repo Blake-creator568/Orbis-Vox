@@ -376,6 +376,9 @@ summary{
     margin-top: 15px;
 }
 </style>
+  
+  <input type="text" id="article-search" placeholder="Search by date e.g., 7/4, 7 Apr, 2026-04-07">
+
 </head>
 
 <body>
@@ -1591,12 +1594,6 @@ padding:6px 12px;
 }
 
 }
-  .article-title.recent::before {
-  content: "★ "; /* star before the headline */
-  color: gold;
-  font-size: 1em;
-  margin-right: 4px;
-}
 </style>
   
 <script>
@@ -1681,37 +1678,44 @@ hamburger.addEventListener("click", function(){
 });
 </script>
   <script>
-document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.querySelector('#article-search'); // your search input
   const articles = document.querySelectorAll('.article-box');
 
-  const today = new Date();
-  const thirtyDaysAgo = new Date();
-  thirtyDaysAgo.setDate(today.getDate() - 30); // 30-day window
+  if (!searchInput) return;
 
-  articles.forEach(article => {
-    const dateEl = article.querySelector('.article-date');
-    const titleEl = article.querySelector('.article-title');
-
-    if (!dateEl || !titleEl) return;
-
-    // Grab the date string from data-date
-    const dateStr = dateEl.getAttribute('data-date'); // e.g., "2026-04-07"
-    if (!dateStr) return;
-
-    // Split into year, month, day
-    const parts = dateStr.split('-').map(Number);
-    if (parts.length !== 3) return;
-
-    const articleDate = new Date(parts[0], parts[1] - 1, parts[2]); // JS months 0-indexed
-
-    // If within last 30 days, add star; else remove it
-    if (articleDate >= thirtyDaysAgo) {
-      titleEl.classList.add('recent');
-    } else {
-      titleEl.classList.remove('recent');
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.trim().toLowerCase();
+    if (!query) {
+      // show all if empty
+      articles.forEach(a => a.style.display = '');
+      return;
     }
+
+    articles.forEach(article => {
+      const dateEl = article.querySelector('.article-date');
+      if (!dateEl) return;
+
+      const dataDate = dateEl.getAttribute('data-date'); // "2026-04-07"
+      const [year, month, day] = dataDate.split('-');
+
+      // create multiple formats to match
+      const formats = [
+        `${day}/${month}/${year}`,     // 7/4/2026
+        `${day}/${month}`,             // 7/4
+        `${day} ${new Date(year, month-1, day).toLocaleString('en-GB', {month:'short'})}`, // 7 Apr
+        `${day} ${new Date(year, month-1, day).toLocaleString('en-GB', {month:'long'})}`,  // 7 April
+        dataDate                       // 2026-04-07
+      ].map(f => f.toLowerCase());
+
+      if (formats.some(f => f.includes(query))) {
+        article.style.display = '';
+      } else {
+        article.style.display = 'none';
+      }
+    });
   });
 });
-  </script>
+</script>
 </body>
 </html>
