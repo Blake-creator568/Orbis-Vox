@@ -1679,20 +1679,25 @@ hamburger.addEventListener("click", function(){
 });
 
 });
-    const articles = document.querySelectorAll('.article-box');
-const now = new Date();
-const currentMonth = now.getMonth();
-const currentYear = now.getFullYear();
-
-articles.forEach(article => {
-  const dateAttr = article.getAttribute('data-date');
-  if (!dateAttr) return;
-
-  const articleDate = new Date(dateAttr);
-  if (articleDate.getMonth() === currentMonth && articleDate.getFullYear() === currentYear) {
-    article.querySelector('.article-title').classList.add('recent');
-  }
-});
 </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+  const articles = document.querySelectorAll('.article-box');
+  const now = new Date();
+  const currentMonth = now.getMonth() + 1; // JS months are 0-indexed
+  const currentYear = now.getFullYear();
+
+  articles.forEach(article => {
+    const dateAttr = article.getAttribute('data-date'); // "2026-04-07"
+    if (!dateAttr) return;
+
+    const [year, month] = dateAttr.split('-').map(Number);
+    if (month === currentMonth && year === currentYear) {
+      const title = article.querySelector('.article-title');
+      if (title) title.classList.add('recent');
+    }
+  });
+});
+  </script>
 </body>
 </html>
