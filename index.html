@@ -411,10 +411,6 @@ summary{
 <div class="featured-meta-line">
   😈 Click on headlines to see more • Blake Richardson • Contact me, come join the chaos! ✒️
 </div>
-  
-  <section id="featured-container">
-<h2 class="featured-title">Featured Articles</h2>
-</section>
     
 <!-- NEWS -->
 <section id="news" class="fade-in">
@@ -1600,74 +1596,6 @@ padding:6px 12px;
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 
-  /* ================= FEATURED ARTICLES ================= */
-  const featuredBox = document.getElementById("featured-container");
-  const articles = document.querySelectorAll(".article-box");
-
-  const today = new Date();
-  const weekAgo = new Date();
-  weekAgo.setDate(today.getDate() - 7);
-
-  articles.forEach(article => {
-    const dateElement = article.querySelector(".article-date");
-    if(!dateElement) return;
-
-    const articleDate = new Date(dateElement.dataset.date);
-
-    if(articleDate >= weekAgo){
-      const titleElement = article.querySelector(".article-title");
-      const title = titleElement ? titleElement.innerText : "Article";
-      const id = article.dataset.id;
-
-      const item = document.createElement("div");
-      item.className = "featured-item";
-      item.setAttribute("data-id", id);
-
-      item.innerHTML = `
-        <span class="featured-item-title">${title}</span>
-        <button class="featured-btn" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth'})">
-          Read More
-        </button>
-      `;
-
-      featuredBox.appendChild(item);
-    }
-  });
-
-  /* ================= FEATURED SUMMARIES ================= */
-  const featuredItems = document.querySelectorAll('#featured-container .featured-item');
-
-  featuredItems.forEach(item => {
-    const id = item.getAttribute('data-id');
-    const articleBox = document.querySelector(`.article-box[data-id="${id}"]`);
-    if (!articleBox) return;
-
-    const fullText = articleBox.querySelector('.article-content').innerText;
-    const words = fullText.split(' ').slice(0, 50);
-    let summary = words.join(' ');
-
-    const lastSentenceIndex = Math.max(
-      summary.lastIndexOf('.'),
-      summary.lastIndexOf('!'),
-      summary.lastIndexOf('?')
-    );
-
-    if (lastSentenceIndex !== -1) {
-      summary = summary.slice(0, lastSentenceIndex + 1);
-    } else {
-      summary += '...';
-    }
-
-    const summaryEl = document.createElement('div');
-    summaryEl.className = 'featured-summary';
-    summaryEl.innerText = summary;
-
-    const titleEl = item.querySelector('.featured-item-title');
-    if (titleEl) {
-      titleEl.insertAdjacentElement('afterend', summaryEl);
-    }
-  });
-
   /* ================= SEARCH ================= */
   const searchInput = document.getElementById("searchInput");
 
@@ -1745,18 +1673,6 @@ hamburger.addEventListener("click", function(){
 });
 
 });
-</script>
-  <script>
-  const featuredArticles = document.querySelectorAll('#featured .article-box');
-
-  featuredArticles.forEach(article => {
-    const articleId = article.getAttribute('data-id');
-    const btn = article.querySelector('.read-more');
-
-    if (btn && articleId) {
-      btn.href = `#${articleId}`;
-    }
-  });
 </script>
 </body>
 </html>
