@@ -1682,22 +1682,35 @@ hamburger.addEventListener("click", function(){
 </script>
   <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // Grab all articles
   const articles = document.querySelectorAll('.article-box');
+
+  // Today's date
   const today = new Date();
   const thirtyDaysAgo = new Date(today);
   thirtyDaysAgo.setDate(today.getDate() - 30); // 30-day window
 
   articles.forEach(article => {
-    const dateAttr = article.querySelector('.article-date')?.getAttribute('data-date');
+    // Get article date
+    const dateElement = article.querySelector('.article-date');
+    if (!dateElement) return;
+
+    const dateAttr = dateElement.getAttribute('data-date');
     if (!dateAttr) return;
 
-    // Parse YYYY-MM-DD safely
+    // Parse YYYY-MM-DD
     const [year, month, day] = dateAttr.split('-').map(Number);
-    const articleDate = new Date(year, month - 1, day); // JS months are 0-indexed
+    const articleDate = new Date(year, month - 1, day); // months 0-indexed
 
+    // Grab the headline
+    const title = article.querySelector('.article-title');
+    if (!title) return;
+
+    // Add or remove "recent" class depending on 30-day window
     if (articleDate >= thirtyDaysAgo) {
-      const title = article.querySelector('.article-title');
-      if (title) title.classList.add('recent');
+      title.classList.add('recent');
+    } else {
+      title.classList.remove('recent');
     }
   });
 });
