@@ -1682,35 +1682,33 @@ hamburger.addEventListener("click", function(){
 </script>
   <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Grab all articles
   const articles = document.querySelectorAll('.article-box');
 
-  // Today's date
   const today = new Date();
-  const thirtyDaysAgo = new Date(today);
+  const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(today.getDate() - 30); // 30-day window
 
   articles.forEach(article => {
-    // Get article date
-    const dateElement = article.querySelector('.article-date');
-    if (!dateElement) return;
+    const dateEl = article.querySelector('.article-date');
+    const titleEl = article.querySelector('.article-title');
 
-    const dateAttr = dateElement.getAttribute('data-date');
-    if (!dateAttr) return;
+    if (!dateEl || !titleEl) return;
 
-    // Parse YYYY-MM-DD
-    const [year, month, day] = dateAttr.split('-').map(Number);
-    const articleDate = new Date(year, month - 1, day); // months 0-indexed
+    // Grab the date string from data-date
+    const dateStr = dateEl.getAttribute('data-date'); // e.g., "2026-04-07"
+    if (!dateStr) return;
 
-    // Grab the headline
-    const title = article.querySelector('.article-title');
-    if (!title) return;
+    // Split into year, month, day
+    const parts = dateStr.split('-').map(Number);
+    if (parts.length !== 3) return;
 
-    // Add or remove "recent" class depending on 30-day window
+    const articleDate = new Date(parts[0], parts[1] - 1, parts[2]); // JS months 0-indexed
+
+    // If within last 30 days, add star; else remove it
     if (articleDate >= thirtyDaysAgo) {
-      title.classList.add('recent');
+      titleEl.classList.add('recent');
     } else {
-      title.classList.remove('recent');
+      titleEl.classList.remove('recent');
     }
   });
 });
