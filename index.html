@@ -377,7 +377,7 @@ summary{
 }
 </style>
   
-  <input type="text" id="article-search" placeholder="Search by date e.g., 7/4, 7 Apr, 2026-04-07">
+  <input type="text" id="article-search" placeholder=" date e.g., 7/4, 7 Apr, 2026-04-07">
 
 </head>
 
@@ -1716,52 +1716,5 @@ hamburger.addEventListener("click", function(){
     });
   });
 });
-</script>
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-  const searchInput = document.querySelector('#article-search'); // your search box
-  const articles = document.querySelectorAll('.article-box');
-
-  if (!searchInput) return;
-
-  searchInput.addEventListener('input', () => {
-    const query = searchInput.value.trim().toLowerCase();
-    if (!query) {
-      articles.forEach(a => a.style.display = ''); // show all if empty
-      return;
-    }
-
-    articles.forEach(article => {
-      const dateEl = article.querySelector('.article-date');
-      if (!dateEl) return;
-
-      const dataDate = dateEl.getAttribute('data-date'); // e.g., "2026-04-07"
-      const [year, month, day] = dataDate.split('-');
-
-      // create normalized formats
-      const articleDate = new Date(year, month - 1, day);
-      const dayNum = articleDate.getDate();
-      const monthNum = articleDate.getMonth() + 1;
-      const monthShort = articleDate.toLocaleString('en-GB', {month: 'short'});
-      const monthLong = articleDate.toLocaleString('en-GB', {month: 'long'});
-
-      const formats = [
-        `${dayNum}/${monthNum}`,           // 7/4
-        `${dayNum}/${monthNum}/${year}`,   // 7/4/2026
-        `${dayNum} ${monthShort}`,         // 7 Apr
-        `${dayNum} ${monthLong}`,          // 7 April
-        dataDate                           // 2026-04-07
-      ].map(f => f.toLowerCase());
-
-      // check if any format includes the query
-      if (formats.some(f => f.includes(query))) {
-        article.style.display = '';
-      } else {
-        article.style.display = 'none';
-      }
-    });
-  });
-});
-  </script>
 </body>
 </html>
