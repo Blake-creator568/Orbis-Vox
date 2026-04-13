@@ -1677,44 +1677,5 @@ hamburger.addEventListener("click", function(){
 
 });
 </script>
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-  const searchInput = document.querySelector('#article-search'); // your search input
-  const articles = document.querySelectorAll('.article-box');
-
-  if (!searchInput) return;
-
-  searchInput.addEventListener('input', () => {
-    const query = searchInput.value.trim().toLowerCase();
-    if (!query) {
-      // show all if empty
-      articles.forEach(a => a.style.display = '');
-      return;
-    }
-
-    articles.forEach(article => {
-      const dateEl = article.querySelector('.article-date');
-      if (!dateEl) return;
-
-      const dataDate = dateEl.getAttribute('data-date'); // "2026-04-07"
-      const [year, month, day] = dataDate.split('-');
-
-      // create multiple formats to match
-      const formats = [
-        `${day}/${month}/${year}`,     // 7/4/2026
-        `${day}/${month}`,             // 7/4
-        `${day} ${new Date(year, month-1, day).toLocaleString('en-GB', {month:'short'})}`, // 7 Apr
-        `${day} ${new Date(year, month-1, day).toLocaleString('en-GB', {month:'long'})}`,  // 7 April
-        dataDate                       // 2026-04-07
-      ].map(f => f.toLowerCase());
-
-      if (formats.some(f => f.includes(query))) {
-        article.style.display = '';
-      } else {
-        article.style.display = 'none';
-      }
-    });
-  });
-});
 </body>
 </html>
