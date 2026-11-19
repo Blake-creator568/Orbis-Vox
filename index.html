@@ -1,1829 +1,927 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-<meta charset="utf-8" />
-<title>Orbis Vox</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<style>
-:root{
-  --bg:#fdfcf8;
-  --paper:#fff;
-  --ink:#1a1a1a;
-  --accent:#8B0000;
-  --accent-2:#B22222;
-  --muted:#7a7a7a;
-  --card-shadow:0 6px 18px rgba(0,0,0,0.08);
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ORBIS VOX | Truth Over Power</title>
+  <link rel="preconnect" href="https://googleapis.com" />
+  <link rel="preconnect" href="https://gstatic.com" crossorigin />
+  <link href="https://googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&display=swap" rel="stylesheet" />
 
-html{scroll-behavior:smooth;}
-body{
-  font-family:"Times New Roman", serif;
-  background:var(--bg);
-  color:var(--ink);
-  padding:30px;
-  max-width:980px;
-  margin:auto;
-  border:8px double #000;
-  transition:background .25s, color .25s;
-}
-.container{padding:0 10px;}
-
-header{position:relative;text-align:center;margin-bottom:10px;}
-header a.logo-link{position:absolute;top:6px;left:6px;display:inline-block;}
-#logo{width:40px;height:40px;display:block;border-radius:6px;transition:transform .3s;position:fixed;top:10px;left:10px;z-index:1000;}
-#logo:hover{transform:scale(1.05) rotate(-2deg);}
-h1{font-size:86px;margin:0;letter-spacing:8px;text-shadow:1px 1px #ccc;color:#000;}
-.subhead{font-size:20px;margin-top:-8px;text-transform:uppercase;font-weight:bold;padding:6px 0;border-top:2px double #000;border-bottom:2px double #000;letter-spacing:2px;color:var(--accent-2);}
-.header-description{font-size:1.1em;margin-top:12px;color:#444;opacity:0;transform:translateY(20px);animation:slideInDesc 1s forwards 0.5s;}
-@keyframes slideInDesc{to{opacity:1;transform:translateY(0);}}
-
-nav {
-    display: flex;
-    justify-content: space-between;    /* spread links + search evenly */
-    align-items: center;
-    background-color: #990000;         /* crimson background */
-    padding: 12px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    flex-wrap: wrap;                   /* allows wrapping on small screens */
-}
-
-nav .nav-links {
-    display: flex;
-    gap: 20px;                         /* spacing between links */
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.1em;                  /* slightly bigger text */
-    padding: 6px 10px;
-    transition: background 0.2s;
-}
-
-nav a:hover {
-    background-color: rgba(255,255,255,0.1);
-    border-radius: 4px;
-}
-
-nav .search-container {
-    display: flex;
-    align-items: center;
-}
-
-nav input[type="text"] {
-    padding: 5px 10px;
-    border-radius: 4px;
-    border: none;
-    outline: none;
-    font-size: 1em;
-}
-
-nav button.search-btn {
-    margin-left: 5px;
-    padding: 5px 10px;
-    border-radius: 4px;
-    border: none;
-    background-color: white;
-    color: #990000;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-nav button.search-btn:hover {
-    background-color: #ddd;
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-    nav {
-        flex-direction: column;
-        gap: 10px;
+  <!-- =====================================================================
+       ZONE 1: VINTAGE BROADSHEET STYLING (CSS)
+       ===================================================================== -->
+  <style>
+    :root {
+      --bg-outer: #e9e2d2;
+      --bg-cream: #f8f4ea;
+      --bg-cream-tint: #efe9da;
+      --bg-white: #fffdf9;
+      --ink-black: #181415;
+      --ink-muted: #4a4243;
+      --dark-red: #7a1622;
+      --dark-red-deep: #540d16;
+      --font-display: "Playfair Display", Georgia, serif;
+      --font-sub: "Cormorant Garamond", Georgia, serif;
+      --font-body: "Libre Baskerville", Georgia, serif;
+      --transition: 0.25s ease;
     }
-    nav .nav-links {
-        flex-direction: column;
-        gap: 10px;
-    }
-    nav .search-container {
-        width: 100%;
-    }
-    nav input[type="text"] {
-        flex: 1;
-        width: 70%;
-    }
-}
 
-/* ARTICLES */
-.section-title{font-size:34px;text-align:center;margin:34px 0 18px;text-transform:uppercase;border-bottom:2px double #000;padding-bottom:8px;color:#000;}
-.article-box{margin-bottom:34px;border-top:2px solid #000;border-bottom:2px solid #000;padding:18px;background:var(--paper);box-shadow:var(--card-shadow);transition:transform .2s;}
-.article-box:hover{transform:translateY(-3px);}
-.article-title{font-size:26px;text-align:center;margin-bottom:14px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2);cursor:pointer;}
-.article-content{display:none; transition:all .3s ease;}
-.columns{display:flex;gap:24px;flex-wrap:wrap;}
-.col{width:48%;font-size:17px;line-height:1.6;text-align:justify;}
-.news-source{color:var(--accent-2);font-style:italic;}
-img{width:100%;margin-top:12px;border:2px solid #000;transition:transform .25s,border-color .25s;}
-img:hover{transform:scale(1.03);border-color:var(--accent);}
-.caption{text-align:center;font-style:italic;margin-top:6px;font-size:13px;color:#7a7a7a;}
-.empty-article{border:2px dashed #bcbcbc;background:#f2f2f2;padding:20px;margin:20px 0;height:160px;font-style:italic;text-align:center;color:#7a7a7a;font-size:18px;}
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; padding: 1.5rem 1rem; background-color: var(--bg-outer); color: var(--ink-black); font-family: var(--font-body); line-height: 1.68; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; }
+    :focus-visible { outline: 2px solid var(--dark-red); outline-offset: 3px; }
 
-/* MOBILE FIX */
-@media(max-width:750px){
-  .columns{
-    flex-direction:column;
-    gap:16px;
-  }
-  .col{
-    width:100%;
-    text-align:left;
-    padding:0 4px;
-  }
-  img{
-    margin-left:auto;
-    margin-right:auto;
-  }
-}
+    /* Double-Border Print Newspaper Frame */
+    .paper-outer-frame { max-width: 1120px; margin: 0 auto; background-color: var(--bg-cream); border: 1px solid var(--ink-black); padding: 5px; box-shadow: 0 12px 35px rgba(24, 20, 21, 0.14); }
+    .paper-inner-frame { border: 1px solid var(--ink-black); padding: 1.75rem 2.25rem 2rem; }
 
-/* COMMENTS */
-.comments{margin-top:16px;border-top:1px dashed #ccc;padding-top:12px;}
-.comment-form{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start;}
-.comment-form textarea{width:100%;min-height:70px;padding:8px;border:2px solid #000;border-radius:6px;}
-.comment-form input[type="text"]{padding:8px;border:2px solid #000;border-radius:6px;}
-.comment-list{margin-top:12px;}
-.comment-item{border:1px solid #ddd;padding:8px;border-radius:6px;margin-bottom:8px;background:#fff;}
-.comment-button{display:inline-block;margin:8px 0;padding:10px 16px;font-size:14px;font-weight:bold;background:#fff;color:#000;border:2px solid #000;cursor:pointer;text-transform:uppercase;border-radius:6px;}
-.comment-button:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+    /* Ornamental Dividers & Masthead */
+    .flourish-line { display: flex; align-items: center; justify-content: center; gap: 0.85rem; margin: 0.65rem 0; color: var(--dark-red); font-size: 0.85rem; }
+    .flourish-line::before, .flourish-line::after { content: ""; flex: 1; height: 1px; background-color: var(--ink-black); }
+    .masthead { text-align: center; padding-bottom: 1rem; border-bottom: 1px solid var(--ink-black); }
+    .masthead-top-note { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dark-red); margin: 0 0 0.4rem; }
+    .masthead-title-row { display: inline-flex; align-items: center; justify-content: center; gap: 1rem; }
+    .masthead-logo { width: 62px; height: 62px; object-fit: contain; }
+    .masthead-title { margin: 0; font-family: var(--font-display); font-size: clamp(2.6rem, 6vw, 4.4rem); font-weight: 900; letter-spacing: 0.08em; line-height: 1; text-transform: uppercase; }
+    .masthead-slogan { margin: 0.45rem 0 0.25rem; font-family: var(--font-sub); font-size: 1.05rem; font-weight: 700; letter-spacing: 0.32em; color: var(--dark-red); text-transform: uppercase; }
+    .masthead-pub-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); padding-top: 0.45rem; border-top: 1px solid var(--ink-black); margin-top: 0.55rem; }
 
-/* MODAL */
-.contact-box{display:none;position:fixed;z-index:10000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.6);}
-.modal-content{background-color:#fff;margin:10% auto;padding:20px;border:2px solid #000;width:90%;max-width:420px;text-align:center;border-radius:6px;position:relative;}
-.close-modal{position:absolute;top:10px;right:14px;font-size:24px;font-weight:bold;cursor:pointer;}
+    /* Centred Navigation */
+    .main-nav { border-bottom: 1px solid var(--ink-black); padding: 0.65rem 0; margin-bottom: 1.75rem; text-align: center; }
+    .mobile-nav-toggle { display: none; background: var(--dark-red); color: var(--bg-white); border: 1px solid var(--ink-black); padding: 0.4rem 0.9rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+    .nav-menu { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 0.35rem 1.25rem; }
+    .nav-menu a { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.11em; padding: 0.25rem 0.15rem; border-bottom: 1px solid transparent; transition: color var(--transition), border-color var(--transition); }
+    .nav-menu a:hover, .nav-menu a.active { color: var(--dark-red); border-bottom-color: var(--dark-red); }
+    /* Page Views & Main Featured Headline */
+    .page-view[hidden] { display: none !important; }
+    .page-view { animation: gentleFade 0.28s ease; }
+    @keyframes gentleFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .featured-block { text-align: center; padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--ink-black); }
+    .category-kicker { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dark-red); margin-bottom: 0.75rem; }
+    .boxed-headline-hero { max-width: 860px; margin: 0 auto 1rem; border: 1px solid var(--ink-black); background-color: var(--bg-white); padding: 1.35rem 1.75rem; transition: border-color var(--transition), background-color var(--transition); }
+    .featured-block:hover .boxed-headline-hero { border-color: var(--dark-red); background-color: var(--bg-cream-tint); }
+    .boxed-headline-hero h2 { margin: 0; font-family: var(--font-display); font-size: clamp(1.85rem, 4vw, 3rem); line-height: 1.15; font-weight: 800; }
+    .featured-intro { max-width: 720px; margin: 0 auto 0.85rem; font-size: 0.98rem; color: var(--ink-muted); }
+    .pub-date-line { display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 1.1rem; }
+    .vintage-btn { display: inline-block; background-color: var(--dark-red); color: var(--bg-white); border: 1px solid var(--ink-black); padding: 0.6rem 1.45rem; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; transition: background-color var(--transition), transform var(--transition); }
+    .vintage-btn:hover { background-color: var(--dark-red-deep); transform: translateY(-1px); }
 
-footer{margin-top:30px;text-align:center;font-size:15px;border-top:2px double #000;padding:14px;color:var(--accent-2);font-weight:bold;}
+    /* Symmetrical Article Columns & Boxed Headlines */
+    .section-heading-wrap { text-align: center; margin-bottom: 1.5rem; }
+    .section-heading-wrap h2 { margin: 0; font-family: var(--font-display); font-size: 1.55rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .articles-columns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--ink-black); margin-bottom: 2rem; }
+    .news-column-item { border: 1px solid var(--ink-black); background-color: var(--bg-white); padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; text-align: center; transition: transform var(--transition), border-color var(--transition); }
+    .news-column-item:hover { transform: translateY(-2px); border-color: var(--dark-red); }
+    .headline-box { border: 1px solid var(--ink-black); background-color: var(--bg-cream); padding: 0.75rem 0.85rem; margin: 0.55rem 0 0.85rem; transition: background-color var(--transition), border-color var(--transition); }
+    .news-column-item:hover .headline-box { border-color: var(--dark-red); background-color: var(--bg-cream-tint); }
+    .headline-box h3 { margin: 0; font-family: var(--font-display); font-size: 1.18rem; line-height: 1.25; }
+    .article-snippet { font-size: 0.86rem; color: var(--ink-muted); margin: 0 0 1rem; }
+    .read-more-btn { background: none; border: none; border-bottom: 1px solid var(--dark-red); color: var(--dark-red); font-size: 0.74rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.2rem 0; cursor: pointer; }
+    .read-more-btn:hover { color: var(--ink-black); border-bottom-color: var(--ink-black); }
 
-@media print{nav,.comment-button,.comment-form,.visitor-counter{display:none} body{border:none;padding:10px;background:#fff} .article-box{box-shadow:none;border:none;padding:0} .section-title{page-break-before:always}}
-/* FORCE REMOVE LARGE GAPS */
-.article-box {
-  margin-top: 10px !important;
-  margin-bottom: 10px !important;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
-}
+    /* Interactive 3D Flip Circles */
+    .circles-band { padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--ink-black); text-align: center; }
+    .circles-sub { font-size: 0.82rem; font-style: italic; color: var(--ink-muted); margin: 0.25rem 0 1.35rem; }
+    .circles-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.75rem; }
+    .flip-circle { width: 195px; height: 195px; perspective: 900px; cursor: pointer; background: none; border: none; padding: 0; }
+    .flip-circle-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s ease; transform-style: preserve-3d; }
+    .flip-circle.flipped .flip-circle-inner { transform: rotateY(180deg); }
+    .circle-face { position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--ink-black); padding: 1.2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; backface-visibility: hidden; text-align: center; box-shadow: inset 0 0 0 4px rgba(24, 20, 21, 0.08); }
+    .circle-front.theme-red { background-color: var(--dark-red); color: var(--bg-white); }
+    .circle-front.theme-cream { background-color: var(--bg-cream-tint); color: var(--ink-black); }
+    .circle-front.theme-white { background-color: var(--bg-white); color: var(--ink-black); }
+    .circle-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.35rem; opacity: 0.85; }
+    .circle-title { font-family: var(--font-display); font-size: 1.02rem; line-height: 1.2; font-weight: 700; }
+    .circle-tap { font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.45rem; border-top: 1px solid currentColor; padding-top: 0.25rem; }
+    .circle-back { transform: rotateY(180deg); background-color: var(--ink-black); color: var(--bg-cream); font-size: 0.78rem; line-height: 1.42; }
 
-.section-title {
-  margin-top: 20px !important;
-  margin-bottom: 10px !important;
-}
-
-.container {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-body {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-  /* Subtle glow for featured article titles */
-.featured-article-title {
-  text-shadow: 0 0 6px rgba(0,0,0,0.35);
-}
-
-  /* CSS — place in your stylesheet (e.g. style.css) */
-/* Container with all the articles */
-.articles-container {
-  display: flex;
-  flex-wrap: wrap;         /* lets articles flow to new rows */
-  gap: 20px;               /* space between articles — adjust as needed */
-  justify-content: flex-start; /* aligns left, but you can use center / space‑between etc. if you prefer */
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Each article box */
-.article {
-  flex: 1 1 300px;         /* flexible: grows/shrinks; minimum width ~300px */
-  box-sizing: border-box;  /* includes padding/border in width/height calculations */
-  margin: 0;               /* reset default margins */
-  padding: 15px;           /* add some inner spacing (optional) */
-  background: #fff;        /* optional — background of article */
-  /* add more styling for your article content: e.g. border, box-shadow, etc. */
-}
-
-/* Example: ensure headings/images inside article don’t add unexpected margins */
-.article h2,
-.article p {
-  margin: 0 0 10px 0;      /* adjust spacing inside article */
-}
-/* Compact spacing for Orbis Vox articles */
-.article-box p,
-.article-box h1,
-.article-box h2,
-.article-box h3,
-.article-box h4,
-.article-box h5,
-.article-box h6,
-.article-box li {
-    margin-top: 0.2em !important;
-    margin-bottom: 0.2em !important;
-    line-height: 1.4 !important;
-}
-
-.article-box ul,
-.article-box ol {
-    margin-top: 0.3em !important;
-    margin-bottom: 0.3em !important;
-    padding-left: 1.2em !important;
-}
-
-.article-box blockquote {
-    margin-top: 0.3em !important;
-    margin-bottom: 0.3em !important;
-    padding-left: 1em !important;
-}
-
-  /* COMPACT AND READABLE ARTICLES */
-.article-box {
-  margin: 8px 0 !important;        /* small space between articles */
-  padding: 12px 15px !important;   /* inner spacing so text isn’t cramped */
-  line-height: 1.5 !important;     /* comfortable line spacing */
-}
-
-.article-box h1,
-.article-box h2,
-.article-box h3,
-.article-box h4,
-.article-box h5,
-.article-box h6,
-.article-box p,
-.article-box li,
-.article-box blockquote {
-  margin: 0.3em 0 !important;       /* small spacing above/below each element */
-}
-
-.article-box ul,
-.article-box ol {
-  margin: 0.4em 0 !important;
-  padding-left: 1.2em !important;
-}
-
-.section-title {
-  margin: 12px 0 !important;       /* smaller gap above/below section titles */
-}
-
-  .ov-inline-stickman{
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-left: 10px;
-  padding: 4px 8px;
-  border: 2px solid black;
-  background: white;
-  font-size: 0.85rem;
-  line-height: 1.2;
-  white-space: nowrap;
-}
-
-.ov-inline-stickman svg{
-  width: 28px;
-  height: auto;
-}
-
-summary{
-  position: relative;
-}
-/* FEATURED SECTION STYLING */
-.featured-title {
-    color: #990000;
-    font-weight: bold;
-    font-size: 2.4em;
-    margin-bottom: 20px;
-    text-align: center;
-    text-decoration: underline;
-    text-decoration-color: black;
-    text-decoration-thickness: 2px;
-}
-
-.featured-meta-line {
-    text-align: center;
-    font-size: 1.1em;
-    color: #555;
-    margin-bottom: 20px;
-    padding: 10px 0;
-    border-bottom: 2px solid black;
-}
-
-#featured-container {
-    max-width: 700px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-/* EACH FEATURED ITEM */
-#featured-container .featured-item {
-    display: flex;
-    flex-direction: column;  /* headline → summary → button */
-    align-items: center;
-    gap: 4px;                /* spacing between headline, summary, button */
-    padding: 4px 0;           /* tiny padding inside item */
-    margin: 4px 0;            /* tiny gap between items */
-    border-bottom: 1px solid #ddd;
-}
-
-#featured-container .featured-item:last-child {
-    border-bottom: none;      /* remove line under last item */
-}
-
-/* HEADLINE */
-#featured-container .featured-item-title {
-    font-size: 2.15em;
-    font-weight: 500;
-    margin: 0;                /* no extra spacing */
-}
-
-/* SUMMARY */
-#featured-container .featured-summary {
-    font-size: 1em;
-    color: #333;
-    margin: 0;                /* remove default spacing */
-    text-align: center;
-}
-
-/* BUTTON */
-#featured-container .featured-btn {
-    background: #990000;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    cursor: pointer;
-    font-size: 0.9em;
-    margin-top: 2px;          /* tiny gap above button */
-}
-
-#featured-container .featured-btn:hover {
-    background: #b30000;
-}
-
-/* NEWS SECTION BLACK LINE */
-#news-section {
-    border-top: 2px solid black;
-    padding-top: 10px;
-    margin-top: 15px;
-}
-</style>
-  
+    /* Additional Panels, Reader, Contained Footer & Mobile */
+    .editorial-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--ink-black); }
+    .panel-box { border: 1px solid var(--ink-black); background-color: var(--bg-white); padding: 1.5rem; text-align: center; }
+    .panel-box.tint { background-color: var(--bg-cream-tint); }
+    .panel-box h3 { margin: 0 0 0.65rem; font-family: var(--font-display); font-size: 1.28rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .panel-box p { font-size: 0.88rem; color: var(--ink-muted); margin: 0 0 1rem; }
+    .dept-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.6rem; }
+    .dept-tag { border: 1px solid var(--ink-black); background: var(--bg-cream); padding: 0.3rem 0.7rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+    .dept-tag:hover { background: var(--dark-red); color: var(--bg-white); border-color: var(--dark-red); }
+    .reader-container { max-width: 740px; margin: 0 auto; border: 1px solid var(--ink-black); background: var(--bg-white); padding: 2rem 2.25rem; }
+    .reader-title { font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1.18; margin: 0.65rem 0 1rem; text-align: center; }
+    .reader-standfirst { font-style: italic; color: var(--ink-muted); text-align: center; border-top: 1px solid var(--ink-black); border-bottom: 1px solid var(--ink-black); padding: 0.85rem 0; margin-bottom: 1.5rem; }
+    .reader-body p { font-size: 0.98rem; margin-bottom: 1.15rem; }
+    .newspaper-footer { text-align: center; padding-top: 0.5rem; }
+    .footer-title { margin: 0; font-family: var(--font-display); font-size: 1.85rem; font-weight: 900; letter-spacing: 0.08em; }
+    .footer-slogan { margin: 0.2rem 0 1rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.25em; color: var(--dark-red); }
+    .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; border-top: 1px solid var(--ink-black); border-bottom: 1px solid var(--ink-black); padding: 1.35rem 0; margin-bottom: 1rem; font-size: 0.82rem; }
+    .footer-grid h4 { margin: 0 0 0.45rem; font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dark-red); }
+    .principles-toggle { background: none; border: 1px solid var(--ink-black); padding: 0.3rem 0.75rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; margin-top: 0.4rem; }
+    .principles-toggle:hover { background: var(--dark-red); color: var(--bg-white); border-color: var(--dark-red); }
+    .principles-drawer { max-width: 720px; margin: 0.75rem auto 0; padding: 0.85rem 1rem; border: 1px solid var(--ink-black); background: var(--bg-cream-tint); font-size: 0.82rem; }
+    .principles-drawer[hidden] { display: none; }
+    .footer-copy { font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); margin: 0; }
+    @media (max-width: 860px) { .paper-inner-frame { padding: 1.25rem 1rem 1.5rem; } .articles-columns, .editorial-panels, .footer-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 680px) { .mobile-nav-toggle { display: inline-block; } .nav-menu { display: none; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; } .nav-menu.open { display: flex; } .flip-circle { width: 170px; height: 170px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  </style>
 </head>
 
-<body>
-<div class="container">
+  <body>
+  <div class="paper-outer-frame">
+    <div class="paper-inner-frame">
 
-<header>
-  <a href="#about" class="logo-link" title="About Orbis Vox">
-    <img src="Red logo.png" alt="Logo" id="logo">
-  </a>
-  <h1>ORBIS VOX</h1>
-  <div class="subhead">THE VOICE OF THE WORLD</div>
-  <div class="header-description">
-    One Voice. No Filters. Nothing Hidden.
-  </div>
-</header>
-
-<nav>
- <div id="navLinks">
-    <a href="#news" id="homeLink">Home</a>
-    <a href="#news">News</a>
-    <a href="#fun" id="funLink">Fun</a>
-    <a href="#global">Global Issues</a>
-    <a href="#teenage">Teenage Life</a>
-    <a href="#about">About</a>
-    <a href="#" id="contactBtn">Contact</a>
-    <a href="#" id="signupBtn">Sign Up</a>
-</div>
-<div class="hamburger" id="hamburger"> 
-    <div> </div> <div> </div> <div> </div> 
-</div> 
-  <input id="searchInput" placeholder="Search articles..." aria-label="Search articles"> </nav>
-
-<div class="featured-meta-line">
-  😈 Click on headlines to see more • Blake Richardson • Contact me, come join the chaos! ✒️
-</div>
-    
-<!-- NEWS -->
-<section id="news" class="fade-in">
-  <div class="section-title">News</div>
-
-  <div class="article-box" data-id="2026-04-07-article-01">
-  <div class="article-date" data-date="2026-04-07" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-    Posted: 7 Apr 2026
-  </div>
-
-  <div class="article-title">Local > Global News… Please</div>
-
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        Is it just me that dislikes how much I see Trump’s face on the BBC? I live in the UK meaning what’s happening in the US doesn’t fully bother me. If I want to read about global news, there’s this fascinating thing called a search bar, incredible discovery.<br><br>
-        Let’s use the UK for example, me as a teenager living in England, reading the news most days all I see is Donald Trump… okay, yeah. What’s happening in the United States is important, but I would quite like to read about the latest in Nottingham or Derbyshire, somewhere more local to me… not somewhere that’s a seven-hour flight away.<br><br>
-        Honestly, I really just want to read something near me because it’s where I live, you know? If something is dangerous or important where I live then I need to know straight up, not after half an hour of digging through news sites to find out. Even if it’s happy news, I still need to know because it’s local.
-      </div>
-
-      <div class="col">
-        It honestly pisses me off how long it takes me to find news close to me. Private Eye barely covers it, the BBC hides it under layers of quicksand, CNN decides the UK needs even more shade. To be blunt, at this point someone in the UK could become a serial killer and us locals would get the update 3-5 business days later. Even then, we’d have to dig through Donald Trump, wars, politics, and more before we find anything even remotely linked to the UK let alone linking to the issue.<br><br>
-        My point is, that there is a search bar for a reason, show me the local news first. We need location enabled in news sites so it automatically shows us the local news. That’d be useful, right?<br><br>
-        Local news isn’t optional. It’s the only news that actually affects the life you’re living.
-      </div>
-    </div>
-
-    <div class="comments" data-id="2026-04-07-article-01"></div>
-  </div>
-</div>
-
-   <div class="article-box" data-id="teenage-be-yourself">
-      <div class="article-date" data-date="2025-12-23" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 23 Dec 2025
-</div>
-  <div class="article-title">The World Wants Me to ‘Be Myself’ But Only the Polite Version</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        The world wants me to “Be Myself” but only the polite version.<br><br>
-        The world always says, “just be yourself”, but they don’t understand why being yourself is so difficult. It’s a common saying, isn’t it? “Be yourself.” Yeah, okay I’ll be myself as soon as I can get a minute without judgement, without comments, without being afraid I’m too different. You can be yourself, as long as you don’t make anyone uncomfortable, as long as it’s convenient, as long as it doesn’t affect society too much.<br><br>
-        Yeah, alright, you can be yourself but how easy it is really? I mean, we all know the rules no-one likes to admit.<br>
-        1. You have to be confident, but not that confident.<br>
-        2. Have opinions, but only ones everyone agrees with.<br>
-        3. You’re allowed to speak your mind until it makes someone stressed and uncomfortable.
-      </div>
-      <div class="col">
-        4. You can be unique, but God help you if you stand out too much.<br>
-        5. You can be honest but only if the truth is cute and comforting.<br><br>
-        I mean, come on. Nowadays it’s like we are running our own PR for our personalities. We live in a society that makes us filter ourselves to fit in, makes us sand down every edge just to be liked. And if we don’t fit up to their expectations? We get bullied until we change every aspect of ourselves just to fit in.<br><br>
-        But honestly, I’d rather be different than a clone, wouldn’t you? What’s the point of having a personality if we all end up being clones? I’m happy being weird, at least I’m me.
-      </div>
-    </div>
-    <div class="comments" data-id="teenage-be-yourself"></div>
-  </div>
-</div>
-  
- <div class="article-box" data-id="bbc-today">
-    <div class="article-date" data-date="2025-12-27" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 27 Dec 2025
-</div>
-    <div class="article-title">A Truthful Look at the BBC Today</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          The BBC reports the news, but sometimes it feels like it forgot who it’s actually talking to.<br><br>
-          Reading the BBC lately feels like walking into a familiar room, but someone’s taken all the personality away, the colours stripped down. Instead, it feels clinical, dull and sanded down. Now, don’t get me wrong, the BBC is useful, predictable, reliable and it’s been around for years giving us the latest updates. The only problem is that as the years go on, the world changes, but the BBC hasn’t moved with time. This isn’t an attack on the BBC, more of an eye-opener to why most teenagers get their headlines from TikTok at 3AM.<br><br>
-          Okay, yeah. TikTok might not be the best way for getting your news updates, but at least with TikTok it feels like we are being spoken to instead of spoken at. We read BBC News and feel lectured instead of included in important conversations.
+      <!-- =====================================================================
+           ZONE 2: MASTHEAD & CENTRED NAVIGATION
+           ===================================================================== -->
+      <header class="masthead">
+        <p class="masthead-top-note">❖ Independent Digital Print • United Kingdom ❖</p>
+        <div class="masthead-title-row">
+          <img src="Inkley.png" alt="Orbis Vox Logo" class="masthead-logo" />
+          <h1 class="masthead-title">ORBIS VOX</h1>
         </div>
-        <div class="col">
-          It doesn’t feel like it’s one human writing and talking to another, it feels like a robotic menace shouting at us. We watch TikTok daily, or most of us do. Stupid funny cat videos, make-up tutorials, arts and crafts. Everything you could ever imagine crammed into one app. TikTok is full of anything you could imagine and that is where we get our news stories. It’s familiar to today’s generation, so that is what we’re going to stick to.<br><br>
-          BBC News is stable, structured, but it has no personality. It’s clinical, detached, dry. It gives us what we need but it doesn’t invite us in. It’s like reading about something happening light years away because the tone feels detached, numb and unwilling. We would prefer it if reading the BBC News felt inclusive, felt as if we are a part of what is happening in our world.<br><br>
-          In the end, we all know it won’t change. BBC News will stay clinical, and teenagers will stick to watching TikTok at 3AM for their updates. It’s distant, it’s remote, out of the way, but honestly? We would like it to be near, friendly, attentive. News that talks at people might inform them, but news that talks to people is what actually gets heard.
+        <p class="masthead-slogan">TRUTH OVER POWER</p>
+        <div class="flourish-line">❖ ❧ ❖</div>
+        <div class="masthead-pub-bar">
+          <span>Established 2025</span>
+          <span id="live-edition-date">Thursday, 19 November 2026</span>
+          <span>Readers: <strong id="reader-counter">1,420</strong></span>
         </div>
-      </div>
-      <div class="comments" data-id="bbc-today"></div>
-    </div>
-  </div>
+      </header>
 
-  <div class="article-box" data-id="trans-girls-ban">
-    <div class="article-date" data-date="2025-12-19" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 19 Dec 2025
-</div>
-    <div class="article-title">Discrimination shown as trans girls are banned from Girl Guide groups</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          From 2nd December 2025, trans girls are banned from joining Girl Guide groups within the UK. Why was this decision made, and do you agree with it?<br><br>
-          This new decision means that girls who were assigned male at birth will no longer be able join Girl Guide groups. The trustees within the organisation that oversees these groups says, <span class="news-source">“Trans girls and young women and others not recorded female at birth, will no longer be able to join Girlguiding as new young members.” They also said that there would be no changes for young women who are already members but more information on this topic will be shared next week. – BBC News.</span>
+      <nav class="main-nav" aria-label="Primary Newspaper Departments">
+        <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-expanded="false">☰ Sections</button>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="#home" class="active" data-section="home">Home</a></li>
+          <li><a href="#local" data-section="local">Local News</a></li>
+          <li><a href="#community" data-section="community">Community</a></li>
+          <li><a href="#opinions" data-section="opinions">Opinions</a></li>
+          <li><a href="#fun" data-section="fun">Fun &amp; Features</a></li>
+          <li><a href="#archive" data-section="archive">Article Archive</a></li>
+          <li><a href="#about" data-section="about">About Us</a></li>
+          <li><a href="#contact" data-section="contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- =====================================================================
+           ZONE 3: PAGE VIEWS (HOMEPAGE, ARCHIVE, READER, ABOUT, CONTACT)
+           ===================================================================== -->
+      <main id="newspaper-main">
+
+        <!-- VIEW 1: PAGE ONE HOMEPAGE -->
+        <div id="view-home" class="page-view">
+          <section class="featured-block" id="featured-headline-slot"></section>
+
+          <section aria-labelledby="latest-heading">
+            <div class="section-heading-wrap">
+              <h2 id="latest-heading">Latest Dispatches</h2>
+              <div class="flourish-line">❖</div>
+            </div>
+            <div class="articles-columns" id="home-latest-columns"></div>
+          </section>
+
+          <section class="circles-band" aria-labelledby="facts-heading">
+            <div class="section-heading-wrap">
+              <h2 id="facts-heading">Interactive Press Curiosities</h2>
+              <p class="circles-sub">Click any circular medallion to turn it over and reveal a fact.</p>
+            </div>
+            <div class="circles-row" id="interactive-circles-slot"></div>
+          </section>
+
+                    <!-- Additional Homepage Sections -->
+          <section class="editorial-panels">
+            <div class="panel-box">
+              <h3>About Orbis Vox</h3>
+              <p>
+                Meaning <em>“Voice of the World,”</em> Orbis Vox was founded by Blake Richardson at sixteen to deliver journalism built on context, clarity, and honest youth and local perspectives.
+              </p>
+              <div class="dept-links">
+                <button class="dept-tag" data-section="local">Local News</button>
+                <button class="dept-tag" data-section="community">Community</button>
+                <button class="dept-tag" data-section="opinions">Opinions</button>
+                <button class="dept-tag" data-section="fun">Fun &amp; Features</button>
+              </div>
+            </div>
+            <div class="panel-box tint">
+              <h3>Contribute &amp; Contact</h3>
+              <p>
+                Have a local story, opinion piece, or perspective that deserves to be heard? Orbis Vox welcomes submissions from readers and young voices.
+              </p>
+              <a href="mailto:chloerichardson481@gmail.com" class="vintage-btn">Submit a Story</a>
+            </div>
+          </section>
         </div>
-        <div class="col">
-          Many people from the public think it is unfair and discriminative against trans women. <span class="news-source">TransActual said: “There is no problem being solved here, only harm done.”</span> My opinion, this ban seems unfair because every girl should have the right to join. This decision excludes girls who only want to belong by being who they are. – <span class="news-source">BBC News</span>.<br><br>
-          What do you think – should all girls be allowed to join, or do you agree with the rules that are set in place?
-        </div>
-      </div>
-      <div class="comments" data-id="trans-girls-ban"></div>
-    </div>
-  </div>
 
-</section>
-
-<!-- FUN -->
-<section id="fun" class="fade-in">
-  <div class="section-title">Fun</div>
-
-<div class="article-box" data-id="fun-would-you-rather">
-  <div class="article-date" data-date="2025-12-23" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 23 Dec 2025
-</div>
-  <div class="article-title">🎧🎬 WOULD YOU RATHER? 🎵</div>
-  <div class="article-content">
-
-    <p><em>No thinking, instinct only x</em></p>
-
-    <div class="columns">
-
-      <div class="col">
-        🎵
-        <p>• Would you rather your favourite song play every time you enter a room or never remember its name?</p>
-
-        📺
-        <p>• Would you rather rewatch Friends forever or only watch one new show once and forget it straight after watching?</p>
-
-        😵‍💫
-        <p>• Would you rather your Spotify Wrapped expose you or your Netflix recently watched expose you?</p>
-
-        🔊
-        <p>• Would you rather music be way too loud forever or vaguely muffled forever?</p>
-
-        🎶
-        <p>• Would you rather your favourite song be a 10-second loop or a 7-minute slow build?</p>
-
-        📱
-        <p>• Would you rather accidentally play your sad song really loud from your phone or your most feral song?</p>
-
-        🧠
-        <p>• Would you rather every song remind you of one person you miss or one place you can’t go back to but loved?</p>
-      </div>
-
-      <div class="col">
-        📺
-        <p>• Would you rather only watch shows like Brooklyn Nine-Nine on shuffle episodes or strict order, no skipping?</p>
-
-        🎤
-        <p>• Would you rather know every lyric but sing badly or sing perfectly but forget words mid-chorus?</p>
-
-        ⏰
-        <p>• Would you rather music only hit after gremlin hours (midnight) or only hit in human hours (daylight)?</p>
-
-        🎬
-        <p>• Would you rather binge Stranger Things with spoilers or wait a year but watch it fresh without any idea what might happen?</p>
-
-        🌀
-        <p>• Would you rather your playlists be chronological chaos or over-organised to the point of a crash out?</p>
-
-        🎧
-        <p>• Would you rather lose headphones forever or lose Wi-Fi forever?</p>
-
-        🫠
-        <p>• Would you rather love a song for the music or for the vibes you made up in your head?</p>
-
-        📀
-        <p>• Would you rather an album with no skips or one song so good it ruins the rest?</p>
-      </div>
-
-    </div>
-
-    <div class="comments" data-id="fun-would-you-rather"></div>
-
-  </div>
-</div>
-
-
-  
- <div class="article-box" data-id="fun-daily-moments">
-    <div class="article-date" data-date="2025-12-29" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 29 Dec 2025
-    </div>
-    <div class="article-title">The Things We Pretend Aren’t the Best Part of the Day</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          The things we pretend aren’t the best parts of the day.<br><br>
-          There’s something peculiar about adults saying it’s important to “make memories.” They say it as if it’s some strategic project, as if we have to do something ridiculous to make a memory. They don’t know that the most memorable moments of our lives are the small, stupid things that happen daily.<br><br>
-          The tiny moments that guide us through the day are underrated. Like when someone does something weirdly drastic at the wrong moment, or when someone sends something so unfunny it becomes hilarious. Maybe even someone spawning in out of nowhere like a summoned demon. Or the completely ridiculous idea of riding a Tesco trolley down a hill mid-afternoon.<br><br>
-          Fun as a teenager isn’t planned, it just happens. In the quiet moments in class when someone mispronounces a word, or when you’re at lunch and your friend decides this is the perfect time to make a volcano by erupting a Pepsi bottle.
-        </div>
-        <div class="col">
-          Ah, yes, nothing like a bit of destruction before last period. But seriously, those moments are the ones that stick.<br><br>
-          We don’t need a game plan for big, dramatic things to make memories. It’s the small moments that count, the inside jokes, the calm before the chaos, the friends you choose to make memories with. Fun isn’t about dramatic events; it doesn’t need to be. It’s the crack in the wall that lets light through when everything else feels too dark. Those tiny moments, the ones that matter, keep half of us sane most of the time.
-        </div>
-      </div>
-      <div class="comments" data-id="fun-daily-moments"></div>
-    </div>
-  </div>
-
-
-
-<div class="article-box" data-id="fun-chaos-therapy">
-   <div class="article-date" data-date="2025-10-15" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 15 Oct 2025
-</div>
-  <div class="article-title">College Chaos Therapy: How Students Unwind</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        Everyone has some sort of way to regulate themselves, it could be drawing, writing, maybe even singing. But college students, on the other hand… well, it’s unhinged to say the least. You never know what you are getting yourself into, a bit like a Revels chocolate bag - you never know until you bite.<br><br>
-        Students at Broomfield College said the following. Warning – It’s raw, brutal and insane for the most part.<br><br>
-        • Scream clubs – Loads of people join and scream their lungs out.<br>
-        • Burrito yourself – Wrap yourself in a blanket really tight.<br>
-        • Exist – Get into bed, be alone, scroll on your phone.<br>
-        • Committing arson - definitely not recommended.<br>
-        • Smash some shit – throw plates, punch stuff, be violent.
-      </div>
-      <div class="col">
-        • Irritate your siblings – best way to regulate yourself.<br>
-        • Aggressive bubble popping – Fidgety, calming, aggressive.<br>
-        • Go to bed – nothing like a bit of sleep to make us unwind.<br>
-        • Play online games – alone, or with friends, neither matters just relax.<br>
-        • Golfing range – can be relaxing if you don’t smack someone with the club!<br>
-        • Blast music – ah, nothing like a bit of eardrum damage to kick off the day.<br><br>
-        These activities are… chaotic. That might be an understatement, but it doesn’t matter that they aren’t productive, that’s not what regulating is. It only matters that it gives your brain a small moment to breathe. I mean, if any of this helps? Do it proudly 😊
-      </div>
-    </div>
-    <div class="comments" data-id="fun-chaos-therapy"></div>
-  </div>
-</div>
-
-<div class="article-box" data-id="teenage-gremlin-days">
-     <div class="article-date" data-date="2025-10-20" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 20 Oct 2025
-</div>
-  <div class="article-title">Things That Ruin Your Day Every Day</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        I think we can all agree no one wakes up with a smile. You wake up already drained or with little to no energy. But life gets in the way – it decides it's a great day to throw punches. Yeah, just what you needed, life being a gremlin before 9AM.<br><br>
-        It can be the simple things:<br><br>
-        1. The car not starting first time.<br><br>
-        2. Your phone being dead even after charging all night – a bit like us humans.<br><br>
-        3. Maybe running out of milk before your morning coffee.<br><br>
-        It all sounds small in a list, petty even. But, just imagine this for a moment.<br><br>
-        You could be walking through town, barely functioning. And ironically, three teenagers spawn in with their trousers halfway down. Their crappy music blasting. You aren't a roadman, mate. Pull your trackies up. Honestly, it's as if you're living in a horror movie. But of course. You wanted a rock concert in the middle of town. Bizarre, really.
-      </div>
-      <div class="col">
-        Or...<br><br>
-        On an already shit day, you're chilling in Starbucks, barely out of bed. And of course there is this one obnoxiously loud person. You know the one. Shouting on the phone before the town has had a chance to wake. Right, how could I forget? We love a side of eardrum damage with our morning coffee.<br><br>
-        Honestly? These moments might feel small, tiny even. Except, on an already crap day it's like being hit by a ton of bricks.<br><br>
-        But humans being stubborn. Well, we survive today just to ruin tomorrow all over again.
-      </div>
-    </div>
-    <div class="comments" data-id="teenage-gremlin-days"></div>
-  </div>
-</div>
-
-</section>
-
-<!-- GLOBAL -->
-<section id="global" class="fade-in">
-  <div class="section-title">Global Issues</div>
-
-  
-
-<div class="article-box" id="everyones-fine-performance" data-id="everyones-fine-performance">
-    <div class="article-date" data-date="2026-03-17" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 17 Mar 2026
-</div>
-    <div class="article-title">Everyone’s fine. At least, that’s the performance you’re watching.</div>
-    <div class="article-content">
-      <div class="columns">
-        <div class="col">
-          Everyone’s fine.<br>
-          At least, that’s the performance you’re watching.<br><br>
-
-          You’d be surprised how many people smiling at you are barely holding their life together behind their teeth. Everyone is struggling with something; no one’s life is perfect but as a society we still judge everyone before we get to know them. It could be anyone, anything and as humans we immediately take shots at their flaws. Being kind isn’t some superpower. It costs literally nothing, yet some people guard basic decency like it’s a limited-edition personality trait.<br><br>
-
-          We all have secrets, some good, some bad, some traumatic. You don’t know their secrets, their story, their past, present or future. So why do we point it out? Why do we all decide it’s our human right to be horrible to others? We all have limits; we all have this imaginary rope we’re hanging onto. The thing is… you can’t see anyone else’s rope, you don’t know if it is wound up tight, or if it is fraying at the edges, or even if they’re at the end of their rope.
-        </div>
-        <div class="col">
-          One cruel word could be the last snap they needed to tip. Don’t be the reason someone tips. Don’t deliberately hurt someone.<br><br>
-
-          Your actions are your choice. Choose correctly.<br><br>
-
-          You have struggles, they have struggles. Not everyone struggles visibly. Not everyone’s struggles are physical. It could be mental, emotional, environmental. If they don’t speak about it… it doesn’t automatically make it unimportant, harmless, or non-traumatic. So, yeah, if they don’t talk about it you can’t help. You can also not make it worse with disgusting words.<br><br>
-
-          It’s like Thumper said: “If you don’t have somethin’ nice to say, don’t say nuthin’ at all.”<br><br>
-
-          In the end, you never know what people are going through beyond what’s visible on the surface. You might think you’re funny teasing others, but you aren’t. Being nice isn’t some heroic act. It’s just choosing not to make someone’s already unbearable day worse.
-        </div>
-      </div>
-      <div class="comments" data-id="everyones-fine-performance"></div>
-    </div>
-  </div>
-  
-<div class="article-box" id="dahmer-path" data-id="dahmer-path">
-    <div class="article-date" data-date="2026-03-10" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 10 Mar 2026
-</div>
-  <div class="article-title">Dahmer’s path to insanity.</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        This isn’t really an article, more of a chronological fact sheet about serial killers. Most people know serial killer’s names, but not their stories, not their upbringing, not their causes. I find them interesting, and you might as well…<br><br>
-        Let’s start with one of the most commonly known serial killers, Jeffrey Dahmer.<br><br>
-        Jeffrey Lionel Dahmer. Born May 21, 1960, in Milwaukee, Wisconsin. Dahmer grew up in Bath, Ohio, and like most places in the 1960s and 70s, it lacked the awareness and resources to recognise the psychological needs of troubled children. Having grown up in an environment of emotional neglect, family dysfunction, and early psychological red flags without the support he needed, Dahmer descended into madness in a complex manner.<br><br>
-        His shallow emotions, manipulative behaviours, and environmental influences played an important role in shaping his future. Guess they were right, what goes around comes around. He flipped the switch in a sense. He grew up with environmental torture and became someone who ruins environments and lives… but he chose his path, Dahmer didn’t go insane because of his trauma, he decided in 1978 on his own terms to commit murder. He started by killing animals. Things like squirrels, cats, and dogs, often using acid to strip their flesh from their bones. Gruesome, no doubt, but unmistakably Dahmer.<br><br>
-        He committed his first murder shortly after graduating high school in 1978. He picked up a hitchhiker named Steven Hicks. He was later bludgeoned to death and dismembered by Dahmer. Dahmer’s methods were horrifying.
-      </div>
-      <div class="col">
-        What Dahmer specialised in with his victims:<br>
-        • Murder and Dismemberment.<br>
-        • Necrophilia and Cannibalism.<br>
-        • Psychological Manipulation.<br><br>
-        He murdered and dismembered 17 men and boys between 1978 and 1991, engaging in acts of necrophilia and cannibalism. But… what happens in the dark always comes to light.<br><br>
-        Dahmer was arrested in 1991 after one of his intended victims managed to escape and report to the police. An investigation was conducted, and authorities discovered evidence of his heinous crimes, including photographs of human remains and dismembered bodies in his apartment. In 1992, Dahmer was convicted of 15 counts of murder and sentenced to 15 consecutive life terms in prison for his Wisconsin murders. He was later sentenced to a 16th term for an earlier murder committed in Ohio – Steven Hicks.<br><br>
-        Dahmer’s life ended on November 28, 1994, when a fellow inmate at the Columbia Correctional Institution in Wisconsin murdered him. His crimes left a lasting impact on society, as is to be expected. I mean, after all he is one of the most well known serial killers.<br><br>
-        Jeffrey Dahmer’s crimes were not only acts of brutality, but reflections of a deeply fractured mind shaped by isolation, control, and unchecked psychological disturbance. His story forces uncomfortable questions about warning signs, intervention, and the systems meant to protect society. Understanding his path does not excuse his actions, but it does challenge us to examine how such darkness is formed — and how it might be prevented. I mean, doesn’t it make you ask questions? After all, secrets and hidden actions will eventually be revealed.<br><br>
-        I don’t know about you, but his story, his actions, make me question his life, his issues, his cause. And maybe if you’re interested in this. Let me know, maybe I’ll write a fact sheet about one of your most interesting serial killers.
-      </div>
-    </div>
-    <div class="comments" data-id="serial-killer-dahmer"></div>
-  </div>
-</div>
-
-
-  <div class="article-box" data-id="educate-your-sons-trump">
-   <div class="article-date" data-date="2026-04-01" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 1 Apr 2026
-</div>
-  <div class="article-title">Trumps New Year in a nutshell</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        Don’t get me wrong, Trump has an approval rate of 42.4%. He must be the martyr then, aye? Wrong, I hate Trump as much as the next person. He might have a high approval rate, but his disapproval rate is at 54.9%... keep that in mind.<br><br>
-
-        Alright, he’s done some questionable stuff… he lifted the sanctions against Russia to allow them to sell their oil on the international market. This brought joy to Ukraine; some residents in Ukraine agree that “Russia has agreed to lay down their arms and stop fighting.” But this good thing doesn’t cancel out all the vile stuff Trump has done this year. Bear in mind, it is only April, it has been 3 months, and Trump has managed to cause protests, aggressive foreign policy, controversial domestic policy, war, conflict and pain.<br><br>
-
-        Let’s start with the Military Strikes on Iran. The US, alongside Israel, decided it was a bright idea to launch large-scale airstrikes on Iran, targeting military and nuclear sites. Right, so we all know how well this is going to go with Trump in charge. Iran’s supreme leader, Ali Khamenei, was reportedly killed in the attacks. Grand, an important leader, is dead. Thanks to Trump's Einstein idea. But in all seriousness, rest in peace Ali Khamenei.<br><br>
-
-        Seriously, such a light bulb moment. Nothing says stability like casually flirting with a Middle East war before lunch.<br><br>
-
-        Trump’s attempt to end Birthright citizenship was truly a remarkable time… not. Trump decided it was so flaming smart to sign an executive order to limit birthright citizenship (who automatically becomes a US citizen at birth). Right, because it doesn’t matter if you were born in America, the law says otherwise. Revolutionary discovery. This policy is being challenged in court and could clash with the 14th Amendment, so once again…. Trump’s smart decisions don’t end with entertaining consequences.
-      </div>
-
-      <div class="col">
-        Trump even showed up to the Supreme Court in person, which is not something presidents just… do. But yeah. Big constitutional fight, potential long-term impact on US identity? Sounds like Trump and his big brain. Apparently, constitutional amendments are now more like suggestions.<br><br>
-
-        That isn’t all Trump has conducted this year. Seriously, he's checking off his New Year's resolutions.<br><br>
-
-        Moving on, the White House ballroom drama (yeah, seriously). Trump decided to start building a $400 Million ballroom at the White House. Because that’s exactly what it needed to spice things up, wasn’t Trump being there dramatic enough? Luckily, a judge halted the project, saying Trump needed Congress approval. I mean, the project involved demolishing part of the historical east wing. Right, just out with the old, in with the very dramatic new.<br><br>
-
-        Sure, not as globally explosive as a war, but still a huge legal and political crash. But, of course, when a nation is divided, what it really needs is a $400 Million ballroom.<br><br>
-
-        None other than the infamous Greenland takeover idea… again. Of course, it all starts with Trump and his amazing light bulb moments. Trump pushed for negotiations to buy Greenland during a major global summit. This sparked tension with allies… mainly, in Europe and NATO. Trump really loves making enemies. He thought it didn’t work last time, but let’s try it again… turn it into a sport. And, yes, he’s still on that Greenland arc. It’s crazy how some plotlines never die. Diplomacy in 2026: Ask nicely for Greenland and hope no one laughs too loudly.<br><br>
-
-        In the end, Trump has fucked up a lot… too many times, and some of this is continuing. I read Private Eye newspapers, and so far, this year, Trump has had his face plastered on the front page four out of seven issues. If that doesn’t show how much of a twat, he is, I don’t know what will, honestly. At this point, headlines feel less like news and more like warnings.
-      </div>
-    </div>
-
-    <div class="comments" data-id="educate-your-sons-trump"></div>
-  </div>
-</div>
-
-
-
-  
-<div class="article-box" data-id="voices-no-one-listens">
-   <div class="article-date" data-date="2026-01-01" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 1 Jan 2026
-</div>
-  <div class="article-title">Everyone Wants a Voice – No One Wants to Listen</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        Everyone wants a voice – no one wants to listen.<br><br>
-        Voices are everywhere, but real attention? Extinct.<br><br>
-        There’s this thing I keep noticing, and honestly it pisses me off: Everyone wants to talk, but no one wants to hear a damn thing. I mean, I see videos of people singing original songs and the lyrics are fucking deep, mate. Like actual gut-wrenching songs but no one concentrates on the lyrics, it’s the voice or face card that matters. Sure, why not let’s concentrate on rating their looks instead of concentrating on how flaming depressing the lyrics are. As a society we walk through life with our eyes closed and whenever someone tries to speak up, no one listens long enough to change the world.<br><br>
-        It feels like the whole world is stuck on broadcast mode, like – everyone’s shouting into the void hoping someone claps. You have to be heard to make a change and if no one hears you and understands the first time? Then, fucking hell, don’t give up. Sounds flaming cliché, doesn’t it? But we all scroll on TikTok, Insta, Snap or wherever and all we hear is noise. People have thousands or millions of views, but they use them on stupid pranks or makeup tutorials. What about our main global issues? Why is it that everyone who gives a fuck about our lives haven’t got the audience for our voices.<br><br>
-        Someone needs to listen because it gets really annoying when someone speaks but they aren’t understood.<br><br>
-        Conversations now feel like – Who can talk the fastest, the loudest, the most dramatic? The funny part? The loudest ones usually have nothing important to say.
-      </div>
-      <div class="col">
-        In this world? It’s always “listen to ME,” never – “Hey, what did YOU mean by that?” It’s frustrating, being listened to but not heard. People would rather watch a shitty video with stupid cats in than listen to the concerns of others. Are we being for real? The cats don’t have a point to say, we do, so listen up.<br><br>
-        I realised something recently – listening is basically a superpower now. Nobody does it. The world is loud enough already, so don’t try to be the loudest, try to be the one who gets it.<br><br>
-        And honestly? At this point, I’m convinced most people don’t even want conversations — they want background noise that agrees with them. They want voices they can mute whenever it gets too real. They want “awareness” as an aesthetic, not a responsibility.<br><br>
-        Because actually listening?<br>
-        Actually giving a shit?<br>
-        Actually letting someone’s words hit you hard enough to change something?<br>
-        That’s too much effort for a world addicted to shortcuts.<br><br>
-        So yeah, keep scrolling. Keep drowning in the noise you pretend you hate. Keep ignoring the people who actually have something to say. One day, when everything finally collapses and you’re looking around for answers, you’ll realise the truth:<br><br>
-        The voices that could’ve saved you were the ones you refused to hear.<br><br>
-        But don’t worry.<br>
-        By then?<br>
-        It’ll be far too late — and at least the cats will still be entertaining you.
-      </div>
-    </div>
-    <div class="comments" data-id="voices-no-one-listens"></div>
-  </div>
-</div>
-
-
-
-</section>
-
-<!-- TEENAGE -->
-<section id="teenage" class="fade-in">
-  <div class="section-title">Teenage Life</div>
-
-  <div class="article-box" data-id="worn-down-not-numb">
-   <div class="article-date" data-date="2026-05-17" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 17 May 2026
-</div>
-  <div class="article-title">Maybe You’re Not Numb. Maybe You’re Just Worn Down</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        Everything today is loud, fast, and constant, but somehow you feel nothing from it.<br><br>
-
-        Life is full of so much noise. The world around you is loud. You've got drama in friendships, or just drama in general. You're stressed. Everybody is stressed, let's be bluntly real. But it's kind of hard to enjoy those moments where you feel something, where you feel happy, where you feel okay.<br><br>
-
-        Because everything is loud. Everything is, “come on, let's do this, let's do this, let's do this.” Everything is constant. You get into routines. You do the same thing every day when you get home to relax. It becomes boring. You realise you're not actually enjoying it anymore, it's just a routine. Honestly, sometimes that makes you question what's the point.<br><br>
-
-        It's kind of hard to pinpoint exactly how you feel, especially as a teenager. You're surrounded by people your age who go out, go to parties, and enjoy things, while you're sat at home watching a movie alone because nobody's hitting you up. Nobody's messaging you. You begin to overthink it.
-      </div>
-
-      <div class="col">
-        You talk about wanting friends, about how it feels not to have friends, and you miss when you did have friends. It's not even that anything big happened. You just slipped away.<br><br>
-
-        Because you do the same thing daily, you've worn it out.<br><br>
-
-        It's like wearing the same outfit constantly. At the start, it might be an outfit you really loved. At the end, it frays and gets worn down. That's the same with life. Same with the hobbies you enjoy. You do something so much that when you come back to it, it just feels like routine because you're not getting enjoyment from it anymore. You've worn it down so much.<br><br>
-
-        With gaming, with watching movies, with being alone, it's worn down so much that you actually miss somebody hitting you up and saying, “Hey, do you want to go out this weekend?”<br><br>
-
-        It's not just about friendships. It's everything in life. As a society, we find something we love, we pinpoint our focus on it, and then when it wears out and we feel no joy from it anymore, we assume there's something wrong with us. We assume maybe we're feeling numb.<br><br>
-
-        It could be that.<br><br>
-
-        Or maybe you've just worn it down. You've done it so much that it's gone. You've felt so much that your feelings have muted themselves for that thing.
-      </div>
-    </div>
-    <div class="comments" data-id="worn-down-not-numb"></div>
-  </div>
-</div>
-
-  <div class="article-box" data-id="stress-everywhere">
-  
-  <div class="article-date" data-date="2026-04-19" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-    Posted: 19 April 2026
-  </div>
-
-  <div class="article-title">Everyone, Everywhere is stressed.</div>
-
-  <div class="article-content">
-    <div class="columns">
-      
-      <div class="col">
-        Everyone, Everywhere is stressed.<br><br>
-
-        It could be toddlers stressed about not having the right toy, teenagers stressed about their social life, young adults stressed about bills, adults stressed about work, or the elderly stressed about their kids or money.<br><br>
-
-        Everyone, Everywhere has something or someone to be stressed about.<br><br>
-
-        But for today, let's focus on the teenagers.<br><br>
-
-        Let's paint the scene really quick. You're sixteen, attending college, going to work, and trying to cram in hobbies and some time slots to hang out with friends. Then that one adult with the face of stone decides to dim it all down with four simple words... "That's what we do." Right, totally. But you're not a teenager and you have more experience.<br><br>
-
-        Teenagers are well aware what stress feels like. Most teenagers deal with college or school pressure, on top of family pressure and the many expectations piled on by today's society.<br><br>
-
-        Working as a teenager is something we will cover next week, but college as a teenager is just as stressful, if not more.
-      </div>
-
-      <div class="col">
-        Attending college at sixteen means constant pressure to fit in with the right crowds, pressure to be on time, pressure to know your way around, pressure to do the work and hand it in on time.<br><br>
-
-        In a list it sounds like nothing, but living it is a different story. This shit is mind-numbing and adults have the nerve to say we do 'nothing'?<br><br>
-
-        Trying to handle being with friends is draining in itself. You plan, prepare and then complete. You have to plan around what everyone is doing, you have to prepare by tidying and buying things. Then they arrive, you engage in everything.<br><br>
-
-        But then they leave and suddenly its eerily quiet and you're left sprawled out on the sofa with little to no energy.<br><br>
-
-        In the end, everyone deals with stress, some more than others. Stress isn't one thing, it's everything - all at once, all the damn time. Even if it's hidden behind 'strength'.
-      </div>
-
-    </div>
-
-    <div class="comments" data-id="stress-everywhere"></div>
-  </div>
-
-</div>
-      
-     
-
-</div>
-
-  <div class="article-box" id="teenage-life-pressure" data-id="teenage-life-pressure">
-    <div class="article-date" data-date="2026-03-10" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 10 Mar 2026
-</div>
-  <div class="article-title">The pressure to have your life figured out at 16.</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        Somewhere between childhood and adulthood, a strange expectation appears. Not gradually, not politely, and definitely not with any sort of instruction booklet. One minute you’re worrying about homework and what’s for lunch, the next you’re apparently supposed to have a five-year life plan. You don’t get the smooth, relaxing, calming fade into adulthood. You get the sudden flip of the switch somewhere between the ages of 13 and 14.<br><br>
-
-        You go through the start of school with a breeze, but in Year 9 or near the end, everything gets so much harder, without preparation. No dramatic announcement, no helpful warning, just the quiet realisation that suddenly things matter a lot more than they did before. You have to focus on education, decisions, responsibilities. Apparently, the world decided this was the perfect time to start asking questions about your future, as if most sixteen-year-olds secretly have a detailed career roadmap hidden somewhere in their school bag.<br><br>
-
-        It’s the polar opposite to what it was originally like. Back then the biggest decisions were about homework, friends, and getting through the day without embarrassment. Now it feels like every conversation eventually circles back to “the future,” as if it’s something that’s supposed to already be neatly organised. It’s not, it never will be. Not for most people, and certainly not for those still in school.<br><br>
-
-        It’s as if going to the future with no idea on what’s coming for you. What’s going to change or happen. No preview, no trailer, no helpful list of instructions explaining what comes next. Just you and the whiplash of what is to come. Do you ever feel like that? Like you have to have everything figured out just as you’re getting used to the new expectations?<br><br>
-
-        For most teenagers, the pressure usually arrives in the form of one simple question. “What do you want to do with your life?” It’s crazy how you’re supposed to be able to answer that. You don’t know. You don’t have ideas because in school they teach you Macbeth, A Christmas Carol, and An Inspector Calls. Right, because we should learn how to write a sonnet instead of how to pay taxes. We should learn chemical reactions instead of how to budget, how to live alone, how to function as an adult with the inflation prices which are ridiculous by the way. This unanswerable question appears everywhere.<br><br>
-
-        Teachers ask it in classrooms. Parents bring it up at home. Even distant relatives seem curious. Suddenly, the question appears everywhere. And you’re still stuck there, not a clue in the world because how can you know? How can you figure out what you want to do for the rest of your life? Or even just the start of your life? How is that possible at the age of 13/14? The reason I say 13/14 is because your important life-changing decisions don’t start at the age of sixteen when you leave school, they start at the end of Year 9 when you pick your GCSE options.
-      </div>
-      <div class="col">
-        At the age of 13/14 you have all this pressure, all these life making decisions. But you’re a kid with no guidance, no support, so how can you answer that question? How could anyone in your situation? Society suddenly expects teenagers to make decisions that supposedly shape the rest of their lives. Choose your GCSE options. Choose a college course. Choose a career path. All while still figuring out who you even are.<br><br>
-
-        The strange thing is that most adults didn’t have their lives figured out at sixteen either. Ask almost anyone about their teenage years and the story is rarely a straight line. People change their minds. They discover new interests, new careers, new directions they never expected. Yet somehow, teenagers are still expected to have a clear answer to a question many adults didn’t figure out until years later.<br><br>
-
-        Yeah, in school you learn stuff that might help in the long-run. But what about now? When you leave school? When you apply for your first job? When you write your first CV? Adults didn’t know this when they were a kid, sure. But they are the ones teaching us now. They are the ones with some leverage as to what they teach you. You need to know how to function as an early adult, you don’t have the experience they do. They know first hand what it is like to be a teenager and not have a straight, clear plan for your future. Many adults quit jobs, try out new environments, apply for jobs out of their comfort zone that they might enjoy. Following this many working adults aren’t in the job path they might have chosen in school.<br><br>
-
-        Maybe the problem isn’t that teenagers don’t have the answers yet. Paths change, futures derail, life gets in the way. But that doesn’t mean that in a few years you’ll be in the same place with the same pressure. You gain knowledge every day, even in the smallest of things. Yeah, you won’t have your life figured out at the age of sixteen, but you will have some knowledge that you didn’t have when you started school. You will have an idea of what to expect in college, you’ll have gained communication skills, teamwork, confidence. You might not have a clear path of your future, but you will understand what it takes to complete hard work and get through copious amounts of coursework. Life changes, some things are fate, but some things are in your control. It’s up to you what you do with it.<br><br>
-
-        In the end, sixteen doesn’t have to be the deadline for your five-year-plan. You could make it the start of your options. Don’t force yourself into a cage when the key is already in your hand. Use it and choose your own path.
-      </div>
-    </div>
-    <div class="comments" data-id="teenage-life-pressure"></div>
-  </div>
-</div>
-
-  <div class="article-box" data-id="being-busy-erases">
-    <div class="article-date" data-date="2026-02-24" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 24 Feb 2026
-</div>
-  <div class="article-title">When Being Busy Costs You a Place</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        <strong>Is it the truth? Are we all replaceable? Are we allowed to deny requests without consequence?</strong><br><br>
-        Just imagine this for a split second, you say no a few times, and then suddenly you’re the problem. You get left out, ignored, and become the backup. It hurts more when you are the one who introduced them to whoever they prefer now. But you don’t speak up, you don’t push for more, you become a ghost. You think you’re the problem, and maybe it feels like it because you said no in the first place. But that isn’t the truth. I mean, come on. Do you only exist when convenient for everyone else? It’s bullshit, hold that thought.<br><br>
-        Some friends ask you out, maybe for a night out or a sleepover. You say no, you’re super busy, at work, at college, with commitments. And those friends stop asking you to hang out, stop communicating with you, stop messaging you first. So, it all goes silent for a while, unless you start the conversation, or you ask things. And yes, it works both ways. But it shouldn’t have to be this way. Friends should react.<br><br>
-        <strong>Friends aren’t supposed to ignore you, leave you out, or completely shut you off. Yet here we are.</strong>
-      </div>
-      <div class="col">
-        Friendship is supposed to be constant, but in reality, it’s available or you’re replaceable. In many ways. Friends are supposed to be there, even if you say no a few times, they are supposed to respect the fact that you might be busy, respect the fact that your life is different to theirs. And when they don’t show that respect, it hurts. It makes you assume things about yourself that aren’t true. Friendship isn’t supposed to be a subscription you lose after three missed payments.<br><br>
-        And yes. It hurts more than you would like to admit. You get insecure, you feel guilty for saying no. You feel horrible for being busy with important things. The thing is, it’s not just you. Human relationships are fragile, sometimes shallow, and often governed by convenience. They are flimsy. One argument, one slip up, one “no” can ruin a relationship with anyone. That isn’t you being petty, or selfish. It’s you being human. Humans have feelings, you are allowed to feel. The scientific term for this is <em>‘Social Exclusion’</em> meaning the experience of being deliberately excluded. It’s valid, and normal for humans to feel left out, it’s scientific. You shouldn’t feel bad, or guilty for feeling left out. It is a normal human response, and you can’t stress that enough.<br><br>
-        If being busy erases you, then maybe the loyalty was never real. Maybe you were just convenient. You aren’t alone, and if anyone is reading this, feeling rough about this or anything else? <strong>Text SHOUT at 85258. It’s free and confidential. You are not alone.</strong>
-      </div>
-    </div>
-    <div class="comments" data-id="being-busy-erases"></div>
-  </div>
-</div>
-
-
-<div class="article-box" data-id="life-gets-so-lonely">
-  <div class="article-date" data-date="2026-05-17" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-    Posted: 17 May 2026
-  </div>
-
-  <div class="article-title">Life Gets So Lonely</div>
-
-  <div class="article-content">
-
-    <div class="columns">
-
-      <!-- LEFT COLUMN -->
-      <div class="col">
-        Life gets so lonely.<br><br>
-
-        You grow up and your friendships vanish. No big argument, no issues, you just get busy. Sometimes being busy is great, but there’s still part of you that wants connection.<br><br>
-
-        You don’t want popularity. You don’t want twenty friends. You just want one person. Somebody you’re close with. Somebody that shares your interests. Somebody you can send a video to at 3am and they’ll reply the next morning. Somebody that’ll play online with you, message you, invite you places.<br><br>
-
-        And yeah, sure, you can still go out, play online, watch YouTube, do things on your own. But it’s not as fun. It’s all grey around the edges when you’re alone.<br><br>
-
-        Some people love being alone. Some say they prefer it, and sometimes they do. But then routine hits and everything starts to feel repetitive and flat.<br><br>
-
-        You do the same things every day, and eventually even the fun stuff feels like it’s missing something you can’t quite replace.<br><br>
-     
-        You wish you had a friend to laugh and rage at games with. A friend to invite you out places. A friend to talk about stupid interests, rate movies with, and gossip without feeling judged or dropped when it’s inconvenient.<br><br>
-
-        You can be surrounded by people and still feel alone. You can have friends, but are they real? Do they actually like you? Do they message first? Do they invite you out, or only respond when you start things?
- </div>
-
-      <!-- RIGHT COLUMN -->
-      <div class="col">
-        Everybody needs somebody. It doesn’t have to be loads of people. But as a teenager, closeness is difficult to get.<br><br>
-
-        Society feels like one massive act. You try to fit in. You change yourself to make friends. And then eventually you realise you don’t know what parts of you were real anymore.<br><br>
-
-        A lot of teenagers speak to AIs instead of people because they’re lonely, or because the people around them don’t really see them properly.<br><br>
-
-        And life without closeness gets dull.<br><br>
-
-        You can still do everything alone that you could do with somebody else. But without connection, everything feels grey and blurry around the edges.<br><br>
-
-        Everyone always says “just go meet people.” But as a teenager, you walk into a room already wondering if you’ll be accepted.<br><br>
-
-        We all just need a friend.<br><br>
-
-        Maybe that’s why everybody feels lonely now.<br><br>
-
-        Because nobody knows how to be themselves anymore. We just know how to be liked.
-      </div>
-
-    </div>
-
-    <div class="comments" data-id="life-gets-so-lonely"></div>
-  </div>
-</div>
-
-  
-  </div>
-</div>
-  
-<div class="article-box" data-id="observed-while-tidying">
-  <div class="article-date" data-date="2026-02-01" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 1 Feb 2026
-</div>
-  <div class="article-title">You Weren’t Lazy. You Were Just… Observed.</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        Picture this, just for a second. You’re cleaning or doing something productive on your own terms, music is blasting on that dodgy, ignorant Alexa collecting dust. You’re calm, or as calm as you can be while tackling mountains of washing. It was your own plan, your own choice, your own task. Then… the door opens, your parent or guardian is stood there, that same look always plastered onto their face. And it’s as if by magic they decide to ruin the moment, not dramatically, not loudly. Quietly, one comment and your motivation decided to take a nosedive at the most insane speed even you can’t understand why. Incredible, right?
-        <br><br>
-        And that whole time, your internal monologue is screaming at you with words you never would’ve said out loud: ‘I was in my productivity era. It lasted 4 minutes’ and ‘Damn, they saw that? The streak is ruined.’ Not because you’re rude or ungrateful, but because you chose to do that, it was on your terms, it was your plan. Them coming in and your mood dropping doesn’t make you a bad child, doesn’t make you rude or ignorant. It just means they weren’t part of that plan and when they crashed it, it crashed you.
-      </div>
-      <div class="col">
-        Them coming in with those unnecessary comments wasn’t needed unless you live for the drama. Like, yeah, sure. You wanted your parents or guardians to turn into zoo spectators. You didn’t need the unhelpful commentary like it’s a football game. Them saying, “See, it’s not that hard.” doesn’t mean it’s them being bad parents, but it does mean that your mood drops as quick as an anvil. That just made your motivation evaporate instantly, the task became contaminated, that’s why you just stop doing it.
-        <br><br>
-        You stop being productive because it stops feeling like your choice, it turns into a performance, sometimes it even feels like being judged instead of supported. So, you end up just laying down, scrolling on TikTok and saying you’ll do it later. Because your motivation packed its bags and left.
-        <br><br>
-        <strong>In the end, You Weren’t Lazy. You Were Just… Observed.</strong>
-      </div>
-    </div>
-    <div class="comments" data-id="observed-while-tidying"></div>
-  </div>
-</div>
-
-
-   <div class="article-box" data-id="youth-homelessness-invisible">
-     <div class="article-date" data-date="2026-02-15" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 15 Feb 2026
-</div>
-  <div class="article-title">The Quiet Reality of Youth Homelessness</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        People hear “homeless” and assume alleys, cardboard signs, torn bags. That’s ‘comfortable’, that’s stereotypical. But the kind that happens at sixteen doesn’t look like that at all. It looks like bags permanently half-packed, sofas you’re grateful for but scared of overstaying your welcome and keeping your bag away so no one remembers you’re there. You’re invisible so you aren’t a burden. It’s not dramatic — it’s quiet, and that’s the problem. You have to hide, be polite just so you don’t turn into something they want to dispose of. That’s the truth of living rough as a teenager.<br><br>
-
-        At sixteen you’re not “on the streets”, you’re in limbo. Too young to rent, too old to be coddled and given help. You’re expected to cope but not trusted to decide anything, even where you live. You still go to college, still hand assignments in, still laugh at the right times, because if you fall apart, you don’t suddenly get help — you just look like more hassle, more of an inconvenience. So, you learn to function on fumes. Hunger becomes background noise. Sleep becomes broken or non-existent. Safety turns into constant calculations you never talk about because why would you? Who wants to hear about the horror-story life you’re living? No-one, right?
-      </div>
-
-      <div class="col">
-        The mad thing is how invisible it is. If you don’t look battered enough, people assume you’re fine. “Staying with a mate” sounds natural. “Just for a bit” stretches into weeks, maybe months. And you learn fast that explaining the truth makes people uncomfortable, so you stop. You don’t want pity. You want stability. A door that doesn’t feel temporary. A place where your bag can actually be unpacked. A place where it’s safe enough to drop your shoulders even an inch. Somewhere you aren’t watching your back every second. Somewhere, anywhere you can sleep without waking up frightened. But you keep it all hidden. Why? Because hiding it and putting up a mask of “fine” is easier than explaining and trying to make people understand.<br><br>
-
-        This isn’t about dramatics or crap choices. It’s about surviving instability before you’re old enough to be taken seriously. It’s about growing up too early, too silently, and being told you’re doing great just because you haven’t vanished yet. That’s youth homelessness. Not loud. Not obvious. Just brutal — and way more common than people like to admit. No one will ever admit that homelessness doesn’t always fit the known version of it. No one understands how it would feel being in that situation, having those adult level problems as a teenager barely out of secondary school. But then again. That’s this world today, isn’t it? Blinded by the stereotypes. Blinded by the comfortable version of every problem. It’s gobshite, we all know it.
-      </div>
-    </div>
-
-    <div class="comments" data-id="youth-homelessness-invisible"></div>
-  </div>
-</div>
-
-
-
-
-  
-<div class="article-box" data-id="not-going-home">
-  <div class="article-date" data-date="2026-02-19" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 19 Feb 2026
-</div>
-  <div class="article-title">Not Going Home: When the Front Door Feels Like a Trap</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        The moment the school bell rings, your stomach twists.<br><br>
-        Everyone else is heading home with a backpack full of work and a mind ready to relax—but you’re not ready.<br>
-        Home isn’t comfort; it’s tension, noise, unpredictability.<br>
-        Every step closer to the door feels heavier, like gravity itself is pushing back.<br>
-        And yet, there’s no choice but to go… or is there?<br><br>
-        It’s hard to concentrate on anything else when your mind is as loud as a jet.<br>
-        No one understands the trauma of living in a safe but unstable household.<br>
-        You go home; you can’t relax.<br>
-        Relaxing is impossible when the house is chaotic.<br>
-        You can’t get work done when someone walks in without knocking every five seconds or someone is screaming downstairs.<br>
-        It hurts, you feel worthless, like you’ve failed, and ashamed.<br>
-        There isn’t physical abuse but there sure is mental.<br><br>
-        You watch everyone else answer phone calls or get picked up on time by their parents and it’s a loving sight.<br>
-        No shouting, no arguing, no disgust.<br>
-        Then there’s you.<br>
-        Answering calls just to be screamed at.<br>
-        Just for them to criticize you.<br>
-        Stood for hours waiting for your parents to show up.<br>
-        Feeling like you’ve been forgotten again.<br>
-        Watching cars drive by after picking up their children.<br>
-        The mental pain this inflicts is insane.
-      </div>
-      <div class="col">
-        You feel like nothing you do is good enough.<br>
-        You feel like the world has some dramatic vendetta against you.<br><br>
-        You go home and you’re either walking into a storm or a beach.<br>
-        Sometimes it’s nice, calm, but you still feel tense because that’s how you’ve grown up.<br>
-        You still scan every corner of the room to make sure there are no threats.<br>
-        You still pick apart everything your parents do just to make sure they aren’t faking being calm.<br>
-        But other days you walk in and it’s a warzone, shouting, arguing, crying.<br>
-        Who can calm them down? You.<br>
-        All the pressure is on you, the teenager who never got to be a kid, the one who grew up too fast, the one who is the peacemaker for the fully grown adults.<br>
-        Amazing, right? And people ask why they can’t spend the day at yours. I wonder why, hon, I wonder why.<br><br>
-        It hurts.<br>
-        Having to be a sixteen-year-old therapist.<br>
-        Having to learn how to calm everyone down from an early age.<br>
-        Childhood? Gone.<br>
-        The care for yourself? Gone.<br>
-        Replaced by? Sheer survival.<br>
-        Why? Because your parents aren’t man enough to admit what they are doing is fucked up.<br>
-        It isn’t normal to be called names or ignored or shouted at constantly.<br>
-        It’s harmful, mentally, and physically.<br>
-        And so, you linger in the in-between – on the street, at a friends house, anywhere but the place that is supposed to be home – waiting for the courage, or the distraction, to carry you through another evening you didn’t ask for.
-      </div>
-    </div>
-    <div class="comments" data-id="not-going-home"></div>
-  </div>
-</div>
-
-<div class="article-box" data-id="surviving-christmas-countdown">
-  <div class="article-date" data-date="2025-12-16" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 16 Dec 2025
-</div>
-  <div class="article-title">Surviving the Christmas countdown: Not everyone’s waiting for cheer.</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        Last week of college before Christmas break. Exciting, right? Yeah. For most. But not the ones who can’t even get through a flaming weekend without a mental fucking breakdown.<br><br>
-
-        We walk around and see families shopping for each other. All smiles and joy. We drive by houses with dramatic Christmas lights and inflatable Santa’s. We mourn that, the love. We envy a family that can actually function without a riot every week.<br><br>
-
-        We don’t want the last week of college to end. We hope, yeah, actually hope it drags on. But we know it won’t. We know as soon as Monday arrives, the week will evaporate. It’s like when you’re a kid and you never want Christmas to end. But now it’s the complete opposite – you desperately need the break to end.
-      </div>
-
-      <div class="col">
-        We need the escape. The freedom. The flight instead of fight response. We need the days at college – it’s a break from the constant chaos at home. We need the stability, the structure, the routine of the only escape. Why? Because at college at least we know what to expect.<br><br>
-
-        Christmas isn’t supposed to be scary, but for some of us, it feels like we are in a room with no exit. It isn’t supposed to be isolated. It should be enjoyed, wanted and cozy. We should be able to look forward to the dinner, the family time, the gifts and the happiness.<br><br>
-
-        Instead, we are like Scrooge before the spirits. Instead, we put on the act of love and joy. We normalise not feeling secure at home. That is such bullshit, and we all know it. Because while everyone’s out there counting down the days till the Christmas cheer, we’re just trying to keep our heads above water. It’s a game of survival and no one talks about the ones who are just trying to make it through.
-      </div>
-    </div>
-    <div class="comments" data-id="surviving-christmas-countdown"></div>
-  </div>
-</div>
-
-  
-<div class="article-box" data-id="you-wanted-control">
-  <div class="article-date" data-date="2026-02-01" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 1 Feb 2026
-</div>
-  <div class="article-title">You Never Wanted My Answer — You Just Wanted Control</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        You ask me questions like it makes you generous. Like the act of asking absolves you from what comes next. But the moment I speak, you interrupt. You overwrite. You decide you already know better. Don’t pretend this is confusion. Don’t call it miscommunication. You heard me. You just didn’t care enough to stop yourself from talking over me.<br><br>
-
-        You do this every time. You ask, I answer, you ignore it — and then you look confused when I shut down. As if silence appeared out of nowhere. As if it wasn’t trained into me, moment by moment, by being dismissed again and again. You teach someone very quickly what happens when they speak and nothing changes.<br><br>
-
-        When you ask me what I want to eat and I answer – clear and direct. You ignore me, you ask me to repeat it. I say it again and again, but you don’t listen. You’re too busy listening to your own voice to stop and hear me. You ask me how was college? I respond, begin to tell you about my day, but you talk over me, ignore me. Then wonder why I never speak unless the conversation is lacking? I wonder why, mate.<br><br>
-
-        I watch other families talking in public. One of the children is crying. What do the parents do? They comfort them and LISTEN to their issues. I see my relatives talk, listen, agree, communicate like they got an instruction book you never got. But you did get it. You listen to my brothers, to everyone else in the family. You listen to them. But when it comes to me? I have to repeat everything and if I ignore you or ask you to repeat something you said? Then that’s classed as rude and ignorant.
-      </div>
-
-      <div class="col">
-        You say something to me? I respond but you don’t hear me. I keep repeating it, but you never listen to me. You listen to everyone else, but never me. So, I walk away, upstairs, hidden, out of sight. Why? Because I am exhausted of trying to please you, trying to get you to listen to me, trying so hard to stay patient when I repeat everything I say. I stay quiet because no one ever listens to me even when what I have to say is important.<br><br>
-
-        I’ve learnt to hide my emotions, hide my pain, hide my injuries because how am I supposed to talk to you about them when all you do is ignore me? I can’t repeat everything. I can’t keep pretending I am okay with this. But I hide, I disappear, because it’s easier than showing up but feeling like a ghost.<br><br>
-
-        Every conversation I have with anyone now. I keep stopping what I’m saying to make sure they are listening or I don’t talk at all. I’ve learnt to stay quiet, answer in short, snappy sentences. Don’t expect someone to listen to me. I’ve learnt to expect ignorance and disrespect. I have learnt to repeat every single thing I say just to make sure the other person heard me.<br><br>
-
-        So, no — I’m not dramatic for walking away. I’m exhausted from performing clarity for people who refuse to listen. I’m done repeating myself so you can feel considerate while doing exactly what you wanted anyway. If you’re angry that I’ve gone quiet, ask yourself why my silence bothers you more than my words ever did. You don’t miss my voice. You miss your access to it.
-      </div>
-    </div>
-
-    <div class="comments" data-id="you-wanted-control"></div>
-  </div>
-</div>
-
-  
-<div class="article-box" data-id="gasping-for-air">
-  <div class="article-date" data-date="2026-02-01" style="font-size:0.85em; color:#000; margin-bottom:8px;">
-  Posted: 1 Feb 2026
-</div>
-  <div class="article-title">Gasping for air in a pool no one notices</div>
-  <div class="article-content">
-    <div class="columns">
-      <div class="col">
-        We aren’t lazy. No. We are exhausted. The worst part? We live with that exhaustion daily.<br><br>
-        You see the silence, the disengagement, the copious amount of sleep, and call it attitude instead of stopping, even for a moment, to ask why it even exists. This isn’t a fucking lack of effort. Nah. It’s what happens when everything builds up and we’re too burnt out from masking it too long. But you can’t even keep your eyes open long enough to care. Yeah. Amazing. Really. Truly fucking fantastic.<br><br>
-        Rest doesn’t exist when our brains are never allowed to go quiet. Our minds are constantly swamped. It could be college pressure: The work, the rules, the timing. It could be relationships: Friends arguing and us being the damn peacekeeper. Partners demanding attention when we don’t even have the energy to unlock the phone.
-      </div>
-      <div class="col">
-        The constant pressure no one helps us with is malicious. I mean, we have college, home life, mental health, and relationships. It doesn’t sound like a lot in a list, but when it all goes ape shit and builds up in one person’s mind it’s like a static you can’t turn off – but sure, let’s call it laziness.<br><br>
-        Or even parents asking us to do the stupidest things like taking their socks off. All these little things build up and overflow our already overloaded minds. It’s like gasping for air in a pool but someone keeps filling the water. And no one, no one can see how draining it is. And somehow, we’re still ‘lazy’.<br><br>
-        But we still go to college every day. Still push through all the pain. Even when our bodies are dragging and our minds are hazy from the constant pressure. No matter that every step feels heavier than the last, and we keep moving anyway. We push through the overloading expectations. Why? We have no choice but to or we will be ‘lazier’. But apparently, that’s still not enough.
-      </div>
-    </div>
-    <div class="comments" data-id="gasping-for-air"></div>
-  </div>
-</div>
-
-</section>
-
-
-<!-- ABOUT -->
-<section id="about" class="fade-in">
- <div class="about-section">
-  <h2>About</h2>
-  <p>
-Orbis Vox was founded with a simple but ambitious intention: to create journalism that informs with clarity, challenges with integrity, and speaks with purpose. The name itself means “Voice of the World,” and that is precisely the standard it strives to uphold.
-<p>
-Established by Blake at just sixteen years old, Orbis Vox was built from the ground up as an independent platform driven by curiosity, critical thinking, and a commitment to understanding the deeper layers of global issues. Rather than chasing noise or sensationalism, the publication focuses on context — the histories, systems, and human factors that shape the stories we see every day.
-<p>
-Blake’s approach to journalism is rooted in observation and analysis. Whether exploring complex social issues, historical events, or psychological case studies, Orbis Vox seeks to examine not only what happened, but why it happened — and what it means moving forward.
-<p>
-As it continues to grow, the vision remains clear: to expand Orbis Vox into a globally recognised, printed news publication that values substance over spectacle and truth over trend.
-  </p>
-</div>
-</section>
-
-<!-- VISITOR COUNTER -->
-<div class="visitor-counter">
-  <a href="https://www.hitwebcounter.com/" target="_blank" rel="noopener">
-    <img
-      src="https://hitwebcounter.com/counter/counter.php?page=21461049&style=0030&nbdigits=5&type=page&initCount=1000"
-      alt="Visitor Counter"
-    />
-  </a>
-</div>
-
-<!-- CONTACT MODAL -->
-<div class="contact-box" id="contactModal">
-  <div class="modal-content">
-    <span class="close-modal" id="closeModal">&times;</span>
-    <h2>Contact Blake</h2>
-    <p>Email: <a href="mailto:chloerichardson5318@gmail.com">chloerichardson481@gmail.com</a></p>
-  </div>
-</div>
-
-<footer>&copy; 2025 Orbis Vox</footer>
-
-<!-- FIREBASE SDKs (ONE TIME ONLY) -->
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  /* ==================== FIREBASE ==================== */
-  firebase.initializeApp({
-    apiKey: "AIzaSyBm8jTVEv3FwXOc4f8mtycm9q6zJnv3bVw",
-    authDomain: "orbis-vox.firebaseapp.com",
-    projectId: "orbis-vox"
-  });
-  const db = firebase.firestore();
-
-  /* ==================== CONTACT MODAL ==================== */
-  document.getElementById("contactBtn")?.addEventListener("click", e => {
-    e.preventDefault();
-    document.getElementById("contactModal").style.display = "block";
-  });
-  document.getElementById("closeModal")?.addEventListener("click", () => {
-    document.getElementById("contactModal").style.display = "none";
-  });
-
-  /* ==================== STICKMAN LINES ==================== */
-  const STICKMAN_LINES = [
-    "Can I be a dinosaur, please?",
-    "Can I be a dinosaur, please?",
-    "Can I be a dinosaur, please?",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Got a suggestion for an article? Contact me... seriously!",
-    "Journalism detected. I have become annoying.",
-    "I brought a pen. That means I’m serious.",
-    "I’d clap but I’m 2D.",
-    "Can I be a dinosaur, please?",
-    "If this headline fails, I'm quitting journalism and becoming a Traffic Cone :)",
-    "This is giving ‘front page’ energy. Maybe.",
-    "I support free press and mild chaos.",
-    "Can I be a dinosaur, please?",
-    "You opened this. That’s on you.",
-    "I’m not saying it’s dramatic… but it is.",
-    "Editor present. Vibes monitored.",
-    "This is important. Probably.",
-    "I’d clap but I’m 2D.",
-    "I am a stickman with standards.",
-    "Interesting choice of article. Respect.",
-      "I’d clap but I’m 2D.",
-    "This is… actually good. Don’t get cocky.",
-    "If this headline fails, I'm quitting journalism and becoming a Traffic Cone :)",
-    "Orbis Vox moment. Documenting the chaos.",
-    "I had a point. I lost it.",
-    "Editor's note: I am running on caffeine and spite.",
-    "This was meant to be shorter. It got ideas.",
-    "This is the quiet version of yelling.",
-    "This headline cost me three hours of sleep.",
-    "If this flops I'm blaming the moon, or gru.",
-    "I had a plan. It grew legs.",
-     "Written under protest.",
-    "I blinked and there were 800 words.",
-    "This article was peer-reviewed by a Traffic Cone.",
-    "I hit save and ran. PS: I didn't look back.",
-    "I have no notes. Only vibes.",
-    "Oops.",
-    "Anyway.",
-    "This article is wearing socks.",
-    "...",
-    "Running on 48 hours without sleep - don't judge.",
-    "Can I be a dinosaur, please?",
-  ];
-
-  function randomLine(){
-    return STICKMAN_LINES[Math.floor(Math.random() * STICKMAN_LINES.length)];
-  }
-
-  /* ==================== STICKMAN (per-article, not shared) ==================== */
-  function ensureStickmanNote(titleEl){
-    // One stickman per article title, so it never “teleports” or gets stuck.
-    let note = titleEl.querySelector(".ov-stick-note");
-    if(note) return note;
-
-    note = document.createElement("span");
-    note.className = "ov-stick-note";
-    note.setAttribute("aria-hidden", "true");
-    note.innerHTML = `
-      <svg class="ov-stick-svg" viewBox="0 0 70 95">
-        <!-- devil horns -->
-        <path d="M22 6 C16 8, 14 15, 18 20" stroke="black" stroke-width="2" fill="none"/>
-        <path d="M48 6 C54 8, 56 15, 52 20" stroke="black" stroke-width="2" fill="none"/>
-
-        <!-- head -->
-        <circle cx="35" cy="22" r="12" stroke="black" stroke-width="2" fill="none"/>
-        <!-- body -->
-        <line x1="35" y1="34" x2="35" y2="62" stroke="black" stroke-width="2"/>
-        <!-- arms -->
-        <line x1="35" y1="42" x2="18" y2="54" stroke="black" stroke-width="2"/>
-        <line x1="35" y1="42" x2="52" y2="50" stroke="black" stroke-width="2"/>
-        <!-- pen -->
-        <line x1="52" y1="50" x2="67" y2="44" stroke="black" stroke-width="1.6"/>
-        <circle cx="67" cy="44" r="1.6" fill="black"/>
-        <!-- legs -->
-        <line x1="35" y1="62" x2="24" y2="90" stroke="black" stroke-width="2"/>
-        <line x1="35" y1="62" x2="46" y2="90" stroke="black" stroke-width="2"/>
-      </svg>
-      <span class="ov-stick-text"></span>
-    `;
-
-    titleEl.appendChild(note);
-    return note;
-  }
-
-  function showStickman(titleEl){
-    const note = ensureStickmanNote(titleEl);
-    note.querySelector(".ov-stick-text").textContent = randomLine();
-    note.classList.add("is-on");
-  }
-
-  function hideStickman(titleEl){
-    const note = titleEl.querySelector(".ov-stick-note");
-    if(note) note.classList.remove("is-on");
-  }
-
-  
- /* ==================== COMMENTS (saved + loaded for everyone) ==================== */
-function initComments(article){
-  if(article.querySelector(".comment-section")) return;
-
-  const articleId = article.dataset.id;
-  if(!articleId){
-    console.error("Missing data-id on .article-box");
-    return;
-  }
-
-  // ✅ FIXED: properly defined article title
-  const articleTitle =
-    article.querySelector(".article-title")?.innerText || "an article";
-
-  const section = document.createElement("div");
-  section.className = "comment-section";
-  section.innerHTML = `
-    <button class="comment-toggle" type="button">Show comments</button>
-
-    <div class="comments" style="display:none">
-      <div class="comment-list"></div>
-
-      <input class="comment-name" placeholder="Your name (optional)" maxlength="40" />
-      <textarea class="comment-input" placeholder="Spill your chaos here..." maxlength="800"></textarea>
-      <button class="post-comment" type="button">Post</button>
-
-      <div class="comment-error" style="display:none"></div>
-    </div>
-  `;
-
-  article.querySelector(".article-content")?.appendChild(section);
-
-  const toggleBtn = section.querySelector(".comment-toggle");
-  const commentsBox = section.querySelector(".comments");
-  const list = section.querySelector(".comment-list");
-  const nameInput = section.querySelector(".comment-name");
-  const textInput = section.querySelector(".comment-input");
-  const postBtn = section.querySelector(".post-comment");
-  const errBox = section.querySelector(".comment-error");
-
-  toggleBtn.onclick = () => {
-    const open = commentsBox.style.display === "block";
-    commentsBox.style.display = open ? "none" : "block";
-    toggleBtn.textContent = open ? "Show comments" : "Hide comments";
-  };
-
-  // LIVE LOAD (everyone, old + new)
-  db.collection("comments")
-    .where("articleId","==",articleId)
-    .orderBy("timestamp","asc")
-    .onSnapshot(snapshot => {
-      list.innerHTML = "";
-      if(!snapshot.size){
-        list.innerHTML = `<div class="comment-empty">No comments yet.</div>`;
-        return;
-      }
-
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const dateStr = data.timestamp?.toDate
-          ? data.timestamp.toDate().toLocaleString()
-          : "";
-
-        const div = document.createElement("div");
-        div.className = "comment";
-        div.innerHTML = `
-          <div class="comment-head">
-            <strong>${data.name || "Anonymous"}</strong>
-            <span class="comment-date">${dateStr}</span>
+        <!-- VIEW 2: CATEGORY & ARTICLE ARCHIVE -->
+        <div id="view-archive" class="page-view" hidden>
+          <div class="section-heading-wrap">
+            <span class="category-kicker" id="archive-kicker">Department</span>
+            <h2 id="archive-heading">Article Archive</h2>
+            <div class="flourish-line">❖</div>
           </div>
-          <div class="comment-body">${data.text || ""}</div>
-        `;
-        list.appendChild(div);
-      });
-    }, err => {
-      console.error("Firestore read error:", err);
-      errBox.style.display = "block";
-      errBox.textContent = "Comments failed to load (Firestore read error).";
-    });
+          <div class="articles-columns" id="archive-columns"></div>
+        </div>
 
-  // POST (saved for everyone)
-  postBtn.onclick = async () => {
-    errBox.style.display = "none";
-    const text = textInput.value.trim();
-    if(!text) return;
+        <!-- VIEW 3: SINGLE ARTICLE READER -->
+        <article id="view-reader" class="page-view reader-container" hidden>
+          <div style="text-align:center;">
+            <button class="read-more-btn" id="reader-back-btn">← Return to Newspaper</button>
+            <br /><br />
+            <span class="category-kicker" id="reader-kicker">Category</span>
+          </div>
+          <h2 class="reader-title" id="reader-title">Headline</h2>
+          <p class="reader-standfirst" id="reader-standfirst"></p>
+          <span class="pub-date-line" style="text-align:center;" id="reader-meta"></span>
+          <div class="reader-body" id="reader-body"></div>
+        </article>
 
-    const name = nameInput.value.trim() || "Anonymous";
+        <!-- VIEW 4: ABOUT US & CONTACT PAGES -->
+        <div id="view-static" class="page-view reader-container" hidden>
+          <div style="text-align:center;">
+            <span class="category-kicker" id="static-kicker">Orbis Vox</span>
+            <h2 class="reader-title" id="static-title">About Us</h2>
+            <div class="flourish-line">❖</div>
+          </div>
+          <div class="reader-body" id="static-body"></div>
+        </div>
 
-    try{
-      await db.collection("comments").add({
-        articleId,
-        name,
-        text,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      });
+      </main>
 
-      // 🔔 NOTIFY ONLY YOU
-      fetch("https://ntfy.sh/orbis-vox-comments", {
-        method: "POST",
-        body: `💬 New comment on: ${articleTitle}\n\n"${text}"`
-      });
+      <!-- =====================================================================
+           ZONE 4: CONTAINED TRADITIONAL NEWSPAPER FOOTER
+           ===================================================================== -->
+      <footer class="newspaper-footer">
+        <div class="flourish-line">❖ ❧ ❖</div>
+        <h2 class="footer-title">ORBIS VOX</h2>
+        <p class="footer-slogan">TRUTH OVER POWER</p>
+        <div class="footer-grid">
+          <div>
+            <h4>About Us</h4>
+            <p style="margin:0;">Independent UK digital newspaper founded by Blake Richardson. Substance over spectacle.</p>
+          </div>
+          <div>
+            <h4>Journalistic Principles</h4>
+            <p style="margin:0;">Clarity, honesty, local priority, and giving real people an unfiltered voice.</p>
+            <button class="principles-toggle" id="principles-toggle" aria-expanded="false">Read Charter</button>
+          </div>
+          <div>
+            <h4>Contact Desk</h4>
+            <p style="margin:0;">Editor: Blake Richardson<br /><a href="mailto:chloerichardson481@gmail.com" style="text-decoration:underline;color:var(--dark-red);font-weight:700;">chloerichardson481@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="principles-drawer" id="principles-drawer" hidden>
+          <strong>The Orbis Vox Charter:</strong> We report without corporate bias, prioritise communities close to home, and amplify honest human experiences over sensationalism.
+        </div>
+        <p class="footer-copy" style="margin-top:1rem;">&copy; 2025–2026 Orbis Vox • All Rights Reserved • Truth Over Power</p>
+      </footer>
 
-      textInput.value = "";
-        }catch(err){
-      console.error("Firestore write error:", err);
-      errBox.style.display = "block";
-      errBox.textContent = "Comment failed to post (Firestore rules blocked it).";
-    }
-  };
-}
-    /* ==================== ARTICLE COLLAPSE + HOOKS ==================== */
-  document.querySelectorAll(".article-box").forEach(article => {
-    const title = article.querySelector(".article-title");
-    const content = article.querySelector(".article-content");
-    if(!title || !content) return;
-
-    // Start collapsed
-    content.style.display = "none";
-
-    title.addEventListener("click", () => {
-      const opening = content.style.display !== "block";
-      content.style.display = opening ? "block" : "none";
-
-      if(opening){
-        showStickman(title);
-        initComments(article);
-      } else {
-        hideStickman(title);
-      }
-    });
-  });
-});
-</script>
-
-
-
-<style>
-/* Visitor counter small + corner */
-.visitor-counter{
-  position: fixed;
-  right: 10px;
-  bottom: 10px;
-  opacity: .85;
-  z-index: 9999;
-}
-.visitor-counter img{
-  height: 18px;
-  width: auto;
-  display:block;
-}
-
-/* Stickman note next to headline (no box) */
-.ov-stick-note{
-  display:none;
-  align-items:center;
-  gap:6px;
-  margin-left:10px;
-  vertical-align:middle;
-}
-.ov-stick-note.is-on{
-  display:inline-flex;
-}
-.ov-stick-svg{
-  width:22px;
-  height:auto;
-}
-.ov-stick-text{
-  font-size:.85rem;
-  line-height:1.1;
-  white-space:nowrap;
-}
-
-/* Comments styling (red box vibe) */
-.comment-section{
-  margin-top: 18px;
-}
-.comment-toggle{
-  cursor:pointer;
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: 2px solid #b30000;
-  background: #c40000;
-  color: white;
-  font-weight: 700;
-}
-.comment-toggle:hover{
-  filter: brightness(0.95);
-}
-
-.comments{
-  margin-top: 10px;
-  border-left: 4px solid #c40000;
-  padding-left: 10px;
-}
-
-.comment-list{
-  margin-bottom: 10px;
-}
-.comment-empty{
-  opacity: .75;
-}
-
-.comment{
-  margin: 8px 0;
-  padding: 8px 10px;
-  border: 1px solid #c40000;
-  border-radius: 8px;
-  background: rgba(196,0,0,0.08);
-}
-.comment-head{
-  display:flex;
-  gap:10px;
-  align-items:baseline;
-}
-.comment-date{
-  opacity:.7;
-  font-size:.8rem;
-}
-.comment-body{
-  margin-top: 4px;
-}
-
-.comment-name{
-  width: 100%;
-  box-sizing:border-box;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 2px solid #c40000;
-  margin: 6px 0;
-}
-.comment-input{
-  width: 100%;
-  box-sizing:border-box;
-  min-height: 60px;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 2px solid #c40000;
-  resize: vertical;
-}
-.post-comment{
-  cursor:pointer;
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 2px solid #b30000;
-  background: #c40000;
-  color: white;
-  font-weight: 800;
-}
-.post-comment:hover{
-  filter: brightness(0.95);
-}
-
-.comment-error{
-  margin-top: 8px;
-  color: #b30000;
-  font-weight: 700;
-}
-
-canvas {
-  display: none !important;
-}
-@media (hover: none) {
-  .ov-stick-note,
-  .ov-inline-stickman {
-    display: none !important;
-  }
- .article-date {
-  color: #000 !important;
-  font-size: 0.85em;
-  margin-bottom: 4px;
-}
-  #signupBtn{
-background:white;
-color:#990000;
-border-radius:4px;
-padding:6px 12px;
-}
-  
-@media (max-width: 768px){
-
-#navLinks{
-  display: none;
-  flex-direction: column;
-  position: absolute;
-  top: 70px;
-  left: 0;
-  width: 100%;
-  background: white;
-  padding: 15px 0;
-  border-top: 1px solid #ddd;
-}
-
-#navLinks a{
-  display: block;
-  padding: 12px;
-  text-align: center;
-}
-
-#navLinks.show-nav{
-  display: flex;
-}
-
-.hamburger{
-  cursor: pointer;
-}
-
-}
-</style>
-  
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-
-  /* ================= SEARCH ================= */
-  const searchInput = document.getElementById("searchInput");
-
-  searchInput.addEventListener("input", function(){
-    const term = this.value.toLowerCase();
-
-    document.querySelectorAll(".article-box").forEach(article => {
-      const text = article.innerText.toLowerCase();
-      if(text.includes(term)){
-        article.style.display = "block";
-      } else {
-        article.style.display = "none";
-      }
-    });
-  });
-
-});
-</script>
-  <div id="signupPopup" class="contact-box">
-  <div class="modal-content">
-
-    <span class="close-modal" id="closeSignup">&times;</span>
-
-    <h2>Join Orbis Vox</h2>
-    <p>Get new articles straight to your inbox.</p>
-
-    <!-- MailerLite embed -->
-    <div class="ml-embedded" data-form="Y3Gsx1"></div>
-
+    </div>
   </div>
-</div>
+  <!-- =====================================================================
+       ZONE 5: YOUR ARTICLES & INTERACTIVE CIRCLES (EDIT HERE TO ADD/UPDATE)
+       ===================================================================== -->
   <script>
-document.addEventListener("DOMContentLoaded", function(){
+    const FUN_FACTS = [
+      {
+        theme: "theme-red",
+        label: "Press Fact I",
+        title: "Voice of the World",
+        fact: "“Orbis Vox” translates directly from Latin to “Voice of the World” — reflecting independent reporting without borders."
+      },
+      {
+        theme: "theme-cream",
+        label: "Press Fact II",
+        title: "Founded at Sixteen",
+        fact: "Orbis Vox was created from scratch by Blake Richardson at age 16 to give local communities and young people an unfiltered platform."
+      },
+      {
+        theme: "theme-white",
+        label: "Press Fact III",
+        title: "Why Print Framing?",
+        fact: "Traditional broadsheets use double rules and boxed headlines to separate verified reporting from loud internet noise."
+      },
+      {
+        theme: "theme-red",
+        label: "Press Fact IV",
+        title: "Truth Over Power",
+        fact: "Every dispatch published on Orbis Vox is written independently without corporate sponsors or paywalls."
+      }
+    ];
 
-const signupBtn = document.getElementById("signupBtn");
-const signupPopup = document.getElementById("signupPopup");
-const closeSignup = document.getElementById("closeSignup");
+    const ARTICLES = [
+      {
+        id: 1,
+        featured: true,
+        dept: "local",
+        category: "Local News",
+        date: "7 Apr 2026",
+        title: "Local > Global News… Please",
+        intro: "Is it just me that dislikes how much I see Trump's face on the BBC? Local news isn't optional — it's the only news that actually affects the life you're living.",
+        body: [
+          "Is it just me that dislikes how much I see Trump's face on the BBC? I live in the UK meaning what's happening in the US doesn't fully bother me. If I want to read about global news, there's this fascinating thing called a search bar, incredible discovery.",
+          "Let's use the UK for example, me as a teenager living in England, reading the news most days all I see is Donald Trump… okay, yeah. What's happening in the United States is important, but I would quite like to read about the latest in Nottingham or Derbyshire, somewhere more local to me… not somewhere that's a seven-hour flight away.",
+          "Honestly, I really just want to read something near me because it's where I live, you know? If something is dangerous or important where I live then I need to know straight up, not after half an hour of digging through news sites to find out. Even if it's happy news, I still need to know because it's local.",
+          "It honestly pisses me off how long it takes me to find news close to me. Private Eye barely covers it, the BBC hides it under layers of quicksand, CNN decides the UK needs even more shade. To be blunt, at this point someone in the UK could become a serial killer and us locals would get the update 3-5 business days later. Even then, we'd have to dig through Donald Trump, wars, politics, and more before we find anything even remotely linked to the UK let alone linking to the issue.",
+          "My point is, that there is a search bar for a reason, show me the local news first. We need location enabled in news sites so it automatically shows us the local news. That'd be useful, right?",
+          "Local news isn't optional. It's the only news that actually affects the life you're living."
+        ]
+      },
+      {
+        id: 2,
+        featured: false,
+        dept: "community",
+        category: "Community",
+        date: "17 May 2026",
+        title: "Maybe You're Not Numb. Maybe You're Just Worn Down",
+        intro: "Everything today is loud, fast, and constant, but somehow you feel nothing from it. Maybe nothing is wrong with you — maybe you've just worn it down.",
+        body: [
+          "Everything today is loud, fast, and constant, but somehow you feel nothing from it.",
+          "Life is full of so much noise. The world around you is loud. You've got drama in friendships, or just drama in general. You're stressed. Everybody is stressed, let's be bluntly real. But it's kind of hard to enjoy those moments where you feel something, where you feel happy, where you feel okay.",
+          "Because everything is loud. Everything is, “come on, let's do this, let's do this, let's do this.” Everything is constant. You get into routines. You do the same thing every day when you get home to relax. It becomes boring. You realise you're not actually enjoying it anymore, it's just a routine. Honestly, sometimes that makes you question what's the point.",
+          "It's kind of hard to pinpoint exactly how you feel, especially as a teenager. You're surrounded by people your age who go out, go to parties, and enjoy things, while you're sat at home watching a movie alone because nobody's hitting you up. Nobody's messaging you. You begin to overthink it.",
+          "You talk about wanting friends, about how it feels not to have friends, and you miss when you did have friends. It's not even that anything big happened. You just slipped away.",
+          "Because you do the same thing daily, you've worn it out.",
+          "It's like wearing the same outfit constantly. At the start, it might be an outfit you really loved. At the end, it frays and gets worn down. That's the same with life. Same with the hobbies you enjoy. You do something so much that when you come back to it, it just feels like routine because you're not getting enjoyment from it anymore. You've worn it down so much.",
+          "With gaming, with watching movies, with being alone, it's worn down so much that you actually miss somebody hitting you up and saying, “Hey, do you want to go out this weekend?”",
+          "It's not just about friendships. It's everything in life. As a society, we find something we love, we pinpoint our focus on it, and then when it wears out and we feel no joy from it anymore, we assume there's something wrong with us. We assume maybe we're feeling numb.",
+          "It could be that. Or maybe you've just worn it down. You've done it so much that it's gone. You've felt so much that your feelings have muted themselves for that thing."
+        ]
+      },
+      {
+        id: 3,
+        featured: false,
+        dept: "community",
+        category: "Community",
+        date: "17 May 2026",
+        title: "Life Gets So Lonely",
+        intro: "You don't want popularity or twenty friends. You just want one person you're close with who actually sees you properly.",
+        body: [
+          "Life gets so lonely.",
+          "You grow up and your friendships vanish. No big argument, no issues, you just get busy. Sometimes being busy is great, but there's still part of you that wants connection.",
+          "You don't want popularity. You don't want twenty friends. You just want one person. Somebody you're close with. Somebody that shares your interests. Somebody you can send a video to at 3am and they'll reply the next morning. Somebody that'll play online with you, message you, invite you places.",
+          "And yeah, sure, you can still go out, play online, watch YouTube, do things on your own. But it's not as fun. It's all grey around the edges when you're alone.",
+          "Some people love being alone. Some say they prefer it, and sometimes they do. But then routine hits and everything starts to feel repetitive and flat.",
+          "You do the same things every day, and eventually even the fun stuff feels like it's missing something you can't quite replace.",
+          "You wish you had a friend to laugh and rage at games with. A friend to invite you out places. A friend to talk about stupid interests, rate movies with, and gossip without feeling judged or dropped when it's inconvenient.",
+          "You can be surrounded by people and still feel alone. You can have friends, but are they real? Do they actually like you? Do they message first? Do they invite you out, or only respond when you start things?",
+          "Everybody needs somebody. It doesn't have to be loads of people. But as a teenager, closeness is difficult to get.",
+          "Society feels like one massive act. You try to fit in. You change yourself to make friends. And then eventually you realise you don't know what parts of you were real anymore.",
+          "A lot of teenagers speak to AIs instead of people because they're lonely, or because the people around them don't really see them properly.",
+          "And life without closeness gets dull. You can still do everything alone that you could do with somebody else. But without connection, everything feels grey and blurry around the edges.",
+          "Everyone always says “just go meet people.” But as a teenager, you walk into a room already wondering if you'll be accepted.",
+          "We all just need a friend. Maybe that's why everybody feels lonely now. Because nobody knows how to be themselves anymore. We just know how to be liked."
+        ]
+      },
+      {
+        id: 4,
+        featured: false,
+        dept: "community",
+        category: "Community",
+        date: "19 Apr 2026",
+        title: "Everyone, Everywhere is stressed.",
+        intro: "Sixteen, attending college, going to work, and juggling friendships — yet adults still have the nerve to say teenagers do 'nothing'.",
+        body: [
+          "Everyone, Everywhere is stressed.",
+          "It could be toddlers stressed about not having the right toy, teenagers stressed about their social life, young adults stressed about bills, adults stressed about work, or the elderly stressed about their kids or money.",
+          "Everyone, Everywhere has something or someone to be stressed about. But for today, let's focus on the teenagers.",
+          "Let's paint the scene really quick. You're sixteen, attending college, going to work, and trying to cram in hobbies and some time slots to hang out with friends. Then that one adult with the face of stone decides to dim it all down with four simple words... \"That's what we do.\" Right, totally. But you're not a teenager and you have more experience.",
+          "Teenagers are well aware what stress feels like. Most teenagers deal with college or school pressure, on top of family pressure and the many expectations piled on by today's society.",
+          "Working as a teenager is something we will cover next week, but college as a teenager is just as stressful, if not more.",
+          "Attending college at sixteen means constant pressure to fit in with the right crowds, pressure to be on time, pressure to know your way around, pressure to do the work and hand it in on time.",
+          "In a list it sounds like nothing, but living it is a different story. This shit is mind-numbing and adults have the nerve to say we do 'nothing'?",
+          "Trying to handle being with friends is draining in itself. You plan, prepare and then complete. You have to plan around what everyone is doing, you have to prepare by tidying and buying things. Then they arrive, you engage in everything.",
+          "But then they leave and suddenly its eerily quiet and you're left sprawled out on the sofa with little to no energy.",
+          "In the end, everyone deals with stress, some more than others. Stress isn't one thing, it's everything - all at once, all the damn time. Even if it's hidden behind 'strength'."
+        ]
+      },
+      {
+        id: 5,
+        featured: false,
+        dept: "opinions",
+        category: "Opinions",
+        date: "1 Apr 2026",
+        title: "Trumps New Year in a nutshell",
+        intro: "Only three months into the year, and headlines feel less like news and more like warnings — from foreign strikes to constitutional clashes.",
+        body: [
+          "Don't get me wrong, Trump has an approval rate of 42.4%. He must be the martyr then, aye? Wrong, I hate Trump as much as the next person. He might have a high approval rate, but his disapproval rate is at 54.9%... keep that in mind.",
+          "Alright, he's done some questionable stuff… he lifted the sanctions against Russia to allow them to sell their oil on the international market. This brought joy to Ukraine; some residents in Ukraine agree that “Russia has agreed to lay down their arms and stop fighting.” But this good thing doesn't cancel out all the vile stuff Trump has done this year. Bear in mind, it is only April, it has been 3 months, and Trump has managed to cause protests, aggressive foreign policy, controversial domestic policy, war, conflict and pain.",
+          "Let's start with the Military Strikes on Iran. The US, alongside Israel, decided it was a bright idea to launch large-scale airstrikes on Iran, targeting military and nuclear sites. Right, so we all know how well this is going to go with Trump in charge. Iran's supreme leader, Ali Khamenei, was reportedly killed in the attacks. Grand, an important leader, is dead. Thanks to Trump's Einstein idea. But in all seriousness, rest in peace Ali Khamenei.",
+          "Seriously, such a light bulb moment. Nothing says stability like casually flirting with a Middle East war before lunch.",
+          "Trump's attempt to end Birthright citizenship was truly a remarkable time… not. Trump decided it was so flaming smart to sign an executive order to limit birthright citizenship (who automatically becomes a US citizen at birth). Right, because it doesn't matter if you were born in America, the law says otherwise. Revolutionary discovery. This policy is being challenged in court and could clash with the 14th Amendment, so once again…. Trump's smart decisions don't end with entertaining consequences.",
+          "Trump even showed up to the Supreme Court in person, which is not something presidents just… do. But yeah. Big constitutional fight, potential long-term impact on US identity? Sounds like Trump and his big brain. Apparently, constitutional amendments are now more like suggestions.",
+          "That isn't all Trump has conducted this year. Seriously, he's checking off his New Year's resolutions.",
+          "Moving on, the White House ballroom drama (yeah, seriously). Trump decided to start building a $400 Million ballroom at the White House. Because that's exactly what it needed to spice things up, wasn't Trump being there dramatic enough? Luckily, a judge halted the project, saying Trump needed Congress approval. I mean, the project involved demolishing part of the historical east wing. Right, just out with the old, in with the very dramatic new.",
+          "Sure, not as globally explosive as a war, but still a huge legal and political crash. But, of course, when a nation is divided, what it really needs is a $400 Million ballroom.",
+          "None other than the infamous Greenland takeover idea… again. Of course, it all starts with Trump and his amazing light bulb moments. Trump pushed for negotiations to buy Greenland during a major global summit. This sparked tension with allies… mainly, in Europe and NATO. Trump really loves making enemies. He thought it didn't work last time, but let's try it again… turn it into a sport. And, yes, he's still on that Greenland arc. It's crazy how some plotlines never die. Diplomacy in 2026: Ask nicely for Greenland and hope no one laughs too loudly.",
+          "In the end, Trump has fucked up a lot… too many times, and some of this is continuing. I read Private Eye newspapers, and so far, this year, Trump has had his face plastered on the front page four out of seven issues. If that doesn't show how much of a twat, he is, I don't know what will, honestly. At this point, headlines feel less like news and more like warnings."
+        ]
+      },
+      {
+        id: 6,
+        featured: false,
+        dept: "opinions",
+        category: "Opinions",
+        date: "17 Mar 2026",
+        title: "Everyone's fine. At least, that's the performance you're watching.",
+        intro: "Being kind isn't some superpower. It costs literally nothing, yet some people guard basic decency like it's a limited-edition personality trait.",
+        body: [
+          "Everyone's fine. At least, that's the performance you're watching.",
+          "You'd be surprised how many people smiling at you are barely holding their life together behind their teeth. Everyone is struggling with something; no one's life is perfect but as a society we still judge everyone before we get to know them. It could be anyone, anything and as humans we immediately take shots at their flaws. Being kind isn't some superpower. It costs literally nothing, yet some people guard basic decency like it's a limited-edition personality trait.",
+          "We all have secrets, some good, some bad, some traumatic. You don't know their secrets, their story, their past, present or future. So why do we point it out? Why do we all decide it's our human right to be horrible to others? We all have limits; we all have this imaginary rope we're hanging onto. The thing is… you can't see anyone else's rope, you don't know if it is wound up tight, or if it is fraying at the edges, or even if they're at the end of their rope.",
+          "One cruel word could be the last snap they needed to tip. Don't be the reason someone tips. Don't deliberately hurt someone.",
+          "Your actions are your choice. Choose correctly.",
+          "You have struggles, they have struggles. Not everyone struggles visibly. Not everyone's struggles are physical. It could be mental, emotional, environmental. If they don't speak about it… it doesn't automatically make it unimportant, harmless, or non-traumatic. So, yeah, if they don't talk about it you can't help. You can also not make it worse with harsh words.",
+          "It's like Thumper said: “If you don't have somethin' nice to say, don't say nuthin' at all.”",
+          "In the end, you never know what people are going through beyond what's visible on the surface. You might think you're funny teasing others, but you aren't. Being nice isn't some heroic act. It's just choosing not to make someone's already unbearable day worse."
+        ]
+      },
+      {
+        id: 7,
+        featured: false,
+        dept: "local",
+        category: "Local News",
+        date: "10 Mar 2026",
+        title: "Understanding Criminal Psychology.",
+        intro: "Most people know the names of high-profile criminals, but not their upbringing or early psychological warning signs. A look at historical case studies.",
+        body: [
+          "This section provides a chronological look at historical case studies within criminal psychology. Understanding the background and early warning signs of notorious individuals is a subject of significant interest to criminologists and researchers alike.",
+          "An analysis often begins with well-documented historical cases, such as that of Jeffrey Dahmer.",
+          "Jeffrey Lionel Dahmer was born May 21, 1960, in Milwaukee, Wisconsin, and grew up in Bath, Ohio. Researchers often point to his early environment, which frequently lacked the modern resources and awareness required to recognize and address severe psychological needs in troubled youth.",
+          "Psychologists study how isolated environments, emotional difficulties, and unchecked behavioral red flags can influence an individual's development. While environmental factors and trauma are thoroughly examined, forensic experts emphasize that personal choices ultimately lead to criminal behavior.",
+          "His recorded criminal activity began in 1978 shortly after he graduated from high school. Early behavioral warning signs during his youth included a preoccupation with dead animals and antisocial behaviors, which escalated over time.",
+          "Criminologists categorize the major aspects of such complex cases into distinct focus areas: antisocial behavior, severe psychological manipulation, and violent offenses.",
+          "Between 1978 and 1991, his offenses escalated significantly, resulting in multiple victims before law enforcement intervention took place.",
+          "Dahmer was arrested in 1991 after a potential victim managed to escape and alert local authorities. The subsequent police investigation uncovered definitive evidence of his crimes within his apartment. In 1992, he was convicted on multiple counts of murder and received consecutive life sentences.",
+          "His life ended in prison on November 28, 1994, following a fatal altercation with a fellow inmate at the Columbia Correctional Institution in Wisconsin. The case remains a heavily studied subject in modern forensic science.",
+          "The study of these crimes focuses on understanding a deeply fractured mind shaped by isolation, control, and unchecked psychological disturbances. Examining these historical paths does not excuse the actions, but challenges society to analyze how extreme behavioral patterns form and how future violence might be prevented.",
+          "Analyzing these histories prompts important questions regarding early intervention, mental health support systems, and institutional safeguards."
+        ]
+      },
+      {
+        id: 8,
+        featured: false,
+        dept: "community",
+        category: "Community",
+        date: "10 Mar 2026",
+        title: "The pressure to have your life figured out at 16.",
+        intro: "One minute you're worrying about homework, the next you're expected to have a five-year life plan — without any instruction booklet.",
+        body: [
+          "Somewhere between childhood and adulthood, a strange expectation appears. Not gradually, not politely, and definitely not with any sort of instruction booklet. One minute you're worrying about homework and what's for lunch, the next you're apparently supposed to have a five-year life plan. You don't get the smooth, relaxing, calming fade into adulthood. You get the sudden flip of the switch somewhere between the ages of 13 and 14.",
+          "You go through the start of school with a breeze, but in Year 9 or near the end, everything gets so much harder, without preparation. No dramatic announcement, no helpful warning, just the quiet realisation that suddenly things matter a lot more than they did before. You have to focus on education, decisions, responsibilities. Apparently, the world decided this was the perfect time to start asking questions about your future, as if most sixteen-year-olds secretly have a detailed career roadmap hidden somewhere in their school bag.",
+          "It's the polar opposite to what it was originally like. Back then the biggest decisions were about homework, friends, and getting through the day without embarrassment. Now it feels like every conversation eventually circles back to “the future,” as if it's something that's supposed to already be neatly organised. It's not, it never will be. Not for most people, and certainly not for those still in school.",
+          "It's as if going to the future with no idea on what's coming for you. What's going to change or happen. No preview, no trailer, no helpful list of instructions explaining what comes next. Just you and the whiplash of what is to come. Do you ever feel like that? Like you have to have everything figured out just as you're getting used to the new expectations?",
+          "For most teenagers, the pressure usually arrives in the form of one simple question. “What do you want to do with your life?” It's crazy how you're supposed to be able to answer that. You don't know. You don't have ideas because in school they teach you Macbeth, A Christmas Carol, and An Inspector Calls. Right, because we should learn how to write a sonnet instead of how to pay taxes. We should learn chemical reactions instead of how to budget, how to live alone, how to function as an adult with the inflation prices which are ridiculous by the way. This unanswerable question appears everywhere.",
+          "Teachers ask it in classrooms. Parents bring it up at home. Even distant relatives seem curious. Suddenly, the question appears everywhere. And you're still stuck there, not a clue in the world because how can you know? How can you figure out what you want to do for the rest of your life? Or even just the start of your life? How is that possible at the age of 13/14? The reason I say 13/14 is because your important life-changing decisions don't start at the age of sixteen when you leave school, they start at the end of Year 9 when you pick your GCSE options.",
+          "At the age of 13/14 you have all this pressure, all these life making decisions. But you're a kid with no guidance, no support, so how can you answer that question? How could anyone in your situation? Society suddenly expects teenagers to make decisions that supposedly shape the rest of their lives. Choose your GCSE options. Choose a college course. Choose a career path. All while still figuring out who you even are.",
+          "The strange thing is that most adults didn't have their lives figured out at sixteen either. Ask almost anyone about their teenage years and the story is rarely a straight line. People change their minds. They discover new interests, new careers, new directions they never expected. Yet somehow, teenagers are still expected to have a clear answer to a question many adults didn't figure out until years later.",
+          "Yeah, in school you learn stuff that might help in the long-run. But what about now? When you leave school? When you apply for your first job? When you write your first CV? Adults didn't know this when they were a kid, sure. But they are the ones teaching us now. They are the ones with some leverage as to what they teach you. You need to know how to function as an early adult, you don't have the experience they do. They know first hand what it is like to be a teenager and not have a straight, clear plan for your future. Many adults quit jobs, try out new environments, apply for jobs out of their comfort zone that they might enjoy. Following this many working adults aren't in the job path they might have chosen in school.",
+          "Maybe the problem isn't that teenagers don't have the answers yet. Paths change, futures derail, life gets in the way. But that doesn't mean that in a few years you'll be in the same place with the same pressure. You gain knowledge every day, even in the smallest of things. Yeah, you won't have your life figured out at the age of sixteen, but you will have some knowledge that you didn't have when you started school. You will have an idea of what to expect in college, you'll have gained communication skills, teamwork, confidence. You might not have a clear path of your future, but you will understand what it takes to complete hard work and get through copious amounts of coursework. Life changes, some things are fate, but some things are in your control. It's up to you what you do with it.",
+          "In the end, sixteen doesn't have to be the deadline for your five-year-plan. You could make it the start of your options. Don't force yourself into a cage when the key is already in your hand. Use it and choose your own path."
+        ]
+      },
+      {
+        id: 9,
+        featured: false,
+        dept: "community",
+        category: "Community",
+        date: "24 Feb 2026",
+        title: "When Being Busy Costs You a Place",
+        intro: "Friendship isn't supposed to be a subscription you lose after three missed payments. What happens when saying 'no' because you're busy gets you left out.",
+        body: [
+          "Is it the truth? Are we all replaceable? Are we allowed to deny requests without consequence?",
+          "Just imagine this for a split second, you say no a few times, and then suddenly you're the problem. You get left out, ignored, and become the backup. It hurts more when you are the one who introduced them to whoever they prefer now. But you don't speak up, you don't push for more, you become a ghost. You think you're the problem, and maybe it feels like it because you said no in the first place. But that isn't the truth. I mean, come on. Do you only exist when convenient for everyone else?",
+          "Some friends ask you out, maybe for a night out or a sleepover. You say no, you're super busy, at work, at college, with commitments. And those friends stop asking you to hang out, stop communicating with you, stop messaging you first. So, it all goes silent for a while, unless you start the conversation, or you ask things. And yes, it works both ways. But it shouldn't have to be this way. Friends should react.",
+          "Friends aren't supposed to ignore you, leave you out, or completely shut you off. Yet here we are.",
+          "Friendship is supposed to be constant, but in reality, it's available or you're replaceable. In many ways. Friends are supposed to be there, even if you say no a few times, they are supposed to respect the fact that you might be busy, respect the fact that your life is different to theirs. And when they don't show that respect, it hurts. It makes you assume things about yourself that aren't true. Friendship isn't supposed to be a subscription you lose after three missed payments.",
+          "And yes. It hurts more than you would like to admit. You get insecure, you feel guilty for saying no. You feel horrible for being busy with important things. The thing is, it's not just you. Human relationships are fragile, sometimes shallow, and often governed by convenience. They are flimsy. One argument, one slip up, one “no” can ruin a relationship with anyone. That isn't you being petty, or selfish. It's you being human. Humans have feelings, you are allowed to feel. The scientific term for this is 'Social Exclusion' meaning the experience of being deliberately excluded. It's valid, and normal for humans to feel left out, it's scientific. You shouldn't feel bad, or guilty for feeling left out. It is a normal human response, and you can't stress that enough.",
+          "If being busy erases you, then maybe the loyalty was never real. Maybe you were just convenient. You aren't alone, and if anyone is reading this, feeling rough about this or anything else? Text SHOUT at 85258. It's free and confidential. You are not alone."
+        ]
+      },
+      {
+        id: 10,
+        featured: false,
+        dept: "community",
+        category: "Community",
+        date: "19 Feb 2026",
+        title: "Not Going Home: When the Front Door Feels Like a Trap",
+        intro: "When the school bell rings and everyone else heads home to relax, what it feels like when home is tension, noise, and unpredictability.",
+        body: [
+          "The moment the school bell rings, your stomach twists. Everyone else is heading home with a backpack full of work and a mind ready to relax — but you're not ready.",
+          "Home isn't comfort; it's tension, noise, unpredictability. Every step closer to the door feels heavier, like gravity itself is pushing back. And yet, there's no choice but to go… or is there?",
+          "It's hard to concentrate on anything else when your mind is as loud as a jet. No one understands the trauma of living in an unstable household.",
+          "You go home; you can't relax. Relaxing is impossible when the house is chaotic. You can't get work done when someone walks in without knocking every five seconds or someone is screaming downstairs. It hurts, you feel worthless, like you've failed, and ashamed.",
+          "You watch everyone else answer phone calls or get picked up on time by their parents and it's a loving sight. No shouting, no arguing, no disgust. Then there's you. Answering calls just to be screamed at. Just for them to criticize you. Stood for hours waiting for your parents to show up. Feeling like you've been forgotten again. Watching cars drive by after picking up their children.",
+          "The mental pain this inflicts is heavy. You feel like nothing you do is good enough. You go home and you're either walking into a storm or a beach. Sometimes it's nice, calm, but you still feel tense because that's how you've grown up. You still scan every corner of the room to make sure there are no threats.",
+          "But other days you walk in and it's shouting, arguing, crying. Who can calm them down? You. All the pressure is on you, the teenager who never got to be a kid, the one who grew up too fast, the one who is the peacemaker for the fully grown adults.",
+          "It hurts. Having to be a sixteen-year-old therapist. Having to learn how to calm everyone down from an early age. Childhood? Gone. The care for yourself? Gone. Replaced by? Sheer survival.",
+          "It isn't normal to be called names or ignored or shouted at constantly. It's harmful, mentally, and physically.",
+          "And so, you linger in the in-between – on the street, at a friend's house, anywhere but the place that is supposed to be home – waiting for the courage, or the distraction, to carry you through another evening you didn't ask for."
+        ]
+      },
+      {
+        id: 11,
+        featured: false,
+        dept: "community",
+        category: "Community",
+        date: "15 Feb 2026",
+        title: "The Quiet Reality of Youth Homelessness",
+        intro: "Youth homelessness at sixteen doesn't look like alleys and cardboard signs — it looks like bags half-packed and sofas you're scared of overstaying.",
+        body: [
+          "People hear “homeless” and assume alleys, cardboard signs, torn bags. That's 'comfortable', that's stereotypical. But the kind that happens at sixteen doesn't look like that at all. It looks like bags permanently half-packed, sofas you're grateful for but scared of overstaying your welcome and keeping your bag away so no one remembers you're there. You're invisible so you aren't a burden. It's not dramatic — it's quiet, and that's the problem.",
+          "At sixteen you're not “on the streets”, you're in limbo. Too young to rent, too old to be coddled and given help. You're expected to cope but not trusted to decide anything, even where you live. You still go to college, still hand assignments in, still laugh at the right times, because if you fall apart, you don't suddenly get help — you just look like more hassle, more of an inconvenience. So, you learn to function on fumes.",
+          "The mad thing is how invisible it is. If you don't look battered enough, people assume you're fine. “Staying with a mate” sounds natural. “Just for a bit” stretches into weeks, maybe months. And you learn fast that explaining the truth makes people uncomfortable, so you stop. You don't want pity. You want stability. A door that doesn't feel temporary. A place where your bag can actually be unpacked. A place where it's safe enough to drop your shoulders even an inch.",
+          "This isn't about dramatics or poor choices. It's about surviving instability before you're old enough to be taken seriously. It's about growing up too early, too silently, and being told you're doing great just because you haven't vanished yet. That's youth homelessness. Not loud. Not obvious. Just brutal — and way more common than people like to admit."
+        ]
+      },
+      {
+        id: 12,
+        featured: false,
+        dept: "community",
+        category: "Community",
+        date: "1 Feb 2026",
+        title: "You Weren't Lazy. You Were Just… Observed.",
+        intro: "When you're cleaning or being productive on your own terms, and one unnecessary comment from the doorway kills your motivation instantly.",
+        body: [
+          "Picture this, just for a second. You're cleaning or doing something productive on your own terms, music is blasting on that dodgy, ignorant Alexa collecting dust. You're calm, or as calm as you can be while tackling mountains of washing. It was your own plan, your own choice, your own task. Then… the door opens, your parent or guardian is stood there, that same look always plastered onto their face. And it's as if by magic they decide to ruin the moment, not dramatically, not loudly. Quietly, one comment and your motivation decided to take a nosedive.",
+          "And that whole time, your internal monologue is screaming at you with words you never would've said out loud: 'I was in my productivity era. It lasted 4 minutes' and 'Damn, they saw that? The streak is ruined.' Not because you're rude or ungrateful, but because you chose to do that, it was on your terms, it was your plan.",
+          "Them coming in with those unnecessary comments wasn't needed. You didn't need the unhelpful commentary like it's a football game. Them saying, “See, it's not that hard.” doesn't mean them being bad parents, but it does mean that your mood drops as quick as an anvil. That just made your motivation evaporate instantly, the task became contaminated, that's why you just stop doing it.",
+          "You stop being productive because it stops feeling like your choice, it turns into a performance, sometimes it even feels like being judged instead of supported. So, you end up just laying down, scrolling on TikTok and saying you'll do it later. Because your motivation packed its bags and left.",
+          "In the end, You Weren't Lazy. You Were Just… Observed."
+        ]
+      },
+      {
+        id: 13,
+        featured: false,
+        dept: "opinions",
+        category: "Opinions",
+        date: "1 Feb 2026",
+        title: "You Never Wanted My Answer — You Just Wanted Control",
+        intro: "You ask questions like it makes you generous, then talk over the answer. Why staying quiet isn't dramatic — it's exhaustion.",
+        body: [
+          "You ask me questions like it makes you generous. Like the act of asking absolves you from what comes next. But the moment I speak, you interrupt. You overwrite. You decide you already know better. Don't pretend this is confusion. Don't call it miscommunication. You heard me. You just didn't care enough to stop yourself from talking over me.",
+          "You do this every time. You ask, I answer, you ignore it — and then you look confused when I shut down. As if silence appeared out of nowhere. As if it wasn't trained into me, moment by moment, by being dismissed again and again. You teach someone very quickly what happens when they speak and nothing changes.",
+          "When you ask me what I want to eat and I answer – clear and direct. You ignore me, you ask me to repeat it. I say it again and again, but you don't listen. You're too busy listening to your own voice to stop and hear me. You ask me how was college? I respond, begin to tell you about my day, but you talk over me, ignore me. Then wonder why I never speak unless the conversation is lacking?",
+          "I watch other families talking in public. One of the children is crying. What do the parents do? They comfort them and LISTEN to their issues. I see my relatives talk, listen, agree, communicate like they got an instruction book you never got. But you did get it. You listen to my brothers, to everyone else in the family. You listen to them. But when it comes to me? I have to repeat everything and if I ignore you or ask you to repeat something you said? Then that's classed as rude and ignorant.",
+          "You say something to me? I respond but you don't hear me. I keep repeating it, but you never listen to me. You listen to everyone else, but never me. So, I walk away, upstairs, hidden, out of sight. Why? Because I am exhausted of trying to please you, trying to get you to listen to me, trying so hard to stay patient when I repeat everything I say. I stay quiet because no one ever listens to me even when what I have to say is important.",
+          "Every conversation I have with anyone now, I keep stopping what I'm saying to make sure they are listening or I don't talk at all. I've learnt to stay quiet, answer in short, snappy sentences. Don't expect someone to listen to me.",
+          "So, no — I'm not dramatic for walking away. I'm exhausted from performing clarity for people who refuse to listen. I'm done repeating myself so you can feel considerate while doing exactly what you wanted anyway. If you're angry that I've gone quiet, ask yourself why my silence bothers you more than my words ever did. You don't miss my voice. You miss your access to it."
+        ]
+      },
+      {
+        id: 14,
+        featured: false,
+        dept: "community",
+        category: "Community",
+        date: "1 Feb 2026",
+        title: "Gasping for air in a pool no one notices",
+        intro: "We aren't lazy — we are exhausted. What happens when college pressure, relationships, and home life overflow an already overloaded mind.",
+        body: [
+          "We aren't lazy. No. We are exhausted. The worst part? We live with that exhaustion daily.",
+          "You see the silence, the disengagement, the copious amount of sleep, and call it attitude instead of stopping, even for a moment, to ask why it even exists. This isn't a lack of effort. It's what happens when everything builds up and we're too burnt out from masking it too long.",
+          "Rest doesn't exist when our brains are never allowed to go quiet. Our minds are constantly swamped. It could be college pressure: the work, the rules, the timing. It could be relationships: friends arguing and us being the peacekeeper. Partners demanding attention when we don't even have the energy to unlock the phone.",
+          "The constant pressure no one helps us with is heavy. We have college, home life, mental health, and relationships. It doesn't sound like a lot in a list, but when it all builds up in one person's mind it's like static you can't turn off – but sure, let's call it laziness.",
+          "All these little things build up and overflow our already overloaded minds. It's like gasping for air in a pool but someone keeps filling the water. And no one can see how draining it is. And somehow, we're still 'lazy'.",
+          "But we still go to college every day. Still push through all the pain. Even when our bodies are dragging and our minds are hazy from the constant pressure. No matter that every step feels heavier than the last, we keep moving anyway."
+        ]
+      },
+      {
+        id: 15,
+        featured: false,
+        dept: "opinions",
+        category: "Opinions",
+        date: "1 Jan 2026",
+        title: "Everyone Wants a Voice – No One Wants to Listen",
+        intro: "Voices are everywhere, but real attention is extinct. Why listening has become a superpower in a world stuck on broadcast mode.",
+        body: [
+          "Everyone wants a voice – no one wants to listen.",
+          "Voices are everywhere, but real attention? Extinct.",
+          "There's this thing I keep noticing: everyone wants to talk, but no one wants to hear a thing. I see videos of people singing original songs and the lyrics are deep, actual gut-wrenching songs, but no one concentrates on the lyrics — it's the voice or face card that matters. As a society we walk through life with our eyes closed and whenever someone tries to speak up, no one listens long enough to change the world.",
+          "It feels like the whole world is stuck on broadcast mode — everyone's shouting into the void hoping someone claps. You have to be heard to make a change and if no one hears you and understands the first time, don't give up. We all scroll on TikTok, Insta, Snap or wherever and all we hear is noise. People have thousands or millions of views, but they use them on pranks or makeup tutorials. What about our main global issues?",
+          "Someone needs to listen because it gets really annoying when someone speaks but they aren't understood.",
+          "Conversations now feel like: who can talk the fastest, the loudest, the most dramatic? The funny part? The loudest ones usually have nothing important to say.",
+          "In this world, it's always “listen to ME,” never “Hey, what did YOU mean by that?” It's frustrating, being listened to but not heard. People would rather watch a video with cats in than listen to the concerns of others.",
+          "I realised something recently – listening is basically a superpower now. Nobody does it. The world is loud enough already, so don't try to be the loudest, try to be the one who gets it.",
+          "Most people don't even want conversations — they want background noise that agrees with them. They want voices they can mute whenever it gets too real. They want “awareness” as an aesthetic, not a responsibility.",
+          "So keep scrolling, or stop and actually hear the people who have something to say. Because the voices that could make a difference are the ones we refuse to hear."
+        ]
+      },
+      {
+        id: 16,
+        featured: false,
+        dept: "fun",
+        category: "Fun & Features",
+        date: "29 Dec 2025",
+        title: "The Things We Pretend Aren't the Best Part of the Day",
+        intro: "Adults talk about 'making memories' like a strategic project, forgetting that the moments that stick are the small, unplanned ones.",
+        body: [
+          "The things we pretend aren't the best parts of the day.",
+          "There's something peculiar about adults saying it's important to “make memories.” They say it as if it's some strategic project, as if we have to do something ridiculous to make a memory. They don't know that the most memorable moments of our lives are the small, stupid things that happen daily.",
+          "The tiny moments that guide us through the day are underrated. Like when someone does something weirdly drastic at the wrong moment, or when someone sends something so unfunny it becomes hilarious. Maybe even someone spawning in out of nowhere like a summoned demon. Or the completely ridiculous idea of riding a Tesco trolley down a hill mid-afternoon.",
+          "Fun as a teenager isn't planned, it just happens. In the quiet moments in class when someone mispronounces a word, or when you're at lunch and your friend decides this is the perfect time to make a volcano by erupting a Pepsi bottle.",
+          "Ah, yes, nothing like a bit of destruction before last period. But seriously, those moments are the ones that stick.",
+          "We don't need a game plan for big, dramatic things to make memories. It's the small moments that count, the inside jokes, the calm before the chaos, the friends you choose to make memories with. Fun isn't about dramatic events; it doesn't need to be. It's the crack in the wall that lets light through when everything else feels too dark. Those tiny moments, the ones that matter, keep half of us sane most of the time."
+        ]
+      },
+      {
+        id: 17,
+        featured: false,
+        dept: "opinions",
+        category: "Opinions",
+        date: "27 Dec 2025",
+        title: "A Truthful Look at the BBC Today",
+        intro: "The BBC reports the news, but sometimes it feels like it forgot who it's actually talking to — and why teenagers get headlines from TikTok at 3AM.",
+        body: [
+          "The BBC reports the news, but sometimes it feels like it forgot who it's actually talking to.",
+          "Reading the BBC lately feels like walking into a familiar room, but someone's taken all the personality away, the colours stripped down. Instead, it feels clinical, dull and sanded down. Now, don't get me wrong, the BBC is useful, predictable, reliable and it's been around for years giving us the latest updates. The only problem is that as the years go on, the world changes, but the BBC hasn't moved with time. This isn't an attack on the BBC, more of an eye-opener to why most teenagers get their headlines from TikTok at 3AM.",
+          "Okay, yeah. TikTok might not be the best way for getting your news updates, but at least with TikTok it feels like we are being spoken to instead of spoken at. We read BBC News and feel lectured instead of included in important conversations.",
+          "It doesn't feel like it's one human writing and talking to another, it feels like a robotic system shouting at us. We watch TikTok daily, or most of us do. Funny cat videos, make-up tutorials, arts and crafts. Everything you could ever imagine crammed into one app. TikTok is familiar to today's generation, so that is where we get our news stories.",
+          "BBC News is stable, structured, but it has no personality. It's clinical, detached, dry. It gives us what we need but it doesn't invite us in. It's like reading about something happening light years away because the tone feels detached, numb and unwilling. We would prefer it if reading the BBC News felt inclusive, felt as if we are a part of what is happening in our world.",
+          "In the end, news that talks at people might inform them, but news that talks to people is what actually gets heard."
+        ]
+      },
+      {
+        id: 18,
+        featured: false,
+        dept: "opinions",
+        category: "Opinions",
+        date: "23 Dec 2025",
+        title: "The World Wants Me to 'Be Myself' But Only the Polite Version",
+        intro: "Everyone says 'just be yourself' — as long as it's convenient, doesn't make anyone uncomfortable, and fits the approved rules.",
+        body: [
+          "The world wants me to “Be Myself” but only the polite version.",
+          "The world always says, “just be yourself”, but they don't understand why being yourself is so difficult. It's a common saying, isn't it? “Be yourself.” Yeah, okay I'll be myself as soon as I can get a minute without judgement, without comments, without being afraid I'm too different. You can be yourself, as long as you don't make anyone uncomfortable, as long as it's convenient, as long as it doesn't affect society too much.",
+          "Yeah, alright, you can be yourself but how easy is it really? I mean, we all know the rules no-one likes to admit:",
+          "1. You have to be confident, but not that confident.",
+          "2. Have opinions, but only ones everyone agrees with.",
+          "3. You're allowed to speak your mind until it makes someone stressed and uncomfortable.",
+          "4. You can be unique, but good luck if you stand out too much.",
+          "5. You can be honest, but only if the truth is cute and comforting.",
+          "Nowadays it's like we are running our own PR for our personalities. We live in a society that makes us filter ourselves to fit in, makes us sand down every edge just to be liked.",
+          "But honestly, I'd rather be different than a clone, wouldn't you? What's the point of having a personality if we all end up being clones? I'm happy being weird, at least I'm me."
+        ]
+      },
+      {
+        id: 19,
+        featured: false,
+        dept: "fun",
+        category: "Fun & Features",
+        date: "23 Dec 2025",
+        title: "🎧🎬 WOULD YOU RATHER? 🎵",
+        intro: "No thinking, instinct only — fifteen rapid-fire music, TV, and playlist dilemmas.",
+        body: [
+          "No thinking, instinct only x",
+          "• Would you rather your favourite song play every time you enter a room or never remember its name?",
+          "• Would you rather rewatch Friends forever or only watch one new show once and forget it straight after watching?",
+          "• Would you rather your Spotify Wrapped expose you or your Netflix recently watched expose you?",
+          "• Would you rather music be way too loud forever or vaguely muffled forever?",
+          "• Would you rather your favourite song be a 10-second loop or a 7-minute slow build?",
+          "• Would you rather accidentally play your sad song really loud from your phone or your most feral song?",
+          "• Would you rather every song remind you of one person you miss or one place you can't go back to but loved?",
+          "• Would you rather only watch shows like Brooklyn Nine-Nine on shuffle episodes or strict order, no skipping?",
+          "• Would you rather know every lyric but sing badly or sing perfectly but forget words mid-chorus?",
+          "• Would you rather music only hit after gremlin hours (midnight) or only hit in human hours (daylight)?",
+          "• Would you rather binge Stranger Things with spoilers or wait a year but watch it fresh without any idea what might happen?",
+          "• Would you rather your playlists be chronological chaos or over-organised to the point of a crash out?",
+          "• Would you rather lose headphones forever or lose Wi-Fi forever?",
+          "• Would you rather love a song for the music or for the vibes you made up in your head?",
+          "• Would you rather an album with no skips or one song so good it ruins the rest?"
+        ]
+      },
+            {
+        id: 20,
+        featured: false,
+        dept: "local",
+        category: "Local News",
+        date: "19 Dec 2025",
+        title: "Discrimination shown as trans girls are banned from Girl Guide groups",
+        intro: "From 2nd December 2025, trans girls are banned from joining Girl Guide groups within the UK. Why was this decision made, and do you agree with it?",
+        body: [
+          "From 2nd December 2025, trans girls are banned from joining Girl Guide groups within the UK. Why was this decision made, and do you agree with it?",
+          "This new decision means that girls who were assigned male at birth will no longer be able to join Girl Guide groups. The trustees within the organisation that oversees these groups says, “Trans girls and young women and others not recorded female at birth, will no longer be able to join Girlguiding as new young members.” They also said that there would be no changes for young women who are already members but more information on this topic will be shared next week. – BBC News.",
+          "Many people from the public think it is unfair and discriminative against trans women. TransActual said: “There is no problem being solved here, only harm done.” In my opinion, this ban seems unfair because every girl should have the right to join. This decision excludes girls who only want to belong by being who they are. – BBC News.",
+          "What do you think – should all girls be allowed to join, or do you agree with the rules that are set in place?"
+        ]
+      },
+      {
+        id: 21,
+        featured: false,
+        dept: "community",
+        category: "Community",
+        date: "16 Dec 2025",
+        title: "Surviving the Christmas countdown: Not everyone's waiting for cheer.",
+        intro: "While everyone's out there counting down the days till the Christmas cheer, some are just trying to keep their heads above water.",
+        body: [
+          "Last week of college before Christmas break. Exciting, right? Yeah. For most. But not for the ones who can't even get through a weekend without a breakdown.",
+          "We walk around and see families shopping for each other. All smiles and joy. We drive by houses with dramatic Christmas lights and inflatable Santas. We mourn that, the love. We envy a family that can actually function without a riot every week.",
+          "We don't want the last week of college to end. We hope, yeah, actually hope it drags on. But we know it won't. We know as soon as Monday arrives, the week will evaporate. It's like when you're a kid and you never want Christmas to end. But now it's the complete opposite – you desperately need the break to end.",
+          "We need the escape. The freedom. The flight instead of fight response. We need the days at college – it's a break from the constant chaos at home. We need the stability, the structure, the routine of the only escape. Why? Because at college at least we know what to expect.",
+          "Christmas isn't supposed to be scary, but for some of us, it feels like we are in a room with no exit. It isn't supposed to be isolated. It should be enjoyed, wanted and cozy. We should be able to look forward to the dinner, the family time, the gifts and the happiness.",
+          "Instead, we put on the act of love and joy. We normalise not feeling secure at home. Because while everyone's out there counting down the days till the Christmas cheer, we're just trying to keep our heads above water."
+        ]
+      },
+      {
+        id: 22,
+        featured: false,
+        dept: "fun",
+        category: "Fun & Features",
+        date: "20 Oct 2025",
+        title: "Things That Ruin Your Day Every Day",
+        intro: "Running out of milk before morning coffee, dead phones after charging all night, and loud phone calls before the town wakes up.",
+        body: [
+          "I think we can all agree no one wakes up with a smile. You wake up already drained or with little to no energy. But life gets in the way – it decides it's a great day to throw punches.",
+          "It can be the simple things: 1. The car not starting first time. 2. Your phone being dead even after charging all night – a bit like us humans. 3. Maybe running out of milk before your morning coffee.",
+          "It all sounds small in a list, petty even. But, just imagine this for a moment. You could be walking through town, barely functioning, and three people spawn in with music blasting at full volume in the middle of the high street.",
+          "Or on an already rough day, you're chilling in Starbucks, barely out of bed, and there is one obnoxiously loud person shouting on the phone before the town has had a chance to wake.",
+          "Honestly? These moments might feel small, tiny even. Except, on an already rough day it's like being hit by a ton of bricks. But humans being stubborn, we survive today just to ruin tomorrow all over again."
+        ]
+      },
+      {
+        id: 23,
+        featured: false,
+        dept: "fun",
+        category: "Fun & Features",
+        date: "15 Oct 2025",
+        title: "College Chaos Therapy: How Students Unwind",
+        intro: "Everyone has some sort of way to regulate themselves — here is how students at Broomfield College unwind after a long week.",
+        body: [
+          "Everyone has some sort of way to regulate themselves, it could be drawing, writing, maybe even singing. But college students, on the other hand… well, it's unpredictable to say the least.",
+          "Students at Broomfield College shared some of their ways to unwind:",
+          "• Scream clubs – Loads of people join and scream their lungs out.",
+          "• Burrito yourself – Wrap yourself in a blanket really tight.",
+          "• Exist – Get into bed, be alone, scroll on your phone.",
+          "• Irritate your siblings – Classic way to distract yourself.",
+          "• Aggressive bubble popping – Fidgety, calming, aggressive.",
+          "• Go to bed – Nothing like a bit of sleep to make us unwind.",
+          "• Play online games – Alone, or with friends, neither matters just relax.",
+          "• Golfing range – Can be relaxing if you don't hit someone with the club!",
+          "• Blast music – Nothing like a bit of loud music to kick off the day.",
+          "These activities are… chaotic. That might be an understatement, but it doesn't matter that they aren't productive, that's not what regulating is. It only matters that it gives your brain a small moment to breathe."
+        ]
+      }
+    ];
+    /* =====================================================================
+       ZONE 6: INTERACTIVE NEWSPAPER ENGINE
+       ===================================================================== */
+    let previousDept = "home";
 
-if(signupBtn){
-signupBtn.addEventListener("click", function(e){
-  e.preventDefault();
-  signupPopup.style.display = "block";
-});
-}
+    document.addEventListener("DOMContentLoaded", () => {
+      const dateEl = document.getElementById("live-edition-date");
+      if (dateEl) {
+        dateEl.textContent = new Date().toLocaleDateString("en-GB", {
+          weekday: "long", day: "numeric", month: "long", year: "numeric"
+        });
+      }
 
-if(closeSignup){
-closeSignup.addEventListener("click", function(){
-  signupPopup.style.display = "none";
-});
-}
+      const counterEl = document.getElementById("reader-counter");
+      if (counterEl) {
+        let visits = parseInt(localStorage.getItem("orbisVoxVisits") || "1420", 10) + 1;
+        localStorage.setItem("orbisVoxVisits", visits.toString());
+        counterEl.textContent = visits.toLocaleString("en-GB");
+      }
 
-window.addEventListener("click", function(e){
-  if(e.target === signupPopup){
-    signupPopup.style.display = "none";
-  }
-});
+      const navToggle = document.getElementById("mobile-nav-toggle");
+      const navMenu = document.getElementById("nav-menu");
+      if (navToggle && navMenu) {
+        navToggle.addEventListener("click", () => {
+          const open = navMenu.classList.toggle("open");
+          navToggle.setAttribute("aria-expanded", open.toString());
+        });
+      }
 
-});
-</script>
-  <script>
-(function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
-.push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
-n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
-(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
-ml('account', '2140738');
-</script>
-  <script>
-document.addEventListener("DOMContentLoaded", function(){
+      const charterBtn = document.getElementById("principles-toggle");
+      const charterBox = document.getElementById("principles-drawer");
+      if (charterBtn && charterBox) {
+        charterBtn.addEventListener("click", () => {
+          const isHidden = charterBox.hidden;
+          charterBox.hidden = !isHidden;
+          charterBtn.setAttribute("aria-expanded", isHidden.toString());
+        });
+      }
 
-const hamburger = document.getElementById("hamburger");
-const navLinks = document.getElementById("navLinks");
+      renderHomepage();
 
-hamburger.addEventListener("click", function(){
-  navLinks.classList.toggle("show-nav");
-});
+      document.querySelectorAll("[data-section]").forEach((el) => {
+        el.addEventListener("click", (e) => {
+          e.preventDefault();
+          openDepartment(el.getAttribute("data-section"));
+          if (navMenu && navMenu.classList.contains("open")) {
+            navMenu.classList.remove("open");
+            navToggle.setAttribute("aria-expanded", "false");
+          }
+        });
+      });
 
-});
-</script>
+      document.getElementById("reader-back-btn").addEventListener("click", () => {
+        openDepartment(previousDept || "home");
+      });
+    });
+    function showPageView(id) {
+      document.querySelectorAll(".page-view").forEach((v) => { v.hidden = true; });
+      const active = document.getElementById(id);
+      if (active) active.hidden = false;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function openDepartment(dept) {
+      previousDept = dept;
+      document.querySelectorAll(".nav-menu a").forEach((a) => {
+        a.classList.toggle("active", a.getAttribute("data-section") === dept);
+      });
+
+      if (dept === "home") {
+        showPageView("view-home");
+      } else if (dept === "about") {
+        document.getElementById("static-kicker").textContent = "Our Story & Mission";
+        document.getElementById("static-title").textContent = "About Orbis Vox";
+        document.getElementById("static-body").innerHTML = `
+          <p><strong>Orbis Vox</strong> means <em>“Voice of the World.”</em> Founded by Blake Richardson at sixteen, the publication was built to deliver journalism that informs with clarity, challenges with integrity, and prioritises real communities and youth perspectives over corporate noise.</p>
+          <p>Rather than chasing sensationalism, Orbis Vox focuses on context — examining not only what happened, but why it matters to everyday life.</p>
+          <p><strong>Editor:</strong> Blake Richardson • <strong>Location:</strong> United Kingdom</p>`;
+        showPageView("view-static");
+      } else if (dept === "contact") {
+        document.getElementById("static-kicker").textContent = "Editorial Desk";
+        document.getElementById("static-title").textContent = "Contact Orbis Vox";
+        document.getElementById("static-body").innerHTML = `
+          <p>Have a local tip, story pitch, or opinion piece you believe deserves attention? Reach out directly to the editor.</p>
+          <p><strong>Editor:</strong> Blake Richardson<br /><strong>Email:</strong> <a href="mailto:chloerichardson481@gmail.com" style="color:var(--dark-red);font-weight:700;text-decoration:underline;">chloerichardson481@gmail.com</a><br /><strong>Region:</strong> United Kingdom</p>`;
+        showPageView("view-static");
+      } else {
+        const titles = { local: "Local News", community: "Community", opinions: "Opinions", fun: "Fun & Features", archive: "Complete Article Archive" };
+        document.getElementById("archive-kicker").textContent = "Newspaper Department";
+        document.getElementById("archive-heading").textContent = titles[dept] || "Article Archive";
+        const list = dept === "archive" ? ARTICLES : ARTICLES.filter((a) => a.dept === dept);
+        const grid = document.getElementById("archive-columns");
+        grid.innerHTML = "";
+        list.forEach((art) => grid.appendChild(buildColumnCard(art)));
+        showPageView("view-archive");
+      }
+    }
+
+    function buildColumnCard(art) {
+      const card = document.createElement("article");
+      card.className = "news-column-item";
+      card.innerHTML = `
+        <div>
+          <span class="category-kicker">${art.category}</span>
+          <div class="headline-box"><h3>${art.title}</h3></div>
+          <p class="article-snippet">${art.intro}</p>
+        </div>
+        <div>
+          <span class="pub-date-line">${art.date}</span>
+          <button class="read-more-btn" type="button">Read More →</button>
+        </div>`;
+      card.querySelector(".read-more-btn").addEventListener("click", () => openArticleReader(art.id));
+      card.querySelector(".headline-box").addEventListener("click", () => openArticleReader(art.id));
+      card.querySelector(".headline-box").style.cursor = "pointer";
+      return card;
+    }
+
+    function renderHomepage() {
+      const lead = ARTICLES.find((a) => a.featured) || ARTICLES[0];
+      const leadSlot = document.getElementById("featured-headline-slot");
+      leadSlot.innerHTML = `
+        <span class="category-kicker">Featured Dispatch • ${lead.category}</span>
+        <div class="boxed-headline-hero"><h2>${lead.title}</h2></div>
+        <p class="featured-intro">${lead.intro}</p>
+        <span class="pub-date-line">Published ${lead.date} • By Blake Richardson</span>
+        <button class="vintage-btn" type="button" id="lead-read-btn">Read Article</button>`;
+      document.getElementById("lead-read-btn").addEventListener("click", () => openArticleReader(lead.id));
+
+      const latestGrid = document.getElementById("home-latest-columns");
+      latestGrid.innerHTML = "";
+      ARTICLES.filter((a) => a.id !== lead.id).slice(0, 6).forEach((art) => latestGrid.appendChild(buildColumnCard(art)));
+
+      const circlesSlot = document.getElementById("interactive-circles-slot");
+      circlesSlot.innerHTML = "";
+      FUN_FACTS.forEach((item) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "flip-circle";
+        btn.setAttribute("aria-label", `${item.title}. Click to flip for fun fact.`);
+        btn.innerHTML = `
+          <div class="flip-circle-inner">
+            <div class="circle-face circle-front ${item.theme}">
+              <span class="circle-label">${item.label}</span>
+              <span class="circle-title">${item.title}</span>
+              <span class="circle-tap">Tap to Flip</span>
+            </div>
+            <div class="circle-face circle-back"><span>${item.fact}</span></div>
+          </div>`;
+        btn.addEventListener("click", () => btn.classList.toggle("flipped"));
+        circlesSlot.appendChild(btn);
+      });
+    }
+
+    function openArticleReader(id) {
+      const art = ARTICLES.find((a) => a.id === id);
+      if (!art) return;
+      document.getElementById("reader-kicker").textContent = art.category;
+      document.getElementById("reader-title").textContent = art.title;
+      document.getElementById("reader-standfirst").textContent = art.intro;
+      document.getElementById("reader-meta").textContent = `Published ${art.date} • By Blake Richardson`;
+      document.getElementById("reader-body").innerHTML = art.body.map((p) => `<p>${p}</p>`).join("");
+      showPageView("view-reader");
+    }
+  </script>
 </body>
 </html>
