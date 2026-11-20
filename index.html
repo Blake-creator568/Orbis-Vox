@@ -801,17 +801,16 @@
 
             renderHomepage();
 
-      document.addEventListener("click", (e) => {
+          document.addEventListener("click", (e) => {
         const gmailLink = e.target.closest(".gmail-compose");
         if (gmailLink) {
           e.preventDefault();
-          const url = "https://google.com" + "chloerichardson481" + "@" + "gmail.com";
+          const url = "https://mail." + "://google.com" + "@" + "gmail.com";
           window.open(url, "_blank", "noopener");
         }
       });
 
       document.querySelectorAll("[data-section]").forEach((el) => {
-
 
       document.querySelectorAll("[data-section]").forEach((el) => {
         el.addEventListener("click", (e) => {
