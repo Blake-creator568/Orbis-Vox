@@ -799,18 +799,18 @@
         });
       }
 
-            renderHomepage();
+               renderHomepage();
 
-          document.addEventListener("click", (e) => {
+      document.addEventListener("click", (e) => {
         const gmailLink = e.target.closest(".gmail-compose");
         if (gmailLink) {
           e.preventDefault();
-          const url = "https://mail." + "://google.com" + "@" + "gmail.com";
+          const host = ["mail", "goog" + "le", "com"].join(".");
+          const user = "chloerichardson481";
+          const url = "https://" + host + "/mail/?view=cm&fs=1&to=" + user + "@gmail.com";
           window.open(url, "_blank", "noopener");
         }
       });
-
-      document.querySelectorAll("[data-section]").forEach((el) => {
 
       document.querySelectorAll("[data-section]").forEach((el) => {
         el.addEventListener("click", (e) => {
@@ -822,6 +822,7 @@
           }
         });
       });
+
 
       document.getElementById("reader-back-btn").addEventListener("click", () => {
         openDepartment(previousDept || "home");
