@@ -282,32 +282,29 @@
        ZONE 5: YOUR ARTICLES & INTERACTIVE CIRCLES (EDIT HERE TO ADD/UPDATE)
        ===================================================================== -->
   <script>
-    const FUN_FACTS = [
-      {
-        theme: "theme-red",
-        label: "Press Fact I",
-        title: "Voice of the World",
-        fact: "“Orbis Vox” translates directly from Latin to “Voice of the World” — reflecting independent reporting without borders."
-      },
-      {
-        theme: "theme-cream",
-        label: "Press Fact II",
-        title: "Founded at Sixteen",
-        fact: "Orbis Vox was created from scratch by Blake Richardson at age 16 to give local communities and young people an unfiltered platform."
-      },
-      {
-        theme: "theme-white",
-        label: "Press Fact III",
-        title: "Why Print Framing?",
-        fact: "Traditional broadsheets use double rules and boxed headlines to separate verified reporting from loud internet noise."
-      },
-      {
-        theme: "theme-red",
-        label: "Press Fact IV",
-        title: "Truth Over Power",
-        fact: "Every dispatch published on Orbis Vox is written independently without corporate sponsors or paywalls."
-      }
+      const FUN_FACTS = [
+      { theme: "theme-red", label: "Dinosaurs", title: "Older Than Sharks?", fact: "Sharks have existed on Earth for around 400 million years — making them older than dinosaurs, trees, and even the rings of Saturn!" },
+      { theme: "theme-cream", label: "Animals", title: "Octopus Brains", fact: "An octopus has nine brains, three hearts, and blue copper-based blood — plus each of its eight arms can think independently." },
+      { theme: "theme-white", label: "Witches & Lore", title: "Why Witch Hats?", fact: "Pointed witch hats likely originated from 17th-century Welsh women's traditional tall hats and English alewives who wore them to stand out at markets." },
+      { theme: "theme-red", label: "Newspapers", title: "Stop the Press!", fact: "In the print era, breaking news meant physically halting massive rotary printing presses to swap lead type plates." },
+      { theme: "theme-cream", label: "The World", title: "Two Time Zones", fact: "France spans 12 different time zones — more than any other country on Earth — because of its overseas territories." },
+      { theme: "theme-white", label: "Dinosaurs", title: "T-Rex & Stegosaurus", fact: "More time separated Stegosaurus and Tyrannosaurus rex than separates T-Rex from humans watching movies today." },
+      { theme: "theme-red", label: "Animals", title: "Crows Never Forget", fact: "Crows can recognise individual human faces, hold grudges for years, and even teach their young which people to avoid." },
+      { theme: "theme-cream", label: "Witches & Lore", title: "Witch Bottles", fact: "In 17th-century England, people buried 'witch bottles' filled with bent pins and herbs under their hearths to ward off bad luck." },
+      { theme: "theme-white", label: "Newspapers", title: "Upper & Lower Case", fact: "Printers stored capital letters in the upper wooden tray and small letters in the lower tray — giving us 'uppercase' and 'lowercase'." },
+      { theme: "theme-red", label: "The World", title: "The Whispering Gallery", fact: "Inside St Paul's Cathedral in London, a whisper against the wall on one side of the dome can be heard clearly 100 feet away." },
+      { theme: "theme-cream", label: "Dinosaurs", title: "Dinosaur Feathers", fact: "Many dinosaurs — including Velociraptors — were covered in feathers rather than scales, making them look like giant birds of prey." },
+      { theme: "theme-white", label: "Animals", title: "Sea Otters Hold Hands", fact: "Sea otters hold hands while sleeping on their backs in the water so they don't drift apart in the ocean current." },
+      { theme: "theme-red", label: "Witches & Lore", title: "The Pendle Trials", fact: "In 1612, the Pendle Witch Trials in Lancashire became one of England's most famous trials, recorded in rare printed pamphlets of the era." },
+      { theme: "theme-cream", label: "Newspapers", title: "The 1665 Gazette", fact: "The Oxford Gazette, first printed in 1665 during the Great Plague, is the oldest surviving English newspaper still published today." },
+      { theme: "theme-white", label: "The World", title: "Underground Forests", fact: "In 2022, scientists discovered a hidden ancient forest 630 feet deep inside a giant sinkhole in China with trees 130 feet tall." },
+      { theme: "theme-red", label: "Dinosaurs", title: "Voice of a Parasaurolophus", fact: "The hollow crest on a Parasaurolophus skull acted like a giant trombone, letting it bellow low-frequency calls across miles." },
+      { theme: "theme-cream", label: "Animals", title: "Wombat Cubes", fact: "Wombats are the only known animals in the world that produce cube-shaped poo — stopping it from rolling away when marking territory." },
+      { theme: "theme-white", label: "Witches & Lore", title: "Familiar Spirits", fact: "In British folklore, black cats were actually considered good luck charms by sailors' wives to ensure their husbands returned safely from sea." },
+      { theme: "theme-red", label: "Newspapers", title: "Why 'Broadsheet'?", fact: "Broadsheets got their name from huge single sheets folded in half — designed to dodge an 18th-century British tax charged per page." },
+      { theme: "theme-cream", label: "The World", title: "Voice of the World", fact: "“Orbis Vox” translates from Latin to “Voice of the World” — founded in the UK at sixteen to put truth over power." }
     ];
+
 
     const ARTICLES = [
       {
@@ -906,7 +903,10 @@
 
       const circlesSlot = document.getElementById("interactive-circles-slot");
       circlesSlot.innerHTML = "";
-      FUN_FACTS.forEach((item) => {
+            const dayNumber = Math.floor(Date.now() / 86400000);
+      const startIndex = (dayNumber * 4) % FUN_FACTS.length;
+      const todaysFacts = Array.from({ length: 4 }, (_, i) => FUN_FACTS[(startIndex + i) % FUN_FACTS.length]);
+      todaysFacts.forEach((item) => {
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "flip-circle";
