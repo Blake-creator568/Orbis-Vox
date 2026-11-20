@@ -779,21 +779,29 @@
         });
       }
 
-      const counterEl = document.getElementById("reader-counter");
+            const counterEl = document.getElementById("reader-counter");
       if (counterEl) {
-        let visits = parseInt(localStorage.getItem("orbisVoxVisits") || "1420", 10) + 1;
-        localStorage.setItem("orbisVoxVisits", visits.toString());
-        counterEl.textContent = visits.toLocaleString("en-GB");
-      }
-
-      const navToggle = document.getElementById("mobile-nav-toggle");
-      const navMenu = document.getElementById("nav-menu");
-      if (navToggle && navMenu) {
-        navToggle.addEventListener("click", () => {
-          const open = navMenu.classList.toggle("open");
-          navToggle.setAttribute("aria-expanded", open.toString());
+        const isEditor = localStorage.getItem("orbisVoxEditor") === "true";
+        let visits = parseInt(localStorage.getItem("orbisVoxRealVisits") || "0", 10);
+        if (!isEditor) {
+          visits += 1;
+          localStorage.setItem("orbisVoxRealVisits", visits.toString());
+        }
+        counterEl.textContent = isEditor ? `${visits.toLocaleString("en-GB")} (Editor)` : visits.toLocaleString("en-GB");
+        counterEl.parentElement.style.cursor = "pointer";
+        counterEl.parentElement.title = "Click to toggle Editor Mode (excludes your views)";
+        counterEl.parentElement.addEventListener("click", () => {
+          const nextState = localStorage.getItem("orbisVoxEditor") !== "true";
+          localStorage.setItem("orbisVoxEditor", nextState.toString());
+          if (nextState) {
+            localStorage.setItem("orbisVoxRealVisits", "0");
+            counterEl.textContent = "0 (Editor)";
+          } else {
+            counterEl.textContent = localStorage.getItem("orbisVoxRealVisits") || "0";
+          }
         });
       }
+
 
       const charterBtn = document.getElementById("principles-toggle");
       const charterBox = document.getElementById("principles-drawer");
