@@ -202,15 +202,16 @@
                 <button class="dept-tag" data-section="fun">Fun &amp; Features</button>
               </div>
             </div>
-            <div class="panel-box tint">
+         <div class="panel-box tint">
               <h3>Contribute &amp; Contact</h3>
               <p>
                 Have a local story, opinion piece, or perspective that deserves to be heard? Orbis Vox welcomes submissions from readers and young voices.
               </p>
-              <a href="mailto:chloerichardson481@gmail.com" class="vintage-btn">Submit a Story</a>
+              <a href="#gmail" class="vintage-btn gmail-compose">Submit a Story</a>
             </div>
           </section>
         </div>
+
 
         <!-- VIEW 2: CATEGORY & ARTICLE ARCHIVE -->
         <div id="view-archive" class="page-view" hidden>
@@ -266,7 +267,7 @@
           </div>
           <div>
             <h4>Contact Desk</h4>
-            <p style="margin:0;">Editor: Blake Richardson<br /><a href="mailto:chloerichardson481@gmail.com" style="text-decoration:underline;color:var(--dark-red);font-weight:700;">chloerichardson481@gmail.com</a></p>
+            <p style="margin:0;">Editor: Blake Richardson<br /><a href="#gmail" class="gmail-compose" style="text-decoration:underline;color:var(--dark-red);font-weight:700;">chloerichardson481@gmail.com</a></p>
           </div>
         </div>
         <div class="principles-drawer" id="principles-drawer" hidden>
@@ -843,7 +844,7 @@
         document.getElementById("static-title").textContent = "Contact Orbis Vox";
         document.getElementById("static-body").innerHTML = `
           <p>Have a local tip, story pitch, or opinion piece you believe deserves attention? Reach out directly to the editor.</p>
-          <p><strong>Editor:</strong> Blake Richardson<br /><strong>Email:</strong> <a href="mailto:chloerichardson481@gmail.com" style="color:var(--dark-red);font-weight:700;text-decoration:underline;">chloerichardson481@gmail.com</a><br /><strong>Region:</strong> United Kingdom</p>`;
+         <p><strong>Editor:</strong> Blake Richardson<br /><strong>Email:</strong> <a href="#gmail" class="gmail-compose" style="color:var(--dark-red);font-weight:700;text-decoration:underline;">chloerichardson481@gmail.com</a><br /><strong>Region:</strong> United Kingdom</p>`;
         showPageView("view-static");
       } else {
         const titles = { local: "Local News", community: "Community", opinions: "Opinions", fun: "Fun & Features", archive: "Complete Article Archive" };
