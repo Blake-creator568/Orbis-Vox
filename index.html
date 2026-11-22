@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ORBIS VOX | Truth Over Power</title>
+    <link rel="icon" type="image/png" href="1000008402.png" />
   <link rel="preconnect" href="https://googleapis.com" />
   <link rel="preconnect" href="https://gstatic.com" crossorigin />
   <link href="https://googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&display=swap" rel="stylesheet" />
@@ -145,7 +146,7 @@
         <div class="masthead-pub-bar">
           <span>Established 2025</span>
           <span id="live-edition-date">Thursday, 19 November 2026</span>
-          <span>Readers: <strong id="reader-counter">1,420</strong></span>
+          <span>Readers: <strong id="reader-counter">5</strong></span>
         </div>
       </header>
 
@@ -779,20 +780,13 @@
         });
       }
 
-                 const counterEl = document.getElementById("reader-counter");
+                     const counterEl = document.getElementById("reader-counter");
       if (counterEl) {
-        const apiUrl = ["https://abacus", "jasoncameron", "dev/hit/orbis-vox-blake/readers"].join(".");
-        fetch(apiUrl, { cache: "no-store" })
-          .then((res) => res.json())
-          .then((data) => {
-            const count = (data.value || 1) + 4;
-            counterEl.textContent = count.toLocaleString("en-GB");
-          })
-          .catch(() => {
-            counterEl.textContent = "5";
-          });
+        let count = parseInt(localStorage.getItem("orbisVoxHitCount") || "4", 10);
+        count += 1;
+        localStorage.setItem("orbisVoxHitCount", count.toString());
+        counterEl.textContent = count.toLocaleString("en-GB");
       }
-
 
 
       const navToggle = document.getElementById("mobile-nav-toggle");
