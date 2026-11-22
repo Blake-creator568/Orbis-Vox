@@ -787,20 +787,18 @@
           visits += 1;
           localStorage.setItem("orbisVoxRealVisits", visits.toString());
         }
-        counterEl.textContent = isEditor ? `${visits.toLocaleString("en-GB")} (Editor)` : visits.toLocaleString("en-GB");
+               counterEl.textContent = isEditor ? `${visits.toLocaleString("en-GB")} (Editor)` : visits.toLocaleString("en-GB");
         counterEl.parentElement.style.cursor = "pointer";
         counterEl.parentElement.title = "Click to toggle Editor Mode (excludes your views)";
         counterEl.parentElement.addEventListener("click", () => {
           const nextState = localStorage.getItem("orbisVoxEditor") !== "true";
           localStorage.setItem("orbisVoxEditor", nextState.toString());
-          if (nextState) {
-            localStorage.setItem("orbisVoxRealVisits", "0");
-            counterEl.textContent = "0 (Editor)";
-          } else {
-            counterEl.textContent = localStorage.getItem("orbisVoxRealVisits") || "0";
-          }
+          const savedVisits = parseInt(localStorage.getItem("orbisVoxRealVisits") || "0", 10);
+          counterEl.textContent = nextState ? `${savedVisits.toLocaleString("en-GB")} (Editor)` : savedVisits.toLocaleString("en-GB");
         });
       }
+
+
 
 
       const charterBtn = document.getElementById("principles-toggle");
