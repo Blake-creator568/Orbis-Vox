@@ -996,13 +996,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (window.syncLikeButtons) window.syncLikeButtons();
     }
   </script>
-<!-- Live Reader Counter (Powered by Firebase) -->
+<!-- Live Reader Counter & Article Likes (Powered by Firebase) -->
 <script type="module">
-  // 1. Import Firebase libraries (including update and increment)
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  import { getDatabase, ref, update, onValue, increment } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+  import { getDatabase, ref, update, onValue, increment, runTransaction } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
-  // 2. Initialize Firebase (points to your Orbis-Vox database)
   const firebaseConfig = {
     projectId: "orbis-vox-9312c",
     databaseURL: "https://orbis-vox-9312c-default-rtdb.europe-west1.firebasedatabase.app"
@@ -1017,17 +1015,15 @@ document.addEventListener("DOMContentLoaded", () => {
   if (counterEl) {
     const totalViewsRef = ref(db, "total_views");
 
-    // A. Only increment the permanent database counter if you are NOT the developer
     if (!isDeveloper) {
       update(ref(db), {
         total_views: increment(1)
       });
     }
 
-    // B. ALWAYS listen to the permanent count in real time (for both you and normal readers)
     onValue(totalViewsRef, (snapshot) => {
       const count = snapshot.val() || 0;
-      
+
       if (isDeveloper) {
         counterEl.textContent = `${count.toLocaleString("en-GB")} (Dev)`;
       } else {
@@ -1035,6 +1031,68 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // Real-time Article Likes
+  const likesRef = ref(db, "article_likes");
+  let latestLikes = {};
+  const STORAGE_KEY = "orbis_vox_liked_articles";
+
+  function getLikedSet() {
+    try {
+      return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"));
+    } catch {
+      return new Set();
+    }
+  }
+
+  function saveLikedSet(set) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...set]));
+  }
+
+  function paintButtons() {
+    const likedSet = getLikedSet();
+    document.querySelectorAll(".like-btn[data-like-id]").forEach((btn) => {
+      const id = btn.getAttribute("data-like-id");
+      const count = Number(latestLikes[id] || 0);
+      const isLiked = likedSet.has(String(id));
+
+      btn.classList.toggle("liked", isLiked);
+      btn.setAttribute("aria-pressed", isLiked.toString());
+      btn.querySelector(".like-heart").textContent = isLiked ? "♥" : "♡";
+      btn.querySelector(".like-count").textContent = count.toLocaleString("en-GB");
+    });
+  }
+
+  window.syncLikeButtons = paintButtons;
+
+  onValue(likesRef, (snapshot) => {
+    latestLikes = snapshot.val() || {};
+    paintButtons();
+  });
+
+  document.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".like-btn[data-like-id]");
+    if (!btn) return;
+
+    const id = String(btn.getAttribute("data-like-id"));
+    const likedSet = getLikedSet();
+    const alreadyLiked = likedSet.has(id);
+    const delta = alreadyLiked ? -1 : 1;
+
+    if (alreadyLiked) {
+      likedSet.delete(id);
+    } else {
+      likedSet.add(id);
+    }
+    saveLikedSet(likedSet);
+    paintButtons();
+
+    const articleLikeRef = ref(db, `article_likes/${id}`);
+    await runTransaction(articleLikeRef, (current) => {
+      const next = (Number(current) || 0) + delta;
+      return next < 0 ? 0 : next;
+    });
+  });
 </script>
 </body>
 </html>
