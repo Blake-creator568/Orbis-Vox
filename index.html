@@ -779,18 +779,20 @@
         });
       }
 
-            const counterEl = document.getElementById("reader-counter");
+                 const counterEl = document.getElementById("reader-counter");
       if (counterEl) {
         const apiUrl = ["https://abacus", "jasoncameron", "dev/hit/orbis-vox-blake/readers"].join(".");
-        fetch(apiUrl)
+        fetch(apiUrl, { cache: "no-store" })
           .then((res) => res.json())
           .then((data) => {
-            counterEl.textContent = (data.value || 1).toLocaleString("en-GB");
+            const count = (data.value || 1) + 4;
+            counterEl.textContent = count.toLocaleString("en-GB");
           })
           .catch(() => {
-            counterEl.textContent = "1";
+            counterEl.textContent = "5";
           });
       }
+
 
 
       const navToggle = document.getElementById("mobile-nav-toggle");
