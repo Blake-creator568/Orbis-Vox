@@ -131,6 +131,39 @@
     @media (max-width: 860px) { .paper-inner-frame { padding: 1.25rem 1rem 1.5rem; } .articles-columns, .editorial-panels, .footer-grid { grid-template-columns: 1fr; } }
     @media (max-width: 680px) { .mobile-nav-toggle { display: inline-block; } .nav-menu { display: none; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; } .nav-menu.open { display: flex; } .flip-circle { width: 170px; height: 170px; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  .like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--bg-cream);
+  border: 1px solid var(--ink-black);
+  color: var(--ink-black);
+  padding: 0.3rem 0.7rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.like-btn:hover {
+  border-color: var(--dark-red);
+  background: var(--bg-cream-tint);
+}
+
+.like-btn.liked {
+  background: var(--dark-red);
+  border-color: var(--dark-red);
+  color: var(--bg-white);
+}
+
+.article-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
   </style>
 </head>
 
@@ -240,6 +273,7 @@
           <h2 class="reader-title" id="reader-title">Headline</h2>
           <p class="reader-standfirst" id="reader-standfirst"></p>
           <span class="pub-date-line" style="text-align:center;" id="reader-meta"></span>
+<div style="text-align:center; margin-bottom: 1.25rem;" id="reader-like-slot"></div>
           <div class="reader-body" id="reader-body"></div>
         </article>
 
@@ -878,7 +912,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    function buildColumnCard(art) {
+   function buildColumnCard(art) {
       const card = document.createElement("article");
       card.className = "news-column-item";
       card.innerHTML = `
@@ -889,11 +923,19 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div>
           <span class="pub-date-line">${art.date}</span>
-          <button class="read-more-btn" type="button">Read More →</button>
+          <div class="article-card-actions">
+            <button class="read-more-btn" type="button">Read More →</button>
+            <button class="like-btn" type="button" data-like-id="${art.id}" aria-pressed="false" aria-label="Like ${art.title}">
+              <span class="like-heart">♡</span>
+              <span class="like-count">0</span>
+            </button>
+          </div>
         </div>`;
       card.querySelector(".read-more-btn").addEventListener("click", () => openArticleReader(art.id));
       card.querySelector(".headline-box").addEventListener("click", () => openArticleReader(art.id));
       card.querySelector(".headline-box").style.cursor = "pointer";
+
+      if (window.syncLikeButtons) window.syncLikeButtons();
       return card;
     }
 
@@ -936,15 +978,22 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    function openArticleReader(id) {
+   function openArticleReader(id) {
       const art = ARTICLES.find((a) => a.id === id);
       if (!art) return;
       document.getElementById("reader-kicker").textContent = art.category;
       document.getElementById("reader-title").textContent = art.title;
       document.getElementById("reader-standfirst").textContent = art.intro;
       document.getElementById("reader-meta").textContent = `Published ${art.date} • By Blake Richardson`;
+      document.getElementById("reader-like-slot").innerHTML = `
+        <button class="like-btn" type="button" data-like-id="${art.id}" aria-pressed="false" aria-label="Like ${art.title}">
+          <span class="like-heart">♡</span>
+          <span class="like-count">0</span>
+        </button>`;
       document.getElementById("reader-body").innerHTML = art.body.map((p) => `<p>${p}</p>`).join("");
       showPageView("view-reader");
+
+      if (window.syncLikeButtons) window.syncLikeButtons();
     }
   </script>
 <!-- Live Reader Counter (Powered by Firebase) -->
