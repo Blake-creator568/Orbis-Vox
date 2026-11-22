@@ -769,7 +769,7 @@
     /* =====================================================================
        ZONE 6: INTERACTIVE NEWSPAPER ENGINE
        ===================================================================== */
-      let previousDept = "home";
+         let previousDept = "home";
 
     document.addEventListener("DOMContentLoaded", () => {
       const dateEl = document.getElementById("live-edition-date");
@@ -781,29 +781,23 @@
 
       const counterEl = document.getElementById("reader-counter");
       if (counterEl) {
-        const apiBase = "https://api." + "counterapi" + ".dev/v1/orbis-vox-blake/readers";
-        const updateGlobalCount = async (increment) => {
-          try {
-            const endpoint = increment ? `${apiBase}/up` : apiBase;
-            const res = await fetch(endpoint);
-            const data = await res.json();
-            const total = data.count || 0;
-            const editorOn = localStorage.getItem("orbisVoxEditor") === "true";
-            counterEl.textContent = editorOn ? `${total.toLocaleString("en-GB")} (Editor)` : total.toLocaleString("en-GB");
-          } catch (err) {
-            counterEl.textContent = "—";
-          }
-        };
+        const apiUrl = ["https://api", "counterapi", "dev/v1/orbis-vox-blake/readers/up"].join(".");
+        fetch(apiUrl)
+          .then((res) => res.json())
+          .then((data) => {
+            counterEl.textContent = (data.count || 1).toLocaleString("en-GB");
+          })
+          .catch(() => {
+            counterEl.textContent = "1";
+          });
+      }
 
-        const isEditor = localStorage.getItem("orbisVoxEditor") === "true";
-        updateGlobalCount(!isEditor);
-
-        counterEl.parentElement.style.cursor = "pointer";
-        counterEl.parentElement.title = "Click to toggle Editor Mode (excludes your views)";
-        counterEl.parentElement.addEventListener("click", () => {
-          const nextState = localStorage.getItem("orbisVoxEditor") !== "true";
-          localStorage.setItem("orbisVoxEditor", nextState.toString());
-          updateGlobalCount(false);
+      const navToggle = document.getElementById("mobile-nav-toggle");
+      const navMenu = document.getElementById("nav-menu");
+      if (navToggle && navMenu) {
+        navToggle.addEventListener("click", () => {
+          const open = navMenu.classList.toggle("open");
+          navToggle.setAttribute("aria-expanded", open.toString());
         });
       }
 
