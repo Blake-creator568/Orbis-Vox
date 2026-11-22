@@ -779,22 +779,31 @@
         });
       }
 
-            const counterEl = document.getElementById("reader-counter");
+                 const counterEl = document.getElementById("reader-counter");
       if (counterEl) {
+        const apiBase = "https://counterapi.dev";
+        const updateGlobalCount = async (increment) => {
+          try {
+            const endpoint = increment ? `${apiBase}/up` : apiBase;
+            const res = await fetch(endpoint);
+            const data = await res.json();
+            const total = data.count || 0;
+            const editorOn = localStorage.getItem("orbisVoxEditor") === "true";
+            counterEl.textContent = editorOn ? `${total.toLocaleString("en-GB")} (Editor)` : total.toLocaleString("en-GB");
+          } catch (err) {
+            counterEl.textContent = "—";
+          }
+        };
+
         const isEditor = localStorage.getItem("orbisVoxEditor") === "true";
-        let visits = parseInt(localStorage.getItem("orbisVoxRealVisits") || "0", 10);
-        if (!isEditor) {
-          visits += 1;
-          localStorage.setItem("orbisVoxRealVisits", visits.toString());
-        }
-               counterEl.textContent = isEditor ? `${visits.toLocaleString("en-GB")} (Editor)` : visits.toLocaleString("en-GB");
+        updateGlobalCount(!isEditor);
+
         counterEl.parentElement.style.cursor = "pointer";
         counterEl.parentElement.title = "Click to toggle Editor Mode (excludes your views)";
         counterEl.parentElement.addEventListener("click", () => {
           const nextState = localStorage.getItem("orbisVoxEditor") !== "true";
           localStorage.setItem("orbisVoxEditor", nextState.toString());
-          const savedVisits = parseInt(localStorage.getItem("orbisVoxRealVisits") || "0", 10);
-          counterEl.textContent = nextState ? `${savedVisits.toLocaleString("en-GB")} (Editor)` : savedVisits.toLocaleString("en-GB");
+          updateGlobalCount(false);
         });
       }
 
