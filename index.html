@@ -830,7 +830,6 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("reader-back-btn").addEventListener("click", () => {
         openDepartment(previousDept || "home");
       });
-    });
     function showPageView(id) {
       document.querySelectorAll(".page-view").forEach((v) => { v.hidden = true; });
       const active = document.getElementById(id);
