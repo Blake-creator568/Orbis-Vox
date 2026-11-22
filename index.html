@@ -772,41 +772,35 @@
        ===================================================================== */
          let previousDept = "home";
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const dateEl = document.getElementById("live-edition-date");
-      if (dateEl) {
-        dateEl.textContent = new Date().toLocaleDateString("en-GB", {
-          weekday: "long", day: "numeric", month: "long", year: "numeric"
-        });
-      }
+document.addEventListener("DOMContentLoaded", () => {
+  const dateEl = document.getElementById("live-edition-date");
+  if (dateEl) {
+    dateEl.textContent = new Date().toLocaleDateString("en-GB", {
+      weekday: "long", day: "numeric", month: "long", year: "numeric"
+    });
+  }
 
-                     const counterEl = document.getElementById("reader-counter");
-      if (counterEl) {
-        let count = parseInt(localStorage.getItem("orbisVoxHitCount") || "4", 10);
-        count += 1;
-        localStorage.setItem("orbisVoxHitCount", count.toString());
-        counterEl.textContent = count.toLocaleString("en-GB");
-      }
+  // Note: The old counterEl block has been safely removed from here!
 
+  const navToggle = document.getElementById("mobile-nav-toggle");
+  const navMenu = document.getElementById("nav-menu");
+  if (navToggle && navMenu) {
+    navToggle.addEventListener("click", () => {
+      const open = navMenu.classList.toggle("open");
+      navToggle.setAttribute("aria-expanded", open.toString());
+    });
+  }
 
-      const navToggle = document.getElementById("mobile-nav-toggle");
-      const navMenu = document.getElementById("nav-menu");
-      if (navToggle && navMenu) {
-        navToggle.addEventListener("click", () => {
-          const open = navMenu.classList.toggle("open");
-          navToggle.setAttribute("aria-expanded", open.toString());
-        });
-      }
-
-      const charterBtn = document.getElementById("principles-toggle");
-      const charterBox = document.getElementById("principles-drawer");
-      if (charterBtn && charterBox) {
-        charterBtn.addEventListener("click", () => {
-          const isHidden = charterBox.hidden;
-          charterBox.hidden = !isHidden;
-          charterBtn.setAttribute("aria-expanded", isHidden.toString());
-        });
-      }
+  const charterBtn = document.getElementById("principles-toggle");
+  const charterBox = document.getElementById("principles-drawer");
+  if (charterBtn && charterBox) {
+    charterBtn.addEventListener("click", () => {
+      const isHidden = charterBox.hidden;
+      charterBox.hidden = !isHidden;
+      charterBtn.setAttribute("aria-expanded", isHidden.toString());
+    });
+  }
+});
 
                renderHomepage();
 
@@ -948,5 +942,41 @@
       showPageView("view-reader");
     }
   </script>
+    <!-- Live Reader Counter (Powered by Firebase) -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getDatabase, ref, push, set, onValue, onDisconnect } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+  const firebaseConfig = {
+    projectId: "orbis-vox-9312c",
+    databaseURL: "https://orbis-vox-9312c-default-rtdb.europe-west1.firebasedatabase.app"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const counterEl = document.getElementById("reader-counter");
+  const isDeveloper = localStorage.getItem("isDeveloper") === "true";
+
+  if (counterEl && !isDeveloper) {
+    const readersRef = ref(db, "readers");
+    const connectionRef = push(readersRef);
+
+    const connectedRef = ref(db, ".info/connected");
+    onValue(connectedRef, (snap) => {
+      if (snap.val() === true) {
+        set(connectionRef, true);
+        onDisconnect(connectionRef).remove(); // Automatically cleans up on exit
+      }
+    });
+
+    onValue(readersRef, (snapshot) => {
+      const count = snapshot.numChildren();
+      counterEl.textContent = count.toLocaleString("en-GB");
+    });
+  } else if (counterEl && isDeveloper) {
+    counterEl.textContent = "Dev Mode (Not Counted)";
+  }
+</script>
 </body>
 </html>
