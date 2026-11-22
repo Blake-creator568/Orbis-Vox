@@ -769,7 +769,7 @@
     /* =====================================================================
        ZONE 6: INTERACTIVE NEWSPAPER ENGINE
        ===================================================================== */
-    let previousDept = "home";
+      let previousDept = "home";
 
     document.addEventListener("DOMContentLoaded", () => {
       const dateEl = document.getElementById("live-edition-date");
@@ -779,9 +779,9 @@
         });
       }
 
-                 const counterEl = document.getElementById("reader-counter");
+      const counterEl = document.getElementById("reader-counter");
       if (counterEl) {
-        const apiBase = "https://counterapi.dev";
+        const apiBase = "https://api." + "counterapi" + ".dev/v1/orbis-vox-blake/readers";
         const updateGlobalCount = async (increment) => {
           try {
             const endpoint = increment ? `${apiBase}/up` : apiBase;
@@ -806,9 +806,6 @@
           updateGlobalCount(false);
         });
       }
-
-
-
 
       const charterBtn = document.getElementById("principles-toggle");
       const charterBox = document.getElementById("principles-drawer");
