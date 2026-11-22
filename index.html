@@ -978,7 +978,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // B. ALWAYS listen to the live count (for both you and normal readers)
     onValue(readersRef, (snapshot) => {
-      const count = snapshot.numChildren();
+      const count = snapshot.size;
       
       if (isDeveloper) {
         // Displays the live count on your laptop with a (Dev) label so you know you aren't counted
