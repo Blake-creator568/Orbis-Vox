@@ -779,18 +779,19 @@
         });
       }
 
-      const counterEl = document.getElementById("reader-counter");
+            const counterEl = document.getElementById("reader-counter");
       if (counterEl) {
-        const apiUrl = ["https://api", "counterapi", "dev/v1/orbis-vox-blake/readers/up"].join(".");
+        const apiUrl = ["https://abacus", "jasoncameron", "dev/hit/orbis-vox-blake/readers"].join(".");
         fetch(apiUrl)
           .then((res) => res.json())
           .then((data) => {
-            counterEl.textContent = (data.count || 1).toLocaleString("en-GB");
+            counterEl.textContent = (data.value || 1).toLocaleString("en-GB");
           })
           .catch(() => {
             counterEl.textContent = "1";
           });
       }
+
 
       const navToggle = document.getElementById("mobile-nav-toggle");
       const navMenu = document.getElementById("nav-menu");
