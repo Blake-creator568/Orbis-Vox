@@ -941,12 +941,11 @@ document.addEventListener("DOMContentLoaded", () => {
       showPageView("view-reader");
     }
   </script>
-    <!-- Live Reader Counter (Powered by Firebase) -->
 <!-- Live Reader Counter (Powered by Firebase) -->
 <script type="module">
-  // 1. Import Firebase libraries
+  // 1. Import Firebase libraries (including update and increment)
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  import { getDatabase, ref, push, set, onValue, onDisconnect } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+  import { getDatabase, ref, update, onValue, increment } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
   // 2. Initialize Firebase (points to your Orbis-Vox database)
   const firebaseConfig = {
@@ -961,27 +960,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const isDeveloper = localStorage.getItem("isDeveloper") === "true";
 
   if (counterEl) {
-    const readersRef = ref(db, "readers");
+    const totalViewsRef = ref(db, "total_views");
 
-    // A. Only record the connection if you are NOT the developer
+    // A. Only increment the permanent database counter if you are NOT the developer
     if (!isDeveloper) {
-      const connectionRef = push(readersRef);
-      const connectedRef = ref(db, ".info/connected");
-      
-      onValue(connectedRef, (snap) => {
-        if (snap.val() === true) {
-          set(connectionRef, true);
-          onDisconnect(connectionRef).remove(); // Cleans up when they leave
-        }
+      update(ref(db), {
+        total_views: increment(1)
       });
     }
 
-    // B. ALWAYS listen to the live count (for both you and normal readers)
-    onValue(readersRef, (snapshot) => {
-      const count = snapshot.size;
+    // B. ALWAYS listen to the permanent count in real time (for both you and normal readers)
+    onValue(totalViewsRef, (snapshot) => {
+      const count = snapshot.val() || 0;
       
       if (isDeveloper) {
-        // Displays the live count on your laptop with a (Dev) label so you know you aren't counted
         counterEl.textContent = `${count.toLocaleString("en-GB")} (Dev)`;
       } else {
         counterEl.textContent = count.toLocaleString("en-GB");
